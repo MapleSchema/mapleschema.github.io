@@ -14,9 +14,9 @@ body {
 }
 
 /* Header layout */
-header {
+#site header {
   padding: 16px 32px;
-  display: flex;
+  display: flex !important;
   align-items: center;
   justify-content: space-between;
   max-width: 960px;
