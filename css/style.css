@@ -12,17 +12,19 @@ body {
 }
 
 /* Header layout */
+/* Header layout: centered, stacked */
 header {
-  padding: 16px 32px;
+  padding: 20px 0 12px 0;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  gap: 10px;
   max-width: 960px;
   margin: 0 auto;
 }
 
 img.logo {
-  width: 80px;
+  width: 90px;
   height: auto;
   display: block;
 }
