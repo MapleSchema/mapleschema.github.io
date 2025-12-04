@@ -1,161 +1,94 @@
-/* Global layout */
-* {
-  box-sizing: border-box;
-}
-
+/* Global site styling */
 body {
+  font-family: Arial, sans-serif;
+  background-color: #F8EED9; /* matches logo bg vibe */
   margin: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    Roboto, sans-serif;
-  background-color: #f8eed9;
+  padding: 0;
   color: #4a2e22;
   line-height: 1.5;
-  display: flex;
+
+  /* Keep layout from feeling "floaty" */
   min-height: 100vh;
+  display: flex;
   flex-direction: column;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-.page {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 24px 16px 64px;
-  flex: 1;
-}
-
-/* Header */
+/* Header layout */
 header {
+  padding: 16px 32px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 16px;
+  max-width: 960px;
+  margin: 0 auto;
 }
 
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.brand-logo {
-  width: 52px;
-  height: 52px;
-  border-radius: 16px;
-  overflow: hidden;
-  background: #f7d9a6;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.brand-logo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+img.logo {
+  width: 80px;  /* old size; drop to 60px if you want smaller */
+  height: auto;
   display: block;
 }
 
-.brand-text-title {
-  font-size: 1.35rem;
-  font-weight: 700;
-}
-
-.brand-text-tagline {
-  font-size: 0.85rem;
-  opacity: 0.8;
-}
-
+/* Navigation with underline animation */
 nav {
   display: flex;
-  align-items: center;
-  gap: 16px;
-  font-size: 0.95rem;
+  gap: 24px;
 }
 
 nav a {
-  padding: 6px 10px;
-  border-radius: 999px;
+  text-decoration: none;
+  font-weight: bold;
+  color: #4a2e22;
+  font-size: 0.95rem;
+
+  position: relative;
+  padding-bottom: 3px;
 }
 
-nav a.primary-link {
-  border: 1px solid rgba(74, 46, 34, 0.2);
-  background: rgba(255, 255, 255, 0.7);
+nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0%;
+  height: 2px;
+  background: #4a2e22;
+  transition: width 0.2s ease-in-out;
+}
+
+nav a:hover::after {
+  width: 100%;
+}
+
+/* Main content area */
+main {
+  max-width: 960px;
+  margin: 40px auto 0 auto;
+  padding: 0 24px 40px 24px;
 }
 
 /* Hero */
 .hero {
-  margin-top: 24px;
-  padding: 24px 20px;
-  border-radius: 24px;
-  background: linear-gradient(145deg, #fff6e6, #f2ddbe);
-  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.12);
+  text-align: left;
 }
 
-.hero-heading {
-  font-size: clamp(1.9rem, 3vw + 1rem, 2.5rem);
-  margin: 0 0 12px;
+.hero h1 {
+  font-size: 2.1rem;
+  margin-bottom: 8px;
+  color: #4a2e22; /* dark brown */
 }
 
-.hero-heading .highlight {
-  background: #f6b35b;
-  padding: 2px 8px;
-  border-radius: 999px;
-  font-size: 0.8em;
-  margin-left: 6px;
+.hero p {
+  max-width: 520px;
+  margin-top: 0;
 }
 
-.hero-subtitle {
-  margin: 0 0 18px;
-  max-width: 620px;
-  font-size: 0.98rem;
-}
-
-.hero-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 18px;
-}
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 9px 16px;
-  border-radius: 999px;
-  font-size: 0.95rem;
-  border: none;
-  cursor: pointer;
-  font-weight: 600;
-}
-
-.btn-primary {
-  background: #c45b25;
-  color: #fff;
-  box-shadow: 0 8px 18px rgba(120, 37, 13, 0.4);
-}
-
-.btn-secondary {
-  background: rgba(255, 255, 255, 0.85);
+/* Headings */
+h1, h2, h3 {
   color: #4a2e22;
-  border: 1px solid rgba(74, 46, 34, 0.2);
 }
 
-.hero-footnote {
-  font-size: 0.8rem;
-  opacity: 0.85;
-}
-
-/* Cards & grid */
+/* Cards & grid for the new copy */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -164,23 +97,22 @@ nav a.primary-link {
 }
 
 .card {
-  padding: 16px 14px;
-  border-radius: 18px;
   background: rgba(255, 255, 255, 0.8);
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
-  font-size: 0.9rem;
+  border-radius: 12px;
+  padding: 16px 18px;
+  font-size: 0.95rem;
 }
 
-.card h3 {
+.card h2 {
   margin-top: 0;
-  font-size: 1rem;
   margin-bottom: 6px;
+  font-size: 1.1rem;
 }
 
 .code-block {
   margin-top: 8px;
   padding: 10px 12px;
-  border-radius: 8px;
+  border-radius: 6px;
   font-family: "SF Mono", Menlo, Monaco, Consolas, monospace;
   font-size: 0.8rem;
   background: #1e1e1e;
@@ -188,25 +120,11 @@ nav a.primary-link {
   overflow-x: auto;
 }
 
-/* Footer */
+/* Footer pushed toward bottom */
 footer {
+  margin-top: auto;
+  padding: 24px 0 32px 0;
   text-align: center;
-  padding: 18px 0 28px;
-  font-size: 0.8rem;
-  opacity: 0.8;
-}
-
-/* Responsive */
-@media (max-width: 600px) {
-  header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-
-  nav {
-    align-self: stretch;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-  }
+  font-size: 0.8em;
+  color: #6b5244;
 }
