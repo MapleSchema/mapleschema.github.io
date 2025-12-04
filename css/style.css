@@ -68,23 +68,20 @@ main {
   padding: 0 24px 40px 24px;
 }
 
-/* Hero */
-.hero {
-  text-align: left;
-  max-width: 700px;     /* controls readable line length */
-  margin: 0 auto 40px;  /* centers the hero block */
-  padding: 0 24px;      /* matches spacing of the rest of the page */
-}
-
 .hero h1 {
   font-size: 2.1rem;
   margin-bottom: 8px;
   color: #4a2e22; /* dark brown */
 }
-
 .hero p {
-  max-width: 520px;
-  margin-top: 0;
+  margin-bottom: 18px;
+  line-height: 1.55;
+}
+
+.hero {
+  max-width: 740px;   /* wider block, but still centered */
+  margin: 0 auto 48px;
+  padding: 0 24px;
 }
 
 /* Headings */
