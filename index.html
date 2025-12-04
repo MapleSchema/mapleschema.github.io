@@ -2,110 +2,139 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>MapleSchema — Sweet, Simple Banking Data Normalization</title>
+  <title>MapleSchema — Compliance-First Transaction Normalization</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta
-    name="description" 
-    content="MapleSchema turns messy banking exports into a sweet, consistent transaction schema so developers can ship reporting, analytics, and budgeting features fast."
+    name="description"
+    content="MapleSchema is a zero-retention, stateless transaction normalization API built for fintech teams who need trust, compliance, and predictable financial data."
   />
 
   <!-- SEO + Social -->
-  <meta property="og:title" content="MapleSchema — Sweet, Simple Banking Data Normalization">
-  <meta property="og:description" content="Normalize messy banking exports from any institution into one clean JSON transaction schema.">
+  <meta property="og:title" content="MapleSchema — Compliance-First Transaction Normalization">
+  <meta property="og:description" content="Zero-retention, stateless, deterministic banking data normalization for fintech teams.">
   <meta property="og:url" content="https://mapleschema.com/">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://mapleschema.com/images/mapleschema-social.png">
   <meta name="twitter:card" content="summary_large_image">
 
-  <!-- Favicons (these are already working on your site) -->
+  <!-- Favicons -->
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
   <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
 
-  <!-- Old styling (path as before) -->
+  <!-- Your existing stylesheet -->
   <link rel="stylesheet" href="/css/style.css" />
 </head>
 
 <body>
-  <div id="site">
-  <header>
+<div id="site">
+
+<header>
   <img src="/images/mapleschema-transparent-icon.png" alt="MapleSchema Logo" class="logo" />
   <nav>
     <a href="/index.html">Home</a>
     <a href="/about.html">About</a>
     <a href="/docs.html">Docs</a>
+    <a href="/security.html">Security</a>
   </nav>
 </header>
-  <main>
-    <section class="hero">
-      <h1>Sweeten your banking exports into one clean schema.</h1>
+
+<main>
+  <section class="hero">
+    <h1>Compliance-First Transaction Normalization</h1>
+    <p>
+      MapleSchema transforms messy banking exports into a clean, predictable JSON schema — inside a 
+      <strong>stateless, zero-retention architecture</strong> designed for compliance from day one.
+      Engineers ship faster. Compliance teams breathe easier.
+    </p>
+  </section>
+
+  <section class="grid">
+    <article class="card">
+      <h2>🔒 Zero Data Retention</h2>
       <p>
-        MapleSchema takes CSVs and raw transaction feeds from different institutions
-        and turns them into a single, predictable JSON model — so you can ship
-        analytics, budgeting, and reporting features without hand-parsing every bank.
+        Built entirely on AWS Lambda with <strong>no databases, no buckets, and no write permissions</strong>.
+        Customer data is processed in memory and destroyed after the request.
       </p>
-    </section>
+    </article>
 
-    <section class="grid">
-      <article class="card">
-        <h2>One schema, many institutions</h2>
-        <p>
-          Different banks describe the same transaction in wildly different ways.
-          MapleSchema flattens that chaos into a consistent shape so your code
-          doesn’t need a branching tree of special cases.
-        </p>
-      </article>
+    <article class="card">
+      <h2>🛡️ Compliance as a Service</h2>
+      <p>
+        A full compliance packet — security posture, DPA, zero-retention guarantee, IAM restrictions,
+        and transparent architecture — so your engineering team never has to build it themselves.
+      </p>
+    </article>
 
-      <article class="card">
-        <h2>Built for developers</h2>
-        <p>
-          Explicit direction fields, normalized amounts, clear timestamps, and
-          opinionated naming. No guessing which sign means "debit" this time.
-        </p>
-      </article>
+    <article class="card">
+      <h2>📘 Deterministic Schema</h2>
+      <p>
+        Strict versioning. Predictable fields. No guessing. No institution-specific edge cases.
+        Same input → same output, guaranteed.
+      </p>
+    </article>
 
-      <article class="card">
-        <h2>Designed for open banking 2026</h2>
-        <p>
-          Start integrating exports today and be ready when Canadian open banking
-          APIs land. MapleSchema gives you a stable target while the ecosystem
-          matures.
-        </p>
-      </article>
-    </section>
+    <article class="card">
+      <h2>💨 Lightweight, Fast Integration</h2>
+      <p>
+        One POST request returns normalized transactions. No custom parsers, no CSV headaches, no
+        handwritten regex nightmares.
+      </p>
+    </article>
 
-    <section id="docs" class="card">
-      <h2>Example: from raw CSV to normalized JSON</h2>
-      <p>Raw input from one institution:</p>
-      <pre class="code-block">
+    <article class="card">
+      <h2>🧩 Ready for Open Banking 2026</h2>
+      <p>
+        A stable, forward-compatible schema to help you unify exports today and prepare for Canada's
+        upcoming open banking wave.
+      </p>
+    </article>
+
+    <article class="card">
+      <h2>👩‍💻 Built for Developers</h2>
+      <p>
+        Clean UTC timestamps. Explicit direction fields. Normalized amounts. Zero ambiguity.
+        A schema you can trust.
+      </p>
+    </article>
+  </section>
+
+  <section id="docs" class="card">
+    <h2>Example: Raw Input → Normalized MapleSchema Output</h2>
+
+    <p><strong>Raw input from a CSV export:</strong></p>
+    <pre class="code-block">
 "2024-07-12","-18.42","CAD","POS 07/12  UBER *TRIP   HELP.UBER.COM CA  800-111-1111"
-      </pre>
+    </pre>
 
-      <p>Mapped into a MapleSchema transaction:</p>
-      <pre class="code-block">
+    <p><strong>Normalized output (v0.1 schema):</strong></p>
+    <pre class="code-block">
 {
-  "transaction_id": "txn_123",
-  "posted_at_utc": "2024-07-12T14:03:11Z",
-  "amount": 18.42,
-  "direction": "debit",
+  "schema_version": "transactions-v0.1",
+  "institution_code": "rbc_ca",
+  "posted_at": "2024-07-12T19:30:00Z",
+  "amount": -18.42,
   "currency": "CAD",
+  "direction": "debit",
+  "transaction_type": "card",
+  "original_description": "POS 07/12  UBER *TRIP   HELP.UBER.COM CA  800-111-1111",
   "merchant_name": "Uber",
-  "merchant_category": "Rideshare",
-  "raw_description": "POS 07/12  UBER *TRIP   HELP.UBER.COM CA  800-111-1111",
-  "source_institution": "Example Bank"
+  "category": null,
+  "status": "posted"
 }
-      </pre>
+    </pre>
 
-      <p>
-        Full field list and JSON schema are being published incrementally on GitHub as
-        the project evolves.
-      </p>
-    </section>
-  </main>
+    <p>
+      The full v0.1 field list, enums, and rules are available in the docs as we publish them.
+    </p>
+  </section>
 
-  <footer>
-    © MapleSchema 2025
-  </footer>
-  </div>
+</main>
+
+<footer>
+  © MapleSchema 2025 — Compliance-First APIs for Financial Data
+</footer>
+
+</div>
 </body>
 </html>
