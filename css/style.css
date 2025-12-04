@@ -95,6 +95,22 @@ main {
   line-height: 1.6;
 }
 
+.logo-wrapper {
+  display: flex;
+  flex-direction: column;   /* logo on top, text under */
+  justify-content: flex-start;
+  align-items: flex-start;  /* ⬅️ force left alignment */
+}
+
+.brand-name {
+  font-weight: bold;
+  color: #4a2e22;
+  font-size: 1rem;
+  margin-top: 4px;
+}
+
+
+
 /* Headings */
 h1, h2, h3 {
   color: #4a2e22;
