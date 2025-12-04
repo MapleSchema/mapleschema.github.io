@@ -1,0 +1,47 @@
+/* Global site styling */
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f3e9d2; /* Matches logo background */
+  margin: 0;
+  padding: 0;
+  color: #4a2e22; /* Soft brown text tone */
+  text-align: center;
+}
+
+/* Header layout */
+header {
+  padding: 20px;
+}
+
+img.logo {
+  width: 180px;
+  height: auto;
+  display: block;
+  margin: 0 auto 10px auto;
+}
+
+nav a {
+  margin: 0 10px;
+  text-decoration: none;
+  font-weight: bold;
+  color: #4a2e22;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+/* Generic page spacing */
+main {
+  margin-top: 20px;
+  padding: 10px;
+}
+
+/* Footer */
+footer {
+  margin-top: 60px;
+  padding-bottom: 30px;
+  font-size: 0.8em;
+  color: #6b5244;
+}
