@@ -71,6 +71,9 @@ main {
 /* Hero */
 .hero {
   text-align: left;
+  max-width: 700px;     /* controls readable line length */
+  margin: 0 auto 40px;  /* centers the hero block */
+  padding: 0 24px;      /* matches spacing of the rest of the page */
 }
 
 .hero h1 {
