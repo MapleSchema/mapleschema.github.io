@@ -21,9 +21,11 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  max-width: 960px;
-  margin: 0 auto;
+  /* full-width header */
+  max-width: none;
+  margin: 0;
 }
+
 
 /* Logo: bigger, always controlled */
 img.logo {
@@ -72,14 +74,14 @@ main {
 
 /* Hero */
 .hero {
-  max-width: 760px;
+  max-width: 960px;      /* same as main */
   margin: 0 auto 48px;
 }
 
-/* Keep heading + paragraphs visually aligned */
+/* let them use full width of the hero container */
 .hero h1,
 .hero p {
-  max-width: 720px;
+  max-width: 100%;
 }
 
 /* H1 styling */
