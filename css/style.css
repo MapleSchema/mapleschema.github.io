@@ -1,24 +1,32 @@
 /* Global site styling */
 body {
   font-family: Arial, sans-serif;
-  background-color: #F8EED9; /* matches logo background */
+  background-color: #F8EED9; /* matches logo bg vibe */
   margin: 0;
   padding: 0;
   color: #4a2e22;
-  text-align: center;
+  line-height: 1.5;
+}
+
+/* Keep layout from feeling "floaty" */
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Header layout */
 header {
-  padding: 20px 0;
+  padding: 16px 32px;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 10px;
+  justify-content: space-between;
+  max-width: 960px;
+  margin: 0 auto;
 }
 
 img.logo {
-  width: 180px;
+  width: 80px;
   height: auto;
   display: block;
 }
@@ -33,53 +41,40 @@ nav a {
   text-decoration: none;
   font-weight: bold;
   color: #4a2e22;
+  font-size: 0.95rem;
 }
 
 nav a:hover {
   text-decoration: underline;
 }
 
+/* Main content area */
+main {
+  max-width: 960px;
+  margin: 40px auto 0 auto;
+  padding: 0 24px 40px 24px;
+}
+
+/* Simple hero on home page (optional, safe on all pages) */
 .hero {
-  margin-top: 30px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
+  text-align: left;
 }
 
 .hero h1 {
-  font-size: 2rem;
-  margin: 0;
+  font-size: 2.1rem;
+  margin-bottom: 8px;
 }
 
 .hero p {
-  max-width: 480px;
-  margin: 0;
-  line-height: 1.4;
+  max-width: 520px;
+  margin-top: 0;
 }
 
-.cta {
-  margin-top: 12px;
-  padding: 10px 22px;
-  background: #4a2e22;
-  color: #F8EED9;
-  font-weight: bold;
-  border-radius: 6px;
-  text-decoration: none;
-}
-
-
-
-/* Main content */
-main {
-  margin-top: 20px;
-  padding: 0 16px;
-}
-
-/* Footer */
+/* Footer pushed toward bottom */
 footer {
-  margin-top: 60px;
-  padding-bottom: 30px;
+  margin-top: auto;
+  padding: 24px 0 32px 0;
+  text-align: center;
   font-size: 0.8em;
   color: #6b5244;
 }
