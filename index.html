@@ -2,16 +2,16 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>MapleSchema — Compliance-First Transaction Normalization</title>
+  <title>MapleSchema — Sweeten Your Banking Data for Open Banking</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta
     name="description"
-    content="MapleSchema is a zero-retention, stateless transaction normalization API built for fintech teams who need trust, compliance, and predictable financial data."
+    content="MapleSchema sweetens messy banking exports into a clean, compliance-first JSON transaction schema so fintech teams can be ready for Canadian open banking."
   />
 
   <!-- SEO + Social -->
-  <meta property="og:title" content="MapleSchema — Compliance-First Transaction Normalization">
-  <meta property="og:description" content="Zero-retention, stateless, deterministic banking data normalization for fintech teams.">
+  <meta property="og:title" content="MapleSchema — Sweeten Your Banking Data for Open Banking">
+  <meta property="og:description" content="Normalize and sweeten messy banking exports into a predictable JSON schema — stateless, zero-retention, and open-banking ready.">
   <meta property="og:url" content="https://mapleschema.com/">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://mapleschema.com/images/mapleschema-social.png">
@@ -41,62 +41,74 @@
 
 <main>
   <section class="hero">
-    <h1>Compliance-First Transaction Normalization</h1>
+    <h1>Sweeten your banking exports for open banking.</h1>
     <p>
-      MapleSchema transforms messy banking exports into a clean, predictable JSON schema — inside a 
+      MapleSchema takes messy CSVs and raw transaction feeds from different institutions and sweetens them
+      into a single, predictable JSON model — so you're ready for Canadian open banking, inside a
       <strong>stateless, zero-retention architecture</strong> designed for compliance from day one.
-      Engineers ship faster. Compliance teams breathe easier.
     </p>
   </section>
 
   <section class="grid">
+
+    <!-- NEW FIRST CARD -->
+    <article class="card">
+      <h2>🍁 What MapleSchema Does</h2>
+      <p>
+        You send us raw banking exports from any institution. We return a normalized
+        <code>transactions-v0.1</code> object list with UTC timestamps, explicit debits/credits, and a stable field set.
+        No branching logic, no guesswork, no institution-specific surprises.
+      </p>
+    </article>
+
     <article class="card">
       <h2>🔒 Zero Data Retention</h2>
       <p>
-        Built entirely on AWS Lambda with <strong>no databases, no buckets, and no write permissions</strong>.
-        Customer data is processed in memory and destroyed after the request.
+        MapleSchema runs on AWS Lambda with <strong>no databases, no buckets, and no write permissions</strong>.
+        Data is processed in memory and destroyed immediately, making compliance teams very happy.
       </p>
     </article>
 
     <article class="card">
       <h2>🛡️ Compliance as a Service</h2>
       <p>
-        A full compliance packet — security posture, DPA, zero-retention guarantee, IAM restrictions,
-        and transparent architecture — so your engineering team never has to build it themselves.
+        Security posture, zero-retention guarantee, IAM restrictions, and architecture diagrams —
+        a ready-to-share compliance packet so engineers don't need to build any of this themselves.
       </p>
     </article>
 
     <article class="card">
       <h2>📘 Deterministic Schema</h2>
       <p>
-        Strict versioning. Predictable fields. No guessing. No institution-specific edge cases.
-        Same input → same output, guaranteed.
+        Same input → same output. Versioned fields, strict rules, UTC-only timestamps, and conservative categorization.
+        A normalization contract your codebase can depend on.
       </p>
     </article>
 
     <article class="card">
       <h2>💨 Lightweight, Fast Integration</h2>
       <p>
-        One POST request returns normalized transactions. No custom parsers, no CSV headaches, no
-        handwritten regex nightmares.
+        One POST request in, normalized transactions out. Drop MapleSchema in front of your ingestion pipeline
+        and stop hand-parsing CSVs from every bank your users connect.
       </p>
     </article>
 
     <article class="card">
       <h2>🧩 Ready for Open Banking 2026</h2>
       <p>
-        A stable, forward-compatible schema to help you unify exports today and prepare for Canada's
-        upcoming open banking wave.
+        Use MapleSchema today with exports and aggregator feeds, and keep the same schema when Canadian
+        open banking APIs launch. Your application targets one stable contract as the ecosystem matures.
       </p>
     </article>
 
     <article class="card">
       <h2>👩‍💻 Built for Developers</h2>
       <p>
-        Clean UTC timestamps. Explicit direction fields. Normalized amounts. Zero ambiguity.
-        A schema you can trust.
+        Clean UTC timestamps. Explicit <code>direction</code> semantics. Signed <code>amount</code> rules.
+        Opinionated naming. Boring consistency that saves real engineering time.
       </p>
     </article>
+
   </section>
 
   <section id="docs" class="card">
@@ -113,11 +125,13 @@
   "schema_version": "transactions-v0.1",
   "institution_code": "rbc_ca",
   "posted_at": "2024-07-12T19:30:00Z",
+  "authorized_at": null,
   "amount": -18.42,
   "currency": "CAD",
   "direction": "debit",
   "transaction_type": "card",
   "original_description": "POS 07/12  UBER *TRIP   HELP.UBER.COM CA  800-111-1111",
+  "normalized_description": "Uber trip",
   "merchant_name": "Uber",
   "category": null,
   "status": "posted"
@@ -125,14 +139,15 @@
     </pre>
 
     <p>
-      The full v0.1 field list, enums, and rules are available in the docs as we publish them.
+      The full <code>transactions-v0.1</code> schema — including field definitions, enums, and rules —
+      is available in the Docs section.
     </p>
   </section>
 
 </main>
 
 <footer>
-  © MapleSchema 2025 — Compliance-First APIs for Financial Data
+  © MapleSchema 2025 — Sweet, Compliance-First Transaction Normalization
 </footer>
 
 </div>
