@@ -6,10 +6,6 @@ body {
   padding: 0;
   color: #4a2e22;
   line-height: 1.5;
-}
-
-/* Keep layout from feeling "floaty" */
-body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -31,7 +27,14 @@ img.logo {
   display: block;
 }
 
-/* Navigation */
+/* Navigation container */
+nav {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+}
+
+/* Navigation links + hover animation */
 nav a {
   position: relative;
   font-weight: bold;
@@ -40,7 +43,6 @@ nav a {
   padding-bottom: 4px;
 }
 
-/* Underline animation */
 nav a::after {
   content: "";
   position: absolute;
