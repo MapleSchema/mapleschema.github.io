@@ -68,20 +68,15 @@ main {
   padding: 0 24px 40px 24px;
 }
 
-.hero h1 {
-  font-size: 2.1rem;
-  margin-bottom: 8px;
-  color: #4a2e22; /* dark brown */
-}
-.hero p {
-  margin-bottom: 18px;
-  line-height: 1.55;
-}
-
 .hero {
-  max-width: 740px;   /* wider block, but still centered */
+  max-width: 760px;   /* make the whole hero slightly wider */
   margin: 0 auto 48px;
   padding: 0 24px;
+}
+
+.hero h1,
+.hero p {
+  max-width: 720px;   /* unify the width of heading + paragraphs */
 }
 
 /* Headings */
