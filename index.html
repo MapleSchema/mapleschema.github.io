@@ -17,99 +17,75 @@
   <meta property="og:image" content="https://mapleschema.com/images/mapleschema-social.png">
   <meta name="twitter:card" content="summary_large_image">
 
-  <!-- Favicon placeholders -->
+  <!-- Favicons (these are already working on your site) -->
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
   <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
 
-  <!-- External stylesheet -->
-  <link rel="stylesheet" href="style.css" />
+  <!-- Old styling (path as before) -->
+  <link rel="stylesheet" href="/css/style.css" />
 </head>
+
 <body>
-  <div class="page">
-    <header>
-      <div class="brand">
-        <div class="brand-logo">
-          <img src="/images/mapleschema-transparent-icon.png" alt="MapleSchema logo" />
-        </div>
-        <div class="brand-text">
-          <div class="brand-text-title">MapleSchema</div>
-          <div class="brand-text-tagline">Sweet, consistent transaction data for developers</div>
-        </div>
-      </div>
+  <header>
+    <img src="/images/mapleschema-transparent-icon.png"
+         alt="MapleSchema Logo"
+         class="logo" />
 
-      <nav>
-        <a href="#docs" class="primary-link">Docs (coming soon)</a>
-        <a href="https://github.com/MapleSchema" target="_blank" rel="noopener">GitHub</a>
-      </nav>
-    </header>
+    <nav>
+      <a href="/index.html">Home</a>
+      <a href="/about.html">About</a>
+      <a href="/docs.html">Docs</a>
+    </nav>
+  </header>
 
-    <main>
-      <section class="hero">
-        <h1 class="hero-heading">
-          Sweeten your banking exports into one clean schema.
-          <span class="highlight">Open banking ready</span>
-        </h1>
+  <main>
+    <section class="hero">
+      <h1>Sweeten your banking exports into one clean schema.</h1>
+      <p>
+        MapleSchema takes CSVs and raw transaction feeds from different institutions
+        and turns them into a single, predictable JSON model — so you can ship
+        analytics, budgeting, and reporting features without hand-parsing every bank.
+      </p>
+    </section>
 
-        <p class="hero-subtitle">
-          MapleSchema takes CSVs and raw transaction feeds from different institutions
-          and turns them into a single, predictable JSON model — so you can ship
-          analytics, budgeting, and reporting features without hand-parsing every bank.
+    <section class="grid">
+      <article class="card">
+        <h2>One schema, many institutions</h2>
+        <p>
+          Different banks describe the same transaction in wildly different ways.
+          MapleSchema flattens that chaos into a consistent shape so your code
+          doesn’t need a branching tree of special cases.
         </p>
+      </article>
 
-        <div class="hero-actions">
-          <a class="btn btn-primary" href="https://github.com/MapleSchema" target="_blank" rel="noopener">
-            View the schema on GitHub
-          </a>
-          <a class="btn btn-secondary" href="mailto:hello@mapleschema.com">
-            Get early-access updates
-          </a>
-        </div>
+      <article class="card">
+        <h2>Built for developers</h2>
+        <p>
+          Explicit direction fields, normalized amounts, clear timestamps, and
+          opinionated naming. No guessing which sign means "debit" this time.
+        </p>
+      </article>
 
-        <div class="hero-footnote">
-          v0.1 is focused on personal banking and credit card transactions. Mortgage
-          & line-of-credit support is on the roadmap.
-        </div>
-      </section>
+      <article class="card">
+        <h2>Designed for open banking 2026</h2>
+        <p>
+          Start integrating exports today and be ready when Canadian open banking
+          APIs land. MapleSchema gives you a stable target while the ecosystem
+          matures.
+        </p>
+      </article>
+    </section>
 
-      <section class="grid">
-        <article class="card">
-          <h3>One schema, many institutions</h3>
-          <p>
-            Different banks describe the same transaction in wildly different ways.
-            MapleSchema flattens that chaos into a consistent shape so your code
-            doesn’t need a branching tree of special cases.
-          </p>
-        </article>
-
-        <article class="card">
-          <h3>Built for developers</h3>
-          <p>
-            Explicit direction fields, normalized amounts, clear timestamps, and
-            opinionated naming. No guessing which sign means "debit" this time.
-          </p>
-        </article>
-
-        <article class="card">
-          <h3>Designed for open banking 2026</h3>
-          <p>
-            Start integrating exports today and be ready when Canadian open banking
-            APIs land. MapleSchema gives you a stable target while the ecosystem
-            matures.
-          </p>
-        </article>
-      </section>
-
-      <section id="docs">
-        <article class="card">
-          <h3>Example: from raw CSV to normalized JSON</h3>
-          <p>Raw input from one institution:</p>
-          <pre class="code-block">
+    <section id="docs" class="card">
+      <h2>Example: from raw CSV to normalized JSON</h2>
+      <p>Raw input from one institution:</p>
+      <pre class="code-block">
 "2024-07-12","-18.42","CAD","POS 07/12  UBER *TRIP   HELP.UBER.COM CA  800-111-1111"
-          </pre>
+      </pre>
 
-          <p>Mapped into a MapleSchema transaction:</p>
-          <pre class="code-block">
+      <p>Mapped into a MapleSchema transaction:</p>
+      <pre class="code-block">
 {
   "transaction_id": "txn_123",
   "posted_at_utc": "2024-07-12T14:03:11Z",
@@ -121,19 +97,17 @@
   "raw_description": "POS 07/12  UBER *TRIP   HELP.UBER.COM CA  800-111-1111",
   "source_institution": "Example Bank"
 }
-          </pre>
+      </pre>
 
-          <p>
-            Full field list and JSON schema are being published incrementally on GitHub as
-            the project evolves.
-          </p>
-        </article>
-      </section>
-    </main>
-  </div>
+      <p>
+        Full field list and JSON schema are being published incrementally on GitHub as
+        the project evolves.
+      </p>
+    </section>
+  </main>
 
   <footer>
-    © MapleSchema 2025 · Made for developers building on financial data
+    © MapleSchema 2025
   </footer>
 </body>
 </html>
