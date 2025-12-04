@@ -34,12 +34,13 @@ nav {
   align-items: center;
 }
 
-/* Navigation links + hover animation */
+/* Navigation links + animated underline */
 nav a {
   position: relative;
+  display: inline-block;      /* needed for pseudo-element animation */
   font-weight: bold;
   color: #4a2e22;
-  text-decoration: none;
+  text-decoration: none;      /* kill default browser underline */
   padding-bottom: 4px;
 }
 
@@ -48,14 +49,16 @@ nav a::after {
   position: absolute;
   left: 0;
   bottom: 0;
-  width: 0%;
+  width: 100%;                /* full width, but scaled down */
   height: 2px;
   background-color: #4a2e22;
-  transition: width 0.25s ease-out;
+  transform: scaleX(0);       /* start hidden */
+  transform-origin: left;     /* slide from left */
+  transition: transform 0.25s ease-out;
 }
 
 nav a:hover::after {
-  width: 100%;
+  transform: scaleX(1);       /* animate underline in */
 }
 
 /* Main content area */
