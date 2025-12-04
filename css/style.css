@@ -26,6 +26,22 @@ body {
   margin: 0;
 }
 
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 24px;   /* keeps a bit of breathing room on mobile */
+  width: 100%;
+}
+
+/* Header styling now applies to .header-inner, not header directly */
+.header-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0; /* remove horizontal padding so it aligns with .container */
+}
+
+
 
 /* Logo: bigger, always controlled */
 img.logo {
