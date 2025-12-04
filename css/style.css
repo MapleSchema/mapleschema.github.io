@@ -32,20 +32,28 @@ img.logo {
 }
 
 /* Navigation */
-nav {
-  display: flex;
-  gap: 18px;
-}
-
 nav a {
-  text-decoration: none;
+  position: relative;
   font-weight: bold;
   color: #4a2e22;
-  font-size: 0.95rem;
+  text-decoration: none;
+  padding-bottom: 4px;
 }
 
-nav a:hover {
-  text-decoration: underline;
+/* Underline animation */
+nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0%;
+  height: 2px;
+  background-color: #4a2e22;
+  transition: width 0.25s ease-out;
+}
+
+nav a:hover::after {
+  width: 100%;
 }
 
 /* Main content area */
