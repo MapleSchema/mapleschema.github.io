@@ -2,16 +2,16 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>MapleSchema — Sweeten Your Open Banking Developer Experience</title>
+  <title>MapleSchema — One Contract for Canadian Open Banking</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta
     name="description"
-    content="MapleSchema sweetens messy banking exports into a clean, compliance-first JSON transaction schema so fintech teams can be ready for Canadian open banking."
+    content="MapleSchema normalizes Canadian open banking transaction APIs from major institutions into one clean, compliance-first JSON schema."
   />
 
   <!-- SEO + Social -->
-  <meta property="og:title" content="MapleSchema — Sweeten Your Banking Data for Open Banking">
-  <meta property="og:description" content="Normalize and sweeten messy banking exports into a predictable JSON schema — stateless, zero-retention, and open-banking ready.">
+  <meta property="og:title" content="MapleSchema — One Contract for Canadian Open Banking">
+  <meta property="og:description" content="Normalize transaction payloads from Canada’s top open banking institutions into a single, predictable JSON schema — stateless, zero-retention, and compliance-first.">
   <meta property="og:url" content="https://mapleschema.com/">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://mapleschema.com/images/mapleschema-social.png">
@@ -32,7 +32,7 @@
 <header>
   <div class="container header-inner">
     <div class="logo-wrapper">
-      <img src="/images/mapleschema-transparent-icon.png" class="logo">
+      <img src="/images/mapleschema-transparent-icon.png" class="logo" alt="MapleSchema logo">
     </div>
 
     <nav>
@@ -48,110 +48,127 @@
 
 <main class="container">
 <section class="hero">
-  <h1>Sweeten Your Open Banking Developer Experience.</h1>
+  <h1>One Sweet Contract for every Canadian Open Banking Transactions.</h1>
 
   <p>
     <strong>The problem:</strong>
-    Financial transaction data is messy — formats vary, signs flip, and merchant names are unreliable.
-    Teams waste time fixing data before they can build anything.
+    Even with open banking, every institution ships its own JSON shape, enums, and edge cases.
+    Product teams end up maintaining a different mapping layer for every bank and aggregator.
   </p>
 
   <p>
     <strong>The solution:</strong>
-    MapleSchema turns that chaos into one clean, predictable schema.
+    MapleSchema keeps per-institution mappers for Canada’s top financial institutions and returns
+    one clean, predictable <code>transactions-v0.1</code> schema for your application.
   </p>
 
   <p>
     <strong>How it works:</strong>
-    A deterministic JSON format processed inside a stateless, zero-retention architecture that keeps
-    your compliance exposure low.
+    Your systems fetch transactions from open banking APIs or aggregators. You POST those payloads
+    plus an <code>institution_code</code> to MapleSchema. We normalize everything into a deterministic JSON format,
+    processed inside a stateless, zero-retention architecture that keeps your compliance exposure low.
   </p>
 
   <p>
     <strong>What’s next:</strong>
-    As Open Banking matures, MapleSchema will add APIs for multi-transaction analysis, enrichment,
-    and higher-order insights — saving your team more time without changing the safe, predictable
-    interface you rely on.
+    As Canadian open banking matures and more institutions come online, MapleSchema adds and maintains
+    institution-specific mappers so your application can keep targeting a single stable contract.
   </p>
 </section>
 
 
-  <section class="grid">
+<section class="grid">
 
-    <!-- NEW FIRST CARD -->
-    <article class="card">
-      <h2>🍁 What MapleSchema Does</h2>
-      <p>
-        You send us raw banking exports from any institution. We return a normalized
-        <code>transactions-v0.1</code> object list with UTC timestamps, explicit debits/credits, and a stable field set.
-        No branching logic, no guesswork, no institution-specific surprises.
-      </p>
-    </article>
+  <!-- Updated first card -->
+  <article class="card">
+    <h2>🍁 What MapleSchema Does</h2>
+    <p>
+      We normalize <strong>open banking transaction payloads</strong> from Canada’s top financial institutions
+      into a single <code>transactions-v0.1</code> schema. UTC timestamps, explicit debits/credits,
+      and a stable field set — regardless of which bank or aggregator the data came from.
+    </p>
+  </article>
 
-    <article class="card">
-      <h2>🔒 Zero Data Retention</h2>
-      <p>
-        MapleSchema runs on AWS Lambda with <strong>no databases, no buckets, and no write permissions</strong>.
-        Data is processed in memory and destroyed immediately, making compliance teams very happy.
-      </p>
-    </article>
+  <article class="card">
+    <h2>🔒 Zero Data Retention</h2>
+    <p>
+      MapleSchema runs with <strong>no databases, no buckets, and no write permissions</strong>.
+      Open banking payloads are processed in memory and destroyed immediately,
+      making compliance and security teams very happy.
+    </p>
+  </article>
 
-    <article class="card">
-      <h2>🛡️ Compliance as a Service</h2>
-      <p>
-        Security posture, zero-retention guarantee, IAM restrictions, and architecture diagrams —
-        a ready-to-share compliance packet so engineers don't need to build any of this themselves.
-      </p>
-    </article>
+  <article class="card">
+    <h2>🛡️ Compliance as a Service</h2>
+    <p>
+      Security posture, zero-retention guarantee, IAM restrictions, and architecture diagrams —
+      a ready-to-share compliance packet so engineers don’t need to build or document all of this themselves.
+    </p>
+  </article>
 
-    <article class="card">
-      <h2>📘 Deterministic Schema</h2>
-      <p>
-        Same input → same output. Versioned fields, strict rules, UTC-only timestamps, and conservative categorization.
-        A normalization contract your codebase can depend on.
-      </p>
-    </article>
+  <article class="card">
+    <h2>📘 Deterministic Schema</h2>
+    <p>
+      Same input → same output. Versioned fields, strict rules, UTC-only timestamps, and conservative categorization.
+      A normalization contract your codebase can depend on across all supported institutions.
+    </p>
+  </article>
 
-    <article class="card">
-      <h2>💨 Lightweight, Fast Integration</h2>
-      <p>
-        One POST request in, normalized transactions out. Drop MapleSchema in front of your ingestion pipeline
-        and stop hand-parsing CSVs from every bank your users connect.
-      </p>
-    </article>
+  <article class="card">
+    <h2>💨 Lightweight, Fast Integration</h2>
+    <p>
+      Keep your existing connections to banks and aggregators. Drop MapleSchema in front of your ingestion pipeline,
+      POST raw open banking transaction payloads, and get normalized transactions back. No more hand-rolled mappers
+      for each institution.
+    </p>
+  </article>
 
-    <article class="card">
-      <h2>🧩 Ready for Open Banking 2026</h2>
-      <p>
-        Use MapleSchema today with exports and aggregator feeds, and keep the same schema when Canadian
-        open banking APIs launch. Your application targets one stable contract as the ecosystem matures.
-      </p>
-    </article>
+  <article class="card">
+    <h2>🧩 Canadian Open Banking, 2026 and Beyond</h2>
+    <p>
+      Start with the Big 6 and leading digital banks. As Canadian open banking APIs roll out across more institutions,
+      MapleSchema adds new mappers while your application keeps talking to the same stable schema.
+    </p>
+  </article>
 
-    <article class="card">
-      <h2>👩‍💻 Built for Developers</h2>
-      <p>
-        Clean UTC timestamps. Explicit <code>direction</code> semantics. Signed <code>amount</code> rules.
-        Opinionated naming. Boring consistency that saves real engineering time.
-      </p>
-    </article>
+  <article class="card">
+    <h2>👩‍💻 Built for Developers</h2>
+    <p>
+      Clean UTC timestamps. Explicit <code>direction</code> semantics. Signed <code>amount</code> rules.
+      Opinionated naming. Boring consistency that saves real engineering time when you integrate multiple institutions.
+    </p>
+  </article>
 
-  </section>
+</section>
 
-  <section id="docs" class="card">
-    <h2>Example: Raw Input → Normalized MapleSchema Output</h2>
+<section id="docs" class="card">
+  <h2>Example: Bank Payload → Normalized MapleSchema Output</h2>
 
-    <p><strong>Raw input from a CSV export:</strong></p>
-    <pre class="code-block">
-"2024-07-12","-18.42","CAD","POS 07/12  UBER *TRIP   HELP.UBER.COM CA  800-111-1111"
-    </pre>
+  <p><strong>Sample open banking transaction payload (simplified):</strong></p>
+  <pre class="code-block">
+{
+  "transactionId": "abc123",
+  "bookingDateTime": "2026-01-12T14:30:00-05:00",
+  "status": "BOOKED",
+  "type": "DEBIT",
+  "amount": {
+    "currency": "CAD",
+    "value": "18.42"
+  },
+  "merchant": {
+    "name": "UBER *TRIP   HELP.UBER.COM"
+  },
+  "description": "POS 07/12  UBER *TRIP   HELP.UBER.COM CA  800-111-1111"
+}
+  </pre>
 
-    <p><strong>Normalized output (v0.1 schema):</strong></p>
-    <pre class="code-block">
+  <p><strong>Normalized output (<code>transactions-v0.1</code> schema):</strong></p>
+  <pre class="code-block">
 {
   "schema_version": "transactions-v0.1",
   "institution_code": "rbc_ca",
-  "posted_at": "2024-07-12T19:30:00Z",
+  "transaction_id": "abc123",
+  "posted_at": "2026-01-12T19:30:00Z",
   "authorized_at": null,
   "amount": -18.42,
   "currency": "CAD",
@@ -163,18 +180,18 @@
   "category": null,
   "status": "posted"
 }
-    </pre>
+  </pre>
 
-    <p>
-      The full <code>transactions-v0.1</code> schema — including field definitions, enums, and rules —
-      is available in the Docs section.
-    </p>
-  </section>
+  <p>
+    The full <code>transactions-v0.1</code> schema — including field definitions, enums, and rules —
+    is available in the Docs section.
+  </p>
+</section>
 
 </main>
 
 <footer>
-  © MapleSchema 2025 — Sweet, Compliance-First Transaction Normalization
+  © MapleSchema 2025 — Sweet, Compliance-First Open Banking Normalization
 </footer>
 
 </div>
