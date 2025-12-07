@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Request an API Key — MapleSchema</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content="Request a MapleSchema API key to normalize Canadian open banking transaction payloads into a single, stable schema."
+  />
+
+  <!-- SEO + Social -->
+  <meta property="og:title" content="Request an API Key — MapleSchema">
+  <meta property="og:description" content="Start with a Free plan and get your MapleSchema API key for Canadian open banking normalization.">
+  <meta property="og:url" content="https://mapleschema.com/request-key.html">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://mapleschema.com/images/mapleschema-social.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+
+  <!-- Main stylesheet -->
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+
+<body>
+<div id="site">
+
+<header>
+  <div class="container header-inner">
+    <div class="logo-wrapper">
+      <img src="/images/mapleschema-transparent-icon.png" class="logo" alt="MapleSchema logo">
+    </div>
+
+    <nav>
+      <a href="/index.html">Home</a>
+      <a href="/docs.html">Docs</a>
+      <a href="/security.html">Security</a>
+      <a href="/pricing.html">Price</a>
+      <a href="/contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+
+  <section class="hero small-hero">
+    <h1>Request an API Key</h1>
+    <p class="hero-lead">
+      Start with the Free plan (25,000 transactions/month) — no credit card required.
+      Tell us a bit about your company and project so we can assign your API key and project ID.
+    </p>
+  </section>
+
+  <section class="card">
+    <h2>Your Details</h2>
+
+    <form action="/api/request-key" method="POST" class="form-vertical">
+
+      <!-- Email -->
+      <label for="email"><strong>Email</strong></label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        required
+        placeholder="you@example.com"
+      />
+
+      <!-- Company -->
+      <label for="company"><strong>Company Name</strong></label>
+      <input
+        type="text"
+        id="company"
+        name="company"
+        required
+        placeholder="Your company or organization"
+      />
+
+      <!-- Project Name -->
+      <label for="project"><strong>Project Name</strong></label>
+      <input
+        type="text"
+        id="project"
+        name="project"
+        required
+        placeholder="The product or integration using MapleSchema"
+      />
+
+      <!-- Intended Use -->
+      <label for="intended_use"><strong>Intended Use</strong></label>
+      <textarea
+        id="intended_use"
+        name="intended_use"
+        rows="4"
+        required
+        placeholder="Briefly describe how you'll use normalized Canadian open banking transactions."
+      ></textarea>
+
+      <!-- Terms -->
+      <label class="checkbox-label">
+        <input type="checkbox" name="tos" required />
+        I agree to the <a href="/terms.html" target="_blank">Terms of Service</a>.
+      </label>
+
+      <!-- Submit -->
+      <button type="submit" class="button-primary full-width">
+        Request API Key
+      </button>
+
+    </form>
+  </section>
+
+  <section class="card">
+    <h2>What Happens Next?</h2>
+    <p>
+      Once you submit the form, we’ll generate:
+    </p>
+    <ul>
+      <li>Your <strong>MapleSchema account</strong> (Free plan)</li>
+      <li>A unique <strong>project ID</strong> for this integration</li>
+      <li>Your first <strong>API key</strong></li>
+    </ul>
+
+    <p>
+      Your key and project ID will arrive via email, along with instructions on using
+      <code>/v0/normalize</code>.
+    </p>
+  </section>
+
+</main>
+
+<footer>
+  © MapleSchema 2025 — Sweet, Compliance-First Open Banking Normalization
+</footer>
+
+</div>
+</body>
+</html>
