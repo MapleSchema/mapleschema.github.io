@@ -182,9 +182,8 @@ h1, h2, h3 {
   min-width: 0; /* allows code blocks to shrink and scroll instead of breaking layout */
 }
 
-/* Softer, on-brand code styling */
 .code-block {
-  background-color: #f3ece0; /* soft beige, fits warm palette */
+  background-color: #f3ece0;
   color: #3a2a22;
   padding: 16px;
   border-radius: 8px;
@@ -194,6 +193,10 @@ h1, h2, h3 {
   border: 1px solid #e0d4c2;
   font-family: "SF Mono", Menlo, Monaco, Consolas, monospace;
   margin-top: 8px;
+
+  /* FIX FOR WRAPPING */
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 
 .code-block code {
