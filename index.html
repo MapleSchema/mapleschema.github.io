@@ -154,6 +154,42 @@
 
   </section>
 
+
+<section id="quickstart" class="card quickstart-card">
+  <h2>Try It in 30 Seconds (cURL Example)</h2>
+
+  <p>
+    This is a minimal example showing how to send an open banking payload to MapleSchema
+    and receive a normalized <code>transactions-v0.1</code> response. The endpoint is stateless,
+    zero-retention, and designed for fast ingestion pipelines.
+  </p>
+
+  <pre class="code-block curl-block">
+curl -X POST https://api.mapleschema.com/v0/transform \
+  -H "Content-Type: application/json" \
+  -d '{
+        "institution_code": "rbc_ca",
+        "transactions": [
+          {
+            "transactionId": "abc123",
+            "bookingDateTime": "2026-01-12T14:30:00-05:00",
+            "status": "BOOKED",
+            "type": "DEBIT",
+            "amount": { "currency": "CAD", "value": "18.42" }
+          }
+        ]
+      }'
+  </pre>
+
+  <p class="small">
+    The example endpoint above is illustrative. Full documentation and schema details are available in the Docs section.
+  </p>
+</section>
+
+
+
+
+  
   <!-- EXAMPLE: BANK PAYLOAD → NORMALIZED -->
   <section id="docs" class="card">
     <h2>Example: Bank Payload → Normalized MapleSchema Output</h2>
