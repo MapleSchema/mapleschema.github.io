@@ -195,6 +195,7 @@ h1, h2, h3 {
   margin-top: 16px;
   padding: 18px;
   border-radius: 10px;
+  margin-bottom: 24px; /* ADD THIS */
 }
 
 .code-block {
