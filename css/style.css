@@ -288,3 +288,67 @@ footer {
     font-size: 1.9rem;
   }
 }
+
+/* === Request API Key form layout === */
+
+.request-key-form {
+  max-width: 520px;
+}
+
+/* Space between rows */
+.request-key-form .form-row {
+  margin-bottom: 14px;
+}
+
+/* Put label above the control */
+.request-key-form .form-row label {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+/* Text + email inputs + textarea */
+.request-key-form .form-row input[type="text"],
+.request-key-form .form-row input[type="email"],
+.request-key-form .form-row textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #e0d2b8;
+  background: #ffffff;
+  font: inherit;
+  font-size: 0.95rem;
+}
+
+/* Textarea specifics */
+.request-key-form .form-row textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+/* Checkbox row */
+.request-key-form .checkbox-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+}
+
+.request-key-form .checkbox-label input[type="checkbox"] {
+  margin: 0;
+}
+
+/* Reusable primary button style (safe globally) */
+.button-primary {
+  display: inline-block;
+  padding: 12px 28px;
+  border-radius: 999px;
+  background-color: #4a2e22;
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+}
