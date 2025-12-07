@@ -160,6 +160,7 @@ h1, h2, h3 {
   border-radius: 12px;
   padding: 16px 18px;
   font-size: 0.95rem;
+  margin-bottom: 48px; /* clean, natural vertical rhythm */
 }
 
 .card h2 {
