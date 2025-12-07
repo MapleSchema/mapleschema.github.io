@@ -182,6 +182,21 @@ h1, h2, h3 {
   min-width: 0; /* allows code blocks to shrink and scroll instead of breaking layout */
 }
 
+/* Quickstart section styling */
+.quickstart-card {
+  margin-top: 32px;
+  padding: 24px;
+}
+
+/* Extra spacing for the cURL code block */
+.curl-block {
+  white-space: pre-wrap;       /* prevents horizontal overflow */
+  word-break: break-word;
+  margin-top: 16px;
+  padding: 18px;
+  border-radius: 10px;
+}
+
 .code-block {
   background-color: #f3ece0;
   color: #3a2a22;
