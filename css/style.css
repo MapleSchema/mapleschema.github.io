@@ -339,7 +339,62 @@ footer {
   margin: 0;
 }
 
-/* Reusable primary button style (safe globally) */
+/* Request API Key card: narrower and centered */
+.request-card {
+  max-width: 720px;
+  margin: 0 auto 48px;  /* center inside the container */
+}
+
+/* Form fills the card width */
+.request-key-form {
+  width: 100%;
+}
+
+/* Space between rows */
+.request-key-form .form-row {
+  margin-bottom: 14px;
+}
+
+/* Label above control */
+.request-key-form .form-row label {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+/* Inputs + textarea */
+.request-key-form .form-row input[type="text"],
+.request-key-form .form-row input[type="email"],
+.request-key-form .form-row textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #e0d2b8;
+  background: #ffffff;
+  font: inherit;
+  font-size: 0.95rem;
+}
+
+/* Textarea specifics */
+.request-key-form .form-row textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+/* Checkbox row */
+.request-key-form .checkbox-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+}
+
+.request-key-form .checkbox-label input[type="checkbox"] {
+  margin: 0;
+}
+
+/* Primary button style (shared with pricing hero) */
 .button-primary {
   display: inline-block;
   padding: 12px 28px;
@@ -352,3 +407,5 @@ footer {
   cursor: pointer;
   font-size: 1rem;
 }
+
+
