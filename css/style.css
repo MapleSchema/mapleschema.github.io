@@ -255,6 +255,10 @@ footer {
   color: #6b5244;
 }
 
+#docs.card {
+  margin-bottom: 40px;
+}
+
 /* Responsive adjustments */
 
 /* Mobile: stack vertically */
