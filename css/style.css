@@ -185,9 +185,9 @@ h1, h2, h3 {
 /* Quickstart section styling */
 .quickstart-card {
   margin-top: 32px;
-  padding: 24px;
+  padding: 32px 28px; /* larger vertical + horizontal padding */
+  border-radius: 12px;
 }
-
 /* Extra spacing for the cURL code block */
 .curl-block {
   white-space: pre-wrap;       /* prevents horizontal overflow */
