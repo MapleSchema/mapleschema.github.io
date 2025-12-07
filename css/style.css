@@ -170,10 +170,16 @@ h1, h2, h3 {
 
 /* Side-by-side examples */
 .examples-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
   gap: 24px;
   margin-top: 16px;
+  align-items: flex-start;
+}
+
+/* Make each example share the space equally */
+.examples-grid > div {
+  flex: 1 1 0;
+  min-width: 0; /* allows code blocks to shrink and scroll instead of breaking layout */
 }
 
 /* Softer, on-brand code styling */
@@ -229,9 +235,11 @@ footer {
 }
 
 /* Responsive adjustments */
+
+/* Mobile: stack vertically */
 @media (max-width: 800px) {
   .examples-grid {
-    grid-template-columns: 1fr;
+    flex-direction: column;
   }
 }
 
