@@ -2,26 +2,251 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Security – MapleSchema</title>
+  <title>MapleSchema — Security & Data Protection</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content="Learn how MapleSchema protects Canadian open banking transaction data with a zero-retention, minimal-attack-surface architecture."
+  />
+
+  <!-- SEO + Social -->
+  <meta property="og:title" content="MapleSchema — Security & Data Protection">
+  <meta property="og:description" content="Zero-retention, Canadian-hosted, compliance-first architecture for normalizing open banking transaction payloads.">
+  <meta property="og:url" content="https://mapleschema.com/security.html">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://mapleschema.com/images/mapleschema-social.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+
+  <!-- Main stylesheet -->
   <link rel="stylesheet" href="/css/style.css" />
 </head>
+
 <body>
-  <header>
-    <img src="/images/mapleschema-transparent-icon.png" alt="MapleSchema Logo" class="logo" />
+<div id="site">
+
+<header>
+  <div class="container header-inner">
+    <div class="logo-wrapper">
+      <img src="/images/mapleschema-transparent-icon.png" class="logo" alt="MapleSchema logo">
+    </div>
+
     <nav>
       <a href="/index.html">Home</a>
-      <a href="/about.html">About</a>
       <a href="/docs.html">Docs</a>
+      <a href="/security.html" class="active">Security</a>
+      <a href="/pricing.html">Price</a>
+      <a href="/contact.html">Contact</a>
     </nav>
-  </header>
+  </div>
+</header>
 
-  <main>
-    <h1>About MapleSchema</h1>
-    <p>Short description of what MapleSchema does and who it’s for.</p>
-  </main>
+<main class="container">
 
-  <footer>
-    © MapleSchema 2025
-  </footer>
+  <!-- HERO -->
+  <section class="hero">
+    <h1>Security, Zero-Retention, and Data Protection.</h1>
+
+    <p class="hero-lead">
+      MapleSchema is designed for teams who need normalized Canadian open banking transactions
+      without taking on the risk of storing sensitive financial data. We keep the attack surface
+      small, the architecture simple, and the guarantees clear.
+    </p>
+  </section>
+
+  <!-- TOP GRID: CORE PRINCIPLES -->
+  <section class="grid">
+
+    <article class="card">
+      <h2>🔒 Zero Data Retention</h2>
+      <p>
+        MapleSchema operates as a <strong>stateless transformation layer</strong>. Open banking
+        transaction payloads are processed in memory and discarded immediately after a response
+        is generated.
+      </p>
+      <ul>
+        <li>No databases for transaction data.</li>
+        <li>No object storage buckets for payloads.</li>
+        <li>No write permissions for storing raw or normalized transactions.</li>
+      </ul>
+      <p>
+        If an attacker gained access to our servers, there would be <strong>no historical
+        transaction data</strong> for them to exfiltrate.
+      </p>
+    </article>
+
+    <article class="card">
+      <h2>🇨🇦 Canadian Hosting</h2>
+      <p>
+        MapleSchema is hosted on <strong>Canadian infrastructure</strong>. Transaction payloads
+        are processed within Canada and are not forwarded to third countries as part of the
+        normalization process.
+      </p>
+      <p>
+        This design aligns with the expectation that Canadian open banking data remains under
+        Canadian jurisdiction and helps support regional compliance requirements.
+      </p>
+    </article>
+
+    <article class="card">
+      <h2>🧱 Minimal Attack Surface</h2>
+      <p>
+        MapleSchema is intentionally small and focused: a single-purpose API that normalizes
+        transaction payloads. There are no dashboards, user-uploaded files, or complex multi-user
+        UX flows that expand the attack surface.
+      </p>
+      <ul>
+        <li>No persistence layer for transaction data.</li>
+        <li>No embedded third-party scripts in the transformation path.</li>
+        <li>Strict IAM so services only have the permissions they need.</li>
+      </ul>
+    </article>
+
+  </section>
+
+  <!-- API SECURITY & LOGGING -->
+  <section class="grid">
+
+    <article class="card">
+      <h2>🔑 API Security</h2>
+      <p>
+        Access to the MapleSchema API is controlled through <strong>API keys</strong> issued to
+        each project.
+      </p>
+      <ul>
+        <li>All requests must use <code>https://</code> — plain HTTP is not supported.</li>
+        <li>Requests require a valid API key sent via header.</li>
+        <li>Requests are <strong>rate-limited</strong> to reduce abuse and brute-force attempts.</li>
+        <li>Payload sizes are limited to protect service stability.</li>
+      </ul>
+      <p>
+        Invalid or missing authentication results in clear, deterministic error responses so your
+        systems can react predictably.
+      </p>
+    </article>
+
+    <article class="card">
+      <h2>🪵 Log Hygiene</h2>
+      <p>
+        Logs are critical for operations, but they are also a common source of accidental data
+        leakage. MapleSchema is designed to log <strong>only what is needed to operate the
+        service</strong>.
+      </p>
+      <ul>
+        <li>No transaction payload bodies are logged.</li>
+        <li>No raw descriptions, account numbers, or card details are logged.</li>
+        <li>Logs include high-level request metadata such as timestamp, institution code, and
+          number of transactions processed.</li>
+        <li>Logs are protected and periodically rotated.</li>
+      </ul>
+      <p>
+        The goal is to provide enough visibility for reliability and debugging, without exposing
+        sensitive financial data in logs.
+      </p>
+    </article>
+
+    <article class="card">
+      <h2>🛡️ Transport & Isolation</h2>
+      <p>
+        All API access is encrypted in transit using TLS. Only the public HTTPS endpoints are
+        exposed; internal components are not directly reachable from the public internet.
+      </p>
+      <p>
+        Production and non-production environments are separated, and configuration is managed
+        via environment variables rather than hard-coded secrets.
+      </p>
+    </article>
+
+  </section>
+
+  <!-- ARCHITECTURE & COMPLIANCE PHILOSOPHY -->
+  <section class="grid">
+
+    <article class="card">
+      <h2>🏗️ Stateless Transformation Architecture</h2>
+      <p>
+        The core of MapleSchema is a <strong>stateless transformation service</strong>. Your
+        systems send open banking transaction payloads, MapleSchema normalizes them into a
+        stable JSON schema, and the results are immediately returned to you.
+      </p>
+      <p>
+        Once the response is sent:
+      </p>
+      <ul>
+        <li>No transaction data is stored in a database.</li>
+        <li>No transaction data is written to disk.</li>
+        <li>No transaction data is queued for later batch processing.</li>
+      </ul>
+      <p>
+        This design keeps the service simple to reason about and significantly reduces the risk
+        surface compared to traditional data-processing platforms.
+      </p>
+    </article>
+
+    <article class="card">
+      <h2>📚 Compliance-First Design</h2>
+      <p>
+        MapleSchema is not a data warehouse or analytics platform. It is an opinionated,
+        normalization-first API built to <strong>minimize your regulatory burden</strong>.
+      </p>
+      <ul>
+        <li>You retain control of storage, access, and retention policies for normalized data.</li>
+        <li>We provide a stable, deterministic schema for downstream systems and auditors.</li>
+        <li>Our zero-retention posture is easy to explain to security and compliance teams.</li>
+      </ul>
+      <p>
+        As Canadian open banking standards mature, MapleSchema will track changes in field
+        definitions and institution behavior, while keeping the normalization contract predictable.
+      </p>
+    </article>
+
+    <article class="card">
+      <h2>🔍 Transparency & Versioning</h2>
+      <p>
+        Changes to the normalization schema and adapters are versioned and documented. When
+        MapleSchema introduces new fields or behavior changes, they are done through explicit
+        version bumps (for example, <code>transactions-v0.1</code> to a future version) rather than
+        silent changes.
+      </p>
+      <p>
+        This approach helps you:
+      </p>
+      <ul>
+        <li>Understand exactly how data is being transformed.</li>
+        <li>Review changes with your own legal, risk, and compliance teams.</li>
+        <li>Confidently upgrade integrations when you are ready.</li>
+      </ul>
+    </article>
+
+  </section>
+
+  <!-- RESPONSIBLE DISCLOSURE / CONTACT -->
+  <section class="card">
+    <h2>🤝 Responsible Disclosure</h2>
+    <p>
+      Security is a shared responsibility. If you believe you have discovered a vulnerability or
+      security issue in MapleSchema, we want to hear from you.
+    </p>
+    <p>
+      Please contact us at <a href="mailto:security@mapleschema.com">security@mapleschema.com</a>
+      with a description of the issue, the steps to reproduce it, and any relevant details.
+    </p>
+    <p class="small">
+      We review all good-faith reports and work to address confirmed issues as quickly as possible.
+      Please avoid sharing sensitive customer data in your report.
+    </p>
+  </section>
+
+</main>
+
+<footer>
+  © MapleSchema 2025 — Sweet, Compliance-First Open Banking Normalization
+</footer>
+
+</div>
 </body>
 </html>
