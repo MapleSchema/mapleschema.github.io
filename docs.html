@@ -39,7 +39,7 @@
       <a href="/index.html">Home</a>
       <a href="/docs.html" class="active">Docs</a>
       <a href="/security.html">Security</a>
-      <a href="/pricing.html">Price</a>
+      <a href="/pricing.html">Pricing</a>
       <a href="/contact.html">Contact</a>
     </nav>
   </div>
@@ -143,9 +143,9 @@ X-Api-Key: YOUR_API_KEY
   </pre>
 
   <p>
-    The response body is a JSON array of normalized transactions conforming to the
-    <code>transactions-v1.0</code> schema. All timestamps are returned in UTC,
-    and all amounts follow signed-value semantics paired with an explicit
+    The response from /v1/transform is a JSON object containing a metadata block
+    and a transactions array conforming to the <code>transactions-v1.0</code> schema. 
+    All timestamps are returned in UTC, and all amounts follow signed-value semantics paired with an explicit
     <code>direction</code> field for clarity across account types.
   </p>
 </article>
@@ -392,18 +392,6 @@ X-Api-Key: YOUR_API_KEY
         <li>
           <strong>country_code</strong> (string, nullable) — ISO country code when derivable,
           e.g. <code>"CA"</code>.
-        </li>
-        <li>
-          <strong>meta.received_at</strong> (string, required) — UTC timestamp when MapleSchema
-          processed this transaction.
-        </li>
-        <li>
-          <strong>meta.adapter</strong> (string, required) — adapter used, e.g.
-          <code>"rbc_ca.v1"</code>.
-        </li>
-        <li>
-          <strong>meta.confidence</strong> (number, nullable) — confidence score for certain
-          normalization decisions, when provided.
         </li>
       </ul>
     </article>
