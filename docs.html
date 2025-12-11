@@ -293,8 +293,8 @@ X-Api-Key: YOUR_API_KEY
   </section>
 
   <!-- RESPONSE FIELD BREAKDOWN -->
-  <section class="grid">
-
+  <!-- RESPONSE FIELD BREAKDOWN -->
+  <section>
     <article class="card">
       <h2>Core Fields</h2>
       <ul>
@@ -347,7 +347,7 @@ X-Api-Key: YOUR_API_KEY
     </article>
 
     <article class="card">
-      <h2>Descriptions & Merchant</h2>
+      <h2>Descriptions &amp; Merchant</h2>
       <ul>
         <li>
           <strong>original_description</strong> (string, required) — raw description or
@@ -368,7 +368,7 @@ X-Api-Key: YOUR_API_KEY
     </article>
 
     <article class="card">
-      <h2>Status, Country & Meta</h2>
+      <h2>Status, Country &amp; Meta</h2>
       <ul>
         <li>
           <strong>status</strong> (string, required) — normalized transaction status, such as
@@ -395,82 +395,6 @@ X-Api-Key: YOUR_API_KEY
         </li>
       </ul>
     </article>
-
-  </section>
-
-  <!-- ERRORS, LIMITS, VERSIONING -->
-  <section class="grid">
-
-    <article class="card">
-      <h2>❗ Error Responses</h2>
-      <p>
-        Errors are returned with standard HTTP status codes and a consistent JSON envelope:
-      </p>
-
-      <pre class="code-block">
-{
-  "error": {
-    "code": "invalid_request",
-    "message": "bookingDateTime must be RFC3339 with offset",
-    "field": "transactions[0].bookingDateTime",
-    "request_id": "auto-1764972823590099100"
-  }
-}
-      </pre>
-
-      <p>Common <code>error.code</code> values include:</p>
-      <ul>
-        <li><code>auth_error</code> — missing or invalid API key.</li>
-        <li><code>invalid_request</code> — malformed JSON or invalid field values.</li>
-        <li><code>rate_limited</code> — too many requests in a given window.</li>
-        <li><code>server_error</code> — unexpected internal error.</li>
-      </ul>
-      <p class="small">
-        The <code>request_id</code> value can be provided to MapleSchema support to help
-        trace specific calls in operational logs.
-      </p>
-    </article>
-
-    <article class="card">
-      <h2>📏 Rate & Payload Limits</h2>
-      <p>
-        MapleSchema enforces rate limits and maximum payload sizes to protect service
-        stability. If you exceed limits, you will receive a <code>429 Too Many Requests</code>
-        response with <code>error.code = "rate_limited"</code>.
-      </p>
-      <p>
-        For higher-volume or batch-processing workloads, contact us to discuss appropriate
-        limits for your use case.
-      </p>
-      <p class="small">
-        Exact limits may evolve over time as the platform grows. Existing clients will be
-        notified of material changes.
-      </p>
-    </article>
-
-    <article class="card">
-      <h2>🧮 Versioning</h2>
-      <p>
-        MapleSchema uses two layers of versioning:
-      </p>
-      <ul>
-        <li>
-          <strong>API path versioning</strong> — this document describes
-          <code>/v1/transform</code>. Future breaking changes will be introduced as new
-          path versions (for example, <code>/v2/transform</code>).
-        </li>
-        <li>
-          <strong>Schema versioning</strong> — each normalized transaction includes a
-          <code>schema_version</code> field, currently <code>"transactions-v1.0"</code>.
-          Breaking changes to the normalized schema will be shipped as new schema versions.
-        </li>
-      </ul>
-      <p class="small">
-        Existing API and schema versions are treated as stable contracts. You control when
-        to upgrade your integration to newer versions.
-      </p>
-    </article>
-
   </section>
 
   <!-- CONTACT -->
