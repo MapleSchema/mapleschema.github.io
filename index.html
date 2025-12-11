@@ -186,78 +186,15 @@ curl -X POST https://api.mapleschema.com/v0/transform \
   </p>
 </section>
 
-  <!-- EXAMPLE: BANK PAYLOAD → NORMALIZED -->
-  <section id="docs" class="card">
-    <h2>Example: Bank Payload → Normalized MapleSchema Output</h2>
+ <section class="card">
+  <h2>See Full Examples & Schema</h2>
+  <p>
+    Detailed request/response examples, schema definitions, field rules,
+    error formats, and adapter notes are available in the
+    <a href="/docs.html">Developer Documentation</a>.
+  </p>
+</section>
 
-    <div class="examples-grid">
-
-      <!-- LEFT: Bank / aggregator payload -->
-      <div>
-        <p><strong>Open banking transaction payload (simplified):</strong></p>
-        <pre class="code-block">
-{
-  "transactionId": "abc123",
-  "bookingDateTime": "2026-01-12T14:30:00-05:00",
-  "status": "BOOKED",
-  "type": "DEBIT",
-  "amount": {
-    "currency": "CAD",
-    "value": "18.42"
-  },
-  "merchant": {
-    "name": "UBER *TRIP   HELP.UBER.COM"
-  },
-  "description": "POS 07/12  UBER *TRIP   HELP.UBER.COM CA"
-}
-        </pre>
-      </div>
-
-      <!-- RIGHT: MapleSchema normalization (v0.1) -->
-      <div>
-        <p><strong>Normalized output (<code>transactions-v0.1</code> schema):</strong></p>
-        <pre class="code-block">
-{
-  "schema_version": "transactions-v0.1",
-
-  "meta": {
-    "received_at": "2026-01-12T19:30:01Z",
-    "adapter": "rbc_ca.v1",
-    "confidence": 0.98
-  },
-
-  "institution_code": "rbc_ca",
-  "transaction_id": "abc123",
-
-  "posted_at": "2026-01-12T19:30:00Z",
-  "authorized_at": null,
-
-  "amount": -18.42,
-  "currency": "CAD",
-  "direction": "debit",
-  "transaction_type": "card",
-
-  "original_description": "POS 07/12  UBER *TRIP   HELP.UBER.COM CA",
-  "normalized_description": "Uber trip",
-  "merchant_name": "Uber Technologies",
-  "merchant_cleaned": "uber",
-
-  "status": "posted",
-  "category": null,
-  "country_code": "CA"
-}
-        </pre>
-      </div>
-
-    </div>
-
-<p>
-  The full schema — including field definitions, enums, metadata rules,
-  and adapter notes — is available in the 
-  <a href="/docs.html">Docs</a> section.
-</p>
-    
-  </section>
 
 </main>
 
