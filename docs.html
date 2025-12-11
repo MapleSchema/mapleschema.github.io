@@ -223,66 +223,78 @@ X-Api-Key: YOUR_API_KEY
     </p>
 
     <pre class="code-block">
-[
-  {
-    "schema_version": "transactions-v1.0",
-
-    "stable_transaction_id": "rbc_ca-abc123",
+{
+  "metadata": {
+    "request_id": "auto-1764972823590099100",
     "institution_code": "rbc_ca",
-    "aggregator_code": "direct_ob",
-    "transaction_id": "abc123",
-    "account_id": "chequing-001",
+    "received_at": "2025-12-05T22:13:43.5900991Z",
+    "processed_at": "2025-12-05T22:13:43.5900991Z",
+    "input_count": 1,
+    "output_count": 1,
+    "failed_count": 0
+  },
+  "transactions": [
+    {
+      "schema_version": "transactions-v1.0",
 
-    "posted_at": "2026-01-12T19:30:00Z",
-    "value_at": null,
-    "value_local_time_raw": "2026-01-12T14:30:00-05:00",
-    "authorized_at": null,
+      "stable_transaction_id": "rbc_ca-abc123",
+      "institution_code": "rbc_ca",
+      "aggregator_code": "direct_ob",
+      "transaction_id": "abc123",
+      "account_id": "chequing-001",
 
-    "amount": -18.42,
-    "currency": "CAD",
-    "direction": "debit",
+      "posted_at": "2026-01-12T19:30:00Z",
+      "value_at": null,
+      "value_local_time_raw": "2026-01-12T14:30:00-05:00",
+      "authorized_at": null,
 
-    "bank_transaction_code": "",
-    "proprietary_code": "",
-    "mcc": "",
+      "amount": -18.42,
+      "currency": "CAD",
+      "direction": "debit",
 
-    "transaction_type": "card",
+      "bank_transaction_code": "",
+      "proprietary_code": "",
+      "mcc": "",
 
-    "original_description": "POS 07/12  UBER *TRIP   HELP.UBER.COM CA",
-    "transformed_description": "Uber trip",
-    "transformed_description_fr": "Course Uber",
+      "transaction_type": "card",
 
-    "merchant_name": "Uber Technologies",
-    "merchant_name_fr": "Uber Technologies",
-    "category": null,
-    "status": "posted",
+      "original_description": "POS 07/12  UBER *TRIP   HELP.UBER.COM CA",
+      "transformed_description": "Uber trip",
+      "transformed_description_fr": "Course Uber",
 
-    "normalization": {
-      "mapping_method": "rbc_ca_core_v1",
-      "warnings": [],
-      "input_timezone": "America/Toronto"
-    },
+      "merchant_name": "Uber Technologies",
+      "merchant_name_fr": "Uber Technologies",
+      "category": null,
+      "status": "posted",
 
-    "insights": {
-      "suggested_type": "card",
-      "suggested_type_confidence": 0.92,
-      "description_confidence": 0.97,
-      "merchant_name_confidence": 0.98
-    },
+      "normalization": {
+        "mapping_method": "rbc_ca_core_v1",
+        "warnings": [],
+        "input_timezone": "America/Toronto"
+      },
 
-    "fx": null,
+      "insights": {
+        "suggested_type": "card",
+        "suggested_type_confidence": 0.92,
+        "description_confidence": 0.97,
+        "merchant_name_confidence": 0.98
+      },
 
-    "metadata": {
-      "source_device": "mobile",
-      "channel": "card_present"
-    },
+      "fx": null,
 
-    "extras": {
-      "raw_terminal_id": "UBR12345",
-      "raw_processor_code": "POS_UBR"
+      "metadata": {
+        "source_device": "mobile",
+        "channel": "card_present"
+      },
+
+      "extras": {
+        "raw_terminal_id": "UBR12345",
+        "raw_processor_code": "POS_UBR"
+      }
     }
-  }
-]
+  ]
+}
+
 
     </pre>
 
