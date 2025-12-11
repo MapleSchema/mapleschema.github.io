@@ -120,26 +120,35 @@ X-Api-Key: YOUR_API_KEY
     deterministic authentication error response.
   </p>
 </article>
+<article class="card">
+  <h2>🔁 Transform Endpoint</h2>
 
+  <p>
+    The primary endpoint in MapleSchema v1 is <code>POST /v1/transform</code>.
+    It accepts institution-specific open banking transaction payloads and returns
+    normalized <code>transactions-v1.0</code> objects. All processing is stateless
+    and performed in memory.
+  </p>
 
-    <article class="card">
-      <h2>🔁 Transform Endpoint</h2>
-      <p>
-        The primary endpoint in MapleSchema v1 is <code>POST /v1/transform</code>. It accepts
-        institution-specific open banking transaction payloads and returns normalized
-        <code>transactions-v1.0</code> objects.
-      </p>
-      <ul>
-        <li><strong>Method</strong>: <code>POST</code></li>
-        <li><strong>Path</strong>: <code>/v1/transform</code></li>
-        <li><strong>Content-Type</strong>: <code>application/json</code></li>
-        <li><strong>Auth</strong>: <code>X-Api-Key</code> header</li>
-      </ul>
-      <p>
-        The response body is a JSON array of normalized transactions. All timestamps are returned
-        in UTC, and amounts follow signed-value plus explicit <code>direction</code> semantics.
-      </p>
-    </article>
+  <ul>
+    <li><strong>Method</strong>: <code>POST</code></li>
+    <li><strong>Path</strong>: <code>/v1/transform</code></li>
+    <li><strong>Content-Type</strong>: <code>application/json</code></li>
+    <li><strong>Auth</strong>: <code>X-Project-Id</code> and <code>X-Api-Key</code> headers</li>
+  </ul>
+
+  <pre class="code-block">
+X-Project-Id: YOUR_PROJECT_ID
+X-Api-Key: YOUR_API_KEY
+  </pre>
+
+  <p>
+    The response body is a JSON array of normalized transactions conforming to the
+    <code>transactions-v1.0</code> schema. All timestamps are returned in UTC,
+    and all amounts follow signed-value semantics paired with an explicit
+    <code>direction</code> field for clarity across account types.
+  </p>
+</article>
 
   </section>
 
@@ -218,33 +227,63 @@ X-Api-Key: YOUR_API_KEY
   {
     "schema_version": "transactions-v1.0",
 
-    "meta": {
-      "received_at": "2026-01-12T19:30:01Z",
-      "adapter": "rbc_ca.v1",
-      "confidence": 0.98
-    },
-
+    "stable_transaction_id": "rbc_ca-abc123",
     "institution_code": "rbc_ca",
+    "aggregator_code": "direct_ob",
     "transaction_id": "abc123",
+    "account_id": "chequing-001",
 
     "posted_at": "2026-01-12T19:30:00Z",
+    "value_at": null,
+    "value_local_time_raw": "2026-01-12T14:30:00-05:00",
     "authorized_at": null,
 
     "amount": -18.42,
     "currency": "CAD",
     "direction": "debit",
+
+    "bank_transaction_code": "",
+    "proprietary_code": "",
+    "mcc": "",
+
     "transaction_type": "card",
 
     "original_description": "POS 07/12  UBER *TRIP   HELP.UBER.COM CA",
-    "normalized_description": "Uber trip",
-    "merchant_name": "Uber Technologies",
-    "merchant_cleaned": "uber",
+    "transformed_description": "Uber trip",
+    "transformed_description_fr": "Course Uber",
 
-    "status": "posted",
+    "merchant_name": "Uber Technologies",
+    "merchant_name_fr": "Uber Technologies",
     "category": null,
-    "country_code": "CA"
+    "status": "posted",
+
+    "normalization": {
+      "mapping_method": "rbc_ca_core_v1",
+      "warnings": [],
+      "input_timezone": "America/Toronto"
+    },
+
+    "insights": {
+      "suggested_type": "card",
+      "suggested_type_confidence": 0.92,
+      "description_confidence": 0.97,
+      "merchant_name_confidence": 0.98
+    },
+
+    "fx": null,
+
+    "metadata": {
+      "source_device": "mobile",
+      "channel": "card_present"
+    },
+
+    "extras": {
+      "raw_terminal_id": "UBR12345",
+      "raw_processor_code": "POS_UBR"
+    }
   }
 ]
+
     </pre>
 
     <p>
