@@ -2,26 +2,461 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Docs – MapleSchema</title>
+  <title>MapleSchema — Developer Documentation (v1)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content="Developer documentation for MapleSchema v1 — transform Canadian open banking transaction payloads into a single, deterministic JSON schema."
+  />
+
+  <!-- SEO + Social -->
+  <meta property="og:title" content="MapleSchema — Developer Documentation (v1)">
+  <meta property="og:description" content="Learn how to call the MapleSchema v1 /transform endpoint, authenticate with API keys, and consume the transactions-v1.0 normalized schema.">
+  <meta property="og:url" content="https://mapleschema.com/docs.html">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://mapleschema.com/images/mapleschema-social.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+
+  <!-- Main stylesheet -->
   <link rel="stylesheet" href="/css/style.css" />
 </head>
+
 <body>
-  <header>
-    <img src="/images/mapleschema-transparent-icon.png" alt="MapleSchema Logo" class="logo" />
+<div id="site">
+
+<header>
+  <div class="container header-inner">
+    <div class="logo-wrapper">
+      <img src="/images/mapleschema-transparent-icon.png" class="logo" alt="MapleSchema logo">
+    </div>
+
     <nav>
       <a href="/index.html">Home</a>
-      <a href="/about.html">About</a>
-      <a href="/docs.html">Docs</a>
+      <a href="/docs.html" class="active">Docs</a>
+      <a href="/security.html">Security</a>
+      <a href="/pricing.html">Price</a>
+      <a href="/contact.html">Contact</a>
     </nav>
-  </header>
+  </div>
+</header>
 
-  <main>
-    <h1>Developer Documentation</h1>
-    <p>Coming soon: API, data model, and integration guides.</p>
-  </main>
+<main class="container">
 
-  <footer>
-    © MapleSchema 2025
-  </footer>
+  <!-- HERO -->
+  <section class="hero">
+    <h1>Developer Docs — MapleSchema v1</h1>
+
+    <p class="hero-lead">
+      Transform Canadian open banking transaction payloads into a single, deterministic
+      <code>transactions-v1.0</code> schema. This page covers base URLs, authentication,
+      the <code>/v1/transform</code> endpoint, request and response formats, and error handling.
+    </p>
+  </section>
+
+  <!-- QUICKSTART -->
+  <section id="quickstart" class="card quickstart-card">
+    <h2>Quickstart — Call <code>/v1/transform</code> in 30 Seconds</h2>
+
+    <p>
+      Send institution-specific open banking transactions to MapleSchema and get back
+      normalized <code>transactions-v1.0</code> objects. Replace <code>YOUR_API_KEY</code>
+      with the key issued to your project.
+    </p>
+
+    <pre class="code-block curl-block">
+curl -X POST https://api.mapleschema.com/v1/transform \
+  -H "Content-Type: application/json" \
+  -H "X-Api-Key: YOUR_API_KEY" \
+  -d '{
+        "institution_code": "rbc_ca",
+        "transactions": [
+          {
+            "transactionId": "abc123",
+            "bookingDateTime": "2026-01-12T14:30:00-05:00",
+            "status": "BOOKED",
+            "type": "DEBIT",
+            "amount": { "currency": "CAD", "value": "18.42" },
+            "description": "POS 07/12  UBER *TRIP   HELP.UBER.COM CA",
+            "merchant": { "name": "UBER *TRIP   HELP.UBER.COM" }
+          }
+        ]
+      }'
+    </pre>
+
+    <p class="small">
+      The example above is representative of a typical open banking transaction payload.
+      See the request and response schema sections below for full details.
+    </p>
+  </section>
+
+  <!-- BASE URLS / AUTH / ENDPOINT OVERVIEW -->
+  <section class="grid">
+
+    <article class="card">
+      <h2>🌐 Base URLs</h2>
+      <p>MapleSchema currently exposes the following environments:</p>
+      <ul>
+        <li><strong>Production</strong>: <code>https://api.mapleschema.com</code></li>
+        <li><strong>Staging</strong>: <code>https://staging.api.mapleschema.com</code></li>
+      </ul>
+      <p>
+        Both environments implement the same API surface. Use staging for internal testing and
+        production for live traffic. Environment selection is done via base URL — the path
+        <code>/v1/transform</code> is identical.
+      </p>
+    </article>
+
+    <article class="card">
+      <h2>🔑 Authentication</h2>
+      <p>
+        Access to the MapleSchema API is controlled through project-level API keys.
+        Include your key on every request using the <code>X-Api-Key</code> header.
+      </p>
+
+      <pre class="code-block">
+X-Api-Key: YOUR_API_KEY
+      </pre>
+
+      <p>
+        You can request an API key from the website. Each key is tied to a single project.
+        Keys are required for all calls to <code>/v1/transform</code>; unauthenticated
+        requests will receive an authentication error response.
+      </p>
+    </article>
+
+    <article class="card">
+      <h2>🔁 Transform Endpoint</h2>
+      <p>
+        The primary endpoint in MapleSchema v1 is <code>POST /v1/transform</code>. It accepts
+        institution-specific open banking transaction payloads and returns normalized
+        <code>transactions-v1.0</code> objects.
+      </p>
+      <ul>
+        <li><strong>Method</strong>: <code>POST</code></li>
+        <li><strong>Path</strong>: <code>/v1/transform</code></li>
+        <li><strong>Content-Type</strong>: <code>application/json</code></li>
+        <li><strong>Auth</strong>: <code>X-Api-Key</code> header</li>
+      </ul>
+      <p>
+        The response body is a JSON array of normalized transactions. All timestamps are returned
+        in UTC, and amounts follow signed-value plus explicit <code>direction</code> semantics.
+      </p>
+    </article>
+
+  </section>
+
+  <!-- REQUEST SCHEMA -->
+  <section class="grid">
+
+    <article class="card">
+      <h2>📥 Request Body Overview</h2>
+      <p>
+        The request to <code>/v1/transform</code> contains two required top-level fields:
+        <code>institution_code</code> and <code>transactions</code>.
+      </p>
+
+      <pre class="code-block">
+{
+  "institution_code": "rbc_ca",
+  "transactions": [
+    { /* institution-specific transaction */ }
+  ]
+}
+      </pre>
+
+      <ul>
+        <li>
+          <strong>institution_code</strong> (string, required) — identifies which institution
+          or adapter to use. For example: <code>"rbc_ca"</code>, <code>"td_ca"</code>.
+        </li>
+        <li>
+          <strong>transactions</strong> (array, required) — the list of institution transaction
+          payloads to transform in this request.
+        </li>
+      </ul>
+      <p class="small">
+        MapleSchema expects payloads that are compatible with Canadian open banking formats
+        (bank or aggregator). Each adapter documents the specific fields it uses.
+      </p>
+    </article>
+
+    <article class="card">
+      <h2>📄 Common Transaction Fields</h2>
+      <p>
+        While each institution may include additional data, the following fields are commonly
+        used by MapleSchema adapters when present:
+      </p>
+
+      <ul>
+        <li><code>transactionId</code> (string) — unique ID for the transaction.</li>
+        <li><code>bookingDateTime</code> (string, RFC3339 with offset) — posted or booking time.</li>
+        <li><code>status</code> (string) — e.g. <code>"BOOKED"</code>, <code>"PENDING"</code>.</li>
+        <li><code>type</code> (string) — e.g. <code>"DEBIT"</code>, <code>"CREDIT"</code>.</li>
+        <li><code>amount.currency</code> (string) — ISO currency, e.g. <code>"CAD"</code>.</li>
+        <li><code>amount.value</code> (string) — transaction amount as a string.</li>
+        <li><code>description</code> (string) — institution or network description.</li>
+        <li><code>merchant.name</code> (string, optional) — merchant name, when provided.</li>
+      </ul>
+
+      <p class="small">
+        You may send richer payloads than this; MapleSchema will ignore fields it does not
+        understand and preserve behavior via deterministic transformation rules.
+      </p>
+    </article>
+
+  </section>
+
+  <!-- RESPONSE SCHEMA -->
+  <section class="card">
+    <h2>📤 Normalized Response — <code>transactions-v1.0</code></h2>
+
+    <p>
+      The response from <code>/v1/transform</code> is a JSON array of normalized transaction
+      objects conforming to the <code>transactions-v1.0</code> schema.
+    </p>
+
+    <pre class="code-block">
+[
+  {
+    "schema_version": "transactions-v1.0",
+
+    "meta": {
+      "received_at": "2026-01-12T19:30:01Z",
+      "adapter": "rbc_ca.v1",
+      "confidence": 0.98
+    },
+
+    "institution_code": "rbc_ca",
+    "transaction_id": "abc123",
+
+    "posted_at": "2026-01-12T19:30:00Z",
+    "authorized_at": null,
+
+    "amount": -18.42,
+    "currency": "CAD",
+    "direction": "debit",
+    "transaction_type": "card",
+
+    "original_description": "POS 07/12  UBER *TRIP   HELP.UBER.COM CA",
+    "normalized_description": "Uber trip",
+    "merchant_name": "Uber Technologies",
+    "merchant_cleaned": "uber",
+
+    "status": "posted",
+    "category": null,
+    "country_code": "CA"
+  }
+]
+    </pre>
+
+    <p>
+      All timestamps are UTC. Amounts are signed and paired with an explicit
+      <code>direction</code> to make debits and credits unambiguous, regardless of account type.
+    </p>
+  </section>
+
+  <!-- RESPONSE FIELD BREAKDOWN -->
+  <section class="grid">
+
+    <article class="card">
+      <h2>Core Fields</h2>
+      <ul>
+        <li>
+          <strong>schema_version</strong> (string, required) — currently
+          <code>"transactions-v1.0"</code>.
+        </li>
+        <li>
+          <strong>institution_code</strong> (string, required) — the code you provided on input,
+          e.g. <code>"rbc_ca"</code>.
+        </li>
+        <li>
+          <strong>transaction_id</strong> (string, required) — derived from the institution ID
+          when available; stable per institution.
+        </li>
+        <li>
+          <strong>posted_at</strong> (string, required) — posted time in UTC,
+          <code>YYYY-MM-DDThh:mm:ssZ</code>.
+        </li>
+        <li>
+          <strong>authorized_at</strong> (string, nullable) — authorization time in UTC when
+          distinguishable.
+        </li>
+      </ul>
+    </article>
+
+    <article class="card">
+      <h2>Amount & Direction</h2>
+      <ul>
+        <li>
+          <strong>amount</strong> (number, required) — signed decimal amount. Debits from the
+          account are typically negative, credits positive.
+        </li>
+        <li>
+          <strong>currency</strong> (string, required) — ISO currency code, e.g. <code>"CAD"</code>.
+        </li>
+        <li>
+          <strong>direction</strong> (string, required) — one of <code>"debit"</code> or
+          <code>"credit"</code>, representing the direction relative to the account holder.
+        </li>
+        <li>
+          <strong>transaction_type</strong> (string, required) — high-level classification such
+          as <code>"card"</code>, <code>"transfer"</code>, or <code>"fee"</code>.
+        </li>
+      </ul>
+      <p class="small">
+        Direction and signed amount are designed to be unambiguous across chequing, credit card,
+        and line-of-credit accounts.
+      </p>
+    </article>
+
+    <article class="card">
+      <h2>Descriptions & Merchant</h2>
+      <ul>
+        <li>
+          <strong>original_description</strong> (string, required) — raw description or
+          merchant line from the institution.
+        </li>
+        <li>
+          <strong>normalized_description</strong> (string, nullable) — MapleSchema’s cleaned,
+          human-readable description, when available.
+        </li>
+        <li>
+          <strong>merchant_name</strong> (string, nullable) — normalized merchant name.
+        </li>
+        <li>
+          <strong>merchant_cleaned</strong> (string, nullable) — simplified merchant key
+          useful for grouping, e.g. <code>"uber"</code>.
+        </li>
+      </ul>
+    </article>
+
+    <article class="card">
+      <h2>Status, Country & Meta</h2>
+      <ul>
+        <li>
+          <strong>status</strong> (string, required) — normalized transaction status, such as
+          <code>"posted"</code> or <code>"pending"</code>.
+        </li>
+        <li>
+          <strong>category</strong> (string, nullable) — reserved for future categorization.
+        </li>
+        <li>
+          <strong>country_code</strong> (string, nullable) — ISO country code when derivable,
+          e.g. <code>"CA"</code>.
+        </li>
+        <li>
+          <strong>meta.received_at</strong> (string, required) — UTC timestamp when MapleSchema
+          processed this transaction.
+        </li>
+        <li>
+          <strong>meta.adapter</strong> (string, required) — adapter used, e.g.
+          <code>"rbc_ca.v1"</code>.
+        </li>
+        <li>
+          <strong>meta.confidence</strong> (number, nullable) — confidence score for certain
+          normalization decisions, when provided.
+        </li>
+      </ul>
+    </article>
+
+  </section>
+
+  <!-- ERRORS, LIMITS, VERSIONING -->
+  <section class="grid">
+
+    <article class="card">
+      <h2>❗ Error Responses</h2>
+      <p>
+        Errors are returned with standard HTTP status codes and a consistent JSON envelope:
+      </p>
+
+      <pre class="code-block">
+{
+  "error": {
+    "code": "invalid_request",
+    "message": "bookingDateTime must be RFC3339 with offset",
+    "field": "transactions[0].bookingDateTime",
+    "request_id": "auto-1764972823590099100"
+  }
+}
+      </pre>
+
+      <p>Common <code>error.code</code> values include:</p>
+      <ul>
+        <li><code>auth_error</code> — missing or invalid API key.</li>
+        <li><code>invalid_request</code> — malformed JSON or invalid field values.</li>
+        <li><code>rate_limited</code> — too many requests in a given window.</li>
+        <li><code>server_error</code> — unexpected internal error.</li>
+      </ul>
+      <p class="small">
+        The <code>request_id</code> value can be provided to MapleSchema support to help
+        trace specific calls in operational logs.
+      </p>
+    </article>
+
+    <article class="card">
+      <h2>📏 Rate & Payload Limits</h2>
+      <p>
+        MapleSchema enforces rate limits and maximum payload sizes to protect service
+        stability. If you exceed limits, you will receive a <code>429 Too Many Requests</code>
+        response with <code>error.code = "rate_limited"</code>.
+      </p>
+      <p>
+        For higher-volume or batch-processing workloads, contact us to discuss appropriate
+        limits for your use case.
+      </p>
+      <p class="small">
+        Exact limits may evolve over time as the platform grows. Existing clients will be
+        notified of material changes.
+      </p>
+    </article>
+
+    <article class="card">
+      <h2>🧮 Versioning</h2>
+      <p>
+        MapleSchema uses two layers of versioning:
+      </p>
+      <ul>
+        <li>
+          <strong>API path versioning</strong> — this document describes
+          <code>/v1/transform</code>. Future breaking changes will be introduced as new
+          path versions (for example, <code>/v2/transform</code>).
+        </li>
+        <li>
+          <strong>Schema versioning</strong> — each normalized transaction includes a
+          <code>schema_version</code> field, currently <code>"transactions-v1.0"</code>.
+          Breaking changes to the normalized schema will be shipped as new schema versions.
+        </li>
+      </ul>
+      <p class="small">
+        Existing API and schema versions are treated as stable contracts. You control when
+        to upgrade your integration to newer versions.
+      </p>
+    </article>
+
+  </section>
+
+  <!-- CONTACT -->
+  <section class="card">
+    <h2>Questions or Integration Help?</h2>
+    <p>
+      If you have questions about integrating MapleSchema, need clarification on the
+      <code>transactions-v1.0</code> schema, or want to discuss higher-volume usage,
+      reach out via the <a href="/contact.html">contact page</a>.
+    </p>
+  </section>
+
+</main>
+
+<footer>
+  © MapleSchema 2025 — Sweet, Compliance-First Open Banking Normalization
+</footer>
+
+</div>
 </body>
 </html>
