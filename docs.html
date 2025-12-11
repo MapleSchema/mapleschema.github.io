@@ -355,26 +355,59 @@ X-Api-Key: YOUR_API_KEY
       </p>
     </article>
 
-    <article class="card">
-      <h2>Descriptions &amp; Merchant</h2>
-      <ul>
-        <li>
-          <strong>original_description</strong> (string, required) — raw description or
-          merchant line from the institution.
-        </li>
-        <li>
-          <strong>normalized_description</strong> (string, nullable) — MapleSchema’s cleaned,
-          human-readable description, when available.
-        </li>
-        <li>
-          <strong>merchant_name</strong> (string, nullable) — normalized merchant name.
-        </li>
-        <li>
-          <strong>merchant_cleaned</strong> (string, nullable) — simplified merchant key
-          useful for grouping, e.g. <code>"uber"</code>.
-        </li>
-      </ul>
-    </article>
+   <article class="card">
+  <h2>Descriptions &amp; Merchant</h2>
+  <ul>
+    <li>
+      <strong>original_description</strong> (string, required) — raw description or
+      merchant line from the institution.
+    </li>
+    <li>
+      <strong>transformed_description</strong> (string, nullable) — MapleSchema’s cleaned,
+      human-readable description, when available.
+    </li>
+    <li>
+      <strong>transformed_description_fr</strong> (string, nullable) — French version of the
+      transformed description, when available.
+    </li>
+    <li>
+      <strong>merchant_name</strong> (string, nullable) — normalized merchant or brand name.
+    </li>
+    <li>
+      <strong>merchant_name_fr</strong> (string, nullable) — French merchant or brand name,
+      when available.
+    </li>
+  </ul>
+</article>
+
+<article class="card">
+  <h2>Status &amp; Classification</h2>
+  <ul>
+    <li>
+      <strong>status</strong> (string, required) — normalized transaction status, such as
+      <code>"posted"</code> or <code>"pending"</code>.
+    </li>
+    <li>
+      <strong>category</strong> (object, nullable) — reserved for future categorization;
+      current integrations may treat this as opaque.
+    </li>
+  </ul>
+</article>
+<section class="card">
+  <h2>Batch Metadata</h2>
+  <p>
+    The top-level <code>metadata</code> object describes the entire transform batch:
+  </p>
+  <ul>
+    <li><strong>request_id</strong> — identifier for this API call, useful for log correlation.</li>
+    <li><strong>institution_code</strong> — institution/adapter used for this batch.</li>
+    <li><strong>received_at</strong>, <strong>processed_at</strong> — UTC timestamps for when
+        the batch was received and processed.</li>
+    <li><strong>input_count</strong> — number of transactions in the request payload.</li>
+    <li><strong>output_count</strong> — number of successfully normalized transactions.</li>
+    <li><strong>failed_count</strong> — number of transactions that failed validation or normalization.</li>
+  </ul>
+</section>
 
     <article class="card">
       <h2>Status, Country &amp; Meta</h2>
