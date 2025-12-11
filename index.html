@@ -36,7 +36,7 @@
     </div>
 
     <nav>
-      <a href="/index.html">Home</a>
+      <a href="/index.html" class="active">Home</a>
       <a href="/docs.html">Docs</a>
       <a href="/security.html">Security</a>
       <a href="/pricing.html">Price</a>
@@ -60,8 +60,8 @@
       <div class="hero-point">
         <h2>For product &amp; data teams</h2>
         <p>
-          Stop maintaining a different mapping layer for every institution. Target one schema.
-          MapleSchema keeps pace with banks and aggregators as they roll out open banking.
+          Ship features on top of a single schema instead of chasing every bank’s format.
+          MapleSchema tracks institutions and aggregators so you can focus on the product.
         </p>
       </div>
       <div class="hero-point">
@@ -69,6 +69,7 @@
         <p>
           Zero-retention by design: Canadian servers, no databases, no buckets, no write permissions.
           Payloads are processed in memory and destroyed immediately.
+          Easy to explain, easy to approve.
         </p>
       </div>
       <div class="hero-point">
@@ -76,6 +77,7 @@
         <p>
           UTC timestamps, explicit <code>direction</code>, signed <code>amount</code> rules,
           and deterministic behavior so your code behaves the same in every environment.
+          Call one endpoint, get one schema.
         </p>
       </div>
     </div>
@@ -87,9 +89,12 @@
     <article class="card">
       <h2>🍁 What MapleSchema Does</h2>
       <p>
-        We normalize <strong>open banking transaction payloads</strong> from Canada’s top financial institutions
-        into a single <code>transactions-v0.1</code> schema. UTC timestamps, explicit debits/credits,
+        MapleSchema normalizes <strong>open banking transaction payloads</strong> from Canada’s top financial institutions
+        into a single <code>transactions-v1.0</code> schema. UTC timestamps, explicit debits/credits,
         and a stable field set — regardless of which bank or aggregator the data came from.
+      </p>
+      <p class="small">
+        When you are ready to plug it in, the <a href="/docs.html">Developer Docs</a> show the exact request and response formats.
       </p>
     </article>
 
@@ -98,16 +103,21 @@
       <p>
         MapleSchema runs with <strong>no databases, no buckets, and no write permissions</strong>.
         Open banking payloads are processed in memory and destroyed immediately,
-        making compliance and security teams very happy.
+        making life easier for your privacy, security, and risk teams.
+      </p>
+      <p class="small">
+        The <a href="/security.html">Security</a> page is designed to be copy-pasteable into internal reviews.
       </p>
     </article>
 
-    <!-- NEW: Canadian infrastructure card -->
     <article class="card">
       <h2>🇨🇦 Canadian Infrastructure</h2>
       <p>
         Hosted on <strong>Canadian servers with no persistence layers</strong>. Payloads never leave the country and
         cannot be captured or stored — even by mistake. Infrastructure is configured to disallow data-at-rest.
+      </p>
+      <p class="small">
+        Ideal for teams anticipating Canadian open banking requirements in 2026 and beyond.
       </p>
     </article>
 
@@ -115,7 +125,10 @@
       <h2>🛡️ Compliance as a Service</h2>
       <p>
         Security posture, zero-retention guarantee, IAM restrictions, and architecture diagrams —
-        a ready-to-share compliance packet so engineers don’t need to build or document all of this themselves.
+        bundled into a ready-to-share story so your engineers don’t need to build or document all of this themselves.
+      </p>
+      <p class="small">
+        Use MapleSchema as the “normalization and compliance” line item in your technical design docs.
       </p>
     </article>
 
@@ -124,6 +137,9 @@
       <p>
         Same input → same output. Versioned fields, strict rules, UTC-only timestamps, and conservative categorization.
         A normalization contract your codebase can depend on across all supported institutions.
+      </p>
+      <p class="small">
+        See the full <code>transactions-v1.0</code> field list and rules in the <a href="/docs.html">Docs</a>.
       </p>
     </article>
 
@@ -134,6 +150,9 @@
         POST raw open banking transaction payloads, and get normalized transactions back. No more hand-rolled mappers
         for each institution.
       </p>
+      <p class="small">
+        Most teams can wire a proof-of-concept in under a day once they have a project ID and API key.
+      </p>
     </article>
 
     <article class="card">
@@ -141,6 +160,9 @@
       <p>
         Start with the largest institutions and leading digital banks. As Canadian open banking APIs roll out across
         more institutions, MapleSchema adds new mappers while your application keeps talking to the same stable schema.
+      </p>
+      <p class="small">
+        Your integration targets one contract while MapleSchema keeps pace with bank and aggregator changes.
       </p>
     </article>
 
@@ -150,51 +172,33 @@
         Clean UTC timestamps. Explicit <code>direction</code> semantics. Signed <code>amount</code> rules.
         Opinionated naming. Boring consistency that saves real engineering time when you integrate multiple institutions.
       </p>
+      <p class="small">
+        When you’re ready to see real payloads, head to the <a href="/docs.html">Developer Docs</a> and request an API key.
+      </p>
     </article>
 
   </section>
 
-
-<section id="quickstart" class="card quickstart-card">
-  <h2>Try It in 30 Seconds (cURL Example)</h2>
-
-  <p>
-    This is a minimal example showing how to send an open banking payload to MapleSchema
-    and receive a normalized <code>transactions-v0.1</code> response. The endpoint is stateless,
-    zero-retention, and designed for fast ingestion pipelines.
-  </p>
-
-  <pre class="code-block curl-block">
-curl -X POST https://api.mapleschema.com/v0/transform \
-  -H "Content-Type: application/json" \
-  -d '{
-        "institution_code": "rbc_ca",
-        "transactions": [
-          {
-            "transactionId": "abc123",
-            "bookingDateTime": "2026-01-12T14:30:00-05:00",
-            "status": "BOOKED",
-            "type": "DEBIT",
-            "amount": { "currency": "CAD", "value": "18.42" }
-          }
-        ]
-      }'
-  </pre>
-
-  <p class="small">
-    The example endpoint above is illustrative.
-  </p>
-</section>
-
- <section class="card">
-  <h2>See Full Examples & Schema</h2>
-  <p>
-    Detailed request/response examples, schema definitions, field rules,
-    error formats, and adapter notes are available in the
-    <a href="/docs.html">Developer Documentation</a>.
-  </p>
-</section>
-
+  <!-- CTA / CONVERSION SECTION -->
+  <section class="card">
+    <h2>Get Ready for Canadian Open Banking</h2>
+    <p>
+      MapleSchema is built for teams who want to move quickly when Canadian open banking becomes a reality,
+      without taking on the cost of maintaining a normalization layer for every institution.
+    </p>
+    <p>
+      The next steps are simple:
+    </p>
+    <ol>
+      <li>Review the <a href="/docs.html">Developer Docs</a> to see the <code>/v1/transform</code> endpoint and schema.</li>
+      <li>Request a project ID and API key for your team.</li>
+      <li>Wire MapleSchema in front of your existing bank or aggregator feeds.</li>
+    </ol>
+    <p>
+      When you are ready to talk volume, pricing, or custom needs, reach out via the
+      <a href="/contact.html">Contact</a> page.
+    </p>
+  </section>
 
 </main>
 
