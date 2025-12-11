@@ -99,22 +99,28 @@ curl -X POST https://api.mapleschema.com/v1/transform \
   <section class="grid">
 
     <article class="card">
-      <h2>🔑 Authentication</h2>
-      <p>
-        Access to the MapleSchema API is controlled through project-level API keys.
-        Include your key on every request using the <code>X-Api-Key</code> header.
-      </p>
+  <h2>🔑 Authentication</h2>
 
-      <pre class="code-block">
+  <p>
+    All requests to the MapleSchema API require two headers:
+    a <strong>Project ID</strong> and an <strong>API Key</strong>.
+    The Project ID identifies which project is making the request, and the API Key
+    authenticates and authorizes that project. Both must be included for every call
+    to <code>/v1/transform</code>.
+  </p>
+
+  <pre class="code-block">
+X-Project-Id: YOUR_PROJECT_ID
 X-Api-Key: YOUR_API_KEY
-      </pre>
+  </pre>
 
-      <p>
-        You can request an API key from the website. Each key is tied to a single project.
-        Keys are required for all calls to <code>/v1/transform</code>; unauthenticated
-        requests will receive an authentication error response.
-      </p>
-    </article>
+  <p>
+    Your Project ID and API Key are generated when you request access through the website.
+    Each key is scoped to a single project. Missing or invalid credentials will return a
+    deterministic authentication error response.
+  </p>
+</article>
+
 
     <article class="card">
       <h2>🔁 Transform Endpoint</h2>
