@@ -217,10 +217,12 @@ X-Api-Key: YOUR_API_KEY
   <section class="card">
     <h2>📤 Normalized Response — <code>transactions-v1.0</code></h2>
 
-    <p>
-      The response from <code>/v1/transform</code> is a JSON array of normalized transaction
-      objects conforming to the <code>transactions-v1.0</code> schema.
-    </p>
+<p>
+  The response from <code>/v1/transform</code> is a JSON object containing a
+  <code>metadata</code> block describing the batch and a <code>transactions</code>
+  array of normalized <code>transactions-v1.0</code> objects.
+</p>
+
 
     <pre class="code-block">
 {
