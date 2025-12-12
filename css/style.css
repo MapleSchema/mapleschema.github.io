@@ -31,8 +31,14 @@ header {
 /* Header inner: logo left, nav right */
 .header-inner {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+}
+
+/* push nav to the right */
+header nav {
+  margin-left: auto;
+  display: flex;
+  gap: 24px;
 }
 
 /* Logo: bigger, always controlled */
