@@ -56,6 +56,16 @@ img.logo {
   align-items: flex-start;
 }
 
+.logo-link {
+  display: inline-flex;
+  text-decoration: none;
+}
+
+.logo-link:focus-visible {
+  outline: 2px solid #4a2e22;
+  outline-offset: 4px;
+}
+
 .brand-name {
   font-weight: bold;
   color: #4a2e22;
