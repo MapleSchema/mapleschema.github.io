@@ -19,31 +19,36 @@
 
   <style>
     /* Keep styles minimal; rely on /css/style.css for brand consistency */
-    .qs-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 22px;                 /* ✅ buffer between panes */
+
+    /* IMPORTANT: prevent grid child overflow (fixes overlap + right spill) */
+    #playground { overflow: hidden; }
+
+    .qs-row{
+      display:grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 26px;
       margin-top: 16px;
       align-items: start;
     }
-    @media (max-width: 980px) {
-      .qs-row { grid-template-columns: 1fr; } /* ✅ stack on mobile */
+    @media (max-width: 980px){
+      .qs-row{ grid-template-columns: 1fr; }
     }
+    .qs-row > div{ min-width: 0; } /* ✅ critical */
 
-    .qs-pane-title {
+    .qs-pane-title{
       display:flex;
       align-items:center;
       justify-content:space-between;
       gap:12px;
       margin-bottom:8px;
     }
-    .qs-pane-title h3 {
+    .qs-pane-title h3{
       margin: 0;
       font-size: 14px;
       opacity: .85;
     }
 
-    .qs-actions {
+    .qs-actions{
       display:flex;
       gap:10px;
       flex-wrap:wrap;
@@ -51,7 +56,8 @@
       justify-content:flex-end;
     }
 
-    .qs-textarea {
+    .qs-textarea{
+      box-sizing: border-box;
       width: 100%;
       min-height: 320px;
       resize: vertical;
@@ -64,14 +70,16 @@
       background: rgba(255,255,255,.70);
       outline: none;
     }
-    .qs-textarea:focus {
+    .qs-textarea:focus{
       border-color: rgba(0,0,0,.28);
       box-shadow: 0 0 0 3px rgba(0,0,0,.06);
     }
 
-    .qs-codebox {
+    .qs-codebox{
+      box-sizing: border-box;
       width: 100%;
       min-height: 320px;
+      max-width: 100%;
       white-space: pre-wrap;
       word-break: break-word;
       padding: 12px;
@@ -82,25 +90,26 @@
       font-size: 12px;
       line-height: 1.45;
       margin: 0;
+      overflow-x: hidden; /* ✅ prevent spill */
     }
 
-    .qs-status {
+    .qs-status{
       display:flex;
       gap:10px;
       align-items:center;
       flex-wrap:wrap;
       margin-top: 10px;
     }
-    .qs-dot {
+    .qs-dot{
       width: 10px;
       height: 10px;
       border-radius: 999px;
       background: rgba(0,0,0,.20);
     }
-    .qs-dot.ok { background: #1f9d55; }
-    .qs-dot.bad { background: #d64545; }
+    .qs-dot.ok{ background:#1f9d55; }
+    .qs-dot.bad{ background:#d64545; }
 
-    .qs-toast {
+    .qs-toast{
       position: fixed;
       left: 50%;
       bottom: 18px;
@@ -115,9 +124,9 @@
       gap: 8px;
       z-index: 9999;
     }
-    .qs-toast.show { display:flex; }
+    .qs-toast.show{ display:flex; }
 
-    .qs-smallcode {
+    .qs-smallcode{
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
       background: rgba(0,0,0,.06);
       padding: 2px 6px;
@@ -125,17 +134,18 @@
       font-size: 12px;
     }
 
-    /* Reset button placement at bottom of input */
-    .qs-input-footer {
+    .qs-input-footer{
       display:flex;
       justify-content:space-between;
-      align-items:center;
+      align-items:flex-start;
       gap:12px;
       flex-wrap:wrap;
       margin-top: 12px;
     }
-    .qs-footnote {
-      opacity: .8;
+    .qs-footnote{
+      opacity: .9;
+      max-width: 560px;
+      margin: 0;
     }
   </style>
 </head>
@@ -167,15 +177,15 @@
 
   <!-- HERO -->
   <section class="hero">
-    <h1>See your transactions transformed into a stable schema in seconds.</h1>
+    <h1>Get a clean, stable transaction schema back in seconds.</h1>
 
     <p class="hero-lead">
-      Paste raw transaction payloads, click run, and get a clean response immediately.
+      Paste a raw transaction payload, click run, and see the transformed response immediately.
       Try your own data right now — no keys required for the demo.
     </p>
 
     <p class="hero-support">
-      The demo uses MapleSchema’s <strong>general mapper</strong> to produce consistent output today.
+      This demo uses MapleSchema’s <strong>general mapper</strong> to produce consistent output today.
       As aggregator and institution schemas mature, you’ll be able to opt into <strong>more precise mappings</strong>
       without rewriting your ingestion pipeline.
     </p>
@@ -187,7 +197,7 @@
     </p>
 
     <p class="small" style="margin-top: 12px;">
-      Want production access? <a href="/pricing.html"><strong>Get production keys now</strong></a>.
+      Ready for production? <a href="/pricing.html"><strong>Get production keys now</strong></a>.
     </p>
   </section>
 
@@ -203,7 +213,6 @@
       </div>
 
       <div class="qs-actions">
-        <!-- ✅ prettify removed -->
         <button class="button-primary" type="button" id="btnRun">Run transform</button>
       </div>
     </div>
@@ -218,13 +227,11 @@
         <textarea id="requestBody" class="qs-textarea" spellcheck="false"></textarea>
 
         <div class="qs-input-footer">
-          <!-- ✅ reset moved to bottom -->
           <button class="button-secondary" type="button" id="btnReset">Reset example</button>
 
-          <!-- ✅ rate-limit + demo limits moved here -->
-          <span class="small qs-footnote">
-            Demo limits: capped payload size • capped transaction count • rate limited
-          </span>
+          <p class="small qs-footnote">
+            This demo is capped and rate-limited so it stays stable for everyone. If you hit a limit, wait ~60 seconds and retry.
+          </p>
         </div>
       </div>
 
@@ -246,14 +253,10 @@
       </div>
     </div>
 
-    <!-- ✅ remove bottom subtext; replace with pricing-directed CTA -->
     <p style="text-align:center; margin-top:22px;">
       <a href="/pricing.html" class="button-primary">
         Get production keys now
       </a>
-    </p>
-    <p class="small" style="text-align:center; margin-top:10px; opacity:.9;">
-      Demo is for evaluation. Production keys unlock <span class="qs-smallcode">/v1/transform</span>.
     </p>
   </section>
 
@@ -346,7 +349,6 @@
     setTimeout(() => requestBody.focus(), 150);
   });
 
-  // ✅ reset at bottom
   btnReset.addEventListener("click", () => {
     setExample();
     showToast("Example reset");
@@ -368,9 +370,7 @@
 
     const url = API_BASE.replace(/\/+$/,"") + DEMO_PATH;
 
-    // TTFS
     const t0 = performance.now();
-
     setStatus("", "Sending request…");
     btnRun.disabled = true;
 
