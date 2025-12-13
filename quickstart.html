@@ -7,8 +7,6 @@
   <style>
     :root{
       --bg:#0b0f14;
-      --panel:#101824;
-      --panel2:#0f1620;
       --text:#e6edf3;
       --muted:#9aa6b2;
       --border:rgba(255,255,255,.10);
@@ -33,15 +31,13 @@
       color:var(--text);
       line-height:1.35;
     }
-    a{color:inherit}
+
     .wrap{max-width:1100px; margin:0 auto; padding:28px 18px 60px}
     header{
       display:flex; align-items:center; justify-content:space-between;
       gap:16px; padding:6px 0 18px;
     }
-    .brand{
-      display:flex; align-items:center; gap:12px;
-    }
+    .brand{display:flex; align-items:center; gap:12px;}
     .logo{
       width:36px; height:36px; border-radius:12px;
       background: linear-gradient(135deg, rgba(79,209,197,.9), rgba(246,173,85,.9));
@@ -96,19 +92,11 @@
       border-color: rgba(246,173,85,.65);
       background: linear-gradient(135deg, rgba(246,173,85,.20), rgba(246,173,85,.08));
     }
-    .btn.ghost{
-      background: transparent;
-    }
-    .mini{
-      font-size:12px; color:var(--muted)
-    }
-    .bullets{
-      margin:0; padding-left:18px; color:var(--muted)
-    }
+    .btn.ghost{background: transparent;}
+    .mini{font-size:12px; color:var(--muted)}
+    .bullets{margin:0; padding-left:18px; color:var(--muted)}
     .bullets li{margin:8px 0}
-    .stat{
-      display:flex; gap:10px; flex-wrap:wrap; margin-top:10px
-    }
+    .stat{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px}
     .chip{
       border:1px solid var(--border); border-radius:999px;
       padding:8px 10px; font-size:12px; color:var(--muted);
@@ -116,24 +104,14 @@
     }
 
     /* Quick Start panel */
-    .qs{
-      margin-top:18px;
-    }
+    .qs{margin-top:18px;}
     .qsHeader{
       display:flex; align-items:flex-end; justify-content:space-between; gap:14px; flex-wrap:wrap;
       margin-bottom:12px;
     }
     .qsHeader h3{margin:0; font-size:16px}
     .qsHeader .right{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
-    .inputsGrid{
-      display:grid; grid-template-columns:1fr 1fr; gap:10px;
-    }
-    @media (max-width: 720px){
-      .inputsGrid{grid-template-columns:1fr}
-    }
-    label{
-      display:block; font-size:12px; color:var(--muted); margin:0 0 6px;
-    }
+    label{display:block; font-size:12px; color:var(--muted); margin:0 0 6px;}
     input, textarea{
       width:100%;
       background: rgba(255,255,255,.02);
@@ -144,6 +122,7 @@
       outline:none;
       font-family: var(--sans);
     }
+    input.mono{font-family:var(--mono); font-size:12px}
     textarea{
       min-height: 260px;
       resize: vertical;
@@ -151,7 +130,6 @@
       font-size: 12px;
       line-height: 1.4;
     }
-    input.mono{font-family:var(--mono); font-size:12px}
     input:focus, textarea:focus{border-color: rgba(79,209,197,.55); box-shadow: 0 0 0 3px rgba(79,209,197,.10)}
     .split{
       display:grid; grid-template-columns: 1fr 1fr; gap:12px;
@@ -187,69 +165,6 @@
     .dot.ok{background:var(--ok)}
     .dot.bad{background:var(--danger)}
     .dot.idle{background:rgba(255,255,255,.25)}
-    .hide{display:none !important;}
-
-    /* Modal */
-    .backdrop{
-      position:fixed; inset:0;
-      background: rgba(0,0,0,.62);
-      backdrop-filter: blur(6px);
-      display:none;
-      align-items:center;
-      justify-content:center;
-      padding:16px;
-      z-index:50;
-    }
-    .backdrop.open{display:flex}
-    .modal{
-      width:min(680px, 100%);
-      border-radius: 22px;
-      border:1px solid var(--border);
-      background: linear-gradient(180deg, rgba(16,24,36,.98), rgba(12,18,26,.98));
-      box-shadow: var(--shadow);
-      overflow:hidden;
-    }
-    .modalHead{
-      padding:16px 16px 12px;
-      border-bottom:1px solid var(--border);
-      display:flex; align-items:center; justify-content:space-between; gap:12px;
-    }
-    .modalHead h3{margin:0; font-size:16px}
-    .x{
-      width:38px; height:38px; border-radius:12px;
-      border:1px solid var(--border);
-      background: rgba(255,255,255,.02);
-      color: var(--text);
-      cursor:pointer;
-    }
-    .modalBody{padding:16px}
-    .row{display:grid; grid-template-columns:1fr 1fr; gap:10px}
-    @media (max-width: 640px){ .row{grid-template-columns:1fr} }
-    .modalFoot{
-      padding:14px 16px 16px;
-      border-top:1px solid var(--border);
-      display:flex; justify-content:flex-end; gap:10px; flex-wrap:wrap;
-    }
-    .kv{
-      display:grid; gap:10px;
-      margin-top:10px;
-    }
-    .kvItem{
-      border:1px solid var(--border);
-      border-radius:16px;
-      padding:12px;
-      background: rgba(255,255,255,.02);
-      display:flex; align-items:center; justify-content:space-between; gap:10px;
-    }
-    .kvLeft{min-width:0}
-    .kvLabel{font-size:12px; color:var(--muted); margin:0 0 6px}
-    .kvValue{
-      font-family: var(--mono);
-      font-size: 12px;
-      overflow:hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
 
     .toast{
       position:fixed;
@@ -296,30 +211,29 @@
 
     <section class="hero">
       <div class="card">
-        <h2>Normalize messy Canadian transaction payloads in one request.</h2>
-        <p>Raw open-banking data is inconsistent across institutions and aggregators. MapleSchema returns a clean, consistent schema fast — so you don’t build brittle mappers yourself.</p>
+        <h2>Transform messy transaction payloads in one request.</h2>
+        <p>Raw transaction data is inconsistent across institutions and aggregators. MapleSchema transforms it into a clean, consistent schema — so you don’t build brittle mappers yourself.</p>
 
         <div class="ctaRow">
-          <button class="btn primary" id="btnTry">Try it in under 10 minutes</button>
+          <button class="btn primary" id="btnTry">Try it now</button>
           <button class="btn ghost" id="btnScroll">Skip to playground</button>
         </div>
 
         <div class="stat" aria-label="highlights">
           <div class="chip">No storage</div>
           <div class="chip">Stateless</div>
-          <div class="chip">General mapper included</div>
+          <div class="chip">Demo endpoint (staging)</div>
         </div>
       </div>
 
       <div class="card">
         <h2 style="font-size:18px;margin-bottom:10px;">What you’ll do</h2>
         <ul class="bullets">
-          <li>Generate test credentials (instant).</li>
-          <li>Paste them into two fields (Project ID + API Key).</li>
-          <li>Run a normalization request.</li>
-          <li>Replace the example transaction with your own.</li>
+          <li>Run a demo transform request (no credentials).</li>
+          <li>Replace the example payload with your own raw transaction(s).</li>
+          <li>See the transformed response immediately.</li>
         </ul>
-        <p class="mini" style="margin-top:12px;">Everything happens on this page. No Postman required for step 1.</p>
+        <p class="mini" style="margin-top:12px;">This uses a rate-limited staging demo endpoint.</p>
       </div>
     </section>
 
@@ -327,23 +241,12 @@
       <div class="qsHeader">
         <div>
           <h3>Live playground</h3>
-          <div class="mini">POST <span style="font-family:var(--mono);color:var(--text);">/v1/normalize</span></div>
+          <div class="mini">POST <span style="font-family:var(--mono);color:var(--text);">/demo/transform</span></div>
         </div>
         <div class="right">
           <span class="mini">API base:</span>
-          <input class="mono" id="apiBase" value="https://api.mapleschema.com" style="width:320px;max-width:72vw" />
-          <button class="btn warn" id="btnRun">Run normalization</button>
-        </div>
-      </div>
-
-      <div class="inputsGrid">
-        <div>
-          <label for="projectId">Project ID</label>
-          <input class="mono" id="projectId" placeholder="proj_..." autocomplete="off" />
-        </div>
-        <div>
-          <label for="apiKey">API Key</label>
-          <input class="mono" id="apiKey" placeholder="msk_test_..." autocomplete="off" />
+          <input class="mono" id="apiBase" style="width:320px;max-width:72vw" />
+          <button class="btn warn" id="btnRun">Run transform</button>
         </div>
       </div>
 
@@ -356,7 +259,7 @@
           <textarea id="requestBody" spellcheck="false"></textarea>
           <div class="status" id="reqHint">
             <span class="dot idle"></span>
-            <span>Tip: paste your own transaction object and run again.</span>
+            <span>Tip: paste your own raw transaction(s) and run again.</span>
           </div>
         </div>
 
@@ -372,83 +275,14 @@
           </div>
         </div>
       </div>
+
+      <div class="status" style="margin-top:14px;">
+        <span class="dot idle"></span>
+        <span class="mini">
+          Want to use your own API key later? Use <span style="font-family:var(--mono);color:var(--text);">POST /v1/transform</span> (auth required).
+        </span>
+      </div>
     </section>
-  </div>
-
-  <!-- Modal: request credentials -->
-  <div class="backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="modal" role="document" aria-labelledby="modalTitle">
-      <div class="modalHead">
-        <h3 id="modalTitle">Get instant test credentials</h3>
-        <button class="x" id="btnCloseModal" aria-label="Close">✕</button>
-      </div>
-
-      <div class="modalBody">
-        <div id="stepRequest">
-          <div class="row">
-            <div>
-              <label for="mProjectName">Project name</label>
-              <input id="mProjectName" value="my-first-project" autocomplete="off" />
-            </div>
-            <div>
-              <label for="mEmail">Email (optional)</label>
-              <input id="mEmail" type="email" placeholder="you@company.com" autocomplete="off" />
-            </div>
-          </div>
-
-          <div class="status" style="margin-top:12px">
-            <span class="dot idle"></span>
-            <span>Generates a project + API key. You can paste them into the playground.</span>
-          </div>
-
-          <div class="status hide" id="modalError" style="color:var(--danger);">
-            <span class="dot bad"></span>
-            <span id="modalErrorText">Error.</span>
-          </div>
-        </div>
-
-        <div id="stepSuccess" class="hide">
-          <div class="status" style="margin:0 0 10px;">
-            <span class="dot ok"></span>
-            <span><strong>You're ready.</strong> Copy these three values.</span>
-          </div>
-
-          <div class="kv">
-            <div class="kvItem">
-              <div class="kvLeft">
-                <div class="kvLabel">API Base URL</div>
-                <div class="kvValue" id="kvBase"></div>
-              </div>
-              <button class="btn" data-copy="#kvBase">📋 Copy</button>
-            </div>
-
-            <div class="kvItem">
-              <div class="kvLeft">
-                <div class="kvLabel">Project ID</div>
-                <div class="kvValue" id="kvProject"></div>
-              </div>
-              <button class="btn" data-copy="#kvProject">📋 Copy</button>
-            </div>
-
-            <div class="kvItem">
-              <div class="kvLeft">
-                <div class="kvLabel">API Key</div>
-                <div class="kvValue" id="kvKey"></div>
-              </div>
-              <button class="btn" data-copy="#kvKey">📋 Copy</button>
-            </div>
-          </div>
-
-          <p class="mini" style="margin:12px 2px 0;">These are test credentials. Rotate or delete anytime.</p>
-        </div>
-      </div>
-
-      <div class="modalFoot">
-        <button class="btn ghost" id="btnBack" style="display:none;">Back</button>
-        <button class="btn primary" id="btnGenerate">Generate test credentials</button>
-        <button class="btn warn hide" id="btnContinue">Continue to playground</button>
-      </div>
-    </div>
   </div>
 
   <div class="toast" id="toast" role="status" aria-live="polite">
@@ -458,43 +292,17 @@
   </div>
 
   <script>
-    // ====== CONFIG (adjust to match your backend) ======
-    // Credential endpoint should return something like:
-    // { api_base_url, project_id, api_key }
-    // If yours differs, update parseCreds().
-    const DEFAULT_API_BASE = "https://api.mapleschema.com";
-    const CREDENTIALS_PATH = "/api/request-key"; // TODO: set to your real path
-    const NORMALIZE_PATH = "/demo/transform";      // TODO: set to your real path
-    const PROJECT_HEADER = "X-Project-ID";       // TODO: set to your real header name
-    const AUTH_PREFIX = "Bearer ";
+    // ====== CONFIG ======
+    const DEFAULT_API_BASE = "https://staging.api.mapleschema.com";
+    const DEMO_PATH = "/demo/transform";
 
     // ====== DOM ======
     const $ = (sel) => document.querySelector(sel);
 
     const btnTry = $("#btnTry");
     const btnScroll = $("#btnScroll");
-    const modal = $("#modalBackdrop");
-    const btnCloseModal = $("#btnCloseModal");
-    const btnGenerate = $("#btnGenerate");
-    const btnContinue = $("#btnContinue");
-    const btnBack = $("#btnBack");
-
-    const stepRequest = $("#stepRequest");
-    const stepSuccess = $("#stepSuccess");
-
-    const mProjectName = $("#mProjectName");
-    const mEmail = $("#mEmail");
-    const modalError = $("#modalError");
-    const modalErrorText = $("#modalErrorText");
-
-    const kvBase = $("#kvBase");
-    const kvProject = $("#kvProject");
-    const kvKey = $("#kvKey");
 
     const apiBase = $("#apiBase");
-    const projectId = $("#projectId");
-    const apiKey = $("#apiKey");
-
     const requestBody = $("#requestBody");
     const btnPretty = $("#btnPretty");
 
@@ -510,10 +318,11 @@
     // ====== INIT ======
     apiBase.value = DEFAULT_API_BASE;
 
+    // IMPORTANT: demo expects ExternalTransformRequest shape (raw_transactions)
     requestBody.value = JSON.stringify({
-      transactions: [
+      raw_transactions: [
         {
-          id: "tx_123",
+          id: "t1",
           amount: "-5.00",
           currency: "CAD",
           description: "STARBUCKS",
@@ -522,39 +331,13 @@
       ]
     }, null, 2);
 
-    // ====== MODAL OPEN/CLOSE ======
-    function openModal(){
-      modal.classList.add("open");
-      modal.setAttribute("aria-hidden", "false");
-      resetModal();
-      setTimeout(() => mProjectName.focus(), 50);
-    }
-    function closeModal(){
-      modal.classList.remove("open");
-      modal.setAttribute("aria-hidden", "true");
-    }
-    function resetModal(){
-      stepRequest.classList.remove("hide");
-      stepSuccess.classList.add("hide");
-      btnGenerate.classList.remove("hide");
-      btnContinue.classList.add("hide");
-      btnBack.style.display = "none";
-      modalError.classList.add("hide");
-      modalErrorText.textContent = "";
-      kvBase.textContent = "";
-      kvProject.textContent = "";
-      kvKey.textContent = "";
-    }
-
-    btnTry.addEventListener("click", openModal);
-    btnCloseModal.addEventListener("click", closeModal);
-    modal.addEventListener("click", (e) => { if(e.target === modal) closeModal(); });
-    document.addEventListener("keydown", (e) => { if(e.key === "Escape" && modal.classList.contains("open")) closeModal(); });
-
-    btnScroll.addEventListener("click", () => {
+    // ====== NAV ======
+    function scrollToPlayground() {
       document.getElementById("playground").scrollIntoView({behavior:"smooth", block:"start"});
-      projectId.focus();
-    });
+      setTimeout(() => requestBody.focus(), 250);
+    }
+    btnTry.addEventListener("click", scrollToPlayground);
+    btnScroll.addEventListener("click", scrollToPlayground);
 
     // ====== TOAST ======
     let toastTimer = null;
@@ -570,7 +353,6 @@
         await navigator.clipboard.writeText(text);
         showToast("Copied");
       }catch{
-        // fallback
         const ta = document.createElement("textarea");
         ta.value = text;
         document.body.appendChild(ta);
@@ -581,22 +363,13 @@
       }
     }
 
-    document.addEventListener("click", (e) => {
-      const btn = e.target.closest("[data-copy]");
-      if(!btn) return;
-      const sel = btn.getAttribute("data-copy");
-      const el = document.querySelector(sel);
-      if(!el) return;
-      copyText(el.textContent.trim());
-    });
-
     // ====== PRETTIFY ======
     btnPretty.addEventListener("click", () => {
       try{
         const obj = JSON.parse(requestBody.value);
         requestBody.value = JSON.stringify(obj, null, 2);
         showToast("Prettified");
-      }catch(e){
+      }catch{
         showToast("Invalid JSON");
       }
     });
@@ -607,115 +380,14 @@
       statusDot.className = "dot " + (kind || "idle");
     }
 
-    // ====== CREDENTIALS REQUEST ======
-    function parseCreds(json){
-      // Adjust this to match your backend response shape.
-      return {
-        apiBaseUrl: json.api_base_url || json.apiBaseUrl || apiBase.value || DEFAULT_API_BASE,
-        projectId:  json.project_id   || json.projectId,
-        apiKey:     json.api_key      || json.apiKey
-      };
-    }
-
-    function setModalError(msg){
-      modalErrorText.textContent = msg;
-      modalError.classList.remove("hide");
-    }
-
-    btnGenerate.addEventListener("click", async () => {
-      modalError.classList.add("hide");
-      btnGenerate.disabled = true;
-      btnGenerate.textContent = "Generating…";
-
-      try{
-        const base = (apiBase.value || DEFAULT_API_BASE).replace(/\/+$/,"");
-        const url = base + CREDENTIALS_PATH;
-
-        const payload = {
-          project_name: mProjectName.value.trim() || "my-first-project",
-        };
-        const email = mEmail.value.trim();
-        if(email) payload.email = email;
-
-        const res = await fetch(url, {
-          method: "POST",
-          headers: {"Content-Type":"application/json"},
-          body: JSON.stringify(payload)
-        });
-
-        const text = await res.text();
-        let json = null;
-        try{ json = text ? JSON.parse(text) : {}; } catch { json = { raw: text }; }
-
-        if(!res.ok){
-          const errMsg = json?.error?.message || json?.message || json?.raw || ("HTTP " + res.status);
-          throw new Error(errMsg);
-        }
-
-        const creds = parseCreds(json);
-        if(!creds.projectId || !creds.apiKey){
-          throw new Error("Credential response missing project_id or api_key (adjust parseCreds()).");
-        }
-
-        // Fill KV
-        kvBase.textContent = creds.apiBaseUrl;
-        kvProject.textContent = creds.projectId;
-        kvKey.textContent = creds.apiKey;
-
-        // Also prefill playground for convenience (still “two open text fields” remain visible)
-        apiBase.value = creds.apiBaseUrl;
-        projectId.value = creds.projectId;
-        apiKey.value = creds.apiKey;
-
-        // Switch modal step
-        stepRequest.classList.add("hide");
-        stepSuccess.classList.remove("hide");
-        btnGenerate.classList.add("hide");
-        btnContinue.classList.remove("hide");
-        btnBack.style.display = "inline-block";
-      }catch(err){
-        setModalError(err.message || "Failed to generate credentials.");
-      }finally{
-        btnGenerate.disabled = false;
-        btnGenerate.textContent = "Generate test credentials";
-      }
-    });
-
-    btnBack.addEventListener("click", () => {
-      stepSuccess.classList.add("hide");
-      stepRequest.classList.remove("hide");
-      btnContinue.classList.add("hide");
-      btnGenerate.classList.remove("hide");
-      btnBack.style.display = "none";
-    });
-
-    btnContinue.addEventListener("click", () => {
-      closeModal();
-      document.getElementById("playground").scrollIntoView({behavior:"smooth", block:"start"});
-      // focus the two fields, left first
-      setTimeout(() => projectId.focus(), 250);
-    });
-
-    // ====== RUN NORMALIZATION ======
-    function safeJsonParse(str){
-      const obj = JSON.parse(str);
-      return obj;
-    }
-
+    // ====== RUN DEMO TRANSFORM ======
     btnRun.addEventListener("click", async () => {
       const base = (apiBase.value || DEFAULT_API_BASE).replace(/\/+$/,"");
-      const pid = projectId.value.trim();
-      const key = apiKey.value.trim();
-
-      if(!pid || !key){
-        setStatus("bad", "Missing Project ID or API Key.");
-        return;
-      }
 
       let bodyObj;
       try{
-        bodyObj = safeJsonParse(requestBody.value);
-      }catch(e){
+        bodyObj = JSON.parse(requestBody.value);
+      }catch{
         setStatus("bad", "Request body is not valid JSON.");
         return;
       }
@@ -724,15 +396,11 @@
       btnRun.disabled = true;
 
       try{
-        const url = base + NORMALIZE_PATH;
+        const url = base + DEMO_PATH;
 
         const res = await fetch(url, {
           method: "POST",
-          headers: {
-            "Content-Type":"application/json",
-            "Authorization": AUTH_PREFIX + key,
-            [PROJECT_HEADER]: pid
-          },
+          headers: { "Content-Type":"application/json" },
           body: JSON.stringify(bodyObj)
         });
 
@@ -743,23 +411,14 @@
         responseBox.textContent = JSON.stringify(json, null, 2);
 
         if(!res.ok){
-          const errMsg = json?.error?.message || json?.message || json?.raw || ("HTTP " + res.status);
+          const errMsg = json?.error?.message || json?.message || json?.error || json?.raw || ("HTTP " + res.status);
           setStatus("bad", "Error: " + errMsg);
           return;
         }
 
-        // Optional: detect general mapper in response (adjust fields as your API evolves)
-        const mapperHint =
-          json?.meta?.mapper ||
-          json?.metadata?.mapper ||
-          json?.transactions?.[0]?.confidence ||
-          json?.transactions?.[0]?.mapper ||
-          null;
-
-        const suffix = mapperHint ? (" (" + mapperHint + ")") : "";
-        setStatus("ok", "Normalized successfully" + suffix + ".");
+        setStatus("ok", "Transformed successfully.");
       }catch(err){
-        setStatus("bad", err.message || "Network error.");
+        setStatus("bad", err?.message || "Network error.");
       }finally{
         btnRun.disabled = false;
       }
