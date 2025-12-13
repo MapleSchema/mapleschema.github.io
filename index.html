@@ -56,7 +56,7 @@
   <h1>Stop Wasting Engineering Time Maintaining Aggregator Transaction Mappings.</h1>
 
   <p class="hero-lead">
-    In Canadian Open Banking, every aggregator locks you into their transaction model — wasting engineering hours on maintenance instead of shipping.
+    In Canadian <strong>open banking</strong>, every aggregator locks you into their transaction model — wasting engineering hours on maintenance instead of shipping.
     MapleSchema gives you one stable schema so <strong>their changes don’t become your rewrites.</strong>
   </p>
 
@@ -79,101 +79,63 @@
 
 
   <!-- VALUE GRID -->
-  <section class="grid">
+<section class="grid">
 
-    <article class="card">
-      <h2>🍁 What MapleSchema Does</h2>
-      <p>
-        MapleSchema normalizes <strong>open banking transaction payloads</strong> from Canada’s top financial institutions
-        into a single <code>transactions-v1.0</code> schema. UTC timestamps, explicit debits/credits,
-        and a stable field set — regardless of which bank or aggregator the data came from.
-      </p>
-      <p class="small">
-        When you are ready to plug it in, the <a href="/docs.html">Developer Docs</a> show the exact request and response formats.
-      </p>
-    </article>
+  <!-- CONTROL / DECOUPLING -->
+  <article class="card">
+    <h2>🧱 Decouple Your Transaction Layer from Your Aggregator</h2>
+    <p>
+      Aggregators change formats, coverage, and behavior over time.
+      MapleSchema gives your application a single, stable transaction contract
+      so aggregator changes don’t force rewrites across your system.
+    </p>
+    <p class="small">
+      Keep your existing aggregator. Switch when you need to.
+      Your transaction model stays the same.
+    </p>
+  </article>
 
-    <article class="card">
-      <h2>🔒 Zero Data Retention</h2>
-      <p>
-        Open banking payloads are processed in memory and destroyed immediately,
-        making life easier for your privacy, security, and risk teams.
-      </p>
-      <p class="small">
-        The <a href="/security.html">Security</a> page is designed to be copy-pasteable into internal reviews.
-      </p>
-    </article>
+  <!-- TRUST / ZERO RETENTION -->
+  <article class="card">
+    <h2>🔒 Zero-Retention by Design</h2>
+    <p>
+      Transaction payloads are processed in memory and destroyed immediately.
+      No raw data stored. No normalized data persisted.
+      Nothing to leak, audit, or explain away later.
+    </p>
+    <p class="small">
+      Simplifies privacy, security, and risk reviews from day one.
+    </p>
+  </article>
 
-   <article class="card">
-  <h2>🇨🇦 Canadian Infrastructure</h2>
-  <p>
-    Hosted on <strong>Canadian servers</strong>. Transaction payloads are processed in memory
-    and never written to disk as raw or normalized records. Only minimal configuration and
-    operational metadata (such as project IDs and API keys) are stored.
-  </p>
-  <p class="small">
-    Ideal for teams anticipating Canadian open banking requirements in 2026 and beyond.
-  </p>
-</article>
+  <!-- SPEED / LOW EFFORT -->
+  <article class="card">
+    <h2>⚡ Drop-In Integration</h2>
+    <p>
+      Keep your current ingestion pipeline.
+      POST raw open-banking transactions and receive a clean,
+      production-ready schema in response.
+    </p>
+    <p class="small">
+      Most teams validate a working proof-of-concept in under a day.
+    </p>
+  </article>
 
+  <!-- POLITICAL COVER / COMPLIANCE -->
+  <article class="card">
+    <h2>🛡️ Compliance-Ready Without Extra Work</h2>
+    <p>
+      Canadian hosting, zero-retention guarantees, IAM boundaries,
+      and a clear security posture — already documented and ready to share.
+    </p>
+    <p class="small">
+      Use MapleSchema as the normalization and compliance line item
+      in your technical design reviews.
+    </p>
+  </article>
 
-    <article class="card">
-      <h2>🛡️ Compliance as a Service</h2>
-      <p>
-        Security posture, zero-retention guarantee, IAM restrictions, and architecture diagrams —
-        bundled into a ready-to-share story so your engineers don’t need to build or document all of this themselves.
-      </p>
-      <p class="small">
-        Use MapleSchema as the “normalization and compliance” line item in your technical design docs.
-      </p>
-    </article>
+</section>
 
-    <article class="card">
-      <h2>📘 Deterministic Schema</h2>
-      <p>
-        Same input → same output. Versioned fields, strict rules, UTC-only timestamps, and conservative categorization.
-        A normalization contract your codebase can depend on across all supported institutions.
-      </p>
-      <p class="small">
-        See the full <code>transactions-v1.0</code> field list and rules in the <a href="/docs.html">Docs</a>.
-      </p>
-    </article>
-
-    <article class="card">
-      <h2>💨 Lightweight, Fast Integration</h2>
-      <p>
-        Keep your existing connections to banks and aggregators. Drop MapleSchema in front of your ingestion pipeline,
-        POST raw open banking transaction payloads, and get normalized transactions back. No more hand-rolled mappers
-        for each institution.
-      </p>
-      <p class="small">
-        Most teams can wire a proof-of-concept in under a day once they have a project ID and API key.
-      </p>
-    </article>
-
-    <article class="card">
-      <h2>🧩 Canadian Open Banking, 2026 and Beyond</h2>
-      <p>
-        Start with the largest institutions and leading digital banks. As Canadian open banking APIs roll out across
-        more institutions, MapleSchema adds new mappers while your application keeps talking to the same stable schema.
-      </p>
-      <p class="small">
-        Your integration targets one contract while MapleSchema keeps pace with bank and aggregator changes.
-      </p>
-    </article>
-
-    <article class="card">
-      <h2>👩‍💻 Built for Developers</h2>
-      <p>
-        Clean UTC timestamps. Explicit <code>direction</code> semantics. Signed <code>amount</code> rules.
-        Opinionated naming. Boring consistency that saves real engineering time when you integrate multiple institutions.
-      </p>
-      <p class="small">
-        When you’re ready to see real payloads, head to the <a href="/docs.html">Developer Docs</a> and request an API key.
-      </p>
-    </article>
-
-  </section>
 
   <!-- CTA / CONVERSION SECTION -->
   <section class="card">
