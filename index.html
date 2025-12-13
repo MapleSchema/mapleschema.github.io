@@ -40,11 +40,12 @@
     </a>
 
     <nav>
-      <a href="/docs.html">Docs</a>
-      <a href="/security.html">Security</a>
-      <a href="/pricing.html">Pricing</a>
-      <a href="/contact.html">Contact</a>
-    </nav>
+  <a href="/quickstart.html">Quickstart</a>
+  <a href="/docs.html">Docs</a>
+  <a href="/security.html">Security</a>
+  <a href="/pricing.html">Pricing</a>
+  <a href="/contact.html">Contact</a>
+</nav>
   </div>
 </header>
 
@@ -83,99 +84,94 @@
 
   <!-- CONTROL / DECOUPLING -->
   <article class="card">
-    <h2>🧱 Decouple Your Transaction Layer from Your Aggregator</h2>
-    <p>
-      Aggregators change formats, coverage, and behavior over time.
-      MapleSchema gives your application a single, stable transaction contract
-      so aggregator changes don’t force rewrites across your system.
-    </p>
-    <p class="small">
-      Keep your existing aggregator. Switch when you need to.
-      Your transaction model stays the same.
-    </p>
-  </article>
+  <h2>🧱 Stop Chasing Aggregator Transaction Formats</h2>
+  <p>
+    Every aggregator uses its own transaction format — and those formats change.
+    The usual workaround is to lock into one vendor and update your mapping every
+    time they ship a change.
+  </p>
+  <p class="small">
+    MapleSchema gives you the same transaction schema back regardless of the
+    aggregator — or their changes. We manage vendor and bank-specific mapping
+    so your team doesn’t have to.
+  </p>
+</article>
 
-  <!-- TRUST / ZERO RETENTION -->
-  <article class="card">
-    <h2>🔒 Zero-Retention by Design</h2>
-    <p>
-      Transaction payloads are processed in memory and destroyed immediately.
-      No raw data stored. No normalized data persisted.
-      Nothing to leak, audit, or explain away later.
-    </p>
-    <p class="small">
-      Simplifies privacy, security, and risk reviews from day one.
-    </p>
-  </article>
+ <article class="card">
+  <h2>🔒 Avoid Trusting Third Parties with Customer Transaction Data</h2>
+  <p>
+    Most open-banking tools require you to trust a third party to store
+    highly sensitive transaction data — creating security risk, legal exposure,
+    and slower internal approvals.
+  </p>
+  <p class="small">
+    MapleSchema processes transactions in memory on Canadian servers and
+    never retains raw or normalized data. We are a compliance-focused data
+    processor, not a data holder.
+  </p>
+</article>
 
-  <!-- SPEED / LOW EFFORT -->
-  <article class="card">
-    <h2>⚡ Drop-In Integration</h2>
-    <p>
-      Keep your current ingestion pipeline.
-      POST raw open-banking transactions and receive a clean,
-      production-ready schema in response.
-    </p>
-    <p class="small">
-      Most teams validate a working proof-of-concept in under a day.
-    </p>
-  </article>
 
-  <!-- POLITICAL COVER / COMPLIANCE -->
-  <article class="card">
-    <h2>🛡️ Compliance-Ready Without Extra Work</h2>
-    <p>
-      Canadian hosting, zero-retention guarantees, IAM boundaries,
-      and a clear security posture — already documented and ready to share.
-    </p>
-    <p class="small">
-      Use MapleSchema as the normalization and compliance line item
-      in your technical design reviews.
-    </p>
-  </article>
+<article class="card">
+  <h2>⚡ Skip the Build Phase</h2>
+  <p>
+    Normalizing open-banking transactions usually means weeks of custom code,
+    edge-case handling, and ongoing maintenance for every aggregator.
+  </p>
+  <p class="small">
+    MapleSchema drops in front of your ingestion pipeline.
+    Send raw transactions, get a production-ready schema back.
+    Most teams validate a working proof-of-concept in under a day.
+  </p>
+</article>
+
+
+ <article class="card">
+  <h2>🛡️ No-Compromise Open Banking Integration</h2>
+  <p>
+    Most solutions force a tradeoff between speed and compliance —
+    either move fast and accept data risk, or build everything yourself
+    to stay compliant.
+  </p>
+  <p class="small">
+    MapleSchema removes that tradeoff. Transactions are processed on Canadian
+    servers, never retained, and handled by a compliance-focused data partner
+    so you don’t have to choose between shipping and safety.
+  </p>
+</article>
+
 
 </section>
 
 
-  <!-- CTA / CONVERSION SECTION -->
-  <section class="card">
-    <h2>Get Ready for Canadian Open Banking</h2>
-    <p>
-      MapleSchema is built for teams who want to move quickly when Canadian open banking becomes a reality,
-      without taking on the cost of maintaining a normalization layer for every institution.
-    </p>
-    <p>
-      The next steps are simple:
-    </p>
-    <ol>
-      <li>Review the <a href="/docs.html">Developer Docs</a> to see the <code>/v1/transform</code> endpoint and schema.</li>
-      <li>Request a project ID and API key for your team.</li>
-      <li>Wire MapleSchema in front of your existing bank or aggregator feeds.</li>
-    </ol>
-    <p>
-      When you are ready to talk volume, pricing, or custom needs, reach out via the
-      <a href="/contact.html">Contact</a> page.
-    </p>
-  </section>
+  <!-- CTA / CONVERSION -->
 <section class="card">
-  <h2>Start Normalizing Canadian Open Banking Data in Minutes</h2>
+
+  <h2>Stop Maintaining Transaction Mappings. Try the Fix.</h2>
+
   <p>
-    Get a project ID and API key instantly. Connect your existing bank or aggregator feeds,
-    and start receiving clean, consistent <code>transactions-v1.0</code> data with zero-retention
-    processing and predictable formatting.
+    MapleSchema removes the ongoing cost of maintaining aggregator-specific
+    transaction mappings — without storing customer data or locking you into
+    a vendor.
   </p>
 
-  <p style="text-align:center; margin-top:16px;">
+  <p class="small">
+    Connect your existing open-banking feed, send real transaction payloads,
+    and see the same stable schema come back immediately.
+  </p>
+
+  <p style="text-align:center; margin-top:24px;">
     <a href="/request-key.html" class="button-primary">
-      Start Free — No Credit Card Required
+      Start Free — Get an API Key in Minutes
     </a>
   </p>
 
-  <p class="small" style="text-align:center;">
-    Your free plan includes 25,000 transactions per month.<br>
-    Build faster — without maintaining your own mapping layer.
+  <p class="small" style="text-align:center; margin-top:12px;">
+    No credit card • 25,000 transactions/month • Canadian servers • Zero retention
   </p>
+
 </section>
+
 
 </main>
 
