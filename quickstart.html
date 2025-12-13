@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta
     name="description"
-    content="Try MapleSchema in minutes. Send raw transactions, get a consistent schema back — instantly."
+    content="Paste raw transactions, click run, get a clean schema back in seconds. No keys required for this demo."
   />
 
   <!-- Favicons -->
@@ -22,11 +22,12 @@
     .qs-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 18px;
+      gap: 22px;                 /* ✅ buffer between panes */
       margin-top: 16px;
+      align-items: start;
     }
     @media (max-width: 980px) {
-      .qs-row { grid-template-columns: 1fr; }
+      .qs-row { grid-template-columns: 1fr; } /* ✅ stack on mobile */
     }
 
     .qs-pane-title {
@@ -123,6 +124,19 @@
       border-radius: 8px;
       font-size: 12px;
     }
+
+    /* Reset button placement at bottom of input */
+    .qs-input-footer {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top: 12px;
+    }
+    .qs-footnote {
+      opacity: .8;
+    }
   </style>
 </head>
 
@@ -153,16 +167,17 @@
 
   <!-- HERO -->
   <section class="hero">
-    <h1>Quickstart: see MapleSchema working in under 10 minutes.</h1>
+    <h1>See your transactions transformed into a stable schema in seconds.</h1>
 
     <p class="hero-lead">
-      Paste raw transactions. Click run. Get a clean, stable schema back.
-      No keys required for this demo.
+      Paste raw transaction payloads, click run, and get a clean response immediately.
+      Try your own data right now — no keys required for the demo.
     </p>
 
     <p class="hero-support">
-      This page uses a <strong>rate-limited staging demo endpoint</strong> so you can validate behavior fast.
-      For real integrations, use <span class="qs-smallcode">POST /v1/transform</span> (auth required).
+      The demo uses MapleSchema’s <strong>general mapper</strong> to produce consistent output today.
+      As aggregator and institution schemas mature, you’ll be able to opt into <strong>more precise mappings</strong>
+      without rewriting your ingestion pipeline.
     </p>
 
     <p style="margin-top: 24px;">
@@ -172,7 +187,7 @@
     </p>
 
     <p class="small" style="margin-top: 12px;">
-      Demo limits: capped payload size • capped transaction count • rate limited
+      Want production access? <a href="/pricing.html"><strong>Get production keys now</strong></a>.
     </p>
   </section>
 
@@ -188,33 +203,32 @@
       </div>
 
       <div class="qs-actions">
-        <button class="button-secondary" type="button" id="btnPretty">Prettify JSON</button>
+        <!-- ✅ prettify removed -->
         <button class="button-primary" type="button" id="btnRun">Run transform</button>
       </div>
     </div>
 
     <div class="qs-row">
+      <!-- Request -->
       <div>
         <div class="qs-pane-title">
           <h3>Request body</h3>
-          <button class="button-secondary" type="button" id="btnPasteExample">Reset example</button>
         </div>
 
         <textarea id="requestBody" class="qs-textarea" spellcheck="false"></textarea>
 
-        <div class="qs-status">
-          <span class="qs-dot"></span>
-          <span class="small">Tip: paste your own raw transaction(s) and run again.</span>
-        </div>
+        <div class="qs-input-footer">
+          <!-- ✅ reset moved to bottom -->
+          <button class="button-secondary" type="button" id="btnReset">Reset example</button>
 
-        <div class="qs-status">
-          <span class="qs-dot"></span>
-          <span class="small">
-            If you hit rate limits, wait ~60 seconds and retry.
+          <!-- ✅ rate-limit + demo limits moved here -->
+          <span class="small qs-footnote">
+            Demo limits: capped payload size • capped transaction count • rate limited
           </span>
         </div>
       </div>
 
+      <!-- Response -->
       <div>
         <div class="qs-pane-title">
           <h3>Response</h3>
@@ -232,11 +246,14 @@
       </div>
     </div>
 
-    <hr style="margin:18px 0; opacity:.25;">
-
-    <p class="small" style="margin:0;">
-      Next step: swap to production auth + keys using <span class="qs-smallcode">POST /v1/transform</span>.
-      (We’ll re-enable the key flow later — this page is optimized for a fast “aha”.)
+    <!-- ✅ remove bottom subtext; replace with pricing-directed CTA -->
+    <p style="text-align:center; margin-top:22px;">
+      <a href="/pricing.html" class="button-primary">
+        Get production keys now
+      </a>
+    </p>
+    <p class="small" style="text-align:center; margin-top:10px; opacity:.9;">
+      Demo is for evaluation. Production keys unlock <span class="qs-smallcode">/v1/transform</span>.
     </p>
   </section>
 
@@ -255,8 +272,7 @@
 </div>
 
 <script>
-  // ====== CONFIG ======
-  // Hidden from UI on purpose.
+  // ====== CONFIG (hidden from UI on purpose) ======
   const API_BASE = "https://staging.api.mapleschema.com";
   const DEMO_PATH = "/demo/transform";
 
@@ -264,10 +280,9 @@
   const $ = (sel) => document.querySelector(sel);
 
   const btnTry = $("#btnTry");
-  const btnPretty = $("#btnPretty");
   const btnRun = $("#btnRun");
   const btnCopyResp = $("#btnCopyResp");
-  const btnPasteExample = $("#btnPasteExample");
+  const btnReset = $("#btnReset");
 
   const requestBody = $("#requestBody");
   const responseBox = $("#responseBox");
@@ -277,7 +292,7 @@
   const toast = $("#toast");
   const toastText = $("#toastText");
 
-  // ====== Helpers ======
+  // ====== Example payload ======
   const EXAMPLE = () => ({
     raw_transactions: [
       {
@@ -294,6 +309,7 @@
     requestBody.value = JSON.stringify(EXAMPLE(), null, 2);
   }
 
+  // ====== Toast ======
   function showToast(msg){
     toastText.textContent = msg;
     toast.classList.add("show");
@@ -316,47 +332,35 @@
     }
   }
 
+  // ====== Status ======
   function setStatus(kind, text){
     statusText.textContent = text;
     statusDot.className = "qs-dot " + (kind || "");
   }
 
-  function safeJsonParse(str){
-    return JSON.parse(str);
-  }
-
   // ====== Init ======
   setExample();
 
-  // ====== Events ======
-  btnTry.addEventListener("click", (e) => {
-    // anchor already scrolls; focus textarea
+  // Focus textarea after jumping down
+  btnTry.addEventListener("click", () => {
     setTimeout(() => requestBody.focus(), 150);
   });
 
-  btnPasteExample.addEventListener("click", () => {
+  // ✅ reset at bottom
+  btnReset.addEventListener("click", () => {
     setExample();
-    showToast("Example loaded");
-  });
-
-  btnPretty.addEventListener("click", () => {
-    try{
-      const obj = safeJsonParse(requestBody.value);
-      requestBody.value = JSON.stringify(obj, null, 2);
-      showToast("Prettified");
-    }catch{
-      showToast("Invalid JSON");
-    }
+    showToast("Example reset");
   });
 
   btnCopyResp.addEventListener("click", () => {
     copyText(responseBox.textContent || "{}");
   });
 
+  // ====== Run demo transform ======
   btnRun.addEventListener("click", async () => {
     let bodyObj;
     try{
-      bodyObj = safeJsonParse(requestBody.value);
+      bodyObj = JSON.parse(requestBody.value);
     }catch{
       setStatus("bad", "Request body is not valid JSON.");
       return;
@@ -383,9 +387,7 @@
 
       responseBox.textContent = JSON.stringify(json, null, 2);
 
-      // Success TTFS
-      const t1 = performance.now();
-      const ttfsMs = Math.round(t1 - t0);
+      const ttfsMs = Math.round(performance.now() - t0);
 
       if(!res.ok){
         if (res.status === 429) {
