@@ -1,432 +1,419 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>MapleSchema — Quick Start</title>
+  <meta charset="UTF-8"/>
+  <title>MapleSchema — Quickstart</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content="Try MapleSchema in minutes. Send raw transactions, get a consistent schema back — instantly."
+  />
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+
+  <!-- Main stylesheet -->
+  <link rel="stylesheet" href="/css/style.css" />
+
   <style>
-    :root{
-      --bg:#0b0f14;
-      --text:#e6edf3;
-      --muted:#9aa6b2;
-      --border:rgba(255,255,255,.10);
-      --accent:#4fd1c5;
-      --accent2:#f6ad55;
-      --danger:#fc8181;
-      --ok:#68d391;
-      --shadow: 0 16px 60px rgba(0,0,0,.45);
-      --radius:16px;
-      --radius2:22px;
-      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    /* Keep styles minimal; rely on /css/style.css for brand consistency */
+    .qs-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 16px;
     }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family:var(--sans);
-      background: radial-gradient(1100px 600px at 20% 0%, rgba(79,209,197,.12), transparent 60%),
-                  radial-gradient(900px 500px at 80% 0%, rgba(246,173,85,.10), transparent 60%),
-                  var(--bg);
-      color:var(--text);
-      line-height:1.35;
+    @media (max-width: 980px) {
+      .qs-row { grid-template-columns: 1fr; }
     }
 
-    .wrap{max-width:1100px; margin:0 auto; padding:28px 18px 60px}
-    header{
-      display:flex; align-items:center; justify-content:space-between;
-      gap:16px; padding:6px 0 18px;
+    .qs-pane-title {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:8px;
     }
-    .brand{display:flex; align-items:center; gap:12px;}
-    .logo{
-      width:36px; height:36px; border-radius:12px;
-      background: linear-gradient(135deg, rgba(79,209,197,.9), rgba(246,173,85,.9));
-      box-shadow: 0 10px 30px rgba(79,209,197,.18);
-    }
-    .brand h1{font-size:16px; margin:0; letter-spacing:.2px}
-    .brand p{margin:0; font-size:12px; color:var(--muted)}
-    .pill{
-      font-size:12px; color:var(--muted);
-      border:1px solid var(--border); padding:8px 12px; border-radius:999px;
-      background: rgba(255,255,255,.02);
+    .qs-pane-title h3 {
+      margin: 0;
+      font-size: 14px;
+      opacity: .85;
     }
 
-    .hero{
-      display:grid;
-      grid-template-columns: 1.05fr .95fr;
-      gap:18px;
-      align-items:stretch;
-      margin-top:8px;
-    }
-    @media (max-width: 920px){
-      .hero{grid-template-columns:1fr}
-    }
-    .card{
-      background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
-      border:1px solid var(--border);
-      border-radius:var(--radius2);
-      box-shadow: var(--shadow);
-      padding:18px;
-    }
-    .card h2{margin:0 0 8px; font-size:22px}
-    .card p{margin:0 0 14px; color:var(--muted)}
-    .ctaRow{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
-    .btn{
-      appearance:none; border:1px solid var(--border);
-      background: rgba(255,255,255,.02);
-      color:var(--text);
-      padding:12px 14px;
-      border-radius:14px;
-      cursor:pointer;
-      font-weight:600;
-      transition: transform .06s ease, border-color .2s ease, background .2s ease;
-      user-select:none;
-    }
-    .btn:hover{border-color: rgba(79,209,197,.55); background: rgba(79,209,197,.08)}
-    .btn:active{transform: translateY(1px)}
-    .btn.primary{
-      border-color: rgba(79,209,197,.75);
-      background: linear-gradient(135deg, rgba(79,209,197,.25), rgba(79,209,197,.10));
-    }
-    .btn.warn{
-      border-color: rgba(246,173,85,.65);
-      background: linear-gradient(135deg, rgba(246,173,85,.20), rgba(246,173,85,.08));
-    }
-    .btn.ghost{background: transparent;}
-    .mini{font-size:12px; color:var(--muted)}
-    .bullets{margin:0; padding-left:18px; color:var(--muted)}
-    .bullets li{margin:8px 0}
-    .stat{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px}
-    .chip{
-      border:1px solid var(--border); border-radius:999px;
-      padding:8px 10px; font-size:12px; color:var(--muted);
-      background: rgba(255,255,255,.02);
+    .qs-actions {
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:flex-end;
     }
 
-    /* Quick Start panel */
-    .qs{margin-top:18px;}
-    .qsHeader{
-      display:flex; align-items:flex-end; justify-content:space-between; gap:14px; flex-wrap:wrap;
-      margin-bottom:12px;
-    }
-    .qsHeader h3{margin:0; font-size:16px}
-    .qsHeader .right{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
-    label{display:block; font-size:12px; color:var(--muted); margin:0 0 6px;}
-    input, textarea{
-      width:100%;
-      background: rgba(255,255,255,.02);
-      color: var(--text);
-      border:1px solid var(--border);
-      border-radius:14px;
-      padding:12px 12px;
-      outline:none;
-      font-family: var(--sans);
-    }
-    input.mono{font-family:var(--mono); font-size:12px}
-    textarea{
-      min-height: 260px;
+    .qs-textarea {
+      width: 100%;
+      min-height: 320px;
       resize: vertical;
-      font-family: var(--mono);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
       font-size: 12px;
-      line-height: 1.4;
+      line-height: 1.45;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(0,0,0,.12);
+      background: rgba(255,255,255,.70);
+      outline: none;
     }
-    input:focus, textarea:focus{border-color: rgba(79,209,197,.55); box-shadow: 0 0 0 3px rgba(79,209,197,.10)}
-    .split{
-      display:grid; grid-template-columns: 1fr 1fr; gap:12px;
-      margin-top:12px;
+    .qs-textarea:focus {
+      border-color: rgba(0,0,0,.28);
+      box-shadow: 0 0 0 3px rgba(0,0,0,.06);
     }
-    @media (max-width: 980px){
-      .split{grid-template-columns:1fr}
-    }
-    .paneTitle{
-      display:flex; align-items:center; justify-content:space-between; gap:10px;
-      margin:0 0 8px;
-    }
-    .paneTitle h4{margin:0; font-size:13px; color:var(--muted); font-weight:700; letter-spacing:.2px}
-    .codebox{
-      border:1px solid var(--border);
-      border-radius:16px;
-      padding:12px;
-      background: rgba(0,0,0,.12);
-      font-family: var(--mono);
-      font-size: 12px;
+
+    .qs-codebox {
+      width: 100%;
+      min-height: 320px;
       white-space: pre-wrap;
       word-break: break-word;
-      min-height: 260px;
-      color: var(--text);
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(0,0,0,.12);
+      background: rgba(0,0,0,.03);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 12px;
+      line-height: 1.45;
+      margin: 0;
     }
-    .status{
-      margin-top:10px;
-      font-size:12px;
-      color: var(--muted);
-      display:flex; gap:10px; align-items:center; flex-wrap:wrap;
-    }
-    .dot{width:10px; height:10px; border-radius:50%;}
-    .dot.ok{background:var(--ok)}
-    .dot.bad{background:var(--danger)}
-    .dot.idle{background:rgba(255,255,255,.25)}
 
-    .toast{
-      position:fixed;
-      left:50%;
-      bottom:18px;
-      transform: translateX(-50%);
-      background: rgba(16,24,36,.92);
-      border:1px solid var(--border);
-      padding:10px 12px;
-      border-radius: 999px;
-      font-size:12px;
-      color: var(--text);
-      box-shadow: var(--shadow);
-      z-index: 60;
-      display:none;
-      align-items:center;
+    .qs-status {
+      display:flex;
       gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+      margin-top: 10px;
     }
-    .toast.show{display:flex}
-    .kbd{
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--muted);
-      border:1px solid var(--border);
-      padding:3px 7px;
+    .qs-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(0,0,0,.20);
+    }
+    .qs-dot.ok { background: #1f9d55; }
+    .qs-dot.bad { background: #d64545; }
+
+    .qs-toast {
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,.85);
+      color: #fff;
+      padding: 10px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      display: none;
+      align-items: center;
+      gap: 8px;
+      z-index: 9999;
+    }
+    .qs-toast.show { display:flex; }
+
+    .qs-smallcode {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      background: rgba(0,0,0,.06);
+      padding: 2px 6px;
       border-radius: 8px;
-      background: rgba(255,255,255,.02);
+      font-size: 12px;
     }
   </style>
 </head>
 
 <body>
-  <div class="wrap">
-    <header>
-      <div class="brand">
-        <div class="logo" aria-hidden="true"></div>
-        <div>
-          <h1>MapleSchema</h1>
-          <p>Quick Start</p>
-        </div>
+<div id="site">
+
+<header>
+  <div class="container header-inner">
+    <a href="/index.html" class="logo-link">
+      <div class="logo-wrapper">
+        <img src="/images/mapleschema-transparent-icon.png"
+             class="logo"
+             alt="MapleSchema logo">
       </div>
-      <div class="pill">Goal: first successful response in &lt; 10 minutes</div>
-    </header>
+    </a>
 
-    <section class="hero">
-      <div class="card">
-        <h2>Transform messy transaction payloads in one request.</h2>
-        <p>Raw transaction data is inconsistent across institutions and aggregators. MapleSchema transforms it into a clean, consistent schema — so you don’t build brittle mappers yourself.</p>
-
-        <div class="ctaRow">
-          <button class="btn primary" id="btnTry">Try it now</button>
-          <button class="btn ghost" id="btnScroll">Skip to playground</button>
-        </div>
-
-        <div class="stat" aria-label="highlights">
-          <div class="chip">No storage</div>
-          <div class="chip">Stateless</div>
-          <div class="chip">Demo endpoint (staging)</div>
-        </div>
-      </div>
-
-      <div class="card">
-        <h2 style="font-size:18px;margin-bottom:10px;">What you’ll do</h2>
-        <ul class="bullets">
-          <li>Run a demo transform request (no credentials).</li>
-          <li>Replace the example payload with your own raw transaction(s).</li>
-          <li>See the transformed response immediately.</li>
-        </ul>
-        <p class="mini" style="margin-top:12px;">This uses a rate-limited staging demo endpoint.</p>
-      </div>
-    </section>
-
-    <section class="card qs" id="playground">
-      <div class="qsHeader">
-        <div>
-          <h3>Live playground</h3>
-          <div class="mini">POST <span style="font-family:var(--mono);color:var(--text);">/demo/transform</span></div>
-        </div>
-        <div class="right">
-          <span class="mini">API base:</span>
-          <input class="mono" id="apiBase" style="width:320px;max-width:72vw" />
-          <button class="btn warn" id="btnRun">Run transform</button>
-        </div>
-      </div>
-
-      <div class="split">
-        <div>
-          <div class="paneTitle">
-            <h4>Request body</h4>
-            <button class="btn ghost" id="btnPretty">Prettify JSON</button>
-          </div>
-          <textarea id="requestBody" spellcheck="false"></textarea>
-          <div class="status" id="reqHint">
-            <span class="dot idle"></span>
-            <span>Tip: paste your own raw transaction(s) and run again.</span>
-          </div>
-        </div>
-
-        <div>
-          <div class="paneTitle">
-            <h4>Response</h4>
-            <button class="btn ghost" id="btnCopyResp">Copy response</button>
-          </div>
-          <div class="codebox" id="responseBox">{}</div>
-          <div class="status" id="statusLine">
-            <span class="dot idle" id="statusDot"></span>
-            <span id="statusText">Idle.</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="status" style="margin-top:14px;">
-        <span class="dot idle"></span>
-        <span class="mini">
-          Want to use your own API key later? Use <span style="font-family:var(--mono);color:var(--text);">POST /v1/transform</span> (auth required).
-        </span>
-      </div>
-    </section>
+    <nav>
+      <a href="/quickstart.html">Quickstart</a>
+      <a href="/docs.html">Docs</a>
+      <a href="/security.html">Security</a>
+      <a href="/pricing.html">Pricing</a>
+      <a href="/contact.html">Contact</a>
+    </nav>
   </div>
+</header>
 
-  <div class="toast" id="toast" role="status" aria-live="polite">
-    <span class="dot ok" style="width:8px;height:8px"></span>
-    <span id="toastText">Copied</span>
-    <span class="kbd">Ctrl+C</span>
-  </div>
+<main class="container">
 
-  <script>
-    // ====== CONFIG ======
-    const DEFAULT_API_BASE = "https://staging.api.mapleschema.com";
-    const DEMO_PATH = "/demo/transform";
+  <!-- HERO -->
+  <section class="hero">
+    <h1>Quickstart: see MapleSchema working in under 10 minutes.</h1>
 
-    // ====== DOM ======
-    const $ = (sel) => document.querySelector(sel);
+    <p class="hero-lead">
+      Paste raw transactions. Click run. Get a clean, stable schema back.
+      No keys required for this demo.
+    </p>
 
-    const btnTry = $("#btnTry");
-    const btnScroll = $("#btnScroll");
+    <p class="hero-support">
+      This page uses a <strong>rate-limited staging demo endpoint</strong> so you can validate behavior fast.
+      For real integrations, use <span class="qs-smallcode">POST /v1/transform</span> (auth required).
+    </p>
 
-    const apiBase = $("#apiBase");
-    const requestBody = $("#requestBody");
-    const btnPretty = $("#btnPretty");
+    <p style="margin-top: 24px;">
+      <a href="#playground" class="button-primary" id="btnTry">
+        Run the demo transform
+      </a>
+    </p>
 
-    const btnRun = $("#btnRun");
-    const responseBox = $("#responseBox");
-    const statusDot = $("#statusDot");
-    const statusText = $("#statusText");
-    const btnCopyResp = $("#btnCopyResp");
+    <p class="small" style="margin-top: 12px;">
+      Demo limits: capped payload size • capped transaction count • rate limited
+    </p>
+  </section>
 
-    const toast = $("#toast");
-    const toastText = $("#toastText");
+  <!-- PLAYGROUND -->
+  <section class="card" id="playground">
+    <div class="qs-pane-title">
+      <div>
+        <h2 style="margin:0;">Live playground</h2>
+        <p class="small" style="margin:8px 0 0;">
+          Demo endpoint: <span class="qs-smallcode">POST /demo/transform</span>
+          <span style="opacity:.7;">(staging only)</span>
+        </p>
+      </div>
 
-    // ====== INIT ======
-    apiBase.value = DEFAULT_API_BASE;
+      <div class="qs-actions">
+        <button class="button-secondary" type="button" id="btnPretty">Prettify JSON</button>
+        <button class="button-primary" type="button" id="btnRun">Run transform</button>
+      </div>
+    </div>
 
-    // IMPORTANT: demo expects ExternalTransformRequest shape (raw_transactions)
-    requestBody.value = JSON.stringify({
-      raw_transactions: [
-        {
-          id: "t1",
-          amount: "-5.00",
-          currency: "CAD",
-          description: "STARBUCKS",
-          posted_local_time: "2024-11-01T09:32:00-05:00"
-        }
-      ]
-    }, null, 2);
+    <div class="qs-row">
+      <div>
+        <div class="qs-pane-title">
+          <h3>Request body</h3>
+          <button class="button-secondary" type="button" id="btnPasteExample">Reset example</button>
+        </div>
 
-    // ====== NAV ======
-    function scrollToPlayground() {
-      document.getElementById("playground").scrollIntoView({behavior:"smooth", block:"start"});
-      setTimeout(() => requestBody.focus(), 250);
-    }
-    btnTry.addEventListener("click", scrollToPlayground);
-    btnScroll.addEventListener("click", scrollToPlayground);
+        <textarea id="requestBody" class="qs-textarea" spellcheck="false"></textarea>
 
-    // ====== TOAST ======
-    let toastTimer = null;
-    function showToast(msg){
-      toastText.textContent = msg;
-      toast.classList.add("show");
-      clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => toast.classList.remove("show"), 1200);
-    }
+        <div class="qs-status">
+          <span class="qs-dot"></span>
+          <span class="small">Tip: paste your own raw transaction(s) and run again.</span>
+        </div>
 
-    async function copyText(text){
-      try{
-        await navigator.clipboard.writeText(text);
-        showToast("Copied");
-      }catch{
-        const ta = document.createElement("textarea");
-        ta.value = text;
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand("copy");
-        ta.remove();
-        showToast("Copied");
+        <div class="qs-status">
+          <span class="qs-dot"></span>
+          <span class="small">
+            If you hit rate limits, wait ~60 seconds and retry.
+          </span>
+        </div>
+      </div>
+
+      <div>
+        <div class="qs-pane-title">
+          <h3>Response</h3>
+          <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end;">
+            <button class="button-secondary" type="button" id="btnCopyResp">Copy response</button>
+          </div>
+        </div>
+
+        <pre class="qs-codebox" id="responseBox">{}</pre>
+
+        <div class="qs-status">
+          <span class="qs-dot" id="statusDot"></span>
+          <span class="small" id="statusText">Idle.</span>
+        </div>
+      </div>
+    </div>
+
+    <hr style="margin:18px 0; opacity:.25;">
+
+    <p class="small" style="margin:0;">
+      Next step: swap to production auth + keys using <span class="qs-smallcode">POST /v1/transform</span>.
+      (We’ll re-enable the key flow later — this page is optimized for a fast “aha”.)
+    </p>
+  </section>
+
+</main>
+
+<footer>
+  © MapleSchema 2025 — Sweet, Compliance-First Open Banking Normalization
+</footer>
+
+</div>
+
+<!-- Toast -->
+<div class="qs-toast" id="toast" role="status" aria-live="polite">
+  <span>✅</span>
+  <span id="toastText">Copied</span>
+</div>
+
+<script>
+  // ====== CONFIG ======
+  // Hidden from UI on purpose.
+  const API_BASE = "https://staging.api.mapleschema.com";
+  const DEMO_PATH = "/demo/transform";
+
+  // ====== DOM ======
+  const $ = (sel) => document.querySelector(sel);
+
+  const btnTry = $("#btnTry");
+  const btnPretty = $("#btnPretty");
+  const btnRun = $("#btnRun");
+  const btnCopyResp = $("#btnCopyResp");
+  const btnPasteExample = $("#btnPasteExample");
+
+  const requestBody = $("#requestBody");
+  const responseBox = $("#responseBox");
+  const statusDot = $("#statusDot");
+  const statusText = $("#statusText");
+
+  const toast = $("#toast");
+  const toastText = $("#toastText");
+
+  // ====== Helpers ======
+  const EXAMPLE = () => ({
+    raw_transactions: [
+      {
+        id: "t1",
+        amount: "-5.00",
+        currency: "CAD",
+        description: "STARBUCKS",
+        posted_local_time: "2024-11-01T09:32:00-05:00"
       }
+    ]
+  });
+
+  function setExample() {
+    requestBody.value = JSON.stringify(EXAMPLE(), null, 2);
+  }
+
+  function showToast(msg){
+    toastText.textContent = msg;
+    toast.classList.add("show");
+    clearTimeout(showToast._t);
+    showToast._t = setTimeout(() => toast.classList.remove("show"), 1200);
+  }
+
+  async function copyText(text){
+    try{
+      await navigator.clipboard.writeText(text);
+      showToast("Copied");
+    }catch{
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      ta.remove();
+      showToast("Copied");
+    }
+  }
+
+  function setStatus(kind, text){
+    statusText.textContent = text;
+    statusDot.className = "qs-dot " + (kind || "");
+  }
+
+  function safeJsonParse(str){
+    return JSON.parse(str);
+  }
+
+  // ====== Init ======
+  setExample();
+
+  // ====== Events ======
+  btnTry.addEventListener("click", (e) => {
+    // anchor already scrolls; focus textarea
+    setTimeout(() => requestBody.focus(), 150);
+  });
+
+  btnPasteExample.addEventListener("click", () => {
+    setExample();
+    showToast("Example loaded");
+  });
+
+  btnPretty.addEventListener("click", () => {
+    try{
+      const obj = safeJsonParse(requestBody.value);
+      requestBody.value = JSON.stringify(obj, null, 2);
+      showToast("Prettified");
+    }catch{
+      showToast("Invalid JSON");
+    }
+  });
+
+  btnCopyResp.addEventListener("click", () => {
+    copyText(responseBox.textContent || "{}");
+  });
+
+  btnRun.addEventListener("click", async () => {
+    let bodyObj;
+    try{
+      bodyObj = safeJsonParse(requestBody.value);
+    }catch{
+      setStatus("bad", "Request body is not valid JSON.");
+      return;
     }
 
-    // ====== PRETTIFY ======
-    btnPretty.addEventListener("click", () => {
-      try{
-        const obj = JSON.parse(requestBody.value);
-        requestBody.value = JSON.stringify(obj, null, 2);
-        showToast("Prettified");
-      }catch{
-        showToast("Invalid JSON");
-      }
-    });
+    const url = API_BASE.replace(/\/+$/,"") + DEMO_PATH;
 
-    // ====== STATUS ======
-    function setStatus(kind, text){
-      statusText.textContent = text;
-      statusDot.className = "dot " + (kind || "idle");
-    }
+    // TTFS
+    const t0 = performance.now();
 
-    // ====== RUN DEMO TRANSFORM ======
-    btnRun.addEventListener("click", async () => {
-      const base = (apiBase.value || DEFAULT_API_BASE).replace(/\/+$/,"");
+    setStatus("", "Sending request…");
+    btnRun.disabled = true;
 
-      let bodyObj;
-      try{
-        bodyObj = JSON.parse(requestBody.value);
-      }catch{
-        setStatus("bad", "Request body is not valid JSON.");
-        return;
-      }
+    try{
+      const res = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(bodyObj)
+      });
 
-      setStatus("idle", "Sending request…");
-      btnRun.disabled = true;
+      const text = await res.text();
+      let json = null;
+      try{ json = text ? JSON.parse(text) : {}; } catch { json = { raw: text }; }
 
-      try{
-        const url = base + DEMO_PATH;
+      responseBox.textContent = JSON.stringify(json, null, 2);
 
-        const res = await fetch(url, {
-          method: "POST",
-          headers: { "Content-Type":"application/json" },
-          body: JSON.stringify(bodyObj)
-        });
+      // Success TTFS
+      const t1 = performance.now();
+      const ttfsMs = Math.round(t1 - t0);
 
-        const text = await res.text();
-        let json = null;
-        try{ json = text ? JSON.parse(text) : {}; } catch { json = { raw: text }; }
-
-        responseBox.textContent = JSON.stringify(json, null, 2);
-
-        if(!res.ok){
-          const errMsg = json?.error?.message || json?.message || json?.error || json?.raw || ("HTTP " + res.status);
-          setStatus("bad", "Error: " + errMsg);
+      if(!res.ok){
+        if (res.status === 429) {
+          setStatus("bad", `Rate limit hit — wait ~60 seconds and retry. (TTFS ${ttfsMs}ms)`);
+          console.log(`[MapleSchema Quickstart] 429 rate limit. TTFS ${ttfsMs}ms`);
           return;
         }
 
-        setStatus("ok", "Transformed successfully.");
-      }catch(err){
-        setStatus("bad", err?.message || "Network error.");
-      }finally{
-        btnRun.disabled = false;
-      }
-    });
+        const errMsg =
+          (typeof json?.error === "string" && json.error) ||
+          json?.error?.message ||
+          json?.message ||
+          json?.raw ||
+          ("HTTP " + res.status);
 
-    btnCopyResp.addEventListener("click", () => {
-      copyText(responseBox.textContent || "{}");
-    });
-  </script>
+        setStatus("bad", `Error: ${errMsg} (TTFS ${ttfsMs}ms)`);
+        console.log(`[MapleSchema Quickstart] Error ${res.status}. TTFS ${ttfsMs}ms`, json);
+        return;
+      }
+
+      setStatus("ok", `Success. (TTFS ${ttfsMs}ms)`);
+      console.log(`[MapleSchema Quickstart] Success. TTFS ${ttfsMs}ms`);
+    }catch(err){
+      setStatus("bad", err?.message || "Network error.");
+    }finally{
+      btnRun.disabled = false;
+    }
+  });
+</script>
 </body>
 </html>
