@@ -2,16 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
-  <title>Pricing — MapleSchema Canadian Open Banking Normalization</title>
+  <title>Pricing — MapleSchema</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta
-    name="description"
-    content="Simple, transparent pricing for MapleSchema — normalize Canadian open banking transaction payloads into one stable JSON schema with clear monthly transaction limits."
-  />
+  <meta name="description"
+        content="Simple, transparent pricing for MapleSchema. Normalize Canadian open banking transaction data into a stable, versioned JSON schema." />
 
   <!-- SEO + Social -->
   <meta property="og:title" content="MapleSchema Pricing — Simple, Transparent Plans">
-  <meta property="og:description" content="Free and paid plans with clear monthly transaction limits for Canadian open banking normalization. No overages, no surprises.">
+  <meta property="og:description"
+        content="Clear monthly transaction limits. No overages, no surprises. Built for Canadian open banking." />
   <meta property="og:url" content="https://mapleschema.com/pricing.html">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://mapleschema.com/images/mapleschema-social.png">
@@ -32,204 +31,162 @@
 <header>
   <div class="container header-inner">
     <a href="/index.html" class="logo-link">
-      <div class="logo-wrapper">
-        <img src="/images/mapleschema-transparent-icon.png"
-             class="logo"
-             alt="MapleSchema logo">
-      </div>
+      <img src="/images/mapleschema-transparent-icon.png"
+           class="logo"
+           alt="MapleSchema logo">
     </a>
 
     <nav>
+      <a href="/quickstart.html">Quickstart</a>
       <a href="/docs.html">Docs</a>
       <a href="/security.html">Security</a>
       <a href="/pricing.html">Pricing</a>
       <a href="/contact.html">Contact</a>
+      <a href="/request-key.html" class="nav-cta">Get API Key</a>
     </nav>
   </div>
 </header>
-
 
 <main class="container">
 
   <!-- HERO -->
   <section class="hero">
-    <h1>Sweeten Your Open Banking Pipeline With Clean, Predictable Data.</h1>
+    <h1>Predictable Transaction Data for Canadian Open Banking</h1>
 
     <p class="hero-lead">
-      Open Banking data is messy. Aggregators disagree on formats, timestamps drift, fields are inconsistent, 
-      and every institution has its own quirks. If you want to ship fast, you need a stable Transaction object you can trust — not another layer of mapping to maintain.
-      MapleSchema gives you one clean, consistent normalization layer so you can build boldly on top of it.
+      Open banking data is inconsistent by default. Aggregators disagree on formats,
+      institutions introduce edge cases, and schemas drift over time.
+      MapleSchema provides a stable, versioned transaction schema so your application
+      doesn’t have to absorb that complexity.
     </p>
 
-    <div style="text-align:center; margin-top:24px; margin-bottom:8px;">
+    <div style="text-align:center; margin-top:24px;">
       <a href="/request-key.html"
-         style="
-           display:inline-block;
-           padding:14px 32px;
-           font-size:1.1rem;
-           border-radius:999px;
-           background-color:#4a2e22;
-           color:#fff;
-           text-decoration:none;
-           font-weight:bold;
-         ">
-        Start Free — Build Faster
+         style="display:inline-block;padding:14px 32px;font-size:1.05rem;
+                border-radius:999px;background:#4a2e22;color:#fff;
+                text-decoration:none;font-weight:bold;">
+        Start Free
       </a>
     </div>
 
     <p class="small" style="text-align:center;">
-      Free plan includes 25,000 transactions per month. No credit card required.
-    </p>
-
-    <p class="inspiration-line">
-      Save engineering hours, remove complexity, and let MapleSchema normalize your data while you build the future of Open Banking.
+      No credit card required. One project, one API key.
     </p>
   </section>
 
-  <!-- PRICING GRID -->
+  <!-- PRICING -->
   <section class="grid">
 
-    <!-- Free -->
+    <!-- FREE -->
     <article class="card">
-      <h2>Free</h2>
+      <h2>Free — Evaluate</h2>
       <p class="price-line"><strong>$0 / month</strong></p>
       <p><strong>Up to 25,000 transactions / month</strong></p>
 
       <p>
-        Perfect for getting started. Explore the normalization engine, validate your integration, 
-        and begin shaping your Open Banking product without friction or costs. 
-        Spend your time building — not debugging time fields.
+        Designed for local development, integration testing, and schema evaluation.
+        Validate your payloads and confirm MapleSchema fits your architecture
+        before committing.
       </p>
 
       <ul>
+        <li>1 project</li>
         <li>1 API key</li>
         <li>Access to <code>/v1/transform</code></li>
-        <li>Full normalization schema</li>
-        <li>Core Canadian institution coverage</li>
+        <li>Stable, versioned transaction schema</li>
         <li>Best-effort email support</li>
       </ul>
 
       <p>
-        <a href="/request-key.html" class="button-primary">Get Started on Free</a>
+        <a href="/request-key.html" class="button-primary">Get Started</a>
       </p>
     </article>
 
-    <!-- Developer -->
+    <!-- BUILD -->
     <article class="card">
-      <h2>Developer</h2>
-      <p class="price-line"><strong>$9 / month</strong></p>
-      <p><strong>Up to 250,000 transactions / month</strong></p>
+      <h2>Build</h2>
+      <p class="price-line"><strong>$29 / month</strong></p>
+      <p><strong>Up to 500,000 transactions / month</strong></p>
 
       <p>
-        When you’re ready to move beyond experiments, the Developer plan gives you the room and 
-        reliability to keep momentum. Focus on features that matter — MapleSchema keeps your 
-        ingestion pipeline predictable and boring (in the best way).
+        For active development and early production workloads.
+        MapleSchema absorbs aggregator and institution-level differences so your
+        internal models stay stable.
       </p>
 
       <ul>
-        <li>3 API keys</li>
-        <li>Full access to the normalization engine</li>
-        <li>Faster turnaround for mapping fixes</li>
-        <li>Usage alerts when you approach your limit</li>
-        <li>Priority email support</li>
+        <li>Up to 3 projects</li>
+        <li>Higher rate limits</li>
+        <li>Priority handling for mapping fixes</li>
+        <li>Usage alerts</li>
+        <li>Email support</li>
       </ul>
     </article>
 
-    <!-- Startup -->
+    <!-- SHIP -->
     <article class="card">
-      <h2>Startup</h2>
-      <p class="price-line"><strong>$49 / month</strong></p>
-      <p><strong>Up to 1,000,000 transactions / month</strong></p>
+      <h2>Ship</h2>
+      <p class="price-line"><strong>$99 / month</strong></p>
+      <p><strong>Up to 2,000,000 transactions / month</strong></p>
 
       <p>
-        For teams serving real customers. Your users expect consistency; your systems deserve 
-        stable inputs. MapleSchema handles the differences between Canadian institutions so 
-        your product can scale confidently.
+        For production systems serving real users.
+        Designed to reduce blast radius from schema changes
+        and upstream data drift.
       </p>
 
       <ul>
-        <li>10 API keys</li>
+        <li>Up to 10 projects</li>
         <li>Priority support</li>
-        <li>Guaranteed mapping updates for requested Canadian institutions</li>
-        <li>Batch normalization previews</li>
+        <li>Guaranteed turnaround on Canadian institution mappings</li>
+        <li>Early access to schema updates</li>
         <li>Status and incident notifications</li>
-      </ul>
-    </article>
-
-    <!-- Growth -->
-    <article class="card">
-      <h2>Growth</h2>
-      <p class="price-line"><strong>$199 / month</strong></p>
-      <p><strong>Up to 5,000,000 transactions / month</strong></p>
-
-      <p>
-        For serious fintech builders, aggregators, and platforms. High-volume normalization 
-        shouldn’t become a bottleneck. We take care of the mapping and schema stability, 
-        so you can stay focused on high-value innovation.
-      </p>
-
-      <ul>
-        <li>20 API keys</li>
-        <li>Priority support with faster response times</li>
-        <li>Guaranteed mapping turnaround for new institutions</li>
-        <li>Access to roadmap previews and early features</li>
-        <li>Business-hours uptime expectations during v1 phase</li>
       </ul>
     </article>
 
   </section>
 
-  <p class="small" style="text-align:center; margin-top:8px;">
-    For enterprise pricing and higher-volume needs, please <a href="/contact.html">contact us</a>.
+  <p class="small" style="text-align:center;">
+    Higher-volume needs will be supported once Canada’s open banking rails are live.
   </p>
 
-  <!-- HOW BILLING WORKS -->
+  <!-- BILLING -->
   <section class="card">
-    <h2>How Billing and Limits Work</h2>
-
-    <p>
-      Each plan includes a fixed monthly transaction allowance. API usage is counted
-      against that allowance for the current billing month.
-    </p>
+    <h2>How Billing Works</h2>
 
     <ul>
       <li>Plans are billed monthly.</li>
-      <li>When you hit your monthly transaction limit, the API returns a clear error response.</li>
-      <li>No automatic overage charges and no hidden fees.</li>
-      <li>You can upgrade your plan when your volume grows.</li>
+      <li>Each plan includes a fixed transaction allowance.</li>
+      <li>We count <strong>each transaction processed</strong>, not each API call.</li>
+      <li>Batch requests are counted by the number of transactions in the payload.</li>
+      <li>No overage charges. When you hit your limit, the API returns a clear error.</li>
     </ul>
 
-    <p>Example error when a limit is reached:</p>
     <pre class="code-block">
 {
   "error": "quota_exceeded",
-  "message": "Your monthly transaction limit has been reached. Please upgrade your plan to continue."
+  "message": "Your monthly transaction limit has been reached."
 }
     </pre>
   </section>
 
   <!-- FINAL CTA -->
   <section class="card">
-    <h2>Ready to Build Something Great?</h2>
+    <h2>Build Without Data Drift</h2>
     <p>
-      Open Banking will reshape financial experiences in Canada. MapleSchema helps you stay ahead 
-      by removing the noise — so you can ship faster, scale confidently, and spend your efforts on 
-      innovation instead of ingestion headaches.
+      MapleSchema exists to keep transaction data boring, stable,
+      and predictable — even as Canadian open banking evolves.
     </p>
 
     <p>
-      <a href="/request-key.html" class="button-primary">Start Free — Build With Momentum</a>
-    </p>
-
-    <p class="small">
-      Let us handle the normalization details. You focus on the product your users will love.
+      <a href="/quickstart.html" class="button-primary">View Quickstart</a>
     </p>
   </section>
 
 </main>
 
 <footer>
-  © MapleSchema 2025 — Sweet, Compliance-First Open Banking Normalization
+  © MapleSchema 2025 — Canadian Open Banking Transaction Normalization
 </footer>
 
 </div>
