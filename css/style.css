@@ -102,25 +102,31 @@ nav a::after {
 nav a:hover::after {
   width: 100%;
 }
-.header-inner {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
+/* Header row layout */
+.header-inner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap: 1.25rem;
 }
 
-.header-utility {
-  margin-left: auto;
+/* Nav links spacing */
+.header-inner nav{
+  display:flex;
+  align-items:center;
+  gap: 1.25rem;   /* controls spacing between nav items */
 }
 
-.utility-link {
+/* Utility link should look secondary */
+.header-utility .utility-link{
   font-size: 0.85rem;
   opacity: 0.7;
   text-decoration: none;
+  margin-left: 0.75rem;
+  white-space: nowrap;
 }
+.header-utility .utility-link:hover{ opacity: 1; }
 
-.utility-link:hover {
-  opacity: 1;
-}
 
 /* Main content area */
 main {
