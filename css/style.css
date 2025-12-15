@@ -102,6 +102,25 @@ nav a::after {
 nav a:hover::after {
   width: 100%;
 }
+.header-inner {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.header-utility {
+  margin-left: auto;
+}
+
+.utility-link {
+  font-size: 0.85rem;
+  opacity: 0.7;
+  text-decoration: none;
+}
+
+.utility-link:hover {
+  opacity: 1;
+}
 
 /* Main content area */
 main {
