@@ -5,14 +5,13 @@
   <title>MapleSchema — One Sweet Way to Normalize Canadian Open Banking</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta
-    name="description"
-    content="MapleSchema normalizes Canadian open banking transaction APIs from major institutions into one clean, compliance-first JSON schema."
+  name="description"
+  content="MapleSchema normalizes Canadian open banking transactions into a stable JSON schema with anonymized, idempotent transaction IDs — zero retention, compliance-first."
   />
 
   <!-- SEO + Social -->
   <meta property="og:title" content="MapleSchema — One Sweet Way to Normalize Canadian Open Banking">
-  <meta property="og:description" content="Normalize transaction payloads from Canada’s top open banking institutions into a single, predictable JSON schema — stateless, zero-retention, and compliance-first.">
-  <meta property="og:url" content="https://mapleschema.com/">
+  <meta property="og:description" content="Normalize Canadian open banking transactions into a stable schema with anonymized, idempotent IDs — stateless, zero-retention, compliance-first."><meta property="og:url" content="https://mapleschema.com/">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://mapleschema.com/images/mapleschema-social.png">
   <meta name="twitter:card" content="summary_large_image">
@@ -58,13 +57,16 @@
   <h1>Stop Wasting Engineering Time Maintaining Aggregator Transaction Mappings.</h1>
 
   <p class="hero-lead">
-    In Canadian <strong>open banking</strong>, every aggregator locks you into their transaction model — wasting engineering hours on maintenance instead of shipping.
-    MapleSchema gives you one stable schema so <strong>their changes don’t become your rewrites.</strong>
-  </p>
+  In Canadian <strong>open banking</strong>, every aggregator locks you into their
+  transaction model — and those models change.
+  MapleSchema gives you one stable schema so
+  <strong>their changes don’t become your rewrites.</strong>
+</p>
 
-  <p class="hero-support">
-    We handle vendor-specific transaction mapping so your team ships product features, not mappers.
-  </p>
+ <p class="hero-support">
+  MapleSchema transactions are normalized with a <strong>stable, anonymized, idempotent ID</strong>
+  — preventing duplicates without the need to expose internal account or customer identifiers.
+</p>
 
   <p style="margin-top: 24px;">
     <a href="/request-key.html" class="button-primary">
@@ -97,7 +99,22 @@
     so your team doesn’t have to.
   </p>
 </article>
-  
+
+ <article class="card">
+  <h2>🆔 Idempotent, Anonymized Transactions — No Data Retention</h2>
+  <p>
+    Duplicate transactions and sensitive identifiers are two of the hardest
+    problems in open banking — especially when you don’t control upstream data.
+  </p>
+  <p class="small">
+    MapleSchema generates a <strong>stable, anonymized, idempotent transaction ID</strong>
+    designed for safe ingestion and deduplication.
+    Transactions are processed in memory on Canadian servers and
+    <strong>never retained</strong> — no account IDs, no customer identifiers,
+    and no stored transaction data.
+  </p>
+</article>
+
 <article class="card">
   <h2>⚡ Skip the Build Phase</h2>
   <p>
