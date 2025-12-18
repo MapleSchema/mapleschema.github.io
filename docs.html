@@ -58,13 +58,13 @@
     <p class="hero-lead">
       Transform Canadian open banking transaction payloads into a single, deterministic
       <code>transactions-v1.0</code> schema. This page covers base URLs, authentication,
-      the <code>/v1/transform</code> endpoint, request and response formats, and error handling.
+      the <code>/v1/transactions/transform</code> endpoint, request and response formats, and error handling.
     </p>
   </section>
 
   <!-- QUICKSTART -->
   <section id="quickstart" class="card quickstart-card">
-    <h2>Quickstart — Call <code>/v1/transform</code> in 30 Seconds</h2>
+    <h2>Quickstart — Call <code>/v1/transactions/transform</code> in 30 Seconds</h2>
 
     <p>
       Send institution-specific open banking transactions to MapleSchema and get back
@@ -73,7 +73,7 @@
     </p>
 
     <pre class="code-block curl-block">
-curl -X POST https://api.mapleschema.com/v1/transform \
+curl -X POST https://api.mapleschema.com/v1/transactions/transform \
   -H "Content-Type: application/json" \
   -H "X-Project-Id: YOUR_PROJECT_ID" \
   -H "X-Api-Key: YOUR_API_KEY" \
@@ -110,7 +110,7 @@ curl -X POST https://api.mapleschema.com/v1/transform \
     a <strong>Project ID</strong> and an <strong>API Key</strong>.
     The Project ID identifies which project is making the request, and the API Key
     authenticates and authorizes that project. Both must be included for every call
-    to <code>/v1/transform</code>.
+    to <code>/v1/transactions/transform</code>.
   </p>
 
   <pre class="code-block">
@@ -128,7 +128,7 @@ X-Api-Key: YOUR_API_KEY
   <h2>🔁 Transform Endpoint</h2>
 
   <p>
-    The primary endpoint in MapleSchema v1 is <code>POST /v1/transform</code>.
+    The primary endpoint in MapleSchema v1 is <code>POST /v1/transactions/transform</code>.
     It accepts institution-specific open banking transaction payloads and returns
     normalized <code>transactions-v1.0</code> objects. All processing is stateless
     and performed in memory.
@@ -136,7 +136,7 @@ X-Api-Key: YOUR_API_KEY
 
   <ul>
     <li><strong>Method</strong>: <code>POST</code></li>
-    <li><strong>Path</strong>: <code>/v1/transform</code></li>
+    <li><strong>Path</strong>: <code>/v1/transactions/transform</code></li>
     <li><strong>Content-Type</strong>: <code>application/json</code></li>
     <li><strong>Auth</strong>: <code>X-Project-Id</code> and <code>X-Api-Key</code> headers</li>
   </ul>
@@ -147,7 +147,7 @@ X-Api-Key: YOUR_API_KEY
   </pre>
 
   <p>
-    The response from /v1/transform is a JSON object containing a metadata block
+    The response from /v1/transactions/transform is a JSON object containing a metadata block
     and a transactions array conforming to the <code>transactions-v1.0</code> schema. 
     All timestamps are returned in UTC, and all amounts follow signed-value semantics paired with an explicit
     <code>direction</code> field for clarity across account types.
@@ -162,7 +162,7 @@ X-Api-Key: YOUR_API_KEY
     <article class="card">
       <h2>📥 Request Body Overview</h2>
       <p>
-        The request to <code>/v1/transform</code> contains two required top-level fields:
+        The request to <code>/v1/transactions/transform</code> contains two required top-level fields:
         <code>institution_code</code> and <code>transactions</code>.
       </p>
 
@@ -222,7 +222,7 @@ X-Api-Key: YOUR_API_KEY
     <h2>📤 Normalized Response — <code>transactions-v1.0</code></h2>
 
 <p>
-  The response from <code>/v1/transform</code> is a JSON object containing a
+  The response from <code>/v1/transactions/transform</code> is a JSON object containing a
   <code>metadata</code> block describing the batch and a <code>transactions</code>
   array of normalized <code>transactions-v1.0</code> objects.
 </p>
