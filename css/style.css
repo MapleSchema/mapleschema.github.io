@@ -138,6 +138,7 @@ main {
 .hero p {
   margin: 0 0 16px;
   line-height: 1.6;
+  max-width: 42rem;
 }
 
 /* Hero columns / points */
@@ -158,9 +159,25 @@ main {
   margin: 0;
 }
 
+.hero-divider {
+  border: none;
+  height: 1px;
+  margin: 3rem 0;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(0,0,0,0.15),
+    transparent
+  );
+}
+
 /* Headings */
-h1, h2, h3 {
+h2, h3 {
   color: #4a2e22;
+}
+h1 {
+  color: #2b1a0f; /* darker maple brown */
+  letter-spacing: -0.02em;
 }
 
 /* Cards & grid */
@@ -169,6 +186,9 @@ h1, h2, h3 {
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 16px;
   margin: 32px 0;
+  background: #f3ead8;
+  padding: 3rem 2rem;
+  border-radius: 16px;
 }
 
 .card {
@@ -177,6 +197,11 @@ h1, h2, h3 {
   padding: 16px 18px;
   font-size: 0.95rem;
   margin-bottom: 48px; /* clean, natural vertical rhythm */
+}
+.card.primary {
+  background: #fff;
+  border: 2px solid #c47a2c; /* maple accent */
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
 }
 
 .card h2 {
@@ -191,6 +216,12 @@ h1, h2, h3 {
   gap: 24px;
   margin-top: 16px;
   align-items: flex-start;
+}
+
+.proof {
+  font-size: 0.85rem;
+  opacity: 0.75;
+  margin-top: 1rem;
 }
 
 /* Make each example share the space equally */
