@@ -5,12 +5,12 @@
   <title>Pricing — MapleSchema</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description"
-        content="Simple, transparent pricing for MapleSchema. Normalize Canadian open banking transaction data into a stable, versioned JSON schema." />
+        content="Simple plans for MapleSchema. Normalize Canadian open banking transaction data into a stable, versioned JSON schema." />
 
   <!-- SEO + Social -->
-  <meta property="og:title" content="MapleSchema Pricing — Simple, Transparent Plans">
+  <meta property="og:title" content="MapleSchema Pricing — Simple Plans">
   <meta property="og:description"
-        content="Clear monthly transaction limits. No overages, no surprises. Built for Canadian open banking." />
+        content="Plans differ by intended use and level of support — not per-transaction billing. Built for Canadian open banking." />
   <meta property="og:url" content="https://mapleschema.com/pricing.html">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://mapleschema.com/images/mapleschema-social.png">
@@ -54,16 +54,16 @@
     <h1>Validating Open Banking Data Is a Moving and Expensive Target</h1>
 
     <p class="hero-lead">
-      Open banking data changes in ways you can’t reliably test. 
-      Changes to the data model can be introduced by aggregators or 
-      by the originating institutions themselves. This uncertainty 
-      leads to incorrect data, increased service tickets, and an 
-      ongoing maintenance burden on engineering teams. 
-  </br></br>
-      MapleSchema decouples your application code from these changes by enforcing a stable, 
-    versioned transaction schema. Engineering teams can focus on solving business problems 
-    and delivering value instead of maintaining mappers, coordinating with service teams, 
-    and chasing upstream data issues.
+      Open banking data changes in ways you can’t reliably test.
+      Changes to the data model can be introduced by aggregators or
+      by the originating institutions themselves. This uncertainty
+      leads to incorrect data, increased service tickets, and an
+      ongoing maintenance burden on engineering teams.
+      </br></br>
+      MapleSchema decouples your application code from these changes by enforcing a stable,
+      versioned transaction schema. Engineering teams can focus on solving business problems
+      and delivering value instead of maintaining mappers, coordinating with service teams,
+      and chasing upstream data issues.
     </p>
 
     <div style="text-align:center; margin-top:24px;">
@@ -75,7 +75,9 @@
       </a>
     </div>
 
-<p><strong>Up to 2,000,000 transactions&nbsp;/&nbsp;month</strong></p>
+    <p class="small" style="text-align:center; margin-top:14px;">
+      Plans differ by <strong>intended use</strong> and <strong>level of support</strong> — not per-transaction billing.
+    </p>
   </section>
 
   <!-- PRICING -->
@@ -83,14 +85,12 @@
 
     <!-- FREE -->
     <article class="card">
-      <h2>Free — Evaluate</h2>
+      <h2>Free — Test &amp; Evaluate</h2>
       <p class="price-line"><strong>$0 / month</strong></p>
-      <p><strong>Up to 25,000 transactions / month</strong></p>
 
       <p>
-        Designed for local development, integration testing, and schema evaluation.
-        Validate your payloads and confirm MapleSchema fits your architecture
-        before committing.
+        Designed for local development, CI, integration testing, and schema evaluation.
+        This plan is <strong>not intended for production use</strong>.
       </p>
 
       <ul>
@@ -101,77 +101,88 @@
         <li>Best-effort email support</li>
       </ul>
 
+      <p class="small">
+        <strong>No guarantees.</strong> No SLA. Shared capacity. We may rate-limit or throttle to protect service health.
+      </p>
+
       <p>
         <a href="/request-key.html" class="button-primary">Get Started</a>
       </p>
     </article>
 
-    <!-- BUILD -->
+    <!-- PRODUCTION -->
     <article class="card">
-      <h2>Build</h2>
-      <p class="price-line"><strong>$29 / month</strong></p>
-      <p><strong>Up to 500,000 transactions / month</strong></p>
-
-      <p>
-        For active development and early production workloads.
-        MapleSchema absorbs aggregator and institution-level differences so your
-        internal models stay stable.
-      </p>
-
-      <ul>
-        <li>Up to 3 projects</li>
-        <li>Higher rate limits</li>
-        <li>Priority handling for mapping fixes</li>
-        <li>Usage alerts</li>
-        <li>Email support</li>
-      </ul>
-    </article>
-
-    <!-- SHIP -->
-    <article class="card">
-      <h2>Ship</h2>
+      <h2>Production</h2>
       <p class="price-line"><strong>$99 / month</strong></p>
-      <p><strong>Up to 2,000,000 transactions / month</strong></p>
 
       <p>
-        For production systems serving real users.
-        Designed to reduce blast radius from schema changes
-        and upstream data drift.
+        For production systems serving real users. Use MapleSchema as your normalization layer while we handle
+        upstream variance from aggregators and institutions.
       </p>
 
       <ul>
         <li>Up to 10 projects</li>
-        <li>Priority support</li>
-        <li>Guaranteed turnaround on Canadian institution mappings</li>
-        <li>Early access to schema updates</li>
+        <li>Priority email support</li>
+        <li>Priority handling for mapping fixes</li>
         <li>Status and incident notifications</li>
+        <li>Ongoing compatibility with the current API version</li>
       </ul>
+
+      <p class="small">
+        No SLA. Best-effort availability and response times. Intended for teams that want production support without enterprise procurement.
+      </p>
+    </article>
+
+    <!-- ENTERPRISE -->
+    <article class="card">
+      <h2>Enterprise</h2>
+      <p class="price-line"><strong>Custom</strong></p>
+
+      <p>
+        For regulated environments, high-stakes production use, or coordinated capacity needs.
+        Enterprise is a relationship — higher-touch support, escalation, and planning.
+      </p>
+
+      <ul>
+        <li>Custom support and escalation path</li>
+        <li>Capacity planning and coordination</li>
+        <li>Security/compliance review support</li>
+        <li>Custom terms and documentation as needed</li>
+      </ul>
+
+      <p class="small">
+        Expect significantly higher pricing than self-serve plans. Enterprise includes direct access to the founder for urgent issues.
+      </p>
+
+      <p>
+        <a href="/contact.html" class="button-primary">Contact Sales</a>
+      </p>
     </article>
 
   </section>
 
   <p class="small" style="text-align:center;">
-    Higher-volume needs will be supported once Canada’s open banking rails are live.
+    Plans are based on intended use and level of support, not per-transaction billing.
+    If you need guaranteed response times or formal SLAs, contact us about Enterprise.
   </p>
 
-  <!-- BILLING -->
+  <!-- TRANSPARENCY -->
   <section class="card">
-    <h2>How Billing Works</h2>
+    <h2>Transparency</h2>
 
     <ul>
-      <li>Plans are billed monthly.</li>
-      <li>Each plan includes a fixed transaction allowance.</li>
-      <li>We count <strong>each transaction processed</strong>, not each API call.</li>
-      <li>Batch requests are counted by the number of transactions in the payload.</li>
-      <li>No overage charges. When you hit your limit, the API returns a clear error.</li>
+      <li><strong>Same API.</strong> Plans differ by intended use and level of support, not by technical capability.</li>
+      <li><strong>No per-transaction metering.</strong> We do not bill overages by transaction count.</li>
+      <li><strong>Fair use.</strong> We may apply rate limits or throttling to protect service stability, especially on Free.</li>
+      <li><strong>Changes.</strong> Pricing and plan details may change over time; we’ll aim to provide reasonable notice for paid customers.</li>
+      <li><strong>Taxes.</strong> Prices are shown in USD unless stated otherwise; applicable taxes may apply.</li>
+      <li><strong>Cancellations.</strong> Cancel anytime; service remains active until the end of your billing period.</li>
     </ul>
 
-    <pre class="code-block">
-{
-  "error": "quota_exceeded",
-  "message": "Your monthly transaction limit has been reached."
-}
-    </pre>
+    <p class="small">
+      <strong>Important:</strong> MapleSchema is provided “as is” without warranties. Do not rely on the Free plan for production systems.
+      You are responsible for compliance obligations related to your own data flows and integrations.
+    </p>
   </section>
 
   <!-- FINAL CTA -->
