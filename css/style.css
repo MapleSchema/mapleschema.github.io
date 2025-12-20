@@ -210,6 +210,13 @@ h1 {
   font-size: 1.1rem;
 }
 
+.docs-section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin: 32px 0;
+}
+
 /* Side-by-side examples */
 .examples-grid {
   display: flex;
