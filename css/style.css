@@ -148,10 +148,11 @@ main {
 .hero-lead:last-of-type { margin-bottom: 24px; }
 /* Paragraph spacing / readability */
 .hero p {
+  margin: 0 auto 16px;     /* <-- centers the paragraph block */
   line-height: 1.6;
   max-width: 42rem;
+  text-align: left;        /* readable docs style */
 }
-
 /* Hero columns / points */
 .hero-columns {
   display: grid;
@@ -159,7 +160,7 @@ main {
   gap: 20px;
   margin-top: 8px;
 }
-
+.hero h1 { text-align: center; }
 .hero-point h2 {
   font-size: 1rem;
   margin-bottom: 4px;
