@@ -64,27 +64,101 @@
       the <code>/v1/transactions/transform</code> endpoint, request and response formats, and error handling.
     </p>
   </section>
-
-  <!-- QUICKSTART -->
- <section class="card" style="text-align:center;">
-  <h2>Try a Live Transformation</h2>
+<!-- QUICKSTART -->
+<section class="card" style="text-align:center;">
+  <h2>Quickstart</h2>
 
   <p>
-    Want to see a real <code>/v1/transactions/transform</code> response using live data?
-    Run the interactive demo to submit a request and inspect the normalized output.
+    MapleSchema is a production API.
+    To run real transformations, request an API key and submit a request to
+    <code>/v1/transactions/transform</code>.
   </p>
 
   <p>
-    <a href="/quickstart.html" class="button-primary">
-      Run Live Demo
+    <a href="/request-key.html" class="button-primary">
+      Request an API Key
     </a>
   </p>
 
+  <hr style="margin:2rem 0; opacity:0.3;" />
+
+  <h3>Example: Transform Transactions</h3>
+
   <p class="small">
-    This documentation describes the v1 contract.
-    The demo executes real requests against the API.
+    The example below shows a complete request using a real Open Banking
+    transactions payload and the v1 contract.
+  </p>
+
+  <pre><code class="language-bash">curl -X POST https://api.mapleschema.com/v1/transactions/transform \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "X-Project-Id: YOUR_PROJECT_ID" \
+  -H "Content-Type: application/json" \
+  -d @transactions.json
+</code></pre>
+
+  <p class="small">
+    Save the JSON below as <code>transactions.json</code> and run the command.
   </p>
 </section>
+<section class="card">
+  <h3>Sample Input Payload</h3>
+
+  <pre><code class="language-json">{
+  "Data": {
+    "Transaction": [
+      {
+        "AccountId": "22289",
+        "TransactionId": "123",
+        "TransactionReference": "Ref 123",
+        "Amount": { "Amount": "10.00", "Currency": "GBP" },
+        "CreditDebitIndicator": "Credit",
+        "Status": "Booked",
+        "BookingDateTime": "2017-04-05T10:43:07+00:00",
+        "ValueDateTime": "2017-04-05T10:45:22+00:00",
+        "TransactionInformation": "Cash from Aubrey",
+        "BankTransactionCode": {
+          "Code": "ReceivedCreditTransfer",
+          "SubCode": "DomesticCreditTransfer"
+        },
+        "ProprietaryBankTransactionCode": {
+          "Code": "Transfer",
+          "Issuer": "AlphaBank"
+        }
+      },
+      {
+        "AccountId": "31820",
+        "TransactionId": "567",
+        "TransactionReference": "Ref 124",
+        "Amount": { "Amount": "100.00", "Currency": "GBP" },
+        "CreditDebitIndicator": "Debit",
+        "Status": "Booked",
+        "BookingDateTime": "2017-05-02T14:22:09+00:00",
+        "ValueDateTime": "2017-05-02T14:22:09+00:00",
+        "TransactionInformation": "Paid the gas bill",
+        "AddressLine": "Coventry",
+        "BankTransactionCode": {
+          "Code": "IssuedCreditTransfer",
+          "SubCode": "AutomaticTransfer"
+        },
+        "ProprietaryBankTransactionCode": {
+          "Code": "DirectDebit",
+          "Issuer": "AlphaBank"
+        }
+      }
+    ]
+  },
+  "Links": {
+    "Self": "https://api.alphabank.com/open-banking/v3.1/aisp/transactions"
+  },
+  "Meta": {
+    "TotalPages": 1,
+    "FirstAvailableDateTime": "2017-05-03T00:00:00+00:00",
+    "LastAvailableDateTime": "2017-12-03T00:00:00+00:00"
+  }
+}</code></pre>
+</section>
+
+  
 
   <!-- BASE URLS / AUTH / ENDPOINT OVERVIEW -->
  <section class="docs-section">
