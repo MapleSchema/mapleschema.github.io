@@ -280,10 +280,10 @@
   // ====== DOM ======
   const $ = (sel) => document.querySelector(sel);
 
-  const btnTry = $("#btnTry");
-  const btnRun = $("#btnRun");
-  const btnCopyResp = $("#btnCopyResp");
-  const btnReset = $("#btnReset");
+ const btnTry = $("#btnTry");
+const btnCopyResp = $("#btnCopyResp");
+const btnReset = $("#btnReset");
+
 
   const requestBody = $("#requestBody");
   const responseBox = $("#responseBox");
@@ -357,63 +357,65 @@
   });
 
   // ====== Run demo transform ======
-  btnRun.addEventListener("click", async () => {
-    let bodyObj;
-    try{
-      bodyObj = JSON.parse(requestBody.value);
-    }catch{
-      setStatus("bad", "Request body is not valid JSON.");
-      return;
-    }
+ btnTry.addEventListener("click", async () => {
+  setTimeout(() => requestBody.focus(), 150);
 
-    const url = API_BASE.replace(/\/+$/,"") + DEMO_PATH;
+  let bodyObj;
+  try {
+    bodyObj = JSON.parse(requestBody.value);
+  } catch {
+    setStatus("bad", "Request body is not valid JSON.");
+    return;
+  }
 
-    const t0 = performance.now();
-    setStatus("", "Sending request…");
-    btnRun.disabled = true;
+  const url = API_BASE.replace(/\/+$/, "") + DEMO_PATH;
 
-    try{
-      const res = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(bodyObj)
-      });
+  const t0 = performance.now();
+  setStatus("", "Sending request…");
+  btnTry.disabled = true;
 
-      const text = await res.text();
-      let json = null;
-      try{ json = text ? JSON.parse(text) : {}; } catch { json = { raw: text }; }
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(bodyObj)
+    });
 
-      responseBox.textContent = JSON.stringify(json, null, 2);
+    const text = await res.text();
+    let json;
+    try { json = text ? JSON.parse(text) : {}; }
+    catch { json = { raw: text }; }
 
-      const ttfsMs = Math.round(performance.now() - t0);
+    responseBox.textContent = JSON.stringify(json, null, 2);
 
-      if(!res.ok){
-        if (res.status === 429) {
-          setStatus("bad", `Rate limit hit — wait ~60 seconds and retry. (TTFS ${ttfsMs}ms)`);
-          console.log(`[MapleSchema Quickstart] 429 rate limit. TTFS ${ttfsMs}ms`);
-          return;
-        }
+    const ttfsMs = Math.round(performance.now() - t0);
 
-        const errMsg =
-          (typeof json?.error === "string" && json.error) ||
-          json?.error?.message ||
-          json?.message ||
-          json?.raw ||
-          ("HTTP " + res.status);
-
-        setStatus("bad", `Error: ${errMsg} (TTFS ${ttfsMs}ms)`);
-        console.log(`[MapleSchema Quickstart] Error ${res.status}. TTFS ${ttfsMs}ms`, json);
+    if (!res.ok) {
+      if (res.status === 429) {
+        setStatus("bad", `Rate limit hit — wait ~60 seconds and retry. (TTFS ${ttfsMs}ms)`);
         return;
       }
 
-      setStatus("ok", `Success. (TTFS ${ttfsMs}ms)`);
-      console.log(`[MapleSchema Quickstart] Success. TTFS ${ttfsMs}ms`);
-    }catch(err){
-      setStatus("bad", err?.message || "Network error.");
-    }finally{
-      btnRun.disabled = false;
+      const errMsg =
+        json?.error?.message ||
+        json?.message ||
+        json?.raw ||
+        ("HTTP " + res.status);
+
+      setStatus("bad", `Error: ${errMsg} (TTFS ${ttfsMs}ms)`);
+      return;
     }
-  });
+
+    setStatus("ok", `Success. (TTFS ${ttfsMs}ms)`);
+  } catch (err) {
+    setStatus("bad", err?.message || "Network error.");
+  } finally {
+    btnTry.disabled = false;
+  }
+});
+console.assert(btnTry, "btnTry missing");
+console.assert(btnCopyResp, "btnCopyResp missing");
+console.assert(btnReset, "btnReset missing");
 </script>
 </body>
 </html>
