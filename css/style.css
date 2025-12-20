@@ -131,9 +131,9 @@ main {
 .hero-lead {
   font-size: 1.05rem;
   max-width: 720px;
-  margin-bottom: 24px;
+  margin: 0 0 16px;
 }
-
+.hero-lead:last-of-type { margin-bottom: 24px; }
 /* Paragraph spacing / readability */
 .hero p {
   margin: 0 0 16px;
