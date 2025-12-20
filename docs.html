@@ -9,7 +9,6 @@
     content="Developer documentation for MapleSchema v1 — transform Canadian open banking transaction payloads into a single, deterministic JSON schema."
   />
 
-  
   <!-- SEO + Social -->
   <meta property="og:title" content="MapleSchema — Developer Documentation (v1)">
   <meta property="og:description" content="Learn how to call the MapleSchema v1 /transform endpoint, authenticate with API keys, and consume the transactions-v1.0 normalized schema.">
@@ -25,6 +24,37 @@
 
   <!-- Main stylesheet -->
   <link rel="stylesheet" href="/css/style.css" />
+
+  <!-- Copy button styles (small + self-contained) -->
+  <style>
+    .code-block {
+      position: relative;
+      text-align: left;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      font-size: 0.75rem;
+      padding: 0.35rem 0.6rem;
+      border: none;
+      border-radius: 4px;
+      background: #2f80ed;
+      color: white;
+      cursor: pointer;
+      opacity: 0.9;
+      line-height: 1;
+    }
+
+    .copy-btn:hover { opacity: 1; }
+
+    .copy-btn:disabled {
+      background: #27ae60;
+      cursor: default;
+      opacity: 1;
+    }
+  </style>
 </head>
 
 <body>
@@ -50,8 +80,6 @@
   </div>
 </header>
 
-
-
 <main class="container">
 
   <!-- HERO -->
@@ -64,46 +92,54 @@
       the <code>/v1/transactions/transform</code> endpoint, request and response formats, and error handling.
     </p>
   </section>
-<!-- QUICKSTART -->
-<section class="card" style="text-align:center;">
-  <h2>Quickstart</h2>
 
-  <p>
-    MapleSchema is a production API.
-    To run real transformations, request an API key and submit a request to
-    <code>/v1/transactions/transform</code>.
-  </p>
+  <!-- QUICKSTART -->
+  <section class="card" style="text-align:center;">
+    <h2>Quickstart</h2>
 
-  <p>
-    <a href="/request-key.html" class="button-primary">
-      Request an API Key
-    </a>
-  </p>
+    <p>
+      MapleSchema is a production API.
+      To run real transformations, request an API key and submit a request to
+      <code>/v1/transactions/transform</code>.
+    </p>
 
-  <hr style="margin:2rem 0; opacity:0.3;" />
+    <p>
+      <a href="/request-key.html" class="button-primary">
+        Request an API Key
+      </a>
+    </p>
 
-  <h3>Example: Transform Transactions</h3>
+    <hr style="margin:2rem 0; opacity:0.3;" />
 
-  <p class="small">
-    The example below shows a complete request using a real Open Banking
-    transactions payload and the v1 contract.
-  </p>
+    <h3>Example: Transform Transactions</h3>
 
- <div class="code-block">
-  <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <p class="small">
+      The example below shows a complete request using a real Open Banking
+      transactions payload and the v1 contract.
+    </p>
 
-  <pre><code class="language-bash">curl -X POST https://api.mapleschema.com/v1/transactions/transform \
-  -H "Authorization: Bearer YOUR_API_KEY" \
+    <p class="small"><strong>Request</strong></p>
+    <div class="code-block">
+      <button class="copy-btn" onclick="copyCode(this)" aria-label="Copy curl command">Copy</button>
+
+      <pre><code class="language-bash">curl -X POST https://api.mapleschema.com/v1/transactions/transform \
   -H "X-Project-Id: YOUR_PROJECT_ID" \
+  -H "X-Api-Key: YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d @transactions.json
 </code></pre>
-</div>
+    </div>
 
-<div class="code-block">
-  <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+    <p class="small">
+      Save the JSON below as <code>transactions.json</code>, then run the command.
+      Replace <code>YOUR_PROJECT_ID</code> and <code>YOUR_API_KEY</code> with the values issued to you.
+    </p>
 
-  <pre><code class="language-json">{
+    <p class="small"><strong>Sample Input (transactions.json)</strong></p>
+    <div class="code-block">
+      <button class="copy-btn" onclick="copyCode(this)" aria-label="Copy sample JSON payload">Copy</button>
+
+      <pre><code class="language-json">{
   "Data": {
     "Transaction": [
       {
@@ -124,70 +160,94 @@
           "Code": "Transfer",
           "Issuer": "AlphaBank"
         }
+      },
+      {
+        "AccountId": "31820",
+        "TransactionId": "567",
+        "TransactionReference": "Ref 124",
+        "Amount": { "Amount": "100.00", "Currency": "GBP" },
+        "CreditDebitIndicator": "Debit",
+        "Status": "Booked",
+        "BookingDateTime": "2017-05-02T14:22:09+00:00",
+        "ValueDateTime": "2017-05-02T14:22:09+00:00",
+        "TransactionInformation": "Paid the gas bill",
+        "AddressLine": "Coventry",
+        "BankTransactionCode": {
+          "Code": "IssuedCreditTransfer",
+          "SubCode": "AutomaticTransfer"
+        },
+        "ProprietaryBankTransactionCode": {
+          "Code": "DirectDebit",
+          "Issuer": "AlphaBank"
+        }
       }
     ]
+  },
+  "Links": { "Self": "https://api.alphabank.com/open-banking/v3.1/aisp/transactions" },
+  "Meta": {
+    "TotalPages": 1,
+    "FirstAvailableDateTime": "2017-05-03T00:00:00+00:00",
+    "LastAvailableDateTime": "2017-12-03T00:00:00+00:00"
   }
 }</code></pre>
-</div>
-
-</section>
-
-  
+    </div>
+  </section>
 
   <!-- BASE URLS / AUTH / ENDPOINT OVERVIEW -->
- <section class="docs-section">
+  <section class="docs-section">
 
     <article class="card">
-  <h2>🔑 Authentication</h2>
+      <h2>🔑 Authentication</h2>
 
-  <p>
-    All requests to the MapleSchema API require two headers:
-    a <strong>Project ID</strong> and an <strong>API Key</strong>.
-    The Project ID identifies which project is making the request, and the API Key
-    authenticates and authorizes that project. Both must be included for every call
-    to <code>/v1/transactions/transform</code>.
-  </p>
+      <p>
+        All requests to the MapleSchema API require two headers:
+        a <strong>Project ID</strong> and an <strong>API Key</strong>.
+        The Project ID identifies which project is making the request, and the API Key
+        authenticates and authorizes that project. Both must be included for every call
+        to <code>/v1/transactions/transform</code>.
+      </p>
 
-  <pre class="code-block">
+      <pre>
 X-Project-Id: YOUR_PROJECT_ID
 X-Api-Key: YOUR_API_KEY
-  </pre>
+      </pre>
 
-  <p>
-    Your Project ID and API Key are generated when you request access through the website.
-    Each key is scoped to a single project. Missing or invalid credentials will return a
-    deterministic authentication error response.
-  </p>
-</article>
-<article class="card">
-  <h2>🔁 Transform Endpoint</h2>
+      <p>
+        Your Project ID and API Key are generated when you request access through the website.
+        Each key is scoped to a single project. Missing or invalid credentials will return a
+        deterministic authentication error response.
+      </p>
+    </article>
 
-  <p>
-    The primary endpoint in MapleSchema v1 is <code>POST /v1/transactions/transform</code>.
-    It accepts institution-specific open banking transaction payloads and returns
-    normalized <code>transactions-v1.0</code> objects. All processing is stateless
-    and performed in memory.
-  </p>
+    <article class="card">
+      <h2>🔁 Transform Endpoint</h2>
 
-  <ul>
-    <li><strong>Method</strong>: <code>POST</code></li>
-    <li><strong>Path</strong>: <code>/v1/transactions/transform</code></li>
-    <li><strong>Content-Type</strong>: <code>application/json</code></li>
-    <li><strong>Auth</strong>: <code>X-Project-Id</code> and <code>X-Api-Key</code> headers</li>
-  </ul>
+      <p>
+        The primary endpoint in MapleSchema v1 is <code>POST /v1/transactions/transform</code>.
+        It accepts institution-specific open banking transaction payloads and returns
+        normalized <code>transactions-v1.0</code> objects. All processing is stateless
+        and performed in memory.
+      </p>
 
-  <pre class="code-block">
+      <ul>
+        <li><strong>Method</strong>: <code>POST</code></li>
+        <li><strong>Path</strong>: <code>/v1/transactions/transform</code></li>
+        <li><strong>Content-Type</strong>: <code>application/json</code></li>
+        <li><strong>Auth</strong>: <code>X-Project-Id</code> and <code>X-Api-Key</code> headers</li>
+      </ul>
+
+      <pre>
 X-Project-Id: YOUR_PROJECT_ID
 X-Api-Key: YOUR_API_KEY
-  </pre>
+      </pre>
 
-  <p>
-    The response from /v1/transactions/transform is a JSON object containing a metadata block
-    and a transactions array conforming to the <code>transactions-v1.0</code> schema. 
-    All timestamps are returned in UTC, and all amounts follow signed-value semantics paired with an explicit
-    <code>direction</code> field for clarity across account types.
-  </p>
-</article>
+      <p>
+        The response from <code>/v1/transactions/transform</code> is a JSON object containing a metadata block
+        and a transactions array conforming to the <code>transactions-v1.0</code> schema.
+        All timestamps are returned in UTC, and all amounts follow signed-value semantics paired with an explicit
+        <code>direction</code> field for clarity across account types.
+      </p>
+    </article>
 
   </section>
 
@@ -195,14 +255,14 @@ X-Api-Key: YOUR_API_KEY
   <section class="docs-section">
 
     <article class="card">
-  <h2>📥 Request Body Overview</h2>
+      <h2>📥 Request Body Overview</h2>
 
-  <p>
-    The request to <code>/v1/transactions/transform</code> contains a required
-    <code>transactions</code> array and optional routing hints.
-  </p>
+      <p>
+        The request to <code>/v1/transactions/transform</code> contains a required
+        <code>transactions</code> array and optional routing hints.
+      </p>
 
-  <pre class="code-block">
+      <pre>
 {
   "institution_code": "rbc_ca",
   "aggregator_code": "direct_ob",
@@ -210,91 +270,90 @@ X-Api-Key: YOUR_API_KEY
     { /* transaction object */ }
   ]
 }
-  </pre>
+      </pre>
 
-  <ul>
-    <li>
-      <strong>transactions</strong> (array, required) — list of transaction objects
-      to normalize in this request.
-    </li>
-    <li>
-      <strong>institution_code</strong> (string, optional) — default institution
-      mapping to apply when not specified per transaction.
-    </li>
-    <li>
-      <strong>aggregator_code</strong> (string, optional) — identifies the upstream
-      provider (e.g. <code>"flinks"</code>, <code>"plaid"</code>, <code>"direct_ob"</code>).
-    </li>
-  </ul>
+      <ul>
+        <li>
+          <strong>transactions</strong> (array, required) — list of transaction objects
+          to normalize in this request.
+        </li>
+        <li>
+          <strong>institution_code</strong> (string, optional) — default institution
+          mapping to apply when not specified per transaction.
+        </li>
+        <li>
+          <strong>aggregator_code</strong> (string, optional) — identifies the upstream
+          provider (e.g. <code>"flinks"</code>, <code>"plaid"</code>, <code>"direct_ob"</code>).
+        </li>
+      </ul>
 
-  <p class="small">
-    When both top-level and per-transaction routing fields are provided,
-    per-transaction values take precedence.
-  </p>
-</article>
-
+      <p class="small">
+        When both top-level and per-transaction routing fields are provided,
+        per-transaction values take precedence.
+      </p>
+    </article>
 
     <article class="card">
-  <h2>📄 Transaction Object — Core Fields (v1)</h2>
+      <h2>📄 Transaction Object — Core Fields (v1)</h2>
 
-  <p>
-    Each item in the <code>transactions</code> array represents a single upstream
-    transaction. Field availability varies by institution and aggregator.
-  </p>
+      <p>
+        Each item in the <code>transactions</code> array represents a single upstream
+        transaction. Field availability varies by institution and aggregator.
+      </p>
 
-  <h3>Required</h3>
-  <ul>
-    <li>
-      <code>posted_local_time</code> (string) — local posted time in RFC3339 with offset,
-      e.g. <code>2025-12-04T09:30:00-05:00</code>.
-    </li>
-    <li>
-      <code>amount</code> (object) — exact, unsigned monetary value.
-    </li>
-    <li>
-      <code>direction</code> (string) — <code>"debit"</code> or <code>"credit"</code>.
-    </li>
-    <li>
-      <code>description</code> (string) — raw description text from the upstream source.
-    </li>
-  </ul>
+      <h3>Required</h3>
+      <ul>
+        <li>
+          <code>posted_local_time</code> (string) — local posted time in RFC3339 with offset,
+          e.g. <code>2025-12-04T09:30:00-05:00</code>.
+        </li>
+        <li>
+          <code>amount</code> (object) — exact, unsigned monetary value.
+        </li>
+        <li>
+          <code>direction</code> (string) — <code>"debit"</code> or <code>"credit"</code>.
+        </li>
+        <li>
+          <code>description</code> (string) — raw description text from the upstream source.
+        </li>
+      </ul>
 
-  <h3>Optional</h3>
-  <ul>
-    <li><code>value_local_time</code> — local value date/time, when provided.</li>
-    <li><code>authorized_local_time</code> — authorization time for card transactions.</li>
-    <li><code>transaction_type</code> — coarse upstream type (e.g. <code>"CARD"</code>).</li>
-    <li><code>status</code> — upstream status (e.g. <code>"BOOKED"</code>).</li>
-    <li><code>bank_transaction_code</code> — standardized transaction code, when available.</li>
-    <li><code>proprietary_code</code> — institution-specific code.</li>
-    <li><code>related_transaction_id</code> — reference to a logically related transaction.</li>
-    <li><code>metadata</code> — free-form key/value bag.</li>
-    <li><code>extras</code> — passthrough fields preserved from the raw payload.</li>
-    <li>
-      <code>client_ref</code> — optional, opaque identifier echoed back unchanged
-      for client reconciliation.
-    </li>
-  </ul>
+      <h3>Optional</h3>
+      <ul>
+        <li><code>value_local_time</code> — local value date/time, when provided.</li>
+        <li><code>authorized_local_time</code> — authorization time for card transactions.</li>
+        <li><code>transaction_type</code> — coarse upstream type (e.g. <code>"CARD"</code>).</li>
+        <li><code>status</code> — upstream status (e.g. <code>"BOOKED"</code>).</li>
+        <li><code>bank_transaction_code</code> — standardized transaction code, when available.</li>
+        <li><code>proprietary_code</code> — institution-specific code.</li>
+        <li><code>related_transaction_id</code> — reference to a logically related transaction.</li>
+        <li><code>metadata</code> — free-form key/value bag.</li>
+        <li><code>extras</code> — passthrough fields preserved from the raw payload.</li>
+        <li>
+          <code>client_ref</code> — optional, opaque identifier echoed back unchanged
+          for client reconciliation.
+        </li>
+      </ul>
 
-  <p class="small">
-    MapleSchema does not enforce format or uniqueness for <code>client_ref</code>
-    and does not interpret its value.
-  </p>
-</article>
+      <p class="small">
+        MapleSchema does not enforce format or uniqueness for <code>client_ref</code>
+        and does not interpret its value.
+      </p>
+    </article>
 
+  </section>
 
   <!-- RESPONSE SCHEMA -->
   <section class="card">
     <h2>📤 Normalized Response — <code>transactions-v1.0</code></h2>
 
-<p>
-  The response from <code>/v1/transactions/transform</code> is a JSON object containing a
-  <code>metadata</code> block describing the batch and a <code>transactions</code>
-  array of normalized <code>transactions-v1.0</code> objects.
-</p>
+    <p>
+      The response from <code>/v1/transactions/transform</code> is a JSON object containing a
+      <code>metadata</code> block describing the batch and a <code>transactions</code>
+      array of normalized <code>transactions-v1.0</code> objects.
+    </p>
 
-
-    <pre class="code-block">
+    <pre>
 {
   "metadata": {
     "request_id": "auto-1764972823590099100",
@@ -361,8 +420,6 @@ X-Api-Key: YOUR_API_KEY
     }
   ]
 }
-
-
     </pre>
 
     <p>
@@ -371,7 +428,6 @@ X-Api-Key: YOUR_API_KEY
     </p>
   </section>
 
-  <!-- RESPONSE FIELD BREAKDOWN -->
   <!-- RESPONSE FIELD BREAKDOWN -->
   <section>
     <article class="card">
@@ -425,59 +481,60 @@ X-Api-Key: YOUR_API_KEY
       </p>
     </article>
 
-   <article class="card">
-  <h2>Descriptions &amp; Merchant</h2>
-  <ul>
-    <li>
-      <strong>original_description</strong> (string, required) — raw description or
-      merchant line from the institution.
-    </li>
-    <li>
-      <strong>transformed_description</strong> (string, nullable) — MapleSchema’s cleaned,
-      human-readable description, when available.
-    </li>
-    <li>
-      <strong>transformed_description_fr</strong> (string, nullable) — French version of the
-      transformed description, when available.
-    </li>
-    <li>
-      <strong>merchant_name</strong> (string, nullable) — normalized merchant or brand name.
-    </li>
-    <li>
-      <strong>merchant_name_fr</strong> (string, nullable) — French merchant or brand name,
-      when available.
-    </li>
-  </ul>
-</article>
+    <article class="card">
+      <h2>Descriptions &amp; Merchant</h2>
+      <ul>
+        <li>
+          <strong>original_description</strong> (string, required) — raw description or
+          merchant line from the institution.
+        </li>
+        <li>
+          <strong>transformed_description</strong> (string, nullable) — MapleSchema’s cleaned,
+          human-readable description, when available.
+        </li>
+        <li>
+          <strong>transformed_description_fr</strong> (string, nullable) — French version of the
+          transformed description, when available.
+        </li>
+        <li>
+          <strong>merchant_name</strong> (string, nullable) — normalized merchant or brand name.
+        </li>
+        <li>
+          <strong>merchant_name_fr</strong> (string, nullable) — French merchant or brand name,
+          when available.
+        </li>
+      </ul>
+    </article>
 
-<article class="card">
-  <h2>Status &amp; Classification</h2>
-  <ul>
-    <li>
-      <strong>status</strong> (string, required) — normalized transaction status, such as
-      <code>"posted"</code> or <code>"pending"</code>.
-    </li>
-    <li>
-      <strong>category</strong> (object, nullable) — reserved for future categorization;
-      current integrations may treat this as opaque.
-    </li>
-  </ul>
-</article>
-<section class="card">
-  <h2>Batch Metadata</h2>
-  <p>
-    The top-level <code>metadata</code> object describes the entire transform batch:
-  </p>
-  <ul>
-    <li><strong>request_id</strong> — identifier for this API call, useful for log correlation.</li>
-    <li><strong>institution_code</strong> — institution/adapter used for this batch.</li>
-    <li><strong>received_at</strong>, <strong>processed_at</strong> — UTC timestamps for when
-        the batch was received and processed.</li>
-    <li><strong>input_count</strong> — number of transactions in the request payload.</li>
-    <li><strong>output_count</strong> — number of successfully normalized transactions.</li>
-    <li><strong>failed_count</strong> — number of transactions that failed validation or normalization.</li>
-  </ul>
-</section>
+    <article class="card">
+      <h2>Status &amp; Classification</h2>
+      <ul>
+        <li>
+          <strong>status</strong> (string, required) — normalized transaction status, such as
+          <code>"posted"</code> or <code>"pending"</code>.
+        </li>
+        <li>
+          <strong>category</strong> (object, nullable) — reserved for future categorization;
+          current integrations may treat this as opaque.
+        </li>
+      </ul>
+    </article>
+
+    <section class="card">
+      <h2>Batch Metadata</h2>
+      <p>
+        The top-level <code>metadata</code> object describes the entire transform batch:
+      </p>
+      <ul>
+        <li><strong>request_id</strong> — identifier for this API call, useful for log correlation.</li>
+        <li><strong>institution_code</strong> — institution/adapter used for this batch.</li>
+        <li><strong>received_at</strong>, <strong>processed_at</strong> — UTC timestamps for when
+            the batch was received and processed.</li>
+        <li><strong>input_count</strong> — number of transactions in the request payload.</li>
+        <li><strong>output_count</strong> — number of successfully normalized transactions.</li>
+        <li><strong>failed_count</strong> — number of transactions that failed validation or normalization.</li>
+      </ul>
+    </section>
 
     <article class="card">
       <h2>Status, Country &amp; Meta</h2>
@@ -496,11 +553,13 @@ X-Api-Key: YOUR_API_KEY
       </ul>
     </article>
   </section>
-<article class="card">
-  <h2>Changelog</h2>
-  <p>The full version history of MapleSchema, shown in raw Markdown format.</p>
-  <p><a href="/changelog.html">View Changelog →</a></p>
-</article>
+
+  <article class="card">
+    <h2>Changelog</h2>
+    <p>The full version history of MapleSchema, shown in raw Markdown format.</p>
+    <p><a href="/changelog.html">View Changelog →</a></p>
+  </article>
+
   <!-- CONTACT -->
   <section class="card">
     <h2>Questions or Integration Help?</h2>
@@ -518,22 +577,27 @@ X-Api-Key: YOUR_API_KEY
 </footer>
 
 </div>
-</body>
-  <script>
-function copyCode(button) {
-  const code = button.nextElementSibling.querySelector("code").innerText;
 
-  navigator.clipboard.writeText(code).then(() => {
-    const original = button.textContent;
-    button.textContent = "Copied ✓";
-    button.disabled = true;
+<script>
+  function copyCode(button) {
+    const wrapper = button.closest(".code-block");
+    const codeEl = wrapper ? wrapper.querySelector("code") : null;
+    const text = codeEl ? codeEl.innerText : "";
 
-    setTimeout(() => {
-      button.textContent = original;
-      button.disabled = false;
-    }, 1500);
-  });
-}
+    if (!text) return;
+
+    navigator.clipboard.writeText(text).then(() => {
+      const original = button.textContent;
+      button.textContent = "Copied ✓";
+      button.disabled = true;
+
+      setTimeout(() => {
+        button.textContent = original;
+        button.disabled = false;
+      }, 1500);
+    });
+  }
 </script>
 
+</body>
 </html>
