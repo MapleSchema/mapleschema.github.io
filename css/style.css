@@ -142,7 +142,8 @@ main {
 .hero-lead {
   font-size: 1.05rem;
   max-width: 720px;
-  margin: 0 0 16px;
+  margin: 0 auto 16px;     /* <-- centers the paragraph block */
+  text-align: left;        /* keeps it readable */
 }
 .hero-lead:last-of-type { margin-bottom: 24px; }
 /* Paragraph spacing / readability */
