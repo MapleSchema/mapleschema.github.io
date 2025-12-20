@@ -111,8 +111,8 @@ main {
 
 /* Hero */
 .hero {
-  max-width: 960px;      /* same as container content width */
-  margin: 40px 0 48px;
+  max-width: 960px;
+  margin: 40px auto 48px;
 }
 
 .hero h1,
