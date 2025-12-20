@@ -113,11 +113,22 @@ main {
 .hero {
   max-width: 960px;
   margin: 40px auto 48px;
+  text-align: center;          /* center the title + inline elements */
+}
+/* Keep the hero paragraphs readable, but center the blocks */
+.hero p,
+.hero-lead {
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.hero h1,
-.hero p {
+.hero h1
+{
   max-width: 100%;
+}
+
+.hero p {
+  max-width: 42rem;
 }
 
 /* H1 styling */
@@ -136,7 +147,6 @@ main {
 .hero-lead:last-of-type { margin-bottom: 24px; }
 /* Paragraph spacing / readability */
 .hero p {
-  margin: 0 0 16px;
   line-height: 1.6;
   max-width: 42rem;
 }
