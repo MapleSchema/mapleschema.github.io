@@ -519,4 +519,21 @@ X-Api-Key: YOUR_API_KEY
 
 </div>
 </body>
+  <script>
+function copyCode(button) {
+  const code = button.nextElementSibling.querySelector("code").innerText;
+
+  navigator.clipboard.writeText(code).then(() => {
+    const original = button.textContent;
+    button.textContent = "Copied ✓";
+    button.disabled = true;
+
+    setTimeout(() => {
+      button.textContent = original;
+      button.disabled = false;
+    }, 1500);
+  });
+}
+</script>
+
 </html>
