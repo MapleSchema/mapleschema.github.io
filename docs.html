@@ -41,13 +41,16 @@
     </a>
 
     <nav>
+      <a href="/quickstart.html">Quickstart</a>
       <a href="/docs.html">Docs</a>
       <a href="/security.html">Security</a>
       <a href="/pricing.html">Pricing</a>
       <a href="/contact.html">Contact</a>
+      <a href="/request-key.html" class="nav-cta">Get API Key</a>
     </nav>
   </div>
 </header>
+
 
 
 <main class="container">
@@ -64,41 +67,25 @@
   </section>
 
   <!-- QUICKSTART -->
-  <section id="quickstart" class="card quickstart-card">
-    <h2>Quickstart — Call <code>/v1/transactions/transform</code> in 30 Seconds</h2>
+ <section class="card" style="text-align:center;">
+  <h2>Try a Live Transformation</h2>
 
-    <p>
-      Send institution-specific open banking transactions to MapleSchema and get back
-      normalized <code>transactions-v1.0</code> objects. Replace <code>YOUR_API_KEY</code> and <code>YOUR_PROJECT_ID</code>
-      with the ones issued to your project.
-    </p>
+  <p>
+    Want to see a real <code>/v1/transactions/transform</code> response using live data?
+    Run the interactive demo to submit a request and inspect the normalized output.
+  </p>
 
-    <pre class="code-block curl-block">
-curl -X POST https://api.mapleschema.com/v1/transactions/transform \
-  -H "Content-Type: application/json" \
-  -H "X-Project-Id: YOUR_PROJECT_ID" \
-  -H "X-Api-Key: YOUR_API_KEY" \
-  -d '{
-        "institution_code": "rbc_ca",
-        "transactions": [
-          {
-            "transactionId": "abc123",
-            "bookingDateTime": "2026-01-12T14:30:00-05:00",
-            "status": "BOOKED",
-            "type": "DEBIT",
-            "amount": { "currency": "CAD", "value": "18.42" },
-            "description": "POS 07/12  UBER *TRIP   HELP.UBER.COM CA",
-            "merchant": { "name": "UBER *TRIP   HELP.UBER.COM" }
-          }
-        ]
-      }'
-    </pre>
+  <p>
+    <a href="/quickstart.html" class="button-primary">
+      Run Live Demo
+    </a>
+  </p>
 
-    <p class="small">
-      The example above is representative of a typical open banking transaction payload.
-      See the request and response schema sections below for full details.
-    </p>
-  </section>
+  <p class="small">
+    This documentation describes the v1 contract.
+    The demo executes real requests against the API.
+  </p>
+</section>
 
   <!-- BASE URLS / AUTH / ENDPOINT OVERVIEW -->
   <section class="grid">
@@ -161,62 +148,93 @@ X-Api-Key: YOUR_API_KEY
   <section class="grid">
 
     <article class="card">
-      <h2>📥 Request Body Overview</h2>
-      <p>
-        The request to <code>/v1/transactions/transform</code> contains two required top-level fields:
-        <code>institution_code</code> and <code>transactions</code>.
-      </p>
+  <h2>📥 Request Body Overview</h2>
 
-      <pre class="code-block">
+  <p>
+    The request to <code>/v1/transactions/transform</code> contains a required
+    <code>transactions</code> array and optional routing hints.
+  </p>
+
+  <pre class="code-block">
 {
   "institution_code": "rbc_ca",
+  "aggregator_code": "direct_ob",
   "transactions": [
-    { /* institution-specific transaction */ }
+    { /* transaction object */ }
   ]
 }
-      </pre>
+  </pre>
 
-      <ul>
-        <li>
-          <strong>institution_code</strong> (string, required) — identifies which institution
-          or adapter to use. For example: <code>"rbc_ca"</code>, <code>"td_ca"</code>.
-        </li>
-        <li>
-          <strong>transactions</strong> (array, required) — the list of institution transaction
-          payloads to transform in this request.
-        </li>
-      </ul>
-      <p class="small">
-        MapleSchema expects payloads that are compatible with Canadian open banking formats
-        (bank or aggregator). Each adapter documents the specific fields it uses.
-      </p>
-    </article>
+  <ul>
+    <li>
+      <strong>transactions</strong> (array, required) — list of transaction objects
+      to normalize in this request.
+    </li>
+    <li>
+      <strong>institution_code</strong> (string, optional) — default institution
+      mapping to apply when not specified per transaction.
+    </li>
+    <li>
+      <strong>aggregator_code</strong> (string, optional) — identifies the upstream
+      provider (e.g. <code>"flinks"</code>, <code>"plaid"</code>, <code>"direct_ob"</code>).
+    </li>
+  </ul>
+
+  <p class="small">
+    When both top-level and per-transaction routing fields are provided,
+    per-transaction values take precedence.
+  </p>
+</article>
+
 
     <article class="card">
-      <h2>📄 Common Transaction Fields</h2>
-      <p>
-        While each institution may include additional data, the following fields are commonly
-        used by MapleSchema adapters when present:
-      </p>
+  <h2>📄 Transaction Object — Core Fields (v1)</h2>
 
-      <ul>
-        <li><code>transactionId</code> (string) — unique ID for the transaction.</li>
-        <li><code>bookingDateTime</code> (string, RFC3339 with offset) — posted or booking time.</li>
-        <li><code>status</code> (string) — e.g. <code>"BOOKED"</code>, <code>"PENDING"</code>.</li>
-        <li><code>type</code> (string) — e.g. <code>"DEBIT"</code>, <code>"CREDIT"</code>.</li>
-        <li><code>amount.currency</code> (string) — ISO currency, e.g. <code>"CAD"</code>.</li>
-        <li><code>amount.value</code> (string) — transaction amount as a string.</li>
-        <li><code>description</code> (string) — institution or network description.</li>
-        <li><code>merchant.name</code> (string, optional) — merchant name, when provided.</li>
-      </ul>
+  <p>
+    Each item in the <code>transactions</code> array represents a single upstream
+    transaction. Field availability varies by institution and aggregator.
+  </p>
 
-      <p class="small">
-        You may send richer payloads than this; MapleSchema will ignore fields it does not
-        understand and preserve behavior via deterministic transformation rules.
-      </p>
-    </article>
+  <h3>Required</h3>
+  <ul>
+    <li>
+      <code>posted_local_time</code> (string) — local posted time in RFC3339 with offset,
+      e.g. <code>2025-12-04T09:30:00-05:00</code>.
+    </li>
+    <li>
+      <code>amount</code> (object) — exact, unsigned monetary value.
+    </li>
+    <li>
+      <code>direction</code> (string) — <code>"debit"</code> or <code>"credit"</code>.
+    </li>
+    <li>
+      <code>description</code> (string) — raw description text from the upstream source.
+    </li>
+  </ul>
 
-  </section>
+  <h3>Optional</h3>
+  <ul>
+    <li><code>value_local_time</code> — local value date/time, when provided.</li>
+    <li><code>authorized_local_time</code> — authorization time for card transactions.</li>
+    <li><code>transaction_type</code> — coarse upstream type (e.g. <code>"CARD"</code>).</li>
+    <li><code>status</code> — upstream status (e.g. <code>"BOOKED"</code>).</li>
+    <li><code>bank_transaction_code</code> — standardized transaction code, when available.</li>
+    <li><code>proprietary_code</code> — institution-specific code.</li>
+    <li><code>related_transaction_id</code> — reference to a logically related transaction.</li>
+    <li><code>metadata</code> — free-form key/value bag.</li>
+    <li><code>extras</code> — passthrough fields preserved from the raw payload.</li>
+    <li>
+      <code>client_ref</code> — optional, opaque identifier echoed back unchanged
+      for client reconciliation.
+    </li>
+  </ul>
+
+  <p class="small">
+    MapleSchema does not enforce format or uniqueness for <code>client_ref</code>
+    and does not interpret its value.
+  </p>
+</article>
+
 
   <!-- RESPONSE SCHEMA -->
   <section class="card">
