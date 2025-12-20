@@ -89,19 +89,19 @@
     transactions payload and the v1 contract.
   </p>
 
+ <div class="code-block">
+  <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+
   <pre><code class="language-bash">curl -X POST https://api.mapleschema.com/v1/transactions/transform \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "X-Project-Id: YOUR_PROJECT_ID" \
   -H "Content-Type: application/json" \
   -d @transactions.json
 </code></pre>
+</div>
 
-  <p class="small">
-    Save the JSON below as <code>transactions.json</code> and run the command.
-  </p>
-</section>
-<section class="card">
-  <h3>Sample Input Payload</h3>
+<div class="code-block">
+  <button class="copy-btn" onclick="copyCode(this)">Copy</button>
 
   <pre><code class="language-json">{
   "Data": {
@@ -124,38 +124,12 @@
           "Code": "Transfer",
           "Issuer": "AlphaBank"
         }
-      },
-      {
-        "AccountId": "31820",
-        "TransactionId": "567",
-        "TransactionReference": "Ref 124",
-        "Amount": { "Amount": "100.00", "Currency": "GBP" },
-        "CreditDebitIndicator": "Debit",
-        "Status": "Booked",
-        "BookingDateTime": "2017-05-02T14:22:09+00:00",
-        "ValueDateTime": "2017-05-02T14:22:09+00:00",
-        "TransactionInformation": "Paid the gas bill",
-        "AddressLine": "Coventry",
-        "BankTransactionCode": {
-          "Code": "IssuedCreditTransfer",
-          "SubCode": "AutomaticTransfer"
-        },
-        "ProprietaryBankTransactionCode": {
-          "Code": "DirectDebit",
-          "Issuer": "AlphaBank"
-        }
       }
     ]
-  },
-  "Links": {
-    "Self": "https://api.alphabank.com/open-banking/v3.1/aisp/transactions"
-  },
-  "Meta": {
-    "TotalPages": 1,
-    "FirstAvailableDateTime": "2017-05-03T00:00:00+00:00",
-    "LastAvailableDateTime": "2017-12-03T00:00:00+00:00"
   }
 }</code></pre>
+</div>
+
 </section>
 
   
