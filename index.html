@@ -6,12 +6,12 @@
   <title>MapleSchema — Export to Excel or Google Sheets</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description"
-    content="Export your banking data to Excel or Google Sheets — instantly. Email login → upload file → download spreadsheet. 1,000 transactions free. $15 lifetime." />
+    content="Export your banking data to Excel or Google Sheets — instantly. Email to download → upload file → download spreadsheet. 1,000 transactions free. One-time $15 for unlimited use." />
 
   <!-- SEO + Social -->
   <meta property="og:title" content="MapleSchema — Export to Excel or Google Sheets">
   <meta property="og:description"
-    content="Export your banking data to Excel or Google Sheets — instantly. Email login → upload file → download spreadsheet. 1,000 transactions free. $15 lifetime.">
+    content="Export your banking data to Excel or Google Sheets — instantly. Email to download → upload file → download spreadsheet. 1,000 transactions free. One-time $15 for unlimited use.">
   <meta property="og:url" content="https://mapleschema.com/">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://mapleschema.com/images/mapleschema-social.png">
@@ -39,41 +39,41 @@
 
         <nav>
           <a href="/privacy.html">Privacy</a>
-          <a href="/enterprise" class="nav-cta">Enterprise</a>
         </nav>
       </div>
     </header>
 
     <main class="container">
 
-      <!-- ONE-SCREEN CONVERSION -->
+      <!-- HERO -->
       <section class="hero" style="padding-bottom: 0;">
 
         <h1>Export your banking data to Excel or Google Sheets — instantly.</h1>
 
         <p class="hero-lead" style="max-width: 820px;">
-          <strong>Email login</strong> → <strong>Upload file</strong> → <strong>Download spreadsheet</strong>
+          <strong>Email to download</strong> → <strong>Upload file</strong> → <strong>Download spreadsheet</strong>
         </p>
 
         <p class="proof" style="margin-top: 10px;">
-          1,000 transactions free (per email) • $15 lifetime • No credit card • Instant download
+          1,000 transactions free • One-time $15 for unlimited use • No credit card • Instant download
         </p>
 
         <p style="margin-top: 18px;">
           <a href="/convert.html" class="button-primary">
-            Start — Login &amp; Upload
+            Try it with your own file
           </a>
         </p>
 
       </section>
 
-<section class="grid" style="margin-top:16px; grid-template-columns: 1fr;">
+      <!-- DEMO (STACKED VERTICALLY) -->
+      <section class="grid" style="margin-top:16px; grid-template-columns: 1fr;">
 
-  <article class="card primary">
-    <h2>⬆️ Example input (banking JSON)</h2>
-    <p class="small">This is the kind of data you upload.</p>
+        <article class="card primary">
+          <h2>⬆️ Example input (banking JSON)</h2>
+          <p class="small">This is the kind of data you upload.</p>
 
-    <pre class="small" style="white-space:pre-wrap; margin-top:10px;">{
+          <pre class="small" style="white-space:pre-wrap; margin-top:10px;">{
   "Data": {
     "Transaction": [
       {
@@ -92,155 +92,80 @@
     ]
   }
 }</pre>
-  </article>
-  <article class="card">
-    <h2>⬇️ Example output (spreadsheet-ready)</h2>
-    <p class="small">
-      Returned as a CSV that you import into spreadsheets, accounting, or tax software.
-    </p>
-
-    <!-- CSV GRID -->
-    <div style="
-      display:grid;
-      grid-template-columns: repeat(5, minmax(120px, 1fr));
-      gap:8px;
-      margin-top:12px;
-      overflow-x:auto;
-    ">
-
-      <!-- Header row -->
-      <div class="small"><strong>posted_at</strong></div>
-      <div class="small"><strong>amount</strong></div>
-      <div class="small"><strong>currency</strong></div>
-      <div class="small"><strong>direction</strong></div>
-      <div class="small"><strong>description</strong></div>
-
-      <!-- Data row -->
-      <div class="small">2025-12-18</div>
-      <div class="small">-72.40</div>
-      <div class="small">CAD</div>
-      <div class="small">debit</div>
-      <div class="small">Downtown Coffee Shop</div>
-
-      <!-- Second header row -->
-      <div class="small"><strong>status</strong></div>
-      <div class="small"><strong>account_ref</strong></div>
-      <div class="small"><strong>transaction_ref</strong></div>
-      <div class="small"><strong>bank_code</strong></div>
-      <div class="small"><strong>category</strong></div>
-
-      <!-- Second data row -->
-      <div class="small">posted</div>
-      <div class="small">88931</div>
-      <div class="small">Invoice 84721</div>
-      <div class="small">Purchase:Card</div>
-      <div class="small">Food & Dining</div>
-
-    </div>
-
-    <p class="small" style="margin-top:10px;">
-      Clean columns. Consistent formatting. Ready to import or upload.
-    </p>
-
-    <p class="small" style="margin-top:6px;">
-      Works with spreadsheets, accounting tools, and tax software that accept CSV files.
-    </p>
-  </article>
-
-</section>
-
-<!-- THIN CTA STRIP -->
-<div style="
-  margin: 18px 0 8px;
-  padding: 14px 0;
-  border-top: 1px solid rgba(255,255,255,0.12);
-  border-bottom: 1px solid rgba(255,255,255,0.12);
-  text-align: center;
-">
-
-  <a href="/convert.html" class="button-primary">
-    Try it with your own file
-  </a>
-
-  <p class="small" style="margin-top: 6px;">
-    1,000 transactions free • No credit card
-  </p>
-
-</div>
-
-      
-      <!-- TWO CARDS ONLY -->
-      <section class="grid" style="margin-top: 16px;">
-
-        <article class="card primary">
-          <h2>🕶️ Stateless processing</h2>
-          <p class="small">
-            MapleSchema uses a <strong>stateless conversion process</strong>.
-            Files are processed to generate your download, then discarded.
-          </p>
-          <ul class="small" style="margin-top: 10px;">
-            <li>No transaction history retained.</li>
-            <li>No raw file storage after conversion.</li>
-            <li>Runs on Canadian infrastructure.</li>
-            <li>Uploads and downloads are encrypted (HTTPS).</li>
-          </ul>
         </article>
-       <article class="card">
-  <h2>✅ Works with the tools you already use</h2>
 
-  <p class="small">
-    Returned as a <strong>spreadsheet-ready CSV</strong> that can be imported into:
-  </p>
+        <article class="card">
+          <h2>⬇️ Example output (spreadsheet preview)</h2>
+          <p class="small"><strong>Preview of downloaded spreadsheet</strong> (first 10 fields).</p>
 
-  <!-- Capability groups -->
-  <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:12px; margin-top:12px;">
+          <!-- CSV GRID (10 fields) -->
+          <div style="
+            display:grid;
+            grid-template-columns: repeat(5, minmax(120px, 1fr));
+            gap:8px;
+            margin-top:12px;
+            overflow-x:auto;
+          ">
 
-    <div>
-      <strong class="small">Spreadsheets</strong>
-      <ul class="small" style="margin-top:6px;">
-        <li>Microsoft Excel</li>
-        <li>Google Sheets</li>
-        <li>Apple Numbers</li>
-        <li>LibreOffice</li>
-      </ul>
-    </div>
+            <!-- Header row -->
+            <div class="small"><strong>posted_at</strong></div>
+            <div class="small"><strong>amount</strong></div>
+            <div class="small"><strong>currency</strong></div>
+            <div class="small"><strong>direction</strong></div>
+            <div class="small"><strong>description</strong></div>
 
-    <div>
-      <strong class="small">Accounting & bookkeeping</strong>
-      <ul class="small" style="margin-top:6px;">
-        <li>QuickBooks</li>
-        <li>Wave</li>
-        <li>Xero</li>
-        <li>FreshBooks</li>
-      </ul>
-    </div>
+            <!-- Data row -->
+            <div class="small">2025-12-18</div>
+            <div class="small">-72.40</div>
+            <div class="small">CAD</div>
+            <div class="small">debit</div>
+            <div class="small">Downtown Coffee Shop</div>
 
-    <div>
-      <strong class="small">Tax & reporting</strong>
-      <ul class="small" style="margin-top:6px;">
-        <li>Tax preparation software</li>
-        <li>Accountant imports</li>
-        <li>Custom reporting tools</li>
-      </ul>
-    </div>
+            <!-- Second header row -->
+            <div class="small"><strong>status</strong></div>
+            <div class="small"><strong>account_ref</strong></div>
+            <div class="small"><strong>transaction_ref</strong></div>
+            <div class="small"><strong>bank_code</strong></div>
+            <div class="small"><strong>category</strong></div>
 
-  </div>
+            <!-- Second data row -->
+            <div class="small">posted</div>
+            <div class="small">88931</div>
+            <div class="small">Invoice 84721</div>
+            <div class="small">Purchase:Card</div>
+            <div class="small">Food & Dining</div>
 
-  <p class="small" style="margin-top:10px;">
-    Clean columns. Consistent formatting. Ready to paste, import, or upload.
-  </p>
-</article>
+          </div>
+
+          <p class="small" style="margin-top:10px;">
+            Returned as a <strong>spreadsheet-ready CSV</strong> you can import into tools that accept CSV files
+            (spreadsheets, accounting, and tax software).
+          </p>
+        </article>
 
       </section>
 
-      <p class="small" style="text-align:center; margin: 16px 0 0;">
-        Enterprise &amp; fintech teams: <a href="/enterprise">Go here →</a>
-      </p>
+      <!-- THIN CTA STRIP (after demo) -->
+      <div style="
+        margin: 18px 0 8px;
+        padding: 14px 0;
+        border-top: 1px solid rgba(255,255,255,0.12);
+        border-bottom: 1px solid rgba(255,255,255,0.12);
+        text-align: center;
+      ">
+        <a href="/convert.html" class="button-primary">
+          Try it with your own file
+        </a>
+        <p class="small" style="margin-top: 6px;">
+          1,000 transactions free • No credit card
+        </p>
+      </div>
 
     </main>
 
     <footer>
-      © MapleSchema 2025 — Export to Excel &amp; Google Sheets • <a href="/enterprise">Enterprise</a>
+      © MapleSchema 2025 — Export to Excel &amp; Google Sheets • Privacy-first •
+      <a href="/enterprise">For fintech &amp; developers</a>
     </footer>
 
   </div>
