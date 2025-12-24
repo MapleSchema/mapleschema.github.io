@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <title>MapleSchema — Transform Your Open Banking Data</title>
+  <title>MapleSchema — Convert to CSV</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description"
     content="Sign in, upload your banking export, and download a spreadsheet-ready CSV instantly." />
@@ -34,14 +34,8 @@
       border-bottom: 1px solid rgba(255,255,255,0.10);
       background: rgba(0,0,0,0.12);
     ">
-      <div class="container" style="
-        text-align: center;
-        padding: 12px 0;
-      ">
-        <a href="/enterprise" style="
-          text-decoration: none;
-          color: inherit;
-        ">
+      <div class="container" style="text-align:center; padding:12px 0;">
+        <a href="/enterprise" style="text-decoration:none; color:inherit;">
           <span style="
             font-size: 0.95rem;
             opacity: 0.95;
@@ -75,9 +69,9 @@
 
       <!-- HERO -->
       <section class="hero" style="padding-bottom: 0;">
-        <h1>Transform your banking data into someting more human.</h1>
+        <h1>Transform your banking data into something more human.</h1>
 
-        <p class="hero-lead" style="max-width: 860px;">
+        <p class="hero-lead" style="max-width: 900px;">
           <strong>Sign in</strong> → <strong>Upload file</strong> → <strong>Download spreadsheet</strong>
         </p>
 
@@ -88,102 +82,105 @@
 
       <!-- MAIN CONVERTER CARD -->
       <section class="grid" style="margin-top: 16px; grid-template-columns: 1fr;">
-        <article class="card primary" style="max-width: 980px; margin: 0 auto;">
+        <article class="card primary" style="
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 28px 32px;
+        ">
 
-          <h2 style="margin-bottom: 6px;">1) Sign in to start</h2>
-          <p class="small" style="margin-top: 0;">
-            Sign in is required to prevent abuse and enforce free limits.
-          </p>
+          <!-- TOP ROW: Sign-in + Upload -->
+          <div style="display:grid; grid-template-columns: 1fr 1.2fr; gap: 26px; align-items:start;">
 
-          <!-- SIGN IN BUTTONS (static placeholders for now) -->
-          <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
-            <a href="#" class="button-primary" style="display:inline-flex; align-items:center; gap:8px;">
-              <span aria-hidden="true">🔒</span>
-              Continue with Google
-            </a>
-            <!-- Optional: add Microsoft later -->
-            <!-- <a href="#" class="button-primary" style="display:inline-flex; align-items:center; gap:8px;">
-              <span aria-hidden="true">🔒</span>
-              Continue with Microsoft
-            </a> -->
-          </div>
+            <!-- SIGN IN -->
+            <div>
+              <h2 style="margin-bottom: 6px;">1) Sign in</h2>
+              <p class="small" style="margin-top: 0;">
+                Sign in once, then upload and download instantly.
+              </p>
 
-          <p class="small" style="margin-top: 10px; opacity: 0.92;">
-            Don’t have a Google account?
-            <a href="/contact.html">Contact us</a> and we’ll help.
-          </p>
-
-          <hr style="margin: 18px 0; border: 0; border-top: 1px solid rgba(255,255,255,0.12);">
-
-          <h2 style="margin-bottom: 6px;">2) Upload your file</h2>
-          <p class="small" style="margin-top: 0;">
-            Supported: JSON exports • Max 10MB
-          </p>
-
-          <!-- UPLOAD ZONE (locked in default state) -->
-          <div style="position: relative; margin-top: 12px;">
-            <div style="
-              border: 1px solid rgba(255,255,255,0.14);
-              border-radius: 12px;
-              padding: 18px;
-              background: rgba(0,0,0,0.12);
-            ">
-              <div style="display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap;">
-                <div>
-                  <div style="font-weight:700;">Drag & drop your file here</div>
-                  <div class="small" style="opacity:0.92; margin-top:4px;">Or choose a file from your computer.</div>
-                </div>
-
-                <button type="button" class="button-primary" disabled
-                  style="opacity:0.65; cursor:not-allowed;">
-                  Choose file
-                </button>
+              <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
+                <a href="#" class="button-primary" style="display:inline-flex; align-items:center; gap:8px;">
+                  <span aria-hidden="true">🔒</span>
+                  Continue with Google
+                </a>
               </div>
-            </div>
 
-            <!-- LOCK OVERLAY -->
-            <div style="
-              position:absolute;
-              inset:0;
-              border-radius: 12px;
-              background: rgba(0,0,0,0.45);
-              display:flex;
-              align-items:center;
-              justify-content:center;
-              text-align:center;
-              padding: 12px;
-            ">
-              <div style="
-                border: 1px solid rgba(255,255,255,0.16);
-                background: rgba(0,0,0,0.35);
-                padding: 12px 14px;
-                border-radius: 12px;
-                max-width: 520px;
+              <p class="small" style="margin-top: 10px; opacity: 0.92;">
+                Don’t have a Google account?
+                <a href="/contact.html">Contact us</a>.
+              </p>
+
+              <!-- Optional: this is where you'd show "Signed in as ..." later -->
+              <div class="small" style="
+                margin-top: 14px;
+                padding: 10px 12px;
+                border: 1px solid rgba(255,255,255,0.12);
+                border-radius: 10px;
+                background: rgba(0,0,0,0.06);
+                opacity: 0.9;
               ">
-                <div style="font-weight:800; margin-bottom:4px;">Sign in to enable upload</div>
-                <div class="small" style="opacity:0.92;">
-                  After you sign in, upload your file and click Convert to download your CSV instantly.
-                </div>
+                <strong>Status:</strong> Not signed in
               </div>
             </div>
+
+            <!-- UPLOAD (soft-locked) -->
+            <div>
+              <h2 style="margin-bottom: 6px;">2) Upload your file</h2>
+              <p class="small" style="margin-top: 0;">
+                Supported: JSON exports • Max 10MB
+              </p>
+
+              <p class="small" style="margin: 10px 0 8px; font-weight: 700;">
+                Sign in to enable upload
+              </p>
+
+              <div style="
+                border: 1px dashed rgba(120,80,50,0.35);
+                border-radius: 12px;
+                padding: 22px;
+                background: rgba(255,255,255,0.35);
+                opacity: 0.70;
+              ">
+                <div style="display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap;">
+                  <div>
+                    <div style="font-weight:700;">Drag & drop your file here</div>
+                    <div class="small" style="opacity:0.92; margin-top:4px;">Or choose a file from your computer.</div>
+                  </div>
+
+                  <button type="button" class="button-primary" disabled
+                    style="opacity:0.65; cursor:not-allowed;">
+                    Choose file
+                  </button>
+                </div>
+
+                <p class="small" style="margin-top: 12px; opacity: 0.95;">
+                  After you sign in, this area unlocks and you can convert immediately.
+                </p>
+              </div>
+            </div>
+
           </div>
 
-          <hr style="margin: 18px 0; border: 0; border-top: 1px solid rgba(255,255,255,0.12);">
+          <hr style="margin: 22px 0; border: 0; border-top: 1px solid rgba(255,255,255,0.12);">
 
-          <h2 style="margin-bottom: 6px;">3) Download CSV</h2>
-          <p class="small" style="margin-top: 0;">
-            Your file is processed and returned immediately as a spreadsheet-ready CSV.
-          </p>
+          <!-- BOTTOM ROW: Convert -->
+          <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:18px; flex-wrap:wrap;">
+            <div style="max-width: 720px;">
+              <h2 style="margin-bottom: 6px;">3) Download CSV</h2>
+              <p class="small" style="margin-top: 0;">
+                Your file is processed and returned immediately as a spreadsheet-ready CSV.
+              </p>
+            </div>
 
-          <div style="margin-top: 12px;">
-            <a href="#" class="button-primary" style="display:inline-flex; align-items:center; gap:8px;">
-              <span aria-hidden="true">⬇️</span>
-              Sign in to convert
-            </a>
-
-            <p class="small" style="margin-top: 10px; opacity: 0.92;">
-              Tip: once signed in, this button becomes <strong>Convert to CSV</strong>.
-            </p>
+            <div style="text-align:right;">
+              <a href="#" class="button-primary" style="display:inline-flex; align-items:center; gap:8px;">
+                <span aria-hidden="true">⬇️</span>
+                Sign in to convert
+              </a>
+              <p class="small" style="margin-top: 10px; opacity: 0.92;">
+                Once signed in, this becomes <strong>Convert to CSV</strong>.
+              </p>
+            </div>
           </div>
 
         </article>
@@ -191,26 +188,13 @@
 
       <!-- LIMITS CARD -->
       <section class="grid" style="margin-top: 16px; grid-template-columns: 1fr;">
-        <article class="card" style="max-width: 980px; margin: 0 auto;">
+        <article class="card" style="max-width: 1200px; margin: 0 auto;">
           <h2>Free limits</h2>
           <p class="small" style="margin-top: 6px;">
             Free accounts can convert up to <strong>1,000 transactions</strong>. Upgrade later for unlimited use.
           </p>
         </article>
       </section>
-
-      <!-- THIN STRIP CTA (kept simple here) -->
-      <div style="
-        margin: 18px 0 8px;
-        padding: 14px 0;
-        border-top: 1px solid rgba(255,255,255,0.12);
-        border-bottom: 1px solid rgba(255,255,255,0.12);
-        text-align: center;
-      ">
-        <p class="small" style="margin: 0;">
-          Already signed in? Upload your file and convert instantly.
-        </p>
-      </div>
 
     </main>
 
