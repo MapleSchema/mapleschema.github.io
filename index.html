@@ -83,6 +83,40 @@
             <li>Uploads and downloads are encrypted (HTTPS).</li>
           </ul>
         </article>
+<section class="grid" style="margin-top:16px;">
+
+  <article class="card primary">
+    <h2>⬆️ Example input (banking JSON)</h2>
+    <p class="small">This is the kind of data you upload.</p>
+    <pre class="small" style="white-space:pre-wrap;margin-top:10px;">{
+  "Data": {
+    "Transaction": [
+      {
+        "AccountId": "88931",
+        "TransactionId": "tx_84721",
+        "TransactionReference": "Invoice 84721",
+        "Amount": { "Amount": "72.40", "Currency": "CAD" },
+        "CreditDebitIndicator": "Debit",
+        "Status": "Booked",
+        "BookingDateTime": "2025-12-18T09:14:55-05:00",
+        "ValueDateTime": "2025-12-18T09:16:02-05:00",
+        "TransactionInformation": "Downtown Coffee Shop",
+        "BankTransactionCode": { "Code": "Purchase", "SubCode": "Card" },
+        "ProprietaryBankTransactionCode": { "Code": "POS", "Issuer": "ExampleBank" }
+      }
+    ]
+  }
+}</pre>
+  </article>
+
+  <article class="card">
+    <h2>⬇️ Example output (Excel / Google Sheets)</h2>
+    <p class="small">This is what you import into a spreadsheet.</p>
+    <pre class="small" style="white-space:pre-wrap;margin-top:10px;">schema_version,transaction_fingerprint,transaction_ref,account_ref,institution_code,posted_at,value_at,amount,currency,direction,bank_transaction_code,proprietary_code,transaction_type,original_description,status,mutability
+transactions-v1.0,ms_fpr_b91e2c44a7,Invoice 84721,88931,examplebank_ca,2025-12-18T14:14:55Z,2025-12-18T14:16:02Z,-72.40,CAD,debit,Purchase:Card,POS,card,Downtown Coffee Shop,posted,immutable</pre>
+  </article>
+
+</section>
 
         <article class="card">
           <h2>✅ Ready for spreadsheets</h2>
