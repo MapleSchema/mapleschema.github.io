@@ -3,15 +3,15 @@
 
 <head>
   <meta charset="UTF-8" />
-  <title>MapleSchema — Convert Bank JSON to Clean CSV</title>
+  <title>MapleSchema — JSON to CSV</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description"
-    content="Convert bank and open-banking transaction JSON into a clean CSV for Excel, Google Sheets, and accounting tools. 1,000 transactions free. $15 lifetime access." />
+    content="Convert transaction JSON to a clean CSV. Email login → upload JSON → download CSV. 1,000 free transactions per email. $15 lifetime." />
 
   <!-- SEO + Social -->
-  <meta property="og:title" content="MapleSchema — Convert Bank JSON to Clean CSV">
+  <meta property="og:title" content="MapleSchema — JSON to CSV">
   <meta property="og:description"
-    content="Upload transaction JSON. Download a clean CSV that works in Excel, Google Sheets, and accounting tools. 1,000 free transactions per email. $15 lifetime access.">
+    content="Email login → upload JSON → download CSV. 1,000 free transactions per email. $15 lifetime.">
   <meta property="og:url" content="https://mapleschema.com/">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://mapleschema.com/images/mapleschema-social.png">
@@ -38,8 +38,6 @@
         </a>
 
         <nav>
-          <a href="#how">How it works</a>
-          <a href="#pricing">Pricing</a>
           <a href="/privacy.html">Privacy</a>
           <a href="/enterprise" class="nav-cta">For Developers</a>
         </nav>
@@ -48,165 +46,62 @@
 
     <main class="container">
 
-      <!-- HERO -->
-      <section class="hero">
-        <h1>Turn Bank Transaction JSON Into a Clean CSV.</h1>
+      <!-- ONE-SCREEN CONVERSION -->
+      <section class="hero" style="padding-bottom: 0;">
+        <h1>Convert Transaction JSON → CSV</h1>
 
-        <p class="hero-lead">
-          Upload your transaction JSON (including open-banking exports) and download a
-          <strong>clean CSV</strong> that works in <strong>Excel</strong>, <strong>Google Sheets</strong>,
-          and common accounting tools.
+        <p class="hero-lead" style="max-width: 760px;">
+          <strong>Email login</strong> → <strong>Upload JSON</strong> → <strong>Download CSV</strong>
         </p>
 
-        <p class="hero-support">
-          No spreadsheets to debug. No broken imports. No fighting with columns that change.
-          Just a predictable CSV you can actually use.
+        <p class="proof" style="margin-top: 10px;">
+          1,000 free transactions per email • $15 lifetime • Canadian servers • Zero retention
         </p>
 
-        <p style="margin-top: 24px;">
+        <p style="margin-top: 18px;">
           <a href="/convert.html" class="button-primary">
-            Convert JSON → CSV
+            Start — Login &amp; Upload
           </a>
         </p>
 
-        <p class="proof" style="margin-top: 12px;">
-          1,000 transactions free • $15 lifetime • Canadian servers • Zero retention
-        </p>
-
         <p class="small" style="text-align:center; margin-top: 10px;">
-          Developer? Need normalized JSON instead? <a href="/enterprise">Go to Enterprise →</a>
+          Already have an account? <a href="/convert.html">Go to converter →</a>
         </p>
       </section>
 
-      <hr class="hero-divider" />
-
-      <!-- BENEFITS -->
-      <section class="grid">
-
+      <!-- TRUST SIGNALS (ABOVE THE FOLD) -->
+      <section class="grid" style="margin-top: 18px;">
         <article class="card">
-          <h2>✅ CSV That Imports Correctly</h2>
+          <h2>🕶️ Zero retention</h2>
           <p class="small">
-            MapleSchema standardizes dates, amounts, and direction (debit/credit) so your CSV
-            doesn’t break when you load it into spreadsheets or tools.
+            Processed in-memory. No raw payload storage.
           </p>
         </article>
 
         <article class="card primary">
-          <h2>🧼 Clean Columns, Predictable Output</h2>
+          <h2>🔒 Minimal data</h2>
           <p class="small">
-            Bank and app exports vary wildly. MapleSchema turns messy transaction JSON into a
-            consistent, spreadsheet-friendly format.
+            Just your email + transaction count for limits.
           </p>
         </article>
 
         <article class="card">
-          <h2>⏱️ Fix It in Minutes</h2>
+          <h2>⚡ Immediate output</h2>
           <p class="small">
-            Upload a file, get a CSV. No setup. No API keys. No developer knowledge required.
+            Upload JSON. Get a clean CSV.
           </p>
         </article>
-
-        <article class="card">
-          <h2>🔒 Privacy-First by Design</h2>
-          <p class="small">
-            Files are processed in-memory. We don’t store raw transaction payloads.
-            Minimal logging. Built to avoid handling more data than necessary.
-          </p>
-        </article>
-
-        <article class="card">
-          <h2>🍁 Built for Canada</h2>
-          <p class="small">
-            Designed around Canadian open-banking realities and common transaction patterns,
-            hosted on Canadian servers.
-          </p>
-        </article>
-
-        <article class="card">
-          <h2>📤 Use It Anywhere</h2>
-          <p class="small">
-            Download CSV for Excel, Google Sheets, or send it to your accountant.
-            Simple export, simple workflow.
-          </p>
-        </article>
-
       </section>
 
-      <!-- HOW IT WORKS -->
-      <section id="how" class="card" style="margin-top: 24px;">
-        <h2>How it works</h2>
-
-        <ol class="small" style="max-width: 760px; margin: 0 auto;">
-          <li><strong>Upload</strong> your transaction JSON file (including open-banking exports).</li>
-          <li><strong>Convert</strong> to a clean, standardized format.</li>
-          <li><strong>Download</strong> your CSV and use it immediately.</li>
-        </ol>
-
-        <p class="small" style="text-align:center; margin-top: 18px;">
-          <a href="/convert.html" class="button-primary">Convert JSON → CSV</a>
-        </p>
-      </section>
-
-      <!-- PRICING -->
-      <section id="pricing" class="card" style="margin-top: 24px;">
-        <h2>Simple pricing</h2>
-
-        <div class="grid" style="margin-top: 12px;">
-
-          <article class="card">
-            <h3 style="margin-top:0;">Free</h3>
-            <p class="small" style="margin-top: 8px;">
-              1,000 transactions per email
-            </p>
-            <p class="small">
-              No credit card
-            </p>
-          </article>
-
-          <article class="card primary">
-            <h3 style="margin-top:0;">Lifetime</h3>
-            <p class="small" style="margin-top: 8px;">
-              <strong>$15</strong> one-time
-            </p>
-            <p class="small">
-              Unlimited conversions
-            </p>
-          </article>
-
-        </div>
-
-        <p class="small" style="text-align:center; margin-top: 18px;">
-          <a href="/convert.html" class="button-primary">Start with 1,000 Free</a>
-        </p>
-
-        <p class="small" style="text-align:center; margin-top: 12px;">
-          Developer workflows? <a href="/enterprise">Enterprise JSON normalization →</a>
-        </p>
-      </section>
-
-      <!-- FAQ (minimal, high-leverage) -->
-      <section class="card" style="margin-top: 24px;">
-        <h2>Quick questions</h2>
-
-        <p class="small"><strong>Where do I get transaction JSON?</strong><br>
-          Usually from an app or service that connects to your bank (open banking / aggregators), or from a data export.
-          If you’re not sure, try a sample file first.
-        </p>
-
-        <p class="small"><strong>Do you store my data?</strong><br>
-          MapleSchema is designed for in-memory processing with zero retention of raw payloads.
-        </p>
-
-        <p class="small"><strong>What if my file doesn’t work?</strong><br>
-          You’ll get a clear error describing what’s missing or malformed so you can fix the input quickly.
-        </p>
-
-      </section>
+      <!-- ENTERPRISE ESCAPE HATCH -->
+      <p class="small" style="text-align:center; margin: 16px 0 0;">
+        Enterprise &amp; fintech teams: <a href="/enterprise">Go here →</a>
+      </p>
 
     </main>
 
     <footer>
-      © MapleSchema 2025 — Convert Bank JSON to Clean CSV • <a href="/enterprise">Enterprise</a>
+      © MapleSchema 2025 — JSON → CSV • <a href="/enterprise">Enterprise</a>
     </footer>
 
   </div>
