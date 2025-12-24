@@ -39,7 +39,7 @@
 
         <nav>
           <a href="/privacy.html">Privacy</a>
-          <a href="/enterprise" class="nav-cta">For Developers</a>
+          <a href="/enterprise" class="nav-cta">Enterprise</a>
         </nav>
       </div>
     </header>
@@ -67,28 +67,47 @@
 
       </section>
 
-      <!-- TRUST SIGNALS (ABOVE THE FOLD) -->
+      <!-- TWO CARDS ONLY -->
       <section class="grid" style="margin-top: 16px;">
-        <article class="card">
-          <h2>🕶️ No data retained</h2>
-          <p class="small">
-            Processed in-memory. No raw file storage.
-          </p>
-        </article>
 
         <article class="card primary">
-          <h2>✅ Works in spreadsheets</h2>
+          <h2>🕶️ No data retained</h2>
           <p class="small">
-            Clean columns and consistent formatting.
+            MapleSchema runs as a <strong>stateless conversion service</strong>.
+            Your file is processed to generate your download, then discarded.
           </p>
+          <ul class="small" style="margin-top: 10px;">
+            <li><strong>No transaction history</strong> stored on MapleSchema.</li>
+            <li><strong>No raw file storage</strong> after conversion.</li>
+            <li><strong>Canadian hosting</strong> (service runs on Canadian infrastructure).</li>
+            <li><strong>HTTPS encrypted</strong> upload &amp; download.</li>
+          </ul>
         </article>
 
         <article class="card">
-          <h2>🔒 Minimal info</h2>
+          <h2>✅ Works in spreadsheets</h2>
           <p class="small">
-            Email + transaction count for limits.
+            Your data is returned as a <strong>spreadsheet-ready CSV</strong> —
+            formatted to drop into Excel or Google Sheets.
+          </p>
+
+          <div style="display:flex; gap:14px; align-items:center; margin-top: 12px; flex-wrap: wrap;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <img src="/images/logo-excel.png" alt="Microsoft Excel" style="height:22px; width:auto;">
+              <span class="small"><strong>Excel</strong></span>
+            </div>
+
+            <div style="display:flex; align-items:center; gap:8px;">
+              <img src="/images/logo-sheets.png" alt="Google Sheets" style="height:22px; width:auto;">
+              <span class="small"><strong>Google Sheets</strong></span>
+            </div>
+          </div>
+
+          <p class="small" style="margin-top: 10px;">
+            Clean columns. Consistent formatting. Ready to paste, import, or share.
           </p>
         </article>
+
       </section>
 
       <p class="small" style="text-align:center; margin: 16px 0 0;">
