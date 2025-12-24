@@ -67,12 +67,13 @@
 
       </section>
 
-<section class="grid" style="margin-top:16px;">
+<section class="grid" style="margin-top:16px; grid-template-columns: 1fr;">
 
   <article class="card primary">
     <h2>⬆️ Example input (banking JSON)</h2>
     <p class="small">This is the kind of data you upload.</p>
-    <pre class="small" style="white-space:pre-wrap;margin-top:10px;">{
+
+    <pre class="small" style="white-space:pre-wrap; margin-top:10px;">{
   "Data": {
     "Transaction": [
       {
@@ -92,12 +93,58 @@
   }
 }</pre>
   </article>
-
   <article class="card">
-    <h2>⬇️ Example output (Excel / Google Sheets)</h2>
-    <p class="small">This is what you import into a spreadsheet.</p>
-    <pre class="small" style="white-space:pre-wrap;margin-top:10px;">schema_version,transaction_fingerprint,transaction_ref,account_ref,institution_code,posted_at,value_at,amount,currency,direction,bank_transaction_code,proprietary_code,transaction_type,original_description,status,mutability
-transactions-v1.0,ms_fpr_b91e2c44a7,Invoice 84721,88931,examplebank_ca,2025-12-18T14:14:55Z,2025-12-18T14:16:02Z,-72.40,CAD,debit,Purchase:Card,POS,card,Downtown Coffee Shop,posted,immutable</pre>
+    <h2>⬇️ Example output (spreadsheet-ready)</h2>
+    <p class="small">
+      Returned as a CSV that you import into spreadsheets, accounting, or tax software.
+    </p>
+
+    <!-- CSV GRID -->
+    <div style="
+      display:grid;
+      grid-template-columns: repeat(5, minmax(120px, 1fr));
+      gap:8px;
+      margin-top:12px;
+      overflow-x:auto;
+    ">
+
+      <!-- Header row -->
+      <div class="small"><strong>posted_at</strong></div>
+      <div class="small"><strong>amount</strong></div>
+      <div class="small"><strong>currency</strong></div>
+      <div class="small"><strong>direction</strong></div>
+      <div class="small"><strong>description</strong></div>
+
+      <!-- Data row -->
+      <div class="small">2025-12-18</div>
+      <div class="small">-72.40</div>
+      <div class="small">CAD</div>
+      <div class="small">debit</div>
+      <div class="small">Downtown Coffee Shop</div>
+
+      <!-- Second header row -->
+      <div class="small"><strong>status</strong></div>
+      <div class="small"><strong>account_ref</strong></div>
+      <div class="small"><strong>transaction_ref</strong></div>
+      <div class="small"><strong>bank_code</strong></div>
+      <div class="small"><strong>category</strong></div>
+
+      <!-- Second data row -->
+      <div class="small">posted</div>
+      <div class="small">88931</div>
+      <div class="small">Invoice 84721</div>
+      <div class="small">Purchase:Card</div>
+      <div class="small">Food & Dining</div>
+
+    </div>
+
+    <p class="small" style="margin-top:10px;">
+      Clean columns. Consistent formatting. Ready to import or upload.
+    </p>
+
+    <p class="small" style="margin-top:6px;">
+      Works with spreadsheets, accounting tools, and tax software that accept CSV files.
+    </p>
   </article>
 
 </section>
