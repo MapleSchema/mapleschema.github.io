@@ -2,15 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Contact — MapleSchema Canadian Open Banking Normalization</title>
+  <title>Contact — MapleSchema</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="description"
-        content="Contact MapleSchema for support, integration questions, or higher-volume Canadian open banking normalization plans." />
+        content="Contact MapleSchema for support, feedback, or enterprise open banking integration inquiries." />
 
   <!-- Social -->
   <meta property="og:title" content="MapleSchema — Contact">
-  <meta property="og:description" content="Get in touch with the MapleSchema team for support and enterprise requests.">
+  <meta property="og:description" content="Get in touch with MapleSchema for support or enterprise inquiries.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://mapleschema.com/contact.html">
   <meta property="og:image" content="https://mapleschema.com/images/mapleschema-social.png">
@@ -26,6 +26,34 @@
 
 <body>
 <div id="site">
+
+<!-- TOP STRIP: Enterprise discovery -->
+<div style="
+  border-bottom: 1px solid rgba(255,255,255,0.10);
+  background: rgba(0,0,0,0.12);
+">
+  <div class="container" style="
+    text-align: center;
+    padding: 12px 0;
+  ">
+    <a href="/enterprise" style="
+      text-decoration: none;
+      color: inherit;
+    ">
+      <span style="
+        font-size: 0.95rem;
+        opacity: 0.95;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      ">
+        <span aria-hidden="true">🍁</span>
+        Fintechs and businesses: visit the <strong>Enterprise Portal</strong> for API access and support.
+      </span>
+    </a>
+  </div>
+</div>
+
 <header>
   <div class="container header-inner">
     <a href="/index.html" class="logo-link">
@@ -35,66 +63,89 @@
              alt="MapleSchema logo">
       </div>
     </a>
-
-    <nav>
-      <a href="/docs.html">Docs</a>
-      <a href="/security.html">Security</a>
-      <a href="/pricing.html">Pricing</a>
-      <a href="/contact.html">Contact</a>
-      <a href="/request-key.html" class="nav-cta">Get API Key</a>
-    </nav>
   </div>
 </header>
 
-
 <main class="container">
 
+  <!-- HERO -->
   <section class="hero" style="text-align:center;">
     <h1>Contact MapleSchema</h1>
     <p class="hero-lead">
-      If you're working with Open Banking data or integrating MapleSchema into your product,
-      our team is here to help. Reach out anytime with questions as you build.
+      Questions, bugs, edge cases, or integration inquiries — reach out anytime.
     </p>
   </section>
 
- <section class="card" style="max-width:700px; margin:0 auto;">
-  <h2>General Questions & Support</h2>
-
-  <p>
-    For technical questions, integration support, or general inquiries, contact us anytime:
+  <!-- TEAM STATEMENT -->
+  <p class="small" style="text-align:center; max-width:700px; margin:12px auto 24px; opacity:0.9;">
+    MapleSchema is built and maintained by a small, technically focused team with deep experience in Canadian fintech and open banking integrations.
   </p>
 
-  <p style="font-size:1.1rem;">
-    <a href="mailto:support@mapleschema.com">support@mapleschema.com</a>
-  </p>
+  <!-- CONTACT LANES -->
+  <section class="grid" style="grid-template-columns: 1fr; gap: 16px; max-width: 900px; margin: 0 auto;">
 
-  <hr style="margin:2rem 0; border:0; border-top:1px solid #eee;">
+    <!-- Consumer / Export -->
+    <article class="card">
+      <h2>Export to Excel / Google Sheets</h2>
+      <p class="small">
+        Help with uploads, file formats, spreadsheets, billing, or general questions.
+      </p>
 
-   <p style="text-align:center; margin-top:1.5rem;">
-  <a href="https://x.com/mapleschema"
-     target="_blank"
-     rel="noopener"
-     style="
-       background:#f3c270;
-       padding:0.55rem 1rem;
-       border-radius:6px;
-       color:#4a2e22;
-       text-decoration:none;
-       font-weight:600;
-       display:inline-block;">
-    Follow @mapleschema on X
-  </a>
-</p>
+      <p style="font-size:1.1rem; margin-top:10px;">
+        <a href="mailto:support@mapleschema.com">support@mapleschema.com</a>
+      </p>
 
-   
-</section>
+      <ul class="small" style="margin-top:12px; line-height:1.6;">
+        <li>Which bank or export format you used</li>
+        <li>What you expected vs what happened</li>
+        <li>A redacted sample (remove names and account numbers)</li>
+      </ul>
+    </article>
 
+    <!-- Enterprise -->
+    <article class="card" id="enterprise">
+      <h2>Fintech / API / Enterprise</h2>
+      <p class="small">
+        API access, higher-volume pricing, partnerships, or custom open banking mappings.
+      </p>
 
+      <p style="font-size:1.1rem; margin-top:10px;">
+        <a href="mailto:enterprise@mapleschema.com">enterprise@mapleschema.com</a>
+      </p>
+
+      <p class="small" style="margin-top:10px; opacity:0.9;">
+        If you’re unsure which lane to use, email support and we’ll route it.
+      </p>
+    </article>
+
+    <!-- Social (low emphasis) -->
+    <article class="card" style="text-align:center;">
+      <p class="small">
+        Product updates and release notes:
+      </p>
+      <p style="margin-top:8px;">
+        <a href="https://x.com/mapleschema"
+           target="_blank"
+           rel="noopener"
+           style="
+             background:#f3c270;
+             padding:0.55rem 1rem;
+             border-radius:6px;
+             color:#4a2e22;
+             text-decoration:none;
+             font-weight:600;
+             display:inline-block;">
+          Follow @mapleschema on X
+        </a>
+      </p>
+    </article>
+
+  </section>
 
 </main>
 
 <footer>
-  © MapleSchema 2025 — Sweet, Compliance-First Open Banking Normalization
+  © MapleSchema 2025 — Privacy-first banking data exports and open banking infrastructure
 </footer>
 
 </div>
