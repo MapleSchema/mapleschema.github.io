@@ -5,44 +5,29 @@
   <meta charset="UTF-8" />
   <title>MapleSchema — Convert to CSV</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description"
-    content="Sign in, upload your banking export, and download a spreadsheet-ready CSV instantly." />
+  <meta name="description" content="Sign in, upload your banking export, and download a spreadsheet-ready CSV instantly." />
 
-  <!-- SEO + Social -->
   <meta property="og:title" content="MapleSchema — Convert to CSV">
-  <meta property="og:description"
-    content="Sign in, upload your banking export, and download a spreadsheet-ready CSV instantly.">
+  <meta property="og:description" content="Sign in, upload your banking export, and download a spreadsheet-ready CSV instantly.">
   <meta property="og:url" content="https://mapleschema.com/convert.html">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://mapleschema.com/images/mapleschema-social.png">
   <meta name="twitter:card" content="summary_large_image">
 
-  <!-- Favicons -->
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
   <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
 
-  <!-- Main stylesheet -->
   <link rel="stylesheet" href="/css/style.css" />
 </head>
 
 <body>
   <div id="site">
 
-    <!-- TOP STRIP: Enterprise discovery -->
-    <div style="
-      border-bottom: 1px solid rgba(255,255,255,0.10);
-      background: rgba(0,0,0,0.12);
-    ">
+    <div style="border-bottom: 1px solid rgba(255,255,255,0.10); background: rgba(0,0,0,0.12);">
       <div class="container" style="text-align:center; padding:12px 0;">
         <a href="/enterprise" style="text-decoration:none; color:inherit;">
-          <span style="
-            font-size: 0.95rem;
-            opacity: 0.95;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-          ">
+          <span style="font-size: 0.95rem; opacity: 0.95; display: inline-flex; align-items: center; gap: 6px;">
             <span aria-hidden="true">🍁</span>
             Fintechs and businesses: visit the <strong>Enterprise Portal</strong> for API access and support.
           </span>
@@ -67,7 +52,6 @@
 
     <main class="container">
 
-      <!-- HERO -->
       <section class="hero" style="padding-bottom: 0;">
         <h1>Transform your banking data into something more human.</h1>
 
@@ -80,15 +64,16 @@
         </p>
       </section>
 
-      <!-- MAIN CONVERTER CARD -->
       <section class="grid" style="margin-top: 16px; grid-template-columns: 1fr;">
-        <article class="card primary" style="
-          max-width: 1200px;
-          margin: 0 auto;
-          padding: 28px 32px;
-        ">
+        <article class="card primary" style="max-width: 1200px; margin: 0 auto; padding: 28px 32px;">
 
-          <!-- TOP ROW: Sign-in + Upload -->
+          <!-- ERROR BOX -->
+          <div id="errorBox" style="display:none; margin-bottom: 16px; padding: 12px 14px; border-radius: 12px; border: 1px solid rgba(255,80,80,0.35); background: rgba(255,0,0,0.08);">
+            <div style="font-weight: 800; margin-bottom: 6px;">Error</div>
+            <div id="errorText" class="small"></div>
+            <div id="requestId" class="small" style="margin-top: 6px; opacity: 0.9;"></div>
+          </div>
+
           <div style="display:grid; grid-template-columns: 1fr 1.2fr; gap: 26px; align-items:start;">
 
             <!-- SIGN IN -->
@@ -99,62 +84,65 @@
               </p>
 
               <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
-                <a href="#" class="button-primary" style="display:inline-flex; align-items:center; gap:8px;">
+                <button id="btnSignIn" class="button-primary" type="button" style="display:inline-flex; align-items:center; gap:8px;">
                   <span aria-hidden="true">🔒</span>
                   Continue with Google
-                </a>
+                </button>
+
+                <button id="btnSignOut" class="button-primary" type="button" disabled style="opacity:0.8;">
+                  Sign out
+                </button>
+              </div>
+
+              <div class="small" style="margin-top: 14px; padding: 10px 12px; border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; background: rgba(0,0,0,0.06); opacity: 0.95;">
+                <strong>Status:</strong> <span id="authStatus">Not signed in</span><br />
+                <span id="authEmail" style="opacity:0.9;"></span>
               </div>
 
               <p class="small" style="margin-top: 10px; opacity: 0.92;">
                 Don’t have a Google account?
                 <a href="/contact.html">Contact us</a>.
               </p>
-
-              <!-- Optional: this is where you'd show "Signed in as ..." later -->
-              <div class="small" style="
-                margin-top: 14px;
-                padding: 10px 12px;
-                border: 1px solid rgba(255,255,255,0.12);
-                border-radius: 10px;
-                background: rgba(0,0,0,0.06);
-                opacity: 0.9;
-              ">
-                <strong>Status:</strong> Not signed in
-              </div>
             </div>
 
-            <!-- UPLOAD (soft-locked) -->
+            <!-- UPLOAD -->
             <div>
               <h2 style="margin-bottom: 6px;">2) Upload your file</h2>
               <p class="small" style="margin-top: 0;">
                 Supported: JSON exports • Max 10MB
               </p>
 
-              <p class="small" style="margin: 10px 0 8px; font-weight: 700;">
-                Sign in to enable upload
-              </p>
+              <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 10px 0 12px;">
+                <div>
+                  <label class="small" style="font-weight: 800;">Aggregator</label>
+                  <select id="aggregatorCode" style="width: 100%; padding: 10px; border-radius: 10px;">
+                    <option value="">(none)</option>
+                    <!-- add real options later -->
+                  </select>
+                </div>
+                <div>
+                  <label class="small" style="font-weight: 800;">Bank</label>
+                  <select id="institutionCode" style="width: 100%; padding: 10px; border-radius: 10px;">
+                    <option value="">(none)</option>
+                    <!-- add real options later -->
+                  </select>
+                </div>
+              </div>
 
-              <div style="
-                border: 1px dashed rgba(120,80,50,0.35);
-                border-radius: 12px;
-                padding: 22px;
-                background: rgba(255,255,255,0.35);
-                opacity: 0.70;
-              ">
+              <div style="border: 1px dashed rgba(120,80,50,0.35); border-radius: 12px; padding: 18px; background: rgba(255,255,255,0.35);">
                 <div style="display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap;">
                   <div>
-                    <div style="font-weight:700;">Drag & drop your file here</div>
-                    <div class="small" style="opacity:0.92; margin-top:4px;">Or choose a file from your computer.</div>
+                    <div style="font-weight:700;">Choose a JSON file</div>
+                    <div class="small" style="opacity:0.92; margin-top:4px;">
+                      <span id="fileName">No file selected</span>
+                    </div>
                   </div>
 
-                  <button type="button" class="button-primary" disabled
-                    style="opacity:0.65; cursor:not-allowed;">
-                    Choose file
-                  </button>
+                  <input id="fileInput" type="file" accept="application/json,.json" disabled />
                 </div>
 
                 <p class="small" style="margin-top: 12px; opacity: 0.95;">
-                  After you sign in, this area unlocks and you can convert immediately.
+                  After you sign in, select a file and convert immediately.
                 </p>
               </div>
             </div>
@@ -163,7 +151,7 @@
 
           <hr style="margin: 22px 0; border: 0; border-top: 1px solid rgba(255,255,255,0.12);">
 
-          <!-- BOTTOM ROW: Convert -->
+          <!-- CONVERT -->
           <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:18px; flex-wrap:wrap;">
             <div style="max-width: 720px;">
               <h2 style="margin-bottom: 6px;">3) Download CSV</h2>
@@ -173,12 +161,12 @@
             </div>
 
             <div style="text-align:right;">
-              <a href="#" class="button-primary" style="display:inline-flex; align-items:center; gap:8px;">
+              <button id="btnConvert" class="button-primary" type="button" disabled style="display:inline-flex; align-items:center; gap:8px;">
                 <span aria-hidden="true">⬇️</span>
-                Sign in to convert
-              </a>
+                Convert to CSV
+              </button>
               <p class="small" style="margin-top: 10px; opacity: 0.92;">
-                Once signed in, this becomes <strong>Convert to CSV</strong>.
+                Requires Google sign-in.
               </p>
             </div>
           </div>
@@ -186,7 +174,6 @@
         </article>
       </section>
 
-      <!-- LIMITS CARD -->
       <section class="grid" style="margin-top: 16px; grid-template-columns: 1fr;">
         <article class="card" style="max-width: 1200px; margin: 0 auto;">
           <h2>Free limits</h2>
@@ -199,11 +186,28 @@
     </main>
 
     <footer>
-      © MapleSchema 2025 — Export to Excel &amp; Google Sheets • Privacy-first •
+      © MapleSchema 2026 — Export to Excel &amp; Google Sheets • Privacy-first •
       <a href="/enterprise">For fintech &amp; developers</a>
     </footer>
 
   </div>
+
+  <!-- Firebase (Compat SDK for simplest static hosting integration) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+  <!-- Your Firebase config (fill these in from your Firebase Web App settings) -->
+  <script>
+    window.MAPLE_FIREBASE_CONFIG = {
+      apiKey: "REPLACE_ME",
+      authDomain: "REPLACE_ME",
+      projectId: "REPLACE_ME",
+      appId: "REPLACE_ME"
+    };
+  </script>
+
+  <!-- Converter logic -->
+  <script src="/js/convert.js"></script>
 </body>
 
 </html>
