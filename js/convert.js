@@ -21,6 +21,10 @@
   const errorText = $("errorText");
   const requestIdEl = $("requestId");
 
+  const signInWrap = document.getElementById("signInWrap");
+  const signedInCard = document.getElementById("signedInCard");
+
+  
   // --- State
   let currentUser = null;
 
@@ -40,24 +44,36 @@
     currentUser = null;
     statusEl.textContent = "Not signed in";
     emailEl.textContent = "";
+  
+    // Toggle auth UI
+    if (signInWrap) signInWrap.style.display = "block";
+    if (signedInCard) signedInCard.style.display = "none";
     signInBtn.disabled = false;
     signOutBtn.disabled = true;
-
+    signOutBtn.style.display = "none";
+  
     fileInput.disabled = true;
     convertBtn.disabled = true;
     fileNameEl.textContent = "No file selected";
   }
 
+
   function setSignedInUI(user) {
     currentUser = user;
     statusEl.textContent = "Signed in";
     emailEl.textContent = user?.email || "";
+  
+    // Toggle auth UI
+    if (signInWrap) signInWrap.style.display = "none";
+    if (signedInCard) signedInCard.style.display = "block";
     signInBtn.disabled = true;
     signOutBtn.disabled = false;
-
+    signOutBtn.style.display = "inline-flex";
+  
     fileInput.disabled = false;
     convertBtn.disabled = !fileInput.files?.length;
   }
+
 
   function setBusy(isBusy) {
     convertBtn.disabled = isBusy || !currentUser || !fileInput.files?.length;
