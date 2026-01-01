@@ -83,21 +83,24 @@
                 Sign in once, then upload and download instantly.
               </p>
 
-              <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
-                <button id="btnSignIn" class="button-primary" type="button" style="display:inline-flex; align-items:center; gap:8px;">
-                  <span aria-hidden="true">🔒</span>
-                  Continue with Google
-                </button>
-
-                <button id="btnSignOut" class="button-primary" type="button" disabled style="opacity:0.8;">
+                <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
+                <div id="signInWrap">
+                  <button id="btnSignIn" class="button-primary" type="button" style="display:inline-flex; align-items:center; gap:8px;">
+                    <span aria-hidden="true">🔒</span>
+                    Continue with Google
+                  </button>
+                </div>
+              
+                <button id="btnSignOut" class="button-primary" type="button" disabled style="opacity:0.8; display:none;">
                   Sign out
                 </button>
               </div>
-
-              <div class="small" style="margin-top: 14px; padding: 10px 12px; border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; background: rgba(0,0,0,0.06); opacity: 0.95;">
+              
+              <div id="signedInCard" class="small" style="display:none; margin-top: 14px; padding: 10px 12px; border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; background: rgba(0,0,0,0.06); opacity: 0.95;">
                 <strong>Status:</strong> <span id="authStatus">Not signed in</span><br />
                 <span id="authEmail" style="opacity:0.9;"></span>
               </div>
+
 
               <p class="small" style="margin-top: 10px; opacity: 0.92;">
                 Don’t have a Google account?
