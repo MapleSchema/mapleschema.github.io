@@ -24,6 +24,25 @@
   const signInWrap = document.getElementById("signInWrap");
   const signedInCard = document.getElementById("signedInCard");
 
+
+  const routingWrap = $("routingWrap");
+
+  function hasRealOptions(sel) {
+    return sel && sel.options && sel.options.length > 1; // placeholder + real options
+  }
+
+  function updateRoutingVisibility() {
+    if (!routingWrap) return;
+
+    // Hide if neither dropdown has any real options.
+    if (!hasRealOptions(aggSelect) && !hasRealOptions(bankSelect)) {
+      routingWrap.style.display = "none";
+      return;
+    }
+
+    // Otherwise show.
+    routingWrap.style.display = "grid";
+  }
   
   // --- State
   let currentUser = null;
@@ -221,15 +240,19 @@
       const requestId = res.headers.get("X-Request-Id") || "";
 
       if (!res.ok) {
-        // attempt JSON error envelope
         let msg = `Convert failed (HTTP ${res.status}).`;
+        let rid = requestId;
+
         try {
           const j = await res.json();
           msg = j?.error?.message || msg;
+          rid = j?.error?.request_id || rid; // ✅ prefer body
         } catch (_) {}
-        setError(msg, requestId);
+
+        setError(msg, rid);
         return;
       }
+
 
       const blob = await res.blob();
       const cd = res.headers.get("Content-Disposition");
@@ -247,7 +270,7 @@
     // default UI
     setSignedOutUI();
     clearError();
-
+    updateRoutingVisibility();
     fileInput.addEventListener("change", () => {
       clearError();
       const f = fileInput.files?.[0];
