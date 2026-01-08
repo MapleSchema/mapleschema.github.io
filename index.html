@@ -152,7 +152,7 @@
 
   <!-- Input -->
   <article class="card primary">
-    <h2>⬆️ Example input (JSON)</h2>
+    <h2>Example input (JSON)</h2>
     <p class="small">This is the kind of data you upload.</p>
 
     <pre class="small" style="white-space:pre-wrap; margin-top:10px;">{
@@ -171,19 +171,13 @@
     }
   ]
 }</pre>
-
-    <p class="small" style="margin-top:10px; opacity:0.9;">
-      Note: <strong>account_ref</strong> and <strong>transaction_ref</strong> are included so the QuickBooks export can populate
-      <strong>AccountRef</strong> and <strong>Reference</strong>.
-    </p>
   </article>
 
   <!-- Output toggle + preview container -->
   <article class="card" style="margin-top:12px;">
     <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
       <div>
-        <h2 style="margin:0;">⬇️ Example output</h2>
-        <p class="small" style="margin:6px 0 0 0;">Switch between the two output formats.</p>
+        <h2 style="margin:0;">Example output</h2>
       </div>
 
       <!-- Toggle -->
@@ -202,22 +196,24 @@
           cursor: pointer;
         ">Transactions CSV</button>
 
-        <button id="toggleQb" type="button" onclick="msSetOutput('qb')" style="
-          padding: 10px 14px;
-          border: none;
-          background: transparent;
-          font-weight: 700;
-          cursor: pointer;
-        ">QuickBooks Expenses</button>
+         <button id="toggleQb" type="button" onclick="msSetOutput('qb')" style="
+        padding: 10px 16px;
+        border: 2px solid #2CA01C;
+        background: #2CA01C;
+        color: #ffffff;
+        font-weight: 700;
+        cursor: pointer;
+        border-radius: 999px;
+      ">
+        QuickBooks Expenses
+      </button>
+
       </div>
     </div>
 
     <!-- OUTPUT: CSV -->
     <div id="msOutCsv" style="margin-top:14px;">
       <h3 style="margin: 0 0 8px 0;">Transactions CSV (actual fields)</h3>
-      <p class="small" style="margin:0 0 12px 0;">
-        Fields match your <code>/v1/transactions/convert</code> CSV header.
-      </p>
 
       <div style="
         display:grid;
@@ -261,11 +257,7 @@
 
     <!-- OUTPUT: QuickBooks Expenses -->
     <div id="msOutQb" style="margin-top:14px; display:none;">
-      <h3 style="margin: 0 0 8px 0;">QuickBooks Expenses CSV (actual fields)</h3>
-      <p class="small" style="margin:0 0 12px 0;">
-        Fields match your QuickBooks CSV header (<code>Date, Payee, Description, Amount, Reference, AccountRef</code>).
-      </p>
-
+      <h3 style="margin: 0 0 8px 0;">QuickBooks Expenses CSV</h3>
       <div style="
         display:grid;
         grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr);
