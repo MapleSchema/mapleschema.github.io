@@ -6,12 +6,12 @@
   <title>MapleSchema — Export to CSV or QuickBooks</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description"
-    content="Convert banking JSON to a spreadsheet-ready CSV (free). Need QuickBooks? Generate QuickBooks import files in seconds. Privacy-first. Instant download." />
+    content="Convert banking JSON to a normalized transactions CSV (free). Generate accounting-ready QuickBooks import files (expenses). Privacy-first. Instant download." />
 
   <!-- SEO + Social -->
   <meta property="og:title" content="MapleSchema — CSV + QuickBooks export">
   <meta property="og:description"
-    content="Convert banking JSON to a spreadsheet-ready CSV (free). Need QuickBooks? Generate QuickBooks import files in seconds. Privacy-first. Instant download.">
+    content="Convert banking JSON to a normalized transactions CSV (free). Generate accounting-ready QuickBooks import files (expenses). Privacy-first. Instant download.">
   <meta property="og:url" content="https://mapleschema.com/">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://mapleschema.com/images/mapleschema-social.png">
@@ -82,7 +82,7 @@
           <strong>Upload banking JSON</strong> → <strong>Choose output</strong> → <strong>Download instantly</strong>
         </p>
 
-        <!-- Outcome split (no pricing language) -->
+        <!-- Outcome split (critical info moved here) -->
         <div class="grid" style="
           margin-top: 14px;
           grid-template-columns: repeat(2, minmax(240px, 1fr));
@@ -94,18 +94,28 @@
             <p class="small" style="margin:0; opacity:0.95;">
               Normalized transactions you can open in Excel or Google Sheets.
             </p>
-            <p class="small" style="margin-top:8px; opacity:0.85;">
-              Best for reviews, analysis, and personal tracking.
+            <ul class="small" style="margin-top:10px; opacity:0.95;">
+              <li>One row per transaction</li>
+              <li>Signed <strong>amount</strong> + explicit <strong>direction</strong> (debit/credit)</li>
+              <li>Best for review, analysis, and personal tracking</li>
+            </ul>
+            <p class="small" style="margin-top:10px; opacity:0.85;">
+              CSV conversion is free.
             </p>
           </article>
 
           <article class="card primary" style="margin:0;">
-            <h2 style="margin-bottom:6px;">📘 Accounting exports (QuickBooks)</h2>
+            <h2 style="margin-bottom:6px;">📘 QuickBooks export (Expenses)</h2>
             <p class="small" style="margin:0; opacity:0.95;">
-              QuickBooks-oriented import files (expenses + payments) designed for accounting workflows.
+              Generate QuickBooks-oriented import files designed for accounting workflows.
             </p>
-            <p class="small" style="margin-top:8px; opacity:0.85;">
-              Best when correctness and reconciliation matter.
+            <ul class="small" style="margin-top:10px; opacity:0.95;">
+              <li>Expenses output format for QuickBooks import</li>
+              <li>Conflicts are rejected by default (optional override in QB flow)</li>
+              <li>Best when correctness and reconciliation matter</li>
+            </ul>
+            <p class="small" style="margin-top:10px; opacity:0.85;">
+              Details and pricing are explained in the QuickBooks flow.
             </p>
           </article>
 
@@ -117,38 +127,35 @@
             Convert to spreadsheet (CSV)
           </a>
 
-       <a href="/quickbooks.html" style="
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          padding: 12px 18px;
-          border-radius: 10px;
-          background-color: #2CA01C;
-          color: #ffffff;
-          font-weight: 700;
-          text-decoration: none;
-          border: none;
-          line-height: 1;
-        ">
-          Export for QuickBooks
-        </a>
-
-
+          <!-- QuickBooks CTA (green/white, bold) -->
+          <a href="/quickbooks.html" style="
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 18px;
+            border-radius: 10px;
+            background-color: #2CA01C;
+            color: #ffffff;
+            font-weight: 700;
+            text-decoration: none;
+            border: none;
+            line-height: 1;
+            white-space: nowrap;
+          ">
+            Export for QuickBooks
+          </a>
         </div>
 
         <p class="proof" style="margin-top: 10px;">
-          CSV conversion is free • Privacy-first • Stateless processing • Instant download • No bank login required
-        </p>
-
-        <p class="small" style="margin-top: 8px; max-width: 920px; opacity:0.9;">
-          Use CSV when you want clean transactions in a spreadsheet. Use the QuickBooks flow when you want accounting-ready imports.
+          Privacy-first • Stateless processing • Instant download • No bank login required
         </p>
 
       </section>
 
-      <!-- DEMO (STACKED VERTICALLY) -->
+      <!-- DEMO: Input + Two outputs -->
       <section class="grid" style="margin-top:16px; grid-template-columns: 1fr;">
 
+        <!-- Input -->
         <article class="card primary">
           <h2>⬆️ Example input (banking JSON)</h2>
           <p class="small">This is the kind of data you upload.</p>
@@ -174,131 +181,97 @@
 }</pre>
         </article>
 
-        <article class="card">
-          <h2>⬇️ Example output (CSV preview)</h2>
-          <p class="small"><strong>Preview of downloaded CSV</strong> (first 10 fields).</p>
-
-          <!-- CSV GRID (10 fields) -->
-          <div style="
-            display:grid;
-            grid-template-columns: repeat(5, minmax(120px, 1fr));
-            gap:8px;
-            margin-top:12px;
-            overflow-x:auto;
-          ">
-
-            <!-- Header row -->
-            <div class="small"><strong>posted_at</strong></div>
-            <div class="small"><strong>amount</strong></div>
-            <div class="small"><strong>currency</strong></div>
-            <div class="small"><strong>direction</strong></div>
-            <div class="small"><strong>description</strong></div>
-
-            <!-- Data row -->
-            <div class="small">2025-12-18</div>
-            <div class="small">-72.40</div>
-            <div class="small">CAD</div>
-            <div class="small">debit</div>
-            <div class="small">Downtown Coffee Shop</div>
-
-            <!-- Second header row -->
-            <div class="small"><strong>status</strong></div>
-            <div class="small"><strong>account_ref</strong></div>
-            <div class="small"><strong>transaction_ref</strong></div>
-            <div class="small"><strong>bank_code</strong></div>
-            <div class="small"><strong>category</strong></div>
-
-            <!-- Second data row -->
-            <div class="small">posted</div>
-            <div class="small">88931</div>
-            <div class="small">Invoice 84721</div>
-            <div class="small">Purchase:Card</div>
-            <div class="small">Food & Dining</div>
-
-          </div>
-
-          <p class="small" style="margin-top:10px;">
-            Returned as a <strong>spreadsheet-ready CSV</strong> you can import into tools that accept CSV files.
-            <strong>CSV conversion is free.</strong>
-          </p>
-
-          <!-- QuickBooks teaser (value, not price) -->
-          <div style="
-            margin-top: 12px;
-            padding: 12px;
-            border: 1px solid rgba(255,255,255,0.14);
-            border-radius: 12px;
-            background: rgba(0,0,0,0.16);
-          ">
-            <p class="small" style="margin:0;">
-              Need QuickBooks? Use the <strong>QuickBooks Export</strong> flow to generate import-ready files (expenses + payments).
-            </p>
-            <p style="margin:10px 0 0;">
-              <a href="/quickbooks.html" style="
-                display: inline-flex;
-                align-items: center;
-                gap: 8px;
-                padding: 12px 18px;
-                border-radius: 10px;
-                background-color: #2CA01C;
-                color: #ffffff;
-                font-weight: 700;
-                text-decoration: none;
-                border: none;
-                line-height: 1;
-              ">
-                Transform your raw data for Quickbooks
-              </a>
-            </p>
-          </div>
-
-        </article>
-
-      </section>
-
-      <!-- PRICING (kept minimal; no "paid") -->
-      <section style="margin-top: 18px;">
-        <h2 style="margin-bottom: 10px;">How it works</h2>
-
+        <!-- Outputs -->
         <div class="grid" style="
-          grid-template-columns: repeat(2, minmax(240px, 1fr));
+          margin-top: 12px;
+          grid-template-columns: repeat(2, minmax(260px, 1fr));
           gap: 12px;
         ">
 
-          <article class="card" style="margin:0;">
-            <h3 style="margin-bottom:6px;">Spreadsheet (CSV)</h3>
-            <p class="small" style="margin:0;">
-              Convert banking JSON → <strong>normalized transactions CSV</strong>
+          <!-- Output 1: CSV -->
+          <article class="card">
+            <h2>⬇️ Output 1: Transactions CSV (spreadsheet-ready)</h2>
+            <p class="small"><strong>Preview</strong> (example row).</p>
+
+            <div style="
+              display:grid;
+              grid-template-columns: repeat(5, minmax(120px, 1fr));
+              gap:8px;
+              margin-top:12px;
+              overflow-x:auto;
+            ">
+              <div class="small"><strong>posted_at</strong></div>
+              <div class="small"><strong>amount</strong></div>
+              <div class="small"><strong>currency</strong></div>
+              <div class="small"><strong>direction</strong></div>
+              <div class="small"><strong>description</strong></div>
+
+              <div class="small">2025-12-18</div>
+              <div class="small">-72.40</div>
+              <div class="small">CAD</div>
+              <div class="small">debit</div>
+              <div class="small">Downtown Coffee Shop</div>
+            </div>
+
+            <p class="small" style="margin-top:10px;">
+              Returned as a <strong>normalized transactions CSV</strong> that imports cleanly into spreadsheets.
+              <strong>CSV conversion is free.</strong>
             </p>
-            <ul class="small" style="margin-top:10px; opacity:0.95;">
-              <li>Excel / Google Sheets friendly</li>
-              <li>No account required</li>
-              <li>Instant download</li>
-            </ul>
+
             <p style="margin-top: 12px;">
               <a href="/transform.html" class="button-primary">Convert to CSV</a>
             </p>
-            <p class="small" style="margin-top: 8px; opacity:0.85;">
-              CSV conversion is free.
-            </p>
           </article>
 
-          <article class="card primary" style="margin:0;">
-            <h3 style="margin-bottom:6px;">QuickBooks</h3>
-            <p class="small" style="margin:0;">
-              Convert banking JSON → <strong>QuickBooks import files</strong>
+          <!-- Output 2: QuickBooks Expenses -->
+          <article class="card">
+            <h2>⬇️ Output 2: QuickBooks Expenses (import format)</h2>
+            <p class="small"><strong>Preview</strong> (example row).</p>
+
+            <div style="
+              display:grid;
+              grid-template-columns: repeat(3, minmax(140px, 1fr));
+              gap:8px;
+              margin-top:12px;
+              overflow-x:auto;
+            ">
+              <div class="small"><strong>TxnDate</strong></div>
+              <div class="small"><strong>Payee</strong></div>
+              <div class="small"><strong>Amount</strong></div>
+
+              <div class="small">2025-12-18</div>
+              <div class="small">Downtown Coffee Shop</div>
+              <div class="small">72.40</div>
+
+              <div class="small"><strong>Account</strong></div>
+              <div class="small"><strong>Memo</strong></div>
+              <div class="small"><strong>Currency</strong></div>
+
+              <div class="small">Meals &amp; Entertainment</div>
+              <div class="small">POS Purchase</div>
+              <div class="small">CAD</div>
+            </div>
+
+            <p class="small" style="margin-top:10px;">
+              Designed to align with <strong>QuickBooks Expenses import</strong>. Use the QuickBooks flow to handle
+              collisions and output rules.
             </p>
-            <ul class="small" style="margin-top:10px; opacity:0.95;">
-              <li>Accounting-oriented outputs</li>
-              <li>ZIP download (expenses + payments)</li>
-              <li>Designed for clean imports</li>
-            </ul>
-            <p style="margin-top: 12px;">
+
+            <!-- KEEP THIS CTA TEXT, but fix styling to QuickBooks green/white/bold -->
+            <div style="
+              margin-top: 12px;
+              padding: 12px;
+              border-radius: 12px;
+              background: rgba(44,160,28,0.08);
+            ">
+              <p class="small" style="margin:0 0 10px 0;">
+                Ready to generate QuickBooks files?
+              </p>
               <a href="/quickbooks.html" style="
                 display: inline-flex;
                 align-items: center;
-                gap: 8px;
-                padding: 12px 18px;
+                justify-content: center;
+                padding: 10px 16px;
                 border-radius: 10px;
                 background-color: #2CA01C;
                 color: #ffffff;
@@ -306,18 +279,53 @@
                 text-decoration: none;
                 border: none;
                 line-height: 1;
+                white-space: nowrap;
               ">
-                Export for QuickBooks
+                Transform your raw data for QuickBooks
               </a>
+            </div>
 
-            </p>
-            <p class="small" style="margin-top: 8px; opacity:0.85;">
-              Details are explained in the QuickBooks flow.
-            </p>
           </article>
 
         </div>
+
       </section>
+
+      <!-- THIN CTA STRIP (after demo) -->
+      <div style="
+        margin: 18px 0 8px;
+        padding: 14px 0;
+        border-top: 1px solid rgba(255,255,255,0.12);
+        border-bottom: 1px solid rgba(255,255,255,0.12);
+        text-align: center;
+      ">
+        <div style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
+          <a href="/transform.html" class="button-primary">
+            Convert to spreadsheet (CSV)
+          </a>
+
+          <a href="/quickbooks.html" style="
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 18px;
+            border-radius: 10px;
+            background-color: #2CA01C;
+            color: #ffffff;
+            font-weight: 700;
+            text-decoration: none;
+            border: none;
+            line-height: 1;
+            white-space: nowrap;
+          ">
+            Export for QuickBooks
+          </a>
+        </div>
+        <p class="small" style="margin-top: 6px;">
+          Upload once → choose output → download instantly
+        </p>
+      </div>
+
     </main>
 
     <footer>
