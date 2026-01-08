@@ -187,29 +187,29 @@
 ">
 
   <button id="toggleCsv" type="button" onclick="msSetOutput('csv')" style="
-    padding: 10px 16px;
-    border: 2px solid rgba(0,0,0,0.25);
-    background: rgba(0,0,0,0.08);
-    color: #000000;
-    font-weight: 700;
-    cursor: pointer;
-    border-radius: 999px;
-  ">
-    Transactions CSV
-  </button>
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-weight: 700;
+  cursor: pointer;
+  border: 2px solid rgba(0,0,0,0.25);
+  background: #ffffff;
+  color: #000000;
+">
+  Transactions CSV
+</button>
+
 
   <button id="toggleQb" type="button" onclick="msSetOutput('qb')" style="
   padding: 10px 16px;
+  border-radius: 999px;
+  font-weight: 700;
+  cursor: pointer;
   border: 2px solid #2CA01C;
   background: #ffffff;
   color: #000000;
-  font-weight: 700;
-  cursor: pointer;
-  border-radius: 999px;
 ">
   QuickBooks Expenses
 </button>
-
 
 </div>
 
@@ -321,25 +321,24 @@
     </div>
 
     <!-- Toggle script -->
-   <!-- Toggle script -->
 <script>
   function msSetOutput(which) {
-    var csv = document.getElementById('msOutCsv');
-    var qb = document.getElementById('msOutQb');
-    var bCsv = document.getElementById('toggleCsv');
-    var bQb = document.getElementById('toggleQb');
+    const csv = document.getElementById('msOutCsv');
+    const qb = document.getElementById('msOutQb');
+    const bCsv = document.getElementById('toggleCsv');
+    const bQb = document.getElementById('toggleQb');
 
     if (which === 'qb') {
       // show QB output
       csv.style.display = 'none';
       qb.style.display = 'block';
 
-      // CSV button → OFF
+      // CSV → OFF
       bCsv.style.background = '#ffffff';
-      bCsv.style.border = '2px solid rgba(0,0,0,0.15)';
+      bCsv.style.border = '2px solid rgba(0,0,0,0.25)';
       bCsv.style.color = '#000000';
 
-      // QB button → ON
+      // QB → ON
       bQb.style.background = '#2CA01C';
       bQb.style.border = '2px solid #2CA01C';
       bQb.style.color = '#ffffff';
@@ -349,21 +348,22 @@
       csv.style.display = 'block';
       qb.style.display = 'none';
 
-      // CSV button → ON
+      // CSV → ON
       bCsv.style.background = 'rgba(0,0,0,0.08)';
-      bCsv.style.border = '2px solid rgba(0,0,0,0.25)';
+      bCsv.style.border = '2px solid rgba(0,0,0,0.35)';
       bCsv.style.color = '#000000';
 
-      // QB button → OFF
+      // QB → OFF (THIS is the key)
       bQb.style.background = '#ffffff';
       bQb.style.border = '2px solid #2CA01C';
-      bQb.style.color = '#2CA01C';
+      bQb.style.color = '#000000';
     }
   }
 
-  // default state
+  // force correct initial state
   msSetOutput('csv');
 </script>
+
 
   </article>
 
