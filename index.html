@@ -180,35 +180,38 @@
         <h2 style="margin:0;">Example output</h2>
       </div>
 
-      <!-- Toggle -->
-      <div style="
-        display:inline-flex;
-        border: 1px solid rgba(0,0,0,0.12);
-        border-radius: 999px;
-        overflow:hidden;
-        background: rgba(0,0,0,0.04);
-      ">
-        <button id="toggleCsv" type="button" onclick="msSetOutput('csv')" style="
-          padding: 10px 14px;
-          border: none;
-          background: rgba(0,0,0,0.08);
-          font-weight: 700;
-          cursor: pointer;
-        ">Transactions CSV</button>
+<!-- Toggle -->
+<div style="
+  display:inline-flex;
+  gap: 8px;
+  align-items:center;
+">
 
-      <button id="toggleQb" type="button" onclick="msSetOutput('qb')" style="
-        padding: 10px 16px;
-        border: 2px solid #2CA01C;
-        background: #ffffff;
-        color: #2CA01C;
-        font-weight: 700;
-        cursor: pointer;
-        border-radius: 999px;
-      ">
-        QuickBooks Expenses
-      </button>
-      </div>
-    </div>
+  <button id="toggleCsv" type="button" onclick="msSetOutput('csv')" style="
+    padding: 10px 16px;
+    border: 2px solid rgba(0,0,0,0.25);
+    background: rgba(0,0,0,0.08);
+    color: #000000;
+    font-weight: 700;
+    cursor: pointer;
+    border-radius: 999px;
+  ">
+    Transactions CSV
+  </button>
+
+  <button id="toggleQb" type="button" onclick="msSetOutput('qb')" style="
+    padding: 10px 16px;
+    border: 2px solid #2CA01C;
+    background: #ffffff;
+    color: #2CA01C;
+    font-weight: 700;
+    cursor: pointer;
+    border-radius: 999px;
+  ">
+    QuickBooks Expenses
+  </button>
+
+</div>
 
     <!-- OUTPUT: CSV -->
     <div id="msOutCsv" style="margin-top:14px;">
@@ -315,7 +318,7 @@
     </div>
 
     <!-- Toggle script -->
-    <script>
+   <!-- Toggle script -->
 <script>
   function msSetOutput(which) {
     var csv = document.getElementById('msOutCsv');
@@ -358,10 +361,6 @@
   // default state
   msSetOutput('csv');
 </script>
-
-      // default state
-      msSetOutput('csv');
-    </script>
 
   </article>
 
