@@ -147,111 +147,154 @@
 
   </section>
 
-  <!-- DEMO: Input -->
-  <section class="grid" style="margin-top:16px; grid-template-columns: 1fr;">
+<!-- DEMO: Input + Toggle Output Preview -->
+<section class="grid" style="margin-top:16px; grid-template-columns: 1fr;">
 
-    <article class="card primary">
-      <h2>⬆️ Example input (banking JSON)</h2>
-      <p class="small">This is the kind of data you upload.</p>
+  <!-- Input -->
+  <article class="card primary">
+    <h2>⬆️ Example input (JSON)</h2>
+    <p class="small">This is the kind of data you upload.</p>
 
-      <pre class="small" style="white-space:pre-wrap; margin-top:10px;">{
-  "Data": {
-    "Transaction": [
-      {
-        "AccountId": "88931",
-        "TransactionId": "tx_84721",
-        "TransactionReference": "Invoice 84721",
-        "Amount": { "Amount": "72.40", "Currency": "CAD" },
-        "CreditDebitIndicator": "Debit",
-        "Status": "Booked",
-        "BookingDateTime": "2025-12-18T09:14:55-05:00",
-        "ValueDateTime": "2025-12-18T09:16:02-05:00",
-        "TransactionInformation": "Downtown Coffee Shop",
-        "BankTransactionCode": { "Code": "Purchase", "SubCode": "Card" },
-        "ProprietaryBankTransactionCode": { "Code": "POS", "Issuer": "ExampleBank" }
-      }
-    ]
-  }
+    <pre class="small" style="white-space:pre-wrap; margin-top:10px;">{
+  "aggregator_code": "exampleagg",
+  "institution_code": "examplebank",
+  "transactions": [
+    {
+      "transaction_id": "tx_84721",
+      "account_ref": "88931",
+      "transaction_ref": "Invoice 84721",
+      "amount": 72.40,
+      "currency": "CAD",
+      "posted_local_time": "2025-12-18T09:14:55-05:00",
+      "description": "Downtown Coffee Shop",
+      "credit_debit_indicator": "Debit"
+    }
+  ]
 }</pre>
-    </article>
 
-    <!-- OUTPUTS (STACKED VERTICALLY) -->
-    <article class="card" style="margin-top: 12px;">
-      <h2>⬇️ Output 1: Transactions CSV (actual fields)</h2>
-      <p class="small"><strong>Preview</strong> (single example row).</p>
+    <p class="small" style="margin-top:10px; opacity:0.9;">
+      Note: <strong>account_ref</strong> and <strong>transaction_ref</strong> are included so the QuickBooks export can populate
+      <strong>AccountRef</strong> and <strong>Reference</strong>.
+    </p>
+  </article>
 
-      <div style="overflow-x:auto; margin-top: 12px;">
-        <div style="
-          display:grid;
-          grid-template-columns: repeat(4, minmax(160px, 1fr));
-          gap:8px;
-          min-width: 720px;
-        ">
-          <div class="small"><strong>transaction_fingerprint</strong></div>
-          <div class="small"><strong>institution_code</strong></div>
-          <div class="small"><strong>amount_minor</strong></div>
-          <div class="small"><strong>currency</strong></div>
-
-          <div class="small">fp_7d2c…</div>
-          <div class="small">examplebank</div>
-          <div class="small">-7240</div>
-          <div class="small">CAD</div>
-
-          <div class="small"><strong>direction</strong></div>
-          <div class="small"><strong>original_description</strong></div>
-          <div class="small"><strong>posted_at_utc</strong></div>
-          <div class="small"><strong>aggregator_code</strong></div>
-
-          <div class="small">debit</div>
-          <div class="small">Downtown Coffee Shop</div>
-          <div class="small">2025-12-18T14:14:55Z</div>
-          <div class="small">exampleagg</div>
-        </div>
+  <!-- Output toggle + preview container -->
+  <article class="card" style="margin-top:12px;">
+    <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+      <div>
+        <h2 style="margin:0;">⬇️ Example output</h2>
+        <p class="small" style="margin:6px 0 0 0;">Switch between the two output formats.</p>
       </div>
 
-      <p class="small" style="margin-top:10px;">
-        Returned as a <strong>normalized transactions CSV</strong>.
-        Uses <strong>amount_minor</strong> and <strong>direction</strong> explicitly (no silent sign-flipping).
+      <!-- Toggle -->
+      <div style="
+        display:inline-flex;
+        border: 1px solid rgba(0,0,0,0.12);
+        border-radius: 999px;
+        overflow:hidden;
+        background: rgba(0,0,0,0.04);
+      ">
+        <button id="toggleCsv" type="button" onclick="msSetOutput('csv')" style="
+          padding: 10px 14px;
+          border: none;
+          background: rgba(0,0,0,0.08);
+          font-weight: 700;
+          cursor: pointer;
+        ">Transactions CSV</button>
+
+        <button id="toggleQb" type="button" onclick="msSetOutput('qb')" style="
+          padding: 10px 14px;
+          border: none;
+          background: transparent;
+          font-weight: 700;
+          cursor: pointer;
+        ">QuickBooks Expenses</button>
+      </div>
+    </div>
+
+    <!-- OUTPUT: CSV -->
+    <div id="msOutCsv" style="margin-top:14px;">
+      <h3 style="margin: 0 0 8px 0;">Transactions CSV (actual fields)</h3>
+      <p class="small" style="margin:0 0 12px 0;">
+        Fields match your <code>/v1/transactions/convert</code> CSV header.
       </p>
+
+      <div style="
+        display:grid;
+        grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr);
+        gap:0;
+        border: 1px solid rgba(0,0,0,0.12);
+        border-radius: 12px;
+        overflow:hidden;
+        background: rgba(255,255,255,0.55);
+      ">
+        <!-- Row template: label | value -->
+        <div class="small" style="padding:10px 12px; font-weight:700; border-bottom:1px solid rgba(0,0,0,0.08);">transaction_fingerprint</div>
+        <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">computed (stable fingerprint)</div>
+
+        <div class="small" style="padding:10px 12px; font-weight:700; border-bottom:1px solid rgba(0,0,0,0.08);">institution_code</div>
+        <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">examplebank</div>
+
+        <div class="small" style="padding:10px 12px; font-weight:700; border-bottom:1px solid rgba(0,0,0,0.08);">amount_minor</div>
+        <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">-7240</div>
+
+        <div class="small" style="padding:10px 12px; font-weight:700; border-bottom:1px solid rgba(0,0,0,0.08);">currency</div>
+        <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">CAD</div>
+
+        <div class="small" style="padding:10px 12px; font-weight:700; border-bottom:1px solid rgba(0,0,0,0.08);">direction</div>
+        <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">debit</div>
+
+        <div class="small" style="padding:10px 12px; font-weight:700; border-bottom:1px solid rgba(0,0,0,0.08);">original_description</div>
+        <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">Downtown Coffee Shop</div>
+
+        <div class="small" style="padding:10px 12px; font-weight:700; border-bottom:1px solid rgba(0,0,0,0.08);">posted_at_utc</div>
+        <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">2025-12-18T14:14:55Z</div>
+
+        <div class="small" style="padding:10px 12px; font-weight:700;">aggregator_code</div>
+        <div class="small" style="padding:10px 12px;">exampleagg</div>
+      </div>
 
       <p style="margin-top: 12px;">
         <a href="/transform.html" class="button-primary">Convert to CSV</a>
       </p>
-    </article>
+    </div>
 
-    <article class="card" style="margin-top: 12px;">
-      <h2>⬇️ Output 2: QuickBooks Expenses CSV (actual fields)</h2>
-      <p class="small"><strong>Preview</strong> (single example row).</p>
-
-      <div style="overflow-x:auto; margin-top: 12px;">
-        <div style="
-          display:grid;
-          grid-template-columns: repeat(6, minmax(140px, 1fr));
-          gap:8px;
-          min-width: 960px;
-        ">
-          <div class="small"><strong>Date</strong></div>
-          <div class="small"><strong>Payee</strong></div>
-          <div class="small"><strong>Description</strong></div>
-          <div class="small"><strong>Amount</strong></div>
-          <div class="small"><strong>Reference</strong></div>
-          <div class="small"><strong>AccountRef</strong></div>
-
-          <div class="small">2025-12-18</div>
-          <div class="small"></div>
-          <div class="small">Downtown Coffee Shop</div>
-          <div class="small">72.40</div>
-          <div class="small">Invoice 84721</div>
-          <div class="small">88931</div>
-        </div>
-      </div>
-
-      <p class="small" style="margin-top:10px;">
-        QuickBooks export uses a <strong>fixed header</strong>. Payee is left blank in v1 (no guessing).
-        <strong>Amount is always positive</strong> — expenses vs payments are split by transaction direction.
+    <!-- OUTPUT: QuickBooks Expenses -->
+    <div id="msOutQb" style="margin-top:14px; display:none;">
+      <h3 style="margin: 0 0 8px 0;">QuickBooks Expenses CSV (actual fields)</h3>
+      <p class="small" style="margin:0 0 12px 0;">
+        Fields match your QuickBooks CSV header (<code>Date, Payee, Description, Amount, Reference, AccountRef</code>).
       </p>
 
-      <!-- KEEP THIS CTA TEXT (as requested), but style as QuickBooks green -->
+      <div style="
+        display:grid;
+        grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr);
+        gap:0;
+        border: 1px solid rgba(0,0,0,0.12);
+        border-radius: 12px;
+        overflow:hidden;
+        background: rgba(255,255,255,0.55);
+      ">
+        <div class="small" style="padding:10px 12px; font-weight:700; border-bottom:1px solid rgba(0,0,0,0.08);">Date</div>
+        <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">2025-12-18</div>
+
+        <div class="small" style="padding:10px 12px; font-weight:700; border-bottom:1px solid rgba(0,0,0,0.08);">Payee</div>
+        <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">(blank in v1)</div>
+
+        <div class="small" style="padding:10px 12px; font-weight:700; border-bottom:1px solid rgba(0,0,0,0.08);">Description</div>
+        <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">Downtown Coffee Shop</div>
+
+        <div class="small" style="padding:10px 12px; font-weight:700; border-bottom:1px solid rgba(0,0,0,0.08);">Amount</div>
+        <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">72.40</div>
+
+        <div class="small" style="padding:10px 12px; font-weight:700; border-bottom:1px solid rgba(0,0,0,0.08);">Reference</div>
+        <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">Invoice 84721</div>
+
+        <div class="small" style="padding:10px 12px; font-weight:700;">AccountRef</div>
+        <div class="small" style="padding:10px 12px;">88931</div>
+      </div>
+
+      <!-- Keep this CTA text (as requested) -->
       <div style="
         margin-top: 12px;
         padding: 12px;
@@ -278,9 +321,36 @@
           Transform your raw data for QuickBooks
         </a>
       </div>
-    </article>
+    </div>
 
-  </section>
+    <!-- Toggle script -->
+    <script>
+      function msSetOutput(which) {
+        var csv = document.getElementById('msOutCsv');
+        var qb = document.getElementById('msOutQb');
+        var bCsv = document.getElementById('toggleCsv');
+        var bQb = document.getElementById('toggleQb');
+
+        if (which === 'qb') {
+          csv.style.display = 'none';
+          qb.style.display = 'block';
+          bCsv.style.background = 'transparent';
+          bQb.style.background = 'rgba(0,0,0,0.08)';
+        } else {
+          csv.style.display = 'block';
+          qb.style.display = 'none';
+          bCsv.style.background = 'rgba(0,0,0,0.08)';
+          bQb.style.background = 'transparent';
+        }
+      }
+      // default state
+      msSetOutput('csv');
+    </script>
+
+  </article>
+
+</section>
+
 
 </main>
 
