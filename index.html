@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
-  <title>Banking JSON to CSV Converter + QuickBooks Export | MapleSchema</title>
+  <title>Banking JSON → Canonical Transactions (CSV, JSON, Insights, QuickBooks) | MapleSchema</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description"
-  content="Free banking JSON to CSV converter. Generate normalized transaction CSVs or QuickBooks-ready import files. Privacy-first. Instant download." />
+    content="Convert banking JSON into deterministic core transactions (free CSV), canonical transaction JSON, optional insights enrichment, or QuickBooks-ready import files. Privacy-first. Instant download." />
 
   <!-- SEO + Social -->
-  <meta property="og:title" content="MapleSchema — CSV + QuickBooks export">
+  <meta property="og:title" content="MapleSchema — Canonical transactions (CSV, JSON, Insights, QuickBooks)">
   <meta property="og:description"
-    content="Convert banking JSON to a normalized transactions CSV (free). Generate accounting-ready QuickBooks import files (expenses). Privacy-first. Instant download.">
+    content="Convert banking JSON into deterministic core transactions (free CSV), canonical transaction JSON, optional insights enrichment, or QuickBooks-ready import files. Privacy-first. Instant download.">
   <meta property="og:url" content="https://mapleschema.com/">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://mapleschema.com/images/mapleschema-social.png">
@@ -50,7 +49,7 @@
             gap: 6px;
           ">
             <span aria-hidden="true">🍁</span>
-            Fintechs and businesses: visit the <strong>Enterprise Portal</strong> for API access and support.
+            Fintechs &amp; platforms: visit the <strong>Enterprise Portal</strong> for API access, SLAs, and support.
           </span>
         </a>
       </div>
@@ -71,90 +70,126 @@
       </div>
     </header>
 
+    <main class="container">
 
-<main class="container">
+      <!-- HERO -->
+      <section class="hero" style="padding-bottom: 0;">
 
-  <!-- HERO -->
-  <section class="hero" style="padding-bottom: 0;">
+        <h1>Banking JSON → Clean Outputs (CSV, Canonical JSON, Insights, QuickBooks)</h1>
 
-    <h1>Banking JSON → Transaction CSV or QuickBooks File</h1>
-
-    <p class="hero-lead" style="max-width: 920px;">
-      <strong>Upload banking JSON</strong> → <strong>Choose output</strong> → <strong>Download instantly</strong>
-    </p>
-
-    <!-- Outcome split (critical info moved here) -->
-    <div class="grid" style="
-      margin-top: 14px;
-      grid-template-columns: repeat(2, minmax(240px, 1fr));
-      gap: 12px;
-    ">
-
-      <article class="card" style="margin:0;">
-        <h2 style="margin-bottom:6px;">📊 Spreadsheet exports (CSV)</h2>
-        <p class="small" style="margin:0; opacity:0.95;">
-          Normalized transactions you can open in Excel or Google Sheets.
+        <p class="hero-lead" style="max-width: 980px;">
+          <strong>Upload banking JSON</strong> → <strong>Choose output</strong> → <strong>Download instantly</strong>
         </p>
-        <ul class="small" style="margin-top:10px; opacity:0.95;">
-          <li><strong>amount_minor</strong> + <strong>direction</strong> are explicit (no guessing)</li>
-          <li>CSV conversion is free</li>
-        </ul>
-      </article>
 
-      <article class="card primary" style="margin:0;">
-        <h2 style="margin-bottom:6px;">📘 QuickBooks export (Expenses)</h2>
-        <p class="small" style="margin:0; opacity:0.95;">
-          Generate QuickBooks-oriented import files for accounting workflows.
+        <p class="small" style="max-width: 980px; margin-top: 8px; opacity: 0.95;">
+          Pick the exact format you need — spreadsheet exports, API-ready canonical JSON, optional insights enrichment, or QuickBooks import files.
         </p>
-        <ul class="small" style="margin-top:10px; opacity:0.95;">
-          <li><strong>QuickBooks header</strong> matches the generator</li>
-          <li><strong>Amount</strong> is always positive (file type determines expense/payment)</li>
-          <li>Collisions rejected by default (override inside QB flow)</li>
-        </ul>
-      </article>
 
-    </div>
+        <!-- OUTPUT ROUTER (4 flows) -->
+        <div class="grid" style="
+          margin-top: 14px;
+          grid-template-columns: repeat(2, minmax(240px, 1fr));
+          gap: 12px;
+        ">
 
-    <!-- CTAs -->
-    <div style="margin-top: 16px; display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
-      <a href="/transform.html" class="button-primary">
-        Convert to spreadsheet (CSV)
-      </a>
+          <!-- Core CSV (Free) -->
+          <article class="card" style="margin:0;">
+            <h2 style="margin-bottom:6px;">📊 Core Transactions (CSV) <span class="small" style="opacity:0.85;">— Free</span></h2>
+            <p class="small" style="margin:0; opacity:0.95;">
+              Deterministic, spreadsheet-friendly transactions CSV. Your lowest-friction way to validate correctness.
+            </p>
+            <ul class="small" style="margin-top:10px; opacity:0.95;">
+              <li><strong>amount_minor</strong> is signed; <strong>direction</strong> is included for readability/filtering</li>
+              <li>No probabilistic fields</li>
+              <li>Instant download</li>
+            </ul>
+            <div style="margin-top:12px;">
+              <a href="/transform.html" class="button-primary">Convert to Core CSV (Free)</a>
+            </div>
+          </article>
 
-      <!-- QuickBooks CTA (green/white, bold) -->
-      <a href="/quickbooks.html" style="
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding: 12px 18px;
-        border-radius: 10px;
-        background-color: #2CA01C;
-        color: #ffffff;
-        font-weight: 700;
-        text-decoration: none;
-        border: none;
-        line-height: 1;
-        white-space: nowrap;
-      ">
-        Export for QuickBooks
-      </a>
-    </div>
+          <!-- Canonical JSON (Paid) -->
+          <article class="card primary" style="margin:0;">
+            <h2 style="margin-bottom:6px;">🧩 Full Transactions (Canonical JSON) <span class="small" style="opacity:0.9;">— Paid</span></h2>
+            <p class="small" style="margin:0; opacity:0.95;">
+              The complete MapleSchema transaction object — versioned, machine-stable, and built for downstream systems.
+            </p>
+            <ul class="small" style="margin-top:10px; opacity:0.95;">
+              <li>Not “CSV in JSON form” — this is schema access</li>
+              <li>Deterministic (no ML)</li>
+              <li>Versioned contract</li>
+            </ul>
+            <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+              <a href="/transactions-json.html" class="button-primary">Get Canonical JSON</a>
+              <a href="/enterprise" class="small" style="align-self:center; text-decoration:none; opacity:0.9;">Enterprise?</a>
+            </div>
+          </article>
 
-    <p class="proof" style="margin-top: 10px;">
-      Privacy-first • Stateless processing • Instant download • No bank login required
-    </p>
+          <!-- Insights (Paid add-on) -->
+          <article class="card" style="margin:0;">
+            <h2 style="margin-bottom:6px;">✨ Canonical JSON + Insights <span class="small" style="opacity:0.85;">— Paid add-on</span></h2>
+            <p class="small" style="margin:0; opacity:0.95;">
+              Optional enrichment fields (categorization &amp; signals) clearly marked as probabilistic — without altering core truth.
+            </p>
+            <ul class="small" style="margin-top:10px; opacity:0.95;">
+              <li>Core transaction data remains deterministic</li>
+              <li>Insights are annotations only</li>
+              <li>Designed for power users</li>
+            </ul>
+            <div style="margin-top:12px;">
+              <a href="/insights.html" class="button-primary">Add Insights</a>
+            </div>
+          </article>
 
-  </section>
+          <!-- QuickBooks (Paid) -->
+          <article class="card" style="margin:0; border: 1px solid rgba(44,160,28,0.30);">
+            <h2 style="margin-bottom:6px;">📘 QuickBooks Export <span class="small" style="opacity:0.85;">— Paid</span></h2>
+            <p class="small" style="margin:0; opacity:0.95;">
+              Generate QuickBooks-oriented import files for accounting workflows (expenses + payments).
+            </p>
+            <ul class="small" style="margin-top:10px; opacity:0.95;">
+              <li>QuickBooks headers match the generator</li>
+              <li><strong>Amount</strong> always positive (file type determines expense/payment)</li>
+              <li>Collisions rejected by default (override inside QB flow)</li>
+            </ul>
 
-<!-- DEMO: Input + Toggle Output Preview -->
-<section class="grid" style="margin-top:16px; grid-template-columns: 1fr;">
+            <div style="margin-top:12px;">
+              <a href="/quickbooks.html" style="
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                padding: 12px 18px;
+                border-radius: 10px;
+                background-color: #2CA01C;
+                color: #ffffff;
+                font-weight: 700;
+                text-decoration: none;
+                border: none;
+                line-height: 1;
+                white-space: nowrap;
+              ">
+                Export for QuickBooks
+              </a>
+            </div>
+          </article>
 
-  <!-- Input -->
-  <article class="card primary">
-    <h2>Example input (JSON)</h2>
-    <p class="small">This is the kind of data you upload.</p>
+        </div>
 
-    <pre class="small" style="white-space:pre-wrap; margin-top:10px;">{
+        <p class="proof" style="margin-top: 12px;">
+          Privacy-first • Stateless processing • Instant download • No bank login required
+        </p>
+
+      </section>
+
+      <!-- DEMO: Input + Toggle Output Preview (CSV + QuickBooks examples) -->
+      <section class="grid" style="margin-top:16px; grid-template-columns: 1fr;">
+
+        <!-- Input -->
+        <article class="card primary">
+          <h2>Example input (JSON)</h2>
+          <p class="small">This is the kind of data you upload.</p>
+
+          <pre class="small" style="white-space:pre-wrap; margin-top:10px;">{
   "aggregator_code": "exampleagg",
   "institution_code": "examplebank",
   "transactions": [
@@ -170,215 +205,203 @@
     }
   ]
 }</pre>
-  </article>
+        </article>
 
-  <!-- Output toggle + preview container -->
-  <article class="card" style="margin-top:12px;">
-    <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
-      <div>
-        <h2 style="margin:0;">Example output</h2>
-      </div>
+        <!-- Output toggle + preview container -->
+        <article class="card" style="margin-top:12px;">
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+            <div>
+              <h2 style="margin:0;">Example outputs (CSV + QuickBooks)</h2>
+              <p class="small" style="margin:6px 0 0 0; opacity:0.85;">
+                Also available: <strong>Canonical JSON</strong> and <strong>Insights enrichment</strong>.
+              </p>
+            </div>
 
-<!-- Toggle -->
-<div style="
-  display:inline-flex;
-  gap: 8px;
-  align-items:center;
-">
+            <!-- Toggle -->
+            <div style="display:inline-flex; gap: 8px; align-items:center;">
+              <button id="toggleCsv" type="button" onclick="msSetOutput('csv')" style="
+                padding: 10px 16px;
+                border-radius: 999px;
+                font-weight: 700;
+                cursor: pointer;
+                border: 2px solid rgba(0,0,0,0.25);
+                background: #ffffff;
+                color: #000000;
+              ">
+                Core Transactions CSV
+              </button>
 
-  <button id="toggleCsv" type="button" onclick="msSetOutput('csv')" style="
-  padding: 10px 16px;
-  border-radius: 999px;
-  font-weight: 700;
-  cursor: pointer;
-  border: 2px solid rgba(0,0,0,0.25);
-  background: #ffffff;
-  color: #000000;
-">
-  Transactions CSV
-</button>
+              <button id="toggleQb" type="button" onclick="msSetOutput('qb')" style="
+                padding: 10px 16px;
+                border-radius: 999px;
+                font-weight: 700;
+                cursor: pointer;
+                border: 2px solid #2CA01C;
+                background: #ffffff;
+                color: #000000;
+              ">
+                QuickBooks Expenses
+              </button>
+            </div>
+          </div>
 
+          <!-- OUTPUT: CSV -->
+          <div id="msOutCsv" style="margin-top:14px;">
+            <h3 style="margin: 0 0 8px 0;">Core Transactions CSV</h3>
 
-  <button id="toggleQb" type="button" onclick="msSetOutput('qb')" style="
-  padding: 10px 16px;
-  border-radius: 999px;
-  font-weight: 700;
-  cursor: pointer;
-  border: 2px solid #2CA01C;
-  background: #ffffff;
-  color: #000000;
-">
-  QuickBooks Expenses
-</button>
+            <div style="
+              display:grid;
+              grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr);
+              gap:0;
+              border: 1px solid rgba(0,0,0,0.12);
+              border-radius: 12px;
+              overflow:hidden;
+              background: rgba(255,255,255,0.55);
+            ">
+              <div class="small" style="padding:10px 12px; font-weight:700; border-bottom:1px solid rgba(0,0,0,0.08);">transaction_fingerprint</div>
+              <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">computed (stable fingerprint)</div>
 
-</div>
+              <div class="small" style="padding:10px 12px; font-weight:700; border-bottom:1px solid rgba(0,0,0,0.08);">institution_code</div>
+              <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">examplebank</div>
 
-    <!-- OUTPUT: CSV -->
-    <div id="msOutCsv" style="margin-top:14px;">
-      <h3 style="margin: 0 0 8px 0;">Transactions CSV</h3>
+              <div class="small" style="padding:10px 12px; font-weight:700; border-bottom:1px solid rgba(0,0,0,0.08);">amount_minor</div>
+              <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">-7240</div>
 
-      <div style="
-        display:grid;
-        grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr);
-        gap:0;
-        border: 1px solid rgba(0,0,0,0.12);
-        border-radius: 12px;
-        overflow:hidden;
-        background: rgba(255,255,255,0.55);
-      ">
-        <!-- Row template: label | value -->
-        <div class="small" style="padding:10px 12px; font-weight:700; border-bottom:1px solid rgba(0,0,0,0.08);">transaction_fingerprint</div>
-        <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">computed (stable fingerprint)</div>
+              <div class="small" style="padding:10px 12px; font-weight:700; border-bottom:1px solid rgba(0,0,0,0.08);">currency</div>
+              <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">CAD</div>
 
-        <div class="small" style="padding:10px 12px; font-weight:700; border-bottom:1px solid rgba(0,0,0,0.08);">institution_code</div>
-        <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">examplebank</div>
+              <div class="small" style="padding:10px 12px; font-weight:700; border-bottom:1px solid rgba(0,0,0,0.08);">direction</div>
+              <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">debit</div>
 
-        <div class="small" style="padding:10px 12px; font-weight:700; border-bottom:1px solid rgba(0,0,0,0.08);">amount_minor</div>
-        <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">-7240</div>
+              <div class="small" style="padding:10px 12px; font-weight:700; border-bottom:1px solid rgba(0,0,0,0.08);">original_description</div>
+              <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">Downtown Coffee Shop</div>
 
-        <div class="small" style="padding:10px 12px; font-weight:700; border-bottom:1px solid rgba(0,0,0,0.08);">currency</div>
-        <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">CAD</div>
+              <div class="small" style="padding:10px 12px; font-weight:700; border-bottom:1px solid rgba(0,0,0,0.08);">posted_at_utc</div>
+              <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">2025-12-18T14:14:55Z</div>
 
-        <div class="small" style="padding:10px 12px; font-weight:700; border-bottom:1px solid rgba(0,0,0,0.08);">direction</div>
-        <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">debit</div>
+              <div class="small" style="padding:10px 12px; font-weight:700;">aggregator_code</div>
+              <div class="small" style="padding:10px 12px;">exampleagg</div>
+            </div>
 
-        <div class="small" style="padding:10px 12px; font-weight:700; border-bottom:1px solid rgba(0,0,0,0.08);">original_description</div>
-        <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">Downtown Coffee Shop</div>
+            <p class="small" style="margin-top:10px; opacity:0.85;">
+              Note: <strong>amount_minor</strong> is signed; <strong>direction</strong> is included for readability and filtering.
+            </p>
 
-        <div class="small" style="padding:10px 12px; font-weight:700; border-bottom:1px solid rgba(0,0,0,0.08);">posted_at_utc</div>
-        <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">2025-12-18T14:14:55Z</div>
+            <p style="margin-top: 12px;">
+              <a href="/transform.html" class="button-primary">Convert to Core CSV</a>
+            </p>
+          </div>
 
-        <div class="small" style="padding:10px 12px; font-weight:700;">aggregator_code</div>
-        <div class="small" style="padding:10px 12px;">exampleagg</div>
-      </div>
+          <!-- OUTPUT: QuickBooks Expenses -->
+          <div id="msOutQb" style="margin-top:14px; display:none;">
+            <h3 style="margin: 0 0 8px 0;">QuickBooks Expenses CSV</h3>
+            <p class="small" style="margin-top:8px; opacity:0.85;">
+              Designed for direct import into QuickBooks (no manual column mapping).
+            </p>
 
-      <p style="margin-top: 12px;">
-        <a href="/transform.html" class="button-primary">Convert to CSV</a>
-      </p>
-    </div>
+            <div style="
+              display:grid;
+              grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr);
+              gap:0;
+              border: 1px solid rgba(0,0,0,0.12);
+              border-radius: 12px;
+              overflow:hidden;
+              background: rgba(255,255,255,0.55);
+            ">
+              <div class="small" style="padding:10px 12px; font-weight:700; border-bottom:1px solid rgba(0,0,0,0.08);">Date</div>
+              <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">2025-12-18</div>
 
-    <!-- OUTPUT: QuickBooks Expenses -->
-    <div id="msOutQb" style="margin-top:14px; display:none;">
-      <h3 style="margin: 0 0 8px 0;">QuickBooks Expenses CSV</h3>
-      <p class="small" style="margin-top:8px; opacity:0.85;">
-        Designed for direct import into QuickBooks (no manual column mapping).
-      </p>
-      <div style="
-        display:grid;
-        grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr);
-        gap:0;
-        border: 1px solid rgba(0,0,0,0.12);
-        border-radius: 12px;
-        overflow:hidden;
-        background: rgba(255,255,255,0.55);
-      ">
-        <div class="small" style="padding:10px 12px; font-weight:700; border-bottom:1px solid rgba(0,0,0,0.08);">Date</div>
-        <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">2025-12-18</div>
+              <div class="small" style="padding:10px 12px; font-weight:700; border-bottom:1px solid rgba(0,0,0,0.08);">Payee</div>
+              <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">(blank in v1)</div>
 
-        <div class="small" style="padding:10px 12px; font-weight:700; border-bottom:1px solid rgba(0,0,0,0.08);">Payee</div>
-        <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">(blank in v1)</div>
+              <div class="small" style="padding:10px 12px; font-weight:700; border-bottom:1px solid rgba(0,0,0,0.08);">Description</div>
+              <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">Downtown Coffee Shop</div>
 
-        <div class="small" style="padding:10px 12px; font-weight:700; border-bottom:1px solid rgba(0,0,0,0.08);">Description</div>
-        <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">Downtown Coffee Shop</div>
+              <div class="small" style="padding:10px 12px; font-weight:700; border-bottom:1px solid rgba(0,0,0,0.08);">Amount</div>
+              <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">72.40</div>
 
-        <div class="small" style="padding:10px 12px; font-weight:700; border-bottom:1px solid rgba(0,0,0,0.08);">Amount</div>
-        <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">72.40</div>
+              <div class="small" style="padding:10px 12px; font-weight:700; border-bottom:1px solid rgba(0,0,0,0.08);">Reference</div>
+              <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">Invoice 84721</div>
 
-        <div class="small" style="padding:10px 12px; font-weight:700; border-bottom:1px solid rgba(0,0,0,0.08);">Reference</div>
-        <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">Invoice 84721</div>
+              <div class="small" style="padding:10px 12px; font-weight:700;">AccountRef</div>
+              <div class="small" style="padding:10px 12px;">88931</div>
+            </div>
 
-        <div class="small" style="padding:10px 12px; font-weight:700;">AccountRef</div>
-        <div class="small" style="padding:10px 12px;">88931</div>
-      </div>
+            <div style="
+              margin-top: 12px;
+              padding: 12px;
+              border-radius: 12px;
+              background: rgba(44,160,28,0.08);
+            ">
+              <p class="small" style="margin:0 0 10px 0;">
+                Ready to generate QuickBooks files?
+              </p>
+              <a href="/quickbooks.html" style="
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                padding: 10px 16px;
+                border-radius: 10px;
+                background-color: #2CA01C;
+                color: #ffffff;
+                font-weight: 700;
+                text-decoration: none;
+                border: none;
+                line-height: 1;
+                white-space: nowrap;
+              ">
+                Transform your raw data for QuickBooks
+              </a>
+            </div>
+          </div>
 
-      <!-- Keep this CTA text (as requested) -->
-      <div style="
-        margin-top: 12px;
-        padding: 12px;
-        border-radius: 12px;
-        background: rgba(44,160,28,0.08);
-      ">
-        <p class="small" style="margin:0 0 10px 0;">
-          Ready to generate QuickBooks files?
-        </p>
-        <a href="/quickbooks.html" style="
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          padding: 10px 16px;
-          border-radius: 10px;
-          background-color: #2CA01C;
-          color: #ffffff;
-          font-weight: 700;
-          text-decoration: none;
-          border: none;
-          line-height: 1;
-          white-space: nowrap;
-        ">
-          Transform your raw data for QuickBooks
-        </a>
-      </div>
-    </div>
+          <!-- Toggle script -->
+          <script>
+            function msSetOutput(which) {
+              const csv = document.getElementById('msOutCsv');
+              const qb = document.getElementById('msOutQb');
+              const bCsv = document.getElementById('toggleCsv');
+              const bQb = document.getElementById('toggleQb');
 
-    <!-- Toggle script -->
-<script>
-  function msSetOutput(which) {
-    const csv = document.getElementById('msOutCsv');
-    const qb = document.getElementById('msOutQb');
-    const bCsv = document.getElementById('toggleCsv');
-    const bQb = document.getElementById('toggleQb');
+              if (which === 'qb') {
+                csv.style.display = 'none';
+                qb.style.display = 'block';
 
-    if (which === 'qb') {
-      // show QB output
-      csv.style.display = 'none';
-      qb.style.display = 'block';
+                bCsv.style.background = '#ffffff';
+                bCsv.style.border = '2px solid rgba(0,0,0,0.25)';
+                bCsv.style.color = '#000000';
 
-      // CSV → OFF
-      bCsv.style.background = '#ffffff';
-      bCsv.style.border = '2px solid rgba(0,0,0,0.25)';
-      bCsv.style.color = '#000000';
+                bQb.style.background = '#2CA01C';
+                bQb.style.border = '2px solid #2CA01C';
+                bQb.style.color = '#ffffff';
+              } else {
+                csv.style.display = 'block';
+                qb.style.display = 'none';
 
-      // QB → ON
-      bQb.style.background = '#2CA01C';
-      bQb.style.border = '2px solid #2CA01C';
-      bQb.style.color = '#ffffff';
+                bCsv.style.background = 'rgba(0,0,0,0.08)';
+                bCsv.style.border = '2px solid rgba(0,0,0,0.35)';
+                bCsv.style.color = '#000000';
 
-    } else {
-      // show CSV output
-      csv.style.display = 'block';
-      qb.style.display = 'none';
+                bQb.style.background = '#ffffff';
+                bQb.style.border = '2px solid #2CA01C';
+                bQb.style.color = '#000000';
+              }
+            }
 
-      // CSV → ON
-      bCsv.style.background = 'rgba(0,0,0,0.08)';
-      bCsv.style.border = '2px solid rgba(0,0,0,0.35)';
-      bCsv.style.color = '#000000';
+            msSetOutput('csv');
+          </script>
 
-      // QB → OFF (THIS is the key)
-      bQb.style.background = '#ffffff';
-      bQb.style.border = '2px solid #2CA01C';
-      bQb.style.color = '#000000';
-    }
-  }
+        </article>
 
-  // force correct initial state
-  msSetOutput('csv');
-</script>
+      </section>
 
-
-  </article>
-
-</section>
-
-
-</main>
-
+    </main>
 
     <footer>
-      © MapleSchema 2026 — CSV + QuickBooks exports • Privacy-first •
+      © MapleSchema 2026 — Canonical transactions (CSV, JSON, Insights, QuickBooks) • Privacy-first •
       <a href="/enterprise">For fintech &amp; developers</a>
     </footer>
 
   </div>
 </body>
-
 </html>
