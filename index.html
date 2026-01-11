@@ -198,21 +198,26 @@
           <p class="small">This is the kind of data you upload.</p>
 
           <pre class="small" style="white-space:pre-wrap; margin-top:10px;">{
-  "aggregator_code": "exampleagg",
-  "institution_code": "examplebank",
-  "transactions": [
-    {
-      "transaction_id": "tx_84721",
-      "account_ref": "88931",
-      "transaction_ref": "Invoice 84721",
-      "amount": 72.40,
-      "currency": "CAD",
-      "posted_local_time": "2025-12-18T09:14:55-05:00",
-      "description": "Downtown Coffee Shop",
-      "credit_debit_indicator": "Debit"
-    }
-  ]
-}</pre>
+  "transactions_path": "Data.Transaction",
+  "payload": {
+    "Data": {
+      "Transaction": [
+        {
+          "transaction_id": "tx_84721",
+          "account_ref": "88931",
+          "transaction_ref": "Invoice 84721",
+          "amount": 72.40,
+          "currency": "CAD",
+          "posted_local_time": "2025-12-18T09:14:55-05:00",
+          "description": "Downtown Coffee Shop",
+          "credit_debit_indicator": "Debit"
+        }
+      ]
+    },
+    "Meta": { "total": 1 }
+  }
+}
+</pre>
         </article>
 
      <!-- Output toggle + preview container -->
