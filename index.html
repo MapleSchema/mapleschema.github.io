@@ -92,70 +92,94 @@
           gap: 12px;
         ">
 
-          <!-- Core CSV (Free) -->
-          <article class="card" style="margin:0;">
-            <h2 style="margin-bottom:6px;">📊 Core Transactions (CSV) <span class="small" style="opacity:0.85;">— Free</span></h2>
-            <p class="small" style="margin:0; opacity:0.95;">
-              Deterministic, spreadsheet-friendly transactions CSV. Your lowest-friction way to validate correctness.
-            </p>
-            <ul class="small" style="margin-top:10px; opacity:0.95;">
-              <li><strong>amount_minor</strong> is signed; <strong>direction</strong> is included for readability/filtering</li>
-              <li>No probabilistic fields</li>
-              <li>Instant download</li>
-            </ul>
-            <div style="margin-top:12px;">
-              <a href="/transform.html" class="button-primary">Convert to Core CSV (Free)</a>
-            </div>
-          </article>
+         <!-- Core CSV (Free) -->
+<article class="card" style="margin:0;">
+  <h2 style="margin-bottom:6px;">📊 Core Transactions (CSV) <span class="small" style="opacity:0.85;">— Free</span></h2>
 
-          <!-- Canonical JSON (Paid, includes Insights) -->
-          <article class="card primary" style="margin:0;">
-            <h2 style="margin-bottom:6px;">🧩 Full Transactions (Canonical JSON) <span class="small" style="opacity:0.9;">— Paid</span></h2>
-            <p class="small" style="margin:0; opacity:0.95;">
-              The complete MapleSchema transaction object — versioned, machine-stable, and built for downstream systems.
-            </p>
-            <ul class="small" style="margin-top:10px; opacity:0.95;">
-              <li>Not “CSV in JSON form” — this is schema access</li>
-              <li><strong>Optional Insights</strong> available as annotations (core truth unchanged)</li>
-              <li>Versioned contract</li>
-            </ul>
-            <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
-              <a href="/transactions-json.html" class="button-primary">Get Canonical JSON</a>
-              <a href="/enterprise" class="small" style="align-self:center; text-decoration:none; opacity:0.9;">Enterprise?</a>
-            </div>
-          </article>
+  <!-- One-sentence promise -->
+  <p class="small" style="margin:0 0 10px 0; font-weight:800; opacity:0.98;">
+    Deterministic, spreadsheet-ready cash transactions — the fastest way to validate correctness.
+  </p>
 
-          <!-- QuickBooks (Paid) -->
-          <article class="card" style="margin:0; border: 1px solid rgba(44,160,28,0.30);">
-            <h2 style="margin-bottom:6px;">📘 QuickBooks Export <span class="small" style="opacity:0.85;">— Paid</span></h2>
-            <p class="small" style="margin:0; opacity:0.95;">
-              Generate QuickBooks-oriented import files for accounting workflows (expenses + payments).
-            </p>
-            <ul class="small" style="margin-top:10px; opacity:0.95;">
-              <li>QuickBooks headers match the generator</li>
-              <li><strong>Amount</strong> always positive (file type determines expense/payment)</li>
-              <li>Collisions rejected by default (override inside QB flow)</li>
-            </ul>
+  <p class="small" style="margin:0; opacity:0.95;">
+    A minimal, canonical export designed to be boring, stable, and easy to inspect.
+  </p>
 
-            <div style="margin-top:12px;">
-              <a href="/quickbooks.html" style="
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                padding: 12px 18px;
-                border-radius: 10px;
-                background-color: #2CA01C;
-                color: #ffffff;
-                font-weight: 700;
-                text-decoration: none;
-                border: none;
-                line-height: 1;
-                white-space: nowrap;
-              ">
-                Export for QuickBooks
-              </a>
-            </div>
-          </article>
+  <ul class="small" style="margin-top:10px; opacity:0.95;">
+    <li><strong>amount_minor</strong> is signed; <strong>direction</strong> is included for readability/filtering</li>
+    <li>No probabilistic fields</li>
+    <li>Instant download</li>
+  </ul>
+
+  <div style="margin-top:12px;">
+    <a href="/transform.html" class="button-primary">Convert to Core CSV (Free)</a>
+  </div>
+</article>
+
+<!-- Canonical JSON (Paid, includes AI Insights) -->
+<article class="card primary" style="margin:0;">
+  <h2 style="margin-bottom:6px;">🧩 Full Transactions (Canonical JSON) <span class="small" style="opacity:0.9;">— Paid</span></h2>
+
+  <!-- One-sentence promise -->
+  <p class="small" style="margin:0 0 10px 0; font-weight:800; opacity:0.98;">
+    Build against a versioned transaction contract — with optional <strong>AI-powered Insights</strong> as annotations.
+  </p>
+
+  <p class="small" style="margin:0; opacity:0.95;">
+    The complete MapleSchema transaction object — machine-stable, deterministic core, designed for downstream systems.
+  </p>
+
+  <ul class="small" style="margin-top:10px; opacity:0.95;">
+    <li>Not “CSV in JSON form” — this is schema access</li>
+    <li><strong>AI-powered Insights</strong> are best-effort annotations (core truth unchanged)</li>
+    <li>Versioned contract</li>
+  </ul>
+
+  <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+    <a href="/transactions-json.html" class="button-primary">Get Canonical JSON</a>
+    <a href="/enterprise" class="small" style="align-self:center; text-decoration:none; opacity:0.9;">Enterprise?</a>
+  </div>
+</article>
+
+<!-- QuickBooks (Paid) -->
+<article class="card" style="margin:0; border: 1px solid rgba(44,160,28,0.30);">
+  <h2 style="margin-bottom:6px;">📘 QuickBooks Export <span class="small" style="opacity:0.85;">— Paid</span></h2>
+
+  <!-- One-sentence promise -->
+  <p class="small" style="margin:0 0 10px 0; font-weight:800; opacity:0.98;">
+    Generate QuickBooks import files that load cleanly — without manual column mapping.
+  </p>
+
+  <p class="small" style="margin:0; opacity:0.95;">
+    QuickBooks-oriented exports for accounting workflows (expenses + payments), with strict semantics by design.
+  </p>
+
+  <ul class="small" style="margin-top:10px; opacity:0.95;">
+    <li>QuickBooks headers match the generator</li>
+    <li><strong>Amount</strong> always positive (file type determines expense/payment)</li>
+    <li>Collisions rejected by default (override inside QB flow)</li>
+  </ul>
+
+  <div style="margin-top:12px;">
+    <a href="/quickbooks.html" style="
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 18px;
+      border-radius: 10px;
+      background-color: #2CA01C;
+      color: #ffffff;
+      font-weight: 700;
+      text-decoration: none;
+      border: none;
+      line-height: 1;
+      white-space: nowrap;
+    ">
+      Export for QuickBooks
+    </a>
+  </div>
+</article>
+
 
         </div>
 
