@@ -182,6 +182,11 @@ h2, h3 {
   margin-bottom: 24px;
 }
 
+.hero .grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
 /* =========================
    Cards + Layout Helpers
 ========================= */
@@ -205,18 +210,18 @@ h2, h3 {
   font-size: 1.1rem;
 }
 
-/* Grid (used on pricing etc.) */
+/* Grid = layout only (no panel look) */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 16px;
-  margin: 32px 0;
-  background: var(--panel-bg);
-  padding: 3rem 2rem;
-  border-radius: 16px;
+  margin: 0;            /* important: panels control spacing */
+  padding: 0;           /* important */
+  background: none;     /* important */
+  border-radius: 0;     /* important */
 }
 
-/* Shared panel style (used by hero grid + examples) */
+/* Panel = the only place that owns background/padding/radius */
 .panel {
   background: var(--panel-bg);
   padding: 3rem 2rem;
