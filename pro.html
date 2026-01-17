@@ -38,20 +38,16 @@
       font-weight:800;
       cursor:pointer;
     }
+    pre {
+      white-space: pre-wrap;
+      border: 1px solid rgba(0,0,0,0.12);
+      border-radius: 12px;
+      padding: 12px;
+      background: rgba(255,255,255,0.55);
+      overflow: auto;
+      margin-top:12px;
+    }
   </style>
-
-  <!-- Firebase -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyB960RtycsSigsJ77KwYlRWlPBb4e1DU1s",
-      authDomain: "mapleschema-staging.firebaseapp.com",
-      projectId: "mapleschema-staging",
-      appId: "1:851079947514:web:809a28d25d24eef5f01543"
-    };
-  </script>
 </head>
 
 <body>
@@ -84,12 +80,13 @@
       </p>
     </section>
 
-    <!-- 1. FREE CSV CONVERTER -->
+    <!-- 1. FREE CSV CONVERTER (ENTRY POINT) -->
     <section style="margin-top:16px;">
       <article class="box" style="border-left:6px solid #2CA01C;">
         <h2>Free CSV Converter</h2>
         <p class="muted">
           Convert raw banking JSON into a clean, normalized CSV.
+          Limited to <strong>200 transactions per request</strong>.
         </p>
         <a class="btn qb" href="/transform.html">
           Convert JSON → CSV
@@ -97,34 +94,35 @@
       </article>
     </section>
 
-    <!-- 2. SUBSCRIPTION -->
-   <section style="margin-top:12px;">
+    <!-- 2. PRO SUBSCRIPTION -->
+    <section style="margin-top:12px;">
       <article class="box">
         <h2>MapleSchema Pro</h2>
-    
+
         <p class="muted">
           MapleSchema Pro unlocks higher-volume exports and AI-enriched outputs for production workflows.
         </p>
-    
+
         <ul class="muted" style="margin:10px 0 12px 18px;">
-          <li><strong>Up to 1,000 transactions per request</strong> (free tier: 200)</li>
-          <li>CSV exports with optional <strong>AI-powered Insights</strong></li>
-          <li>Structured transaction JSON with AI Insights</li>
-          <li><strong>QuickBooks-ready</strong> expense and payment import files</li>
+          <li><strong>Up to 1,000 transactions per request</strong> (5× the free tier)</li>
+          <li><strong>Core CSV</strong> or CSV with optional <strong>AI-powered Insights</strong></li>
+          <li><strong>Structured transaction JSON</strong> with AI Insights for workflows</li>
+          <li><strong>QuickBooks-ready</strong> Expense and Payment import files</li>
         </ul>
-    
+
         <p class="muted" style="margin-bottom:12px;">
-          AI Insights are added as non-destructive annotations — core transaction data is never modified.
+          AI Insights are added as non-destructive annotations.
+          Core transaction data is never modified.
         </p>
-    
+
         <a class="btn" href="/subscribe.html">
           Subscribe to MapleSchema Pro — $4 / month
         </a>
       </article>
     </section>
 
-    <!-- 3A. LOGGED OUT → EXAMPLES -->
-    <section id="loggedOut" style="margin-top:12px;">
+    <!-- 3. EXAMPLE OUTPUTS (LOGGED-OUT ONLY) -->
+    <section style="margin-top:12px;">
       <article class="box">
         <h2>Example outputs</h2>
         <p class="muted">
@@ -132,101 +130,43 @@
         </p>
 
         <div class="toggleWrap">
-          <button class="toggleBtn" onclick="showExample('json')">Structured JSON</button>
-          <button class="toggleBtn" onclick="showExample('qb')" style="border-color:#2CA01C;">
+          <button class="toggleBtn" onclick="showExample('json')">
+            Structured JSON
+          </button>
+          <button
+            class="toggleBtn"
+            onclick="showExample('qb')"
+            style="border-color:#2CA01C;"
+          >
             QuickBooks Import
           </button>
         </div>
 
         <!-- JSON -->
-        <pre id="exJson" style="margin-top:12px;">{
+        <pre id="exJson">{
   "schema_version": "transactions-v1.0",
   "transaction_fingerprint": "ms_fp_9f1c2c7b0d2a",
   "transaction_ref": "stmt_line_1842",
   "account_ref": "chq_001",
   "institution_code": "rbc_ca",
   "aggregator_code": "flinks",
-
-  "effective_at": "2026-01-14T19:22:11Z",
   "posted_at": "2026-01-14T19:22:11Z",
-
-  "amount": {
-    "amount_minor": -724,
-    "currency": "CAD"
-  },
+  "amount": { "amount_minor": -724, "currency": "CAD" },
   "direction": "debit",
-
   "original_description": "TIM HORTONS #0059 / LONDON ON",
   "status": "posted",
   "mutability": "immutable",
-
-  "normalization": {
-    "mapping_method": "institution_mapper_v1",
-    "input_timezone": "America/Toronto",
-    "warnings": []
-  },
-
   "insights": {
     "category": {
       "value": "coffee_fast_food",
-      "confidence": 0.92,
-      "version": "cat-v1",
-      "signals": [
-        "merchant_keyword:tim hortons",
-        "pattern:#\\d{2,4}",
-        "geo:ON"
-      ]
-    },
-    "merchant": {
-      "value": "Tim Hortons",
-      "confidence": 0.89,
-      "version": "merchant-v1",
-      "signals": [
-        "brand_db_match",
-        "alias:tim hortons"
-      ]
-    },
-    "description_analysis": {
-      "en": "Franchise coffee shop purchase (likely in-store).",
-      "fr": "Achat dans une franchise de café (probablement en magasin).",
-      "confidence": 0.84,
-      "version": "desc-v1",
-      "signals": [
-        "token:TIM",
-        "token:HORTONS",
-        "store_id:#0059",
-        "city:LONDON",
-        "region:ON"
-      ]
+      "confidence": 0.92
     }
   }
-}
-</pre>
+}</pre>
 
-        <!-- QB -->
-        <pre id="exQb" style="margin-top:12px; display:none;">Date,Payee,Description,Amount,Reference,AccountRef
+        <!-- QUICKBOOKS -->
+        <pre id="exQb" style="display:none;">Date,Payee,Description,Amount,Reference,Account
 2026-01-14,Tim Hortons,Coffee purchase,7.24,stmt_line_1842,Expenses</pre>
-      </article>
-    </section>
-
-    <!-- 3B. LOGGED IN → UPLOAD WORKSPACE -->
-    <section id="loggedIn" style="margin-top:12px; display:none;">
-      <article class="box">
-        <h2>Convert your data</h2>
-
-        <!-- reuse transform.html UX -->
-        <input type="file" />
-
-        <div class="toggleWrap">
-          <button class="toggleBtn">Structured JSON</button>
-          <button class="toggleBtn" style="border-color:#2CA01C;">
-            QuickBooks Import
-          </button>
-        </div>
-
-        <a class="btn" style="margin-top:12px;">
-          Generate Pro Output
-        </a>
       </article>
     </section>
 
@@ -238,17 +178,11 @@
 </div>
 
 <script>
-  firebase.initializeApp(firebaseConfig);
-  const auth = firebase.auth();
-
-  auth.onAuthStateChanged(user => {
-    document.getElementById("loggedOut").style.display = user ? "none" : "block";
-    document.getElementById("loggedIn").style.display = user ? "block" : "none";
-  });
-
   function showExample(which) {
-    document.getElementById("exJson").style.display = which === "json" ? "block" : "none";
-    document.getElementById("exQb").style.display = which === "qb" ? "block" : "none";
+    document.getElementById("exJson").style.display =
+      which === "json" ? "block" : "none";
+    document.getElementById("exQb").style.display =
+      which === "qb" ? "block" : "none";
   }
 </script>
 
