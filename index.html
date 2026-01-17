@@ -41,6 +41,17 @@
       white-space: nowrap;
       width: fit-content;
     }
+    /* Keep hero text readable, but DON'T constrain the grid/cards */
+      .hero .grid {
+        max-width: none;
+        width: 100%;
+      }
+      
+      /* Optional: if you have a rule like .hero > * { max-width: ... } this overrides it */
+      .hero .grid {
+        margin-left: 0;
+        margin-right: 0;
+      }
   </style>
 
   <script
