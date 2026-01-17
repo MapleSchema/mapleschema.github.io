@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -83,17 +84,29 @@
           Get spreadsheets (CSV), clean structured data (JSON), or files ready for QuickBooks — no setup, no cleanup.
         </p>
 
-        <!-- OUTPUT ROUTER -->
-        <div class="panel" style="margin-top:14px; margin-bottom:16px; padding: 24px;">
+        <!-- OUTPUT ROUTER (self-contained; does not rely on .grid/.panel CSS) -->
+        <div
+          class="ms-home-panel"
+          style="
+            margin-top:14px;
+            margin-bottom:16px;
+            padding:24px;
+            background: var(--panel-bg);
+            border-radius:16px;
+          "
+        >
           <div
-              class="grid"
-              style="
-                grid-template-columns: repeat(3, minmax(240px, 1fr));
-                gap: 12px;
-              "
-            >
+            class="ms-home-grid"
+            style="
+              display:grid;
+              grid-template-columns: repeat(3, minmax(240px, 1fr));
+              gap:12px;
+              margin:0;
+              padding:0;
+            "
+          >
             <!-- CSV Converter (Free) -->
-            <article class="card" style="margin:0; display:flex; flex-direction:column;">
+            <article class="ms-home-card card" style="margin:0; display:flex; flex-direction:column;">
               <h2 style="margin-bottom:6px;">🔁 Transaction CSV Converter</h2>
 
               <p class="small" style="margin:0 0 10px 0; font-weight:800; opacity:0.98;">
@@ -120,7 +133,7 @@
             </article>
 
             <!-- Structured JSON (Pro, includes optional Insights) -->
-            <article class="card primary" style="margin:0; display:flex; flex-direction:column;">
+            <article class="ms-home-card card primary" style="margin:0; display:flex; flex-direction:column;">
               <h2 style="margin-bottom:6px;">📦 Structured Transaction JSON</h2>
 
               <p class="small" style="margin:0 0 10px 0; font-weight:800; opacity:0.98;">
@@ -147,7 +160,7 @@
             </article>
 
             <!-- QuickBooks (Pro) -->
-            <article class="card primary" style="margin:0; display:flex; flex-direction:column;">
+            <article class="ms-home-card card primary" style="margin:0; display:flex; flex-direction:column;">
               <h2 style="margin-bottom:6px;">🧮 QuickBooks Import Files</h2>
 
               <p class="small" style="margin:0 0 10px 0; font-weight:800; opacity:0.98;">
@@ -175,9 +188,17 @@
           </div>
         </div>
 
-        <!-- EXAMPLE OUTPUT -->
-        <div class="panel" style="margin-top:16px; padding: 24px;">
-          <article class="card primary" style="margin:0;">
+        <!-- EXAMPLE OUTPUT (self-contained; does not rely on .grid/.panel CSS) -->
+        <div
+          class="ms-home-panel"
+          style="
+            margin-top:16px;
+            padding:24px;
+            background: var(--panel-bg);
+            border-radius:16px;
+          "
+        >
+          <article class="ms-home-example card primary" style="margin:0;">
             <h2 style="margin-top:0;">Example output (Structured JSON)</h2>
 
             <p class="small" style="margin-top:6px; opacity:0.9;">
@@ -247,3 +268,4 @@
   </div>
 </body>
 </html>
+```
