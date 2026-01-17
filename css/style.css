@@ -33,7 +33,7 @@ body {
 
 /* Shared content width */
 .container {
-  max-width: 960px;
+  max-width: 1120px; /* was 960px */
   margin: 0 auto;
   padding: 0 24px;
   width: 100%;
@@ -78,13 +78,6 @@ img.logo {
 .logo-link:focus-visible {
   outline: 2px solid var(--text);
   outline-offset: 4px;
-}
-
-.brand-name {
-  font-weight: bold;
-  color: var(--text);
-  font-size: 1rem;
-  margin-top: 4px;
 }
 
 /* Nav underline animation */
@@ -154,8 +147,8 @@ h2, h3 {
    Hero
 ========================= */
 .hero {
-  max-width: 960px;
-  margin: 40px auto 48px;
+  /* container already controls width */
+  margin: 40px 0 48px;
 }
 
 /* Title */
@@ -164,11 +157,9 @@ h2, h3 {
   margin: 0 0 20px;
   color: var(--text);
 }
-.hero p.small { max-width: none; }
+
 /*
   Paragraph sizing rules.
-  NOTE: If you want hero text to "feel centered", use margin-left/right:auto.
-  If you want left-aligned docs style (recommended), keep text-align:left.
 */
 .hero-lead {
   font-size: 1.05rem;
@@ -182,38 +173,13 @@ h2, h3 {
   max-width: 42rem;
 }
 
+/* Allow the small subtitle line to span full hero width (not the 42rem cap) */
+.hero p.small {
+  max-width: none;
+}
+
 .hero-lead:last-of-type {
   margin-bottom: 24px;
-}
-
-/* Hero columns / points (if used) */
-.hero-columns {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 20px;
-  margin-top: 8px;
-}
-
-.hero-point h2 {
-  font-size: 1rem;
-  margin-bottom: 4px;
-}
-
-.hero-point p {
-  font-size: 0.95rem;
-  margin: 0;
-}
-
-.hero-divider {
-  border: none;
-  height: 1px;
-  margin: 3rem 0;
-  background: linear-gradient(
-    to right,
-    transparent,
-    rgba(0,0,0,0.15),
-    transparent
-  );
 }
 
 /* =========================
@@ -250,12 +216,64 @@ h2, h3 {
   border-radius: 16px;
 }
 
+/* --- Homepage-specific grid behavior (moved from inline/index styles) --- */
+/* Let the hero grid/cards use full container width, and keep 3 columns on desktop */
+.hero .grid {
+  max-width: none;
+  width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px; /* matches your index inline */
+  padding: 3rem 2rem; /* keep panel feel */
+}
+
+/* Prevent grid children from overflowing (fixes overlap with long content/buttons) */
+.grid > * {
+  min-width: 0;
+}
+
 /* Docs vertical flow sections */
 .docs-section {
   display: flex;
   flex-direction: column;
   gap: 24px;
   margin: 32px 0;
+}
+
+/* =========================
+   Buttons
+========================= */
+.button-primary {
+  display: inline-block;
+  padding: 12px 28px;
+  border-radius: 999px;
+  background-color: var(--text);
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+/* CTA button (moved from index.html) */
+.cta-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-weight: 700;
+  text-decoration: none;
+  border: none;
+  line-height: 1.2;
+  width: fit-content;
+
+  /* prevent overlap by allowing wrapping inside cards */
+  max-width: 100%;
+  white-space: normal;
+  text-align: center;
 }
 
 /* =========================
@@ -281,14 +299,6 @@ h2, h3 {
 .code-block code {
   background: none;
   padding: 0;
-}
-
-/* cURL block spacing helper */
-.curl-block {
-  margin-top: 16px;
-  padding: 18px;
-  border-radius: 10px;
-  margin-bottom: 24px;
 }
 
 /* =========================
@@ -386,41 +396,22 @@ h2, h3 {
 }
 
 /* =========================
-   Buttons
-========================= */
-.button-primary {
-  display: inline-block;
-  padding: 12px 28px;
-  border-radius: 999px;
-  background-color: var(--text);
-  color: #ffffff;
-  text-decoration: none;
-  font-weight: bold;
-  border: none;
-  cursor: pointer;
-  font-size: 1rem;
-}
-
-/* =========================
    Misc
 ========================= */
 #docs.card {
   margin-bottom: 40px;
 }
-/* Allow grid children to shrink instead of overflowing into neighbors */
-.grid > * {
-  min-width: 0;
-}
 
-/* Prevent long CTA text from forcing card width */
-.cta-button {
-  max-width: 100%;
-  white-space: normal;   /* or remove nowrap */
-  text-align: center;
-}
 /* =========================
    Responsive
 ========================= */
+@media (max-width: 900px) {
+  /* Let the hero grid wrap naturally when space is tighter */
+  .hero .grid {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+}
+
 @media (max-width: 800px) {
   .examples-grid {
     flex-direction: column;
@@ -444,5 +435,10 @@ h2, h3 {
 
   .hero h1 {
     font-size: 1.9rem;
+  }
+
+  /* Reduce panel padding on small screens so it doesn't feel cramped */
+  .grid {
+    padding: 2rem 1.25rem;
   }
 }
