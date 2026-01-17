@@ -119,26 +119,94 @@
     </a>
   </article>
 </section>
-
-
-    <!-- 3. EXAMPLE OUTPUTS (LOGGED-OUT ONLY) -->
+    
   <!-- 3. EXAMPLE OUTPUTS -->
-<section style="margin-top:12px;">
+<!-- 3A. LOGGED OUT → EXAMPLES -->
+<section id="loggedOutExamples" style="margin-top:12px;">
   <article class="box">
-    <h2>Example outputs</h2>
-    <p class="muted">
-      What MapleSchema Pro produces from raw banking data.
+    <h2 style="margin-top:0;">Example outputs</h2>
+    <p class="muted" style="margin:6px 0 0 0;">
+      Pro outputs: <strong>Structured CSV</strong>, <strong>Structured JSON</strong>, and <strong>QuickBooks Format</strong>.
     </p>
 
-    <div class="toggleWrap">
-      <button class="toggleBtn" onclick="showExample('json')">Structured JSON</button>
-      <button class="toggleBtn" onclick="showExample('qb')" style="border-color:#2CA01C;">
-        QuickBooks Import
-      </button>
+    <div class="toggleWrap" aria-label="Example output selector" style="margin-top:12px;">
+      <button id="toggleCsv" type="button" class="toggleBtn" onclick="msSetOutput('csv')">Structured CSV</button>
+      <button id="toggleJson" type="button" class="toggleBtn" onclick="msSetOutput('json')">Structured JSON</button>
+      <button id="toggleQb" type="button" class="toggleBtn" onclick="msSetOutput('qb')" style="border:2px solid #2CA01C;">QuickBooks Format</button>
     </div>
 
-    <!-- JSON -->
-    <pre id="exJson" style="margin-top:12px;">{
+    <!-- OUTPUT: Structured CSV (Name / Value) -->
+    <div id="msOutCsv" style="margin-top:14px; display:none;">
+      <h3 style="margin: 0 0 8px 0;">Structured CSV (Name → Value)</h3>
+      <p class="muted" style="margin-top:8px;">
+        Same fields as Structured JSON, shown as a simple Name/Value export.
+      </p>
+
+      <div style="
+        display:grid;
+        grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr);
+        gap:0;
+        border: 1px solid rgba(0,0,0,0.12);
+        border-radius: 12px;
+        overflow:hidden;
+        background: rgba(255,255,255,0.55);
+      ">
+        <!-- Header row -->
+        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">Name</div>
+        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">Value</div>
+
+        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">schema_version</div>
+        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">transactions-v1.0</div>
+
+        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">transaction_fingerprint</div>
+        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">ms_fp_9f1c2c7b0d2a</div>
+
+        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">transaction_ref</div>
+        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">stmt_line_1842</div>
+
+        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">account_ref</div>
+        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">chq_001</div>
+
+        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">institution_code</div>
+        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">rbc_ca</div>
+
+        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">aggregator_code</div>
+        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">flinks</div>
+
+        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">effective_at</div>
+        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">2026-01-14T19:22:11Z</div>
+
+        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">posted_at</div>
+        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">2026-01-14T19:22:11Z</div>
+
+        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">amount.amount_minor</div>
+        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">-724</div>
+
+        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">amount.currency</div>
+        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">CAD</div>
+
+        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">direction</div>
+        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">debit</div>
+
+        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">original_description</div>
+        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">TIM HORTONS #0059 / LONDON ON</div>
+
+        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">status</div>
+        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">posted</div>
+
+        <div class="muted" style="padding:10px 12px; font-weight:900;">mutability</div>
+        <div class="muted" style="padding:10px 12px;">immutable</div>
+      </div>
+    </div>
+
+    <!-- OUTPUT: Structured JSON (UNCHANGED) -->
+    <div id="msOutJson" style="margin-top:14px;">
+      <h3 style="margin: 0 0 8px 0;">Structured Transaction JSON</h3>
+      <p class="muted" style="margin-top:8px;">
+        Deterministic core transaction object. Optional <strong>Insights</strong> are annotations only.
+      </p>
+
+      <pre class="muted" style="margin-top:10px; border: 1px solid rgba(0,0,0,0.12); border-radius: 12px; padding: 12px; background: rgba(255,255,255,0.55); overflow:auto;">{
   "schema_version": "transactions-v1.0",
   "transaction_fingerprint": "ms_fp_9f1c2c7b0d2a",
   "transaction_ref": "stmt_line_1842",
@@ -149,10 +217,7 @@
   "effective_at": "2026-01-14T19:22:11Z",
   "posted_at": "2026-01-14T19:22:11Z",
 
-  "amount": {
-    "amount_minor": -724,
-    "currency": "CAD"
-  },
+  "amount": { "amount_minor": -724, "currency": "CAD" },
   "direction": "debit",
 
   "original_description": "TIM HORTONS #0059 / LONDON ON",
@@ -170,42 +235,66 @@
       "value": "coffee_fast_food",
       "confidence": 0.92,
       "version": "cat-v1",
-      "signals": [
-        "merchant_keyword:tim hortons",
-        "pattern:#\\d{2,4}",
-        "geo:ON"
-      ]
+      "signals": ["merchant_keyword:tim hortons", "pattern:#\\d{2,4}", "geo:ON"]
     },
     "merchant": {
       "value": "Tim Hortons",
       "confidence": 0.89,
       "version": "merchant-v1",
-      "signals": [
-        "brand_db_match",
-        "alias:tim hortons"
-      ]
+      "signals": ["brand_db_match", "alias:tim hortons"]
     },
     "description_analysis": {
       "en": "Franchise coffee shop purchase (likely in-store).",
       "fr": "Achat dans une franchise de café (probablement en magasin).",
       "confidence": 0.84,
       "version": "desc-v1",
-      "signals": [
-        "token:TIM",
-        "token:HORTONS",
-        "store_id:#0059",
-        "city:LONDON",
-        "region:ON"
-      ]
+      "signals": ["token:TIM", "token:HORTONS", "store_id:#0059", "city:LONDON", "region:ON"]
     }
   }
 }</pre>
+    </div>
 
-    <!-- QB -->
-    <pre id="exQb" style="margin-top:12px; display:none;">Date,Payee,Description,Amount,Reference,AccountRef
-2026-01-14,Tim Hortons,Coffee purchase,7.24,stmt_line_1842,Expenses</pre>
+    <!-- OUTPUT: QuickBooks Format (Name / Value) -->
+    <div id="msOutQb" style="margin-top:14px; display:none;">
+      <h3 style="margin: 0 0 8px 0;">QuickBooks Format (Payment)</h3>
+      <p class="muted" style="margin-top:8px;">
+        Fields match QuickBooks: Date, Payee, Description, Amount, Reference, AccountRef.
+      </p>
+
+      <div style="
+        display:grid;
+        grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr);
+        gap:0;
+        border: 1px solid rgba(0,0,0,0.12);
+        border-radius: 12px;
+        overflow:hidden;
+        background: rgba(255,255,255,0.55);
+      ">
+        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">Name</div>
+        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">Value</div>
+
+        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">Date</div>
+        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">2026-01-14</div>
+
+        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">Payee</div>
+        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">Example Vendor</div>
+
+        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">Description</div>
+        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">Payment — invoice settlement</div>
+
+        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">Amount</div>
+        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">724.00</div>
+
+        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">Reference</div>
+        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">PAYMENT-1842</div>
+
+        <div class="muted" style="padding:10px 12px; font-weight:900;">AccountRef</div>
+        <div class="muted" style="padding:10px 12px;">Accounts Payable</div>
+      </div>
+    </div>
   </article>
 </section>
+
 
   </main>
 
@@ -215,13 +304,54 @@
 </div>
 
 <script>
-  function showExample(which) {
-    document.getElementById("exJson").style.display =
-      which === "json" ? "block" : "none";
-    document.getElementById("exQb").style.display =
-      which === "qb" ? "block" : "none";
+  function msApplyToggleStyles(activeId) {
+    const ids = ["toggleCsv", "toggleJson", "toggleQb"];
+    ids.forEach((id) => {
+      const b = document.getElementById(id);
+      if (!b) return;
+
+      const isActive = (id === activeId);
+
+      b.style.background = "#ffffff";
+      b.style.color = "#000000";
+      b.style.border = (id === "toggleQb")
+        ? "2px solid #2CA01C"
+        : "2px solid rgba(0,0,0,0.25)";
+
+      if (isActive) {
+        if (id === "toggleQb") {
+          b.style.background = "#2CA01C";
+          b.style.border = "2px solid #2CA01C";
+          b.style.color = "#ffffff";
+        } else {
+          b.style.background = "rgba(0,0,0,0.08)";
+          b.style.border = "2px solid rgba(0,0,0,0.35)";
+          b.style.color = "#000000";
+        }
+      }
+    });
   }
+
+  function msSetOutput(which) {
+    const panes = {
+      csv: document.getElementById("msOutCsv"),
+      json: document.getElementById("msOutJson"),
+      qb: document.getElementById("msOutQb"),
+    };
+
+    Object.keys(panes).forEach((k) => {
+      if (panes[k]) panes[k].style.display = (k === which) ? "block" : "none";
+    });
+
+    if (which === "qb") return msApplyToggleStyles("toggleQb");
+    if (which === "csv") return msApplyToggleStyles("toggleCsv");
+    return msApplyToggleStyles("toggleJson");
+  }
+
+  // default
+  msSetOutput("json");
 </script>
+
 
 </body>
 </html>
