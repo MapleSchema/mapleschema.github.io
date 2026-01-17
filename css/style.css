@@ -407,7 +407,17 @@ h2, h3 {
 #docs.card {
   margin-bottom: 40px;
 }
+/* Allow grid children to shrink instead of overflowing into neighbors */
+.grid > * {
+  min-width: 0;
+}
 
+/* Prevent long CTA text from forcing card width */
+.cta-button {
+  max-width: 100%;
+  white-space: normal;   /* or remove nowrap */
+  text-align: center;
+}
 /* =========================
    Responsive
 ========================= */
