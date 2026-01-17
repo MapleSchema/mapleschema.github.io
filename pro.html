@@ -2,68 +2,45 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>MapleSchema Pro — Structured Exports + QuickBooks</title>
+  <title>MapleSchema Pro — Structured JSON & QuickBooks Exports</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="MapleSchema Pro: structured transaction JSON (with optional Insights) and QuickBooks-ready import files. Sign in to subscribe or manage billing. See example outputs." />
+  <meta
+    name="description"
+    content="MapleSchema Pro generates structured transaction JSON and QuickBooks-ready imports from raw banking data."
+  />
 
   <link rel="stylesheet" href="/css/style.css" />
 
   <style>
-    /* Keep this page self-contained + consistent with your existing style.css */
-    .row { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
-    .btn {
-      display:inline-flex; align-items:center; justify-content:center;
-      padding: 10px 14px; border-radius:10px; border:0;
-      font-weight:800; cursor:pointer; text-decoration:none;
-      line-height:1;
-      background:#4a2d21; color:#fff;
-      width: fit-content;
-    }
-    .btn.secondary { background:#222; }
-    .btn.qb { background:#2CA01C; }
-    .btn.disabled { opacity:0.55; cursor:not-allowed; }
-    .box { padding:14px; border:1px solid rgba(0,0,0,0.12); border-radius:12px; background:rgba(255,255,255,0.65); }
-    .muted { opacity:0.85; }
-    code { background: rgba(0,0,0,0.06); padding: 2px 6px; border-radius: 6px; }
-    pre { white-space: pre-wrap; }
-
-    /* Match index page title sizing by reusing h1 and hero rhythm */
-    .pro-hero { margin: 40px 0 24px; }
-    .pro-hero h1 { margin: 0 0 20px; } /* index: h1 margin bottom */
-    .pro-lead { font-size: 1.05rem; max-width: 720px; margin: 0 0 16px; }
-    .pro-sub { font-size: 0.9rem; margin-top: 12px; opacity: 0.85; max-width: none; }
-
-    /* Thin “utility bar” link to free CSV */
-    .thinbar {
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      padding: 10px 14px;
-      border-radius: 12px;
+    .box {
+      padding: 16px;
       border: 1px solid rgba(0,0,0,0.12);
-      background: rgba(255,255,255,0.55);
-      text-decoration:none;
-      color: inherit;
-      font-weight: 800;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.65);
     }
-    .thinbar:hover { filter: brightness(0.98); }
-    .thinbar small { font-weight: 700; opacity: 0.8; }
-
-    .grid1 { display:grid; grid-template-columns: 1fr; gap:12px; }
-    .toggleWrap { display:inline-flex; gap:8px; flex-wrap:wrap; align-items:center; }
-    .toggleBtn {
-      padding: 10px 16px;
-      border-radius: 999px;
+    .btn {
+      display: inline-flex;
+      padding: 10px 14px;
+      border-radius: 10px;
       font-weight: 800;
-      cursor: pointer;
+      text-decoration: none;
+      background: #4a2d21;
+      color: #fff;
+    }
+    .btn.qb { background:#2CA01C; }
+    .muted { opacity:0.85; }
+    .toggleWrap { display:flex; gap:8px; margin-top:12px; }
+    .toggleBtn {
+      padding: 8px 14px;
+      border-radius: 999px;
       border: 2px solid rgba(0,0,0,0.25);
-      background: #ffffff;
-      color: #000000;
+      background:#fff;
+      font-weight:800;
+      cursor:pointer;
     }
   </style>
 
-  <!-- Firebase (compat) -->
+  <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 
@@ -72,307 +49,140 @@
       apiKey: "AIzaSyB960RtycsSigsJ77KwYlRWlPBb4e1DU1s",
       authDomain: "mapleschema-staging.firebaseapp.com",
       projectId: "mapleschema-staging",
-      storageBucket: "mapleschema-staging.firebasestorage.app",
-      messagingSenderId: "851079947514",
-      appId: "1:851079947514:web:809a28d25d24eef5f01543",
-      measurementId: "G-FCNZJQVSHV"
+      appId: "1:851079947514:web:809a28d25d24eef5f01543"
     };
-
-    const API_BASE = "https://staging.api.mapleschema.com";
   </script>
 </head>
 
 <body>
-  <div id="site">
-    <header>
-      <div class="container header-inner">
-        <a href="/index.html" class="logo-link">
-          <div class="logo-wrapper">
-            <img src="/images/mapleschema-transparent-pro-icon.png" class="logo" alt="MapleSchema Pro logo">
-          </div>
-        </a>
-        <nav>
-          <a href="/privacy.html">Privacy</a>
-          <a href="/contact.html">Contact</a>
-        </nav>
-      </div>
-    </header>
+<div id="site">
 
-    <main class="container" style="margin-top:16px;">
+  <!-- HEADER -->
+  <header>
+    <div class="container header-inner">
+      <a href="/index.html" class="logo-link">
+        <img
+          src="/images/mapleschema-transparent-pro-icon.png"
+          class="logo"
+          alt="MapleSchema Pro"
+        />
+      </a>
+      <nav>
+        <a href="/privacy.html">Privacy</a>
+        <a href="/contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
 
-      <!-- HERO -->
-      <section class="pro-hero">
-       <h1>MapleSchema Pro</h1>
-        <p class="hero-lead">
-          Upload bank data → Pick a format → Download instantly
+  <main class="container" style="margin-top:20px;">
+
+    <!-- HERO -->
+    <section>
+      <h1>MapleSchema Pro</h1>
+      <p class="hero-lead">
+        Upload bank data → Pick a format → Download instantly
+      </p>
+    </section>
+
+    <!-- 1. FREE CSV CONVERTER -->
+    <section style="margin-top:16px;">
+      <article class="box" style="border-left:6px solid #2CA01C;">
+        <h2>Free CSV Converter</h2>
+        <p class="muted">
+          Convert raw banking JSON into a clean, normalized CSV.
         </p>
-      </section>
+        <a class="btn qb" href="/transform.html">
+          Convert JSON → CSV
+        </a>
+      </article>
+    </section>
 
-      <!-- Thin bar link to free CSV -->
-      <section>
-        <article class="box" style="border-left: 6px solid #2CA01C;">
-          <h2>Free CSV Converter</h2>
-          <p class="muted">
-            Convert raw banking JSON into a clean, normalized CSV — instantly.
-          </p>
-      
-          <a class="btn qb" href="/transform.html">
-            Convert JSON → CSV
-          </a>
-        </article>
-      </section>
-      <!-- Pro examples (only the 2 pro outputs) -->
-      <section style="margin-top:12px;">
-        <article class="box">
-          <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:12px; flex-wrap:wrap;">
-            <div>
-              <h2 style="margin-top:0;">Example outputs</h2>
-              <p class="muted" style="margin:6px 0 0 0;">
-                Pro outputs only: <strong>Structured JSON</strong> (optional Insights) and <strong>QuickBooks import</strong>.
-              </p>
-            </div>
+    <!-- 2. SUBSCRIPTION -->
+    <section style="margin-top:12px;">
+      <article class="box">
+        <h2>MapleSchema Pro</h2>
+        <p class="muted">
+          Structured transaction JSON and QuickBooks-ready exports.
+        </p>
+        <a class="btn" href="/subscribe.html">
+          Subscribe to MapleSchema Pro
+        </a>
+      </article>
+    </section>
 
-            <div class="toggleWrap" aria-label="Example output selector">
-              <button id="toggleJson" type="button" class="toggleBtn" onclick="msSetOutput('json')">Structured JSON (Insights)</button>
-              <button id="toggleQb" type="button" class="toggleBtn" onclick="msSetOutput('qb')" style="border:2px solid #2CA01C;">QuickBooks Expenses</button>
-            </div>
-          </div>
+    <!-- 3A. LOGGED OUT → EXAMPLES -->
+    <section id="loggedOut" style="margin-top:12px;">
+      <article class="box">
+        <h2>Example outputs</h2>
+        <p class="muted">
+          What MapleSchema Pro produces from raw banking data.
+        </p>
 
-          <!-- OUTPUT: JSON -->
-          <div id="msOutJson" style="margin-top:14px;">
-            <h3 style="margin: 0 0 8px 0;">Structured Transaction JSON</h3>
-            <p class="muted" style="margin-top:8px;">
-              Deterministic core transaction object. Optional <strong>Insights</strong> are annotations only.
-            </p>
+        <div class="toggleWrap">
+          <button class="toggleBtn" onclick="showExample('json')">Structured JSON</button>
+          <button class="toggleBtn" onclick="showExample('qb')" style="border-color:#2CA01C;">
+            QuickBooks Import
+          </button>
+        </div>
 
-            <pre class="muted" style="margin-top:10px; border: 1px solid rgba(0,0,0,0.12); border-radius: 12px; padding: 12px; background: rgba(255,255,255,0.55); overflow:auto;">{
+        <!-- JSON -->
+        <pre id="exJson" style="margin-top:12px;">{
   "schema_version": "transactions-v1.0",
   "transaction_fingerprint": "ms_fp_9f1c2c7b0d2a",
-  "transaction_ref": "stmt_line_1842",
-  "account_ref": "chq_001",
-  "institution_code": "rbc_ca",
-  "aggregator_code": "flinks",
-  "posted_at": "2026-01-14T19:22:11Z",
   "amount": { "amount_minor": -724, "currency": "CAD" },
   "direction": "debit",
   "original_description": "TIM HORTONS #0059 / LONDON ON",
-  "status": "posted",
-  "mutability": "immutable",
-  "insights": {
-    "category": { "value": "coffee_fast_food", "confidence": 0.92, "version": "cat-v1" },
-    "merchant": { "value": "Tim Hortons", "confidence": 0.89, "version": "merchant-v1" },
-    "description_analysis": {
-      "en": "Franchise coffee shop purchase (likely in-store).",
-      "fr": "Achat dans une franchise de café (probablement en magasin).",
-      "confidence": 0.84,
-      "version": "desc-v1"
-    }
-  }
+  "status": "posted"
 }</pre>
 
-            <div style="margin-top:12px;">
-              <a class="btn" href="/transactions-json.html">Open Structured JSON Tool</a>
-            </div>
-          </div>
+        <!-- QB -->
+        <pre id="exQb" style="margin-top:12px; display:none;">Date,Payee,Description,Amount,Reference,AccountRef
+2026-01-14,Tim Hortons,Coffee purchase,7.24,stmt_line_1842,Expenses</pre>
+      </article>
+    </section>
 
-          <!-- OUTPUT: QuickBooks -->
-          <div id="msOutQb" style="margin-top:14px; display:none;">
-            <h3 style="margin: 0 0 8px 0;">QuickBooks Expenses CSV</h3>
-            <p class="muted" style="margin-top:8px;">
-              Designed for direct import into QuickBooks (no manual column mapping).
-            </p>
-           
-            <div style="
-              display:grid;
-              grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr);
-              gap:0;
-              border: 1px solid rgba(0,0,0,0.12);
-              border-radius: 12px;
-              overflow:hidden;
-              background: rgba(255,255,255,0.55);
-            ">
-              <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">Date</div>
-              <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">2026-01-14</div>
+    <!-- 3B. LOGGED IN → UPLOAD WORKSPACE -->
+    <section id="loggedIn" style="margin-top:12px; display:none;">
+      <article class="box">
+        <h2>Convert your data</h2>
 
-              <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">Description</div>
-              <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">TIM HORTONS #0059 / LONDON ON</div>
+        <!-- reuse transform.html UX -->
+        <input type="file" />
 
-              <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">Amount</div>
-              <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">7.24</div>
+        <div class="toggleWrap">
+          <button class="toggleBtn">Structured JSON</button>
+          <button class="toggleBtn" style="border-color:#2CA01C;">
+            QuickBooks Import
+          </button>
+        </div>
 
-              <div class="muted" style="padding:10px 12px; font-weight:900;">Reference</div>
-              <div class="muted" style="padding:10px 12px;">stmt_line_1842</div>
-            </div>       
-            <div style="margin-top:12px;">
-              <a class="btn qb" href="/quickbooks.html">Open QuickBooks Tool</a>
-            </div>
-          </div>
-        </article>
-      </section>
-  <!-- Subscription (simple) -->
-            <section>
-              <article class="box">
-                <h2>Subscription</h2>
-                <p class="muted">
-                  Access Pro exports and automation-ready formats.
-                </p>
-                <a class="btn" href="/subscribe.html">
-                  Subscribe to MapleSchema Pro
-                </a>
-              </article>
-            </section>
-    </main>
+        <a class="btn" style="margin-top:12px;">
+          Generate Pro Output
+        </a>
+      </article>
+    </section>
 
-    <footer>
-      © MapleSchema 2026 • Pro
-    </footer>
-  </div>
+  </main>
 
-  <script>
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
+  <footer>
+    © MapleSchema 2026 • Pro
+  </footer>
+</div>
 
-    const elStatus = document.getElementById("authStatus");
-    const elMsg = document.getElementById("msg");
-    const elDebug = document.getElementById("debug");
+<script>
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
 
-    const btnLogin = document.getElementById("btnLogin");
-    const btnLogout = document.getElementById("btnLogout");
-    const btnBilling = document.getElementById("btnBilling");
+  auth.onAuthStateChanged(user => {
+    document.getElementById("loggedOut").style.display = user ? "none" : "block";
+    document.getElementById("loggedIn").style.display = user ? "block" : "none";
+  });
 
-    function setMsg(s) { elMsg.textContent = s || ""; }
-    function setDebug(obj) {
-      elDebug.style.display = "block";
-      elDebug.textContent = typeof obj === "string" ? obj : JSON.stringify(obj, null, 2);
-    }
-    function clearDebug() { elDebug.style.display = "none"; elDebug.textContent = ""; }
+  function showExample(which) {
+    document.getElementById("exJson").style.display = which === "json" ? "block" : "none";
+    document.getElementById("exQb").style.display = which === "qb" ? "block" : "none";
+  }
+</script>
 
-    auth.onAuthStateChanged((user) => {
-      clearDebug();
-      if (!user) {
-        elStatus.textContent = "Not signed in";
-        btnLogout.disabled = true;
-        btnBilling.disabled = true;
-        setMsg("Sign in to subscribe or manage billing.");
-        return;
-      }
-      elStatus.textContent = `Signed in as ${user.email}`;
-      btnLogout.disabled = false;
-      btnBilling.disabled = false;
-      setMsg("Ready. Click Manage Billing to subscribe or manage your plan.");
-    });
-
-    btnLogin.addEventListener("click", async () => {
-      setMsg("Opening Google login…");
-      clearDebug();
-      const provider = new firebase.auth.GoogleAuthProvider();
-      try {
-        await auth.signInWithPopup(provider);
-      } catch (e) {
-        setMsg("Login failed.");
-        setDebug({ error: String(e) });
-      }
-    });
-
-    btnLogout.addEventListener("click", async () => {
-      clearDebug();
-      setMsg("Signing out…");
-      try { await auth.signOut(); } catch (_) {}
-      setMsg("Signed out.");
-    });
-
-    async function postWithAuth(path) {
-      const user = auth.currentUser;
-      if (!user) throw new Error("Not signed in");
-      const token = await user.getIdToken();
-      const res = await fetch(`${API_BASE}${path}`, {
-        method: "POST",
-        headers: {
-          "Authorization": `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-      const text = await res.text();
-      let json = null;
-      try { json = JSON.parse(text); } catch (_) {}
-      return { res, text, json };
-    }
-
-    btnBilling.addEventListener("click", async () => {
-      clearDebug();
-      setMsg("Opening billing…");
-
-      try {
-        const portal = await postWithAuth("/v1/billing/portal");
-        if (portal.res.ok && portal.json && portal.json.url) {
-          window.location.href = portal.json.url;
-          return;
-        }
-
-        if (portal.res.status === 409) {
-          setMsg("Redirecting to checkout…");
-          const checkout = await postWithAuth("/v1/billing/checkout");
-          if (checkout.res.ok && checkout.json && checkout.json.url) {
-            window.location.href = checkout.json.url;
-            return;
-          }
-          setMsg("Checkout failed.");
-          setDebug({ status: checkout.res.status, body: checkout.json || checkout.text });
-          return;
-        }
-
-        setMsg("Billing portal failed.");
-        setDebug({ status: portal.res.status, body: portal.json || portal.text });
-
-      } catch (e) {
-        setMsg("Billing failed.");
-        setDebug({ error: String(e) });
-      }
-    });
-
-    function msApplyToggleStyles(activeId) {
-      const ids = ["toggleJson", "toggleQb"];
-      ids.forEach((id) => {
-        const b = document.getElementById(id);
-        if (!b) return;
-
-        const isActive = (id === activeId);
-
-        b.style.background = "#ffffff";
-        b.style.color = "#000000";
-        b.style.border = (id === "toggleQb")
-          ? "2px solid #2CA01C"
-          : "2px solid rgba(0,0,0,0.25)";
-
-        if (isActive) {
-          if (id === "toggleQb") {
-            b.style.background = "#2CA01C";
-            b.style.border = "2px solid #2CA01C";
-            b.style.color = "#ffffff";
-          } else {
-            b.style.background = "rgba(0,0,0,0.08)";
-            b.style.border = "2px solid rgba(0,0,0,0.35)";
-            b.style.color = "#000000";
-          }
-        }
-      });
-    }
-
-    function msSetOutput(which) {
-      const panes = {
-        json: document.getElementById("msOutJson"),
-        qb: document.getElementById("msOutQb"),
-      };
-
-      Object.keys(panes).forEach((k) => {
-        if (panes[k]) panes[k].style.display = (k === which) ? "block" : "none";
-      });
-
-      if (which === "qb") return msApplyToggleStyles("toggleQb");
-      return msApplyToggleStyles("toggleJson");
-    }
-
-    msSetOutput("json");
-  </script>
 </body>
 </html>
