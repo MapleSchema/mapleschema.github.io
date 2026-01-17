@@ -409,7 +409,7 @@ h2, h3 {
 #docs.card {
   margin-bottom: 40px;
 }
-
+.panel + .panel { margin-top: 16px; }
 /* =========================
    Responsive
 ========================= */
