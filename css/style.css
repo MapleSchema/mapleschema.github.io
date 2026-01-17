@@ -164,7 +164,7 @@ h2, h3 {
   margin: 0 0 20px;
   color: var(--text);
 }
-
+.hero p.small { max-width: none; }
 /*
   Paragraph sizing rules.
   NOTE: If you want hero text to "feel centered", use margin-left/right:auto.
