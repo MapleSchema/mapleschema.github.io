@@ -216,6 +216,14 @@ h2, h3 {
   border-radius: 16px;
 }
 
+/* Shared panel style (used by hero grid + examples) */
+.panel {
+  background: var(--panel-bg);
+  padding: 3rem 2rem;
+  border-radius: 16px;
+  margin: 32px 0;
+}
+
 /* --- Homepage-specific grid behavior (moved from inline/index styles) --- */
 /* Let the hero grid/cards use full container width, and keep 3 columns on desktop */
 .hero .grid {
