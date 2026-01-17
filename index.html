@@ -2,68 +2,74 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Banking JSON → Canonical Transactions (CSV, JSON, Insights, QuickBooks) | MapleSchema</title>
+  <title>Banking JSON → Structured Transaction JSON (CSV, JSON, Insights, QuickBooks) | MapleSchema</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description"
-    content="Convert banking JSON into deterministic core transactions (free CSV), canonical transaction JSON with optional insights enrichment, or QuickBooks-ready import files. Privacy-first. Instant download." />
+  <meta
+    name="description"
+    content="Convert banking JSON into deterministic core transactions (free CSV), canonical transaction JSON with optional insights enrichment, or QuickBooks-ready import files. Privacy-first. Instant download."
+  />
 
   <!-- SEO + Social -->
-  <meta property="og:title" content="MapleSchema — Canonical transactions (CSV, JSON, Insights, QuickBooks)">
-  <meta property="og:description"
-    content="Convert banking JSON into deterministic core transactions (free CSV), canonical transaction JSON with optional insights enrichment, or QuickBooks-ready import files. Privacy-first. Instant download.">
-  <meta property="og:url" content="https://mapleschema.com/">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content="https://mapleschema.com/images/mapleschema-social.png">
-  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:title" content="MapleSchema — Canonical transactions (CSV, JSON, Insights, QuickBooks)" />
+  <meta
+    property="og:description"
+    content="Convert banking JSON into deterministic core transactions (free CSV), canonical transaction JSON with optional insights enrichment, or QuickBooks-ready import files. Privacy-first. Instant download."
+  />
+  <meta property="og:url" content="https://mapleschema.com/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://mapleschema.com/images/mapleschema-social.png" />
+  <meta name="twitter:card" content="summary_large_image" />
 
   <!-- Favicons -->
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
-  <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png" />
+  <link rel="apple-touch-icon" href="/images/apple-touch-icon.png" />
 
   <!-- Main stylesheet -->
   <link rel="stylesheet" href="/css/style.css" />
   <style>
-  .cta-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 12px 18px;
-    border-radius: 10px;
-    font-weight: 700;
-    text-decoration: none;
-    border: none;
-    line-height: 1;
-    white-space: nowrap;
-    width: fit-content;
-  }
-</style>
-<script data-goatcounter="https://mapleschema.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
+    .cta-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 18px;
+      border-radius: 10px;
+      font-weight: 700;
+      text-decoration: none;
+      border: none;
+      line-height: 1;
+      white-space: nowrap;
+      width: fit-content;
+    }
+  </style>
+
+  <script
+    data-goatcounter="https://mapleschema.goatcounter.com/count"
+    async
+    src="//gc.zgo.at/count.js"
+  ></script>
 </head>
+
 <body>
   <div id="site">
-
     <!-- TOP STRIP: Enterprise discovery -->
-    <div style="
-      border-bottom: 1px solid rgba(255,255,255,0.10);
-      background: rgba(0,0,0,0.12);
-    ">
-      <div class="container" style="
-        text-align: center;
-        padding: 12px 0;
-      ">
-        <a href="/enterprise" style="
-          text-decoration: none;
-          color: inherit;
-        ">
-          <span style="
-            font-size: 0.95rem;
-            opacity: 0.95;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-          ">
+    <div
+      style="
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(0, 0, 0, 0.12);
+      "
+    >
+      <div class="container" style="text-align: center; padding: 12px 0;">
+        <a href="/enterprise" style="text-decoration: none; color: inherit;">
+          <span
+            style="
+              font-size: 0.95rem;
+              opacity: 0.95;
+              display: inline-flex;
+              align-items: center;
+              gap: 6px;
+            "
+          >
             <span aria-hidden="true">🍁</span>
             Fintechs &amp; platforms: visit the <strong>Enterprise Portal</strong> for API access, SLAs, and support.
           </span>
@@ -75,463 +81,132 @@
       <div class="container header-inner">
         <a href="/index.html" class="logo-link">
           <div class="logo-wrapper">
-            <img src="/images/mapleschema-transparent-icon.png" class="logo" alt="MapleSchema logo">
+            <img
+              src="/images/mapleschema-transparent-icon.png"
+              class="logo"
+              alt="MapleSchema logo"
+            />
           </div>
         </a>
 
-     <nav>
-  <a href="/pro.html">Pro</a>
-  <a href="/privacy.html">Privacy</a>
-  <a href="/contact.html">Contact</a>
-</nav>
+        <nav>
+          <a href="/pro.html">Pro</a>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/contact.html">Contact</a>
+        </nav>
       </div>
     </header>
 
     <main class="container">
-
       <!-- HERO -->
       <section class="hero" style="padding-bottom: 0;">
-
         <h1>Turn Raw Banking Data into Clean, Usable Formats</h1>
 
-      <p class="hero-lead">
-  Upload bank data → Pick a format → Download instantly
-</p>
+        <p class="hero-lead">
+          Upload bank data → Pick a format → Download instantly
+        </p>
 
-      <p class="small">
-  Get spreadsheets (CSV), clean structured data (JSON), or files ready for QuickBooks — no setup, no cleanup.
-</p>
+        <p class="small">
+          Get spreadsheets (CSV), clean structured data (JSON), or files ready for QuickBooks — no setup, no cleanup.
+        </p>
 
         <!-- OUTPUT ROUTER (3 flows) -->
-        <div class="grid" style="
-          margin-top: 14px;
-          grid-template-columns: repeat(3, minmax(240px, 1fr));
-          gap: 12px;
-        ">
+        <div
+          class="grid"
+          style="
+            margin-top: 14px;
+            grid-template-columns: repeat(3, minmax(240px, 1fr));
+            gap: 12px;
+          "
+        >
+          <!-- CSV Converter (Free) -->
+          <article class="card" style="margin: 0; display: flex; flex-direction: column;">
+            <h2 style="margin-bottom: 6px;">🔁 Transaction CSV Converter</h2>
 
-         <!-- Core CSV (Free) -->
-</article>
-<!-- CSV Converter (Free) -->
-<article class="card" style="margin:0; display:flex; flex-direction:column;">
-  <h2 style="margin-bottom:6px;">
-    🔁 Transaction CSV Converter
-  </h2>
+            <p class="small" style="margin: 0 0 10px 0; font-weight: 800; opacity: 0.98;">
+              Turn raw bank transactions into a clean spreadsheet in seconds.
+            </p>
 
-  <p class="small" style="margin:0 0 10px 0; font-weight:800; opacity:0.98;">
-    Convert raw banking JSON into a clean, spreadsheet-ready CSV you can open immediately.
-  </p>
+            <ul class="small" style="margin-top: 0; opacity: 0.95;">
+              <li>One row per transaction</li>
+              <li>Debits / credits normalized</li>
+              <li>Open in Excel or Sheets</li>
+            </ul>
 
-  <p class="small" style="margin:0; opacity:0.95;">
-    The fastest way to inspect, validate, and work with transaction data — no scripts, no setup, no surprises.
-  </p>
+            <div style="margin-top: auto;"></div>
 
-  <ul class="small" style="margin-top:10px; opacity:0.95;">
-    <li>One row per transaction, consistently formatted</li>
-    <li>Signed amounts with clear debit / credit direction</li>
-    <li>No inferred or probabilistic fields</li>
-    <li>Perfect for Excel, Sheets, and quick analysis</li>
-  </ul>
+            <div style="margin-top: 12px;">
+              <a
+                href="/transform.html"
+                class="cta-button"
+                style="background-color: #2CA01C; color: #ffffff;"
+              >
+                Convert to CSV (Free)
+              </a>
+            </div>
+          </article>
 
-  <!-- Spacer -->
-  <div style="margin-top:auto;"></div>
+          <!-- Structured JSON (Pro, includes optional Insights) -->
+          <article class="card primary" style="margin: 0; display: flex; flex-direction: column;">
+            <h2 style="margin-bottom: 6px;">📦 Structured Transaction JSON</h2>
 
-  <div style="margin-top:12px;">
-    <a href="/transform.html"
-       class="cta-button"
-       style="background-color:#2CA01C; color:#ffffff;">
-      Convert to CSV (Free)
-    </a>
-  </div>
-</article>
+            <p class="small" style="margin: 0 0 10px 0; font-weight: 800; opacity: 0.98;">
+              Get one stable transaction format you can build against.
+            </p>
 
+            <ul class="small" style="margin-top: 0; opacity: 0.95;">
+              <li>Consistent fields across banks</li>
+              <li>Safe to store, diff, and version</li>
+              <li><strong>Optional AI Insights</strong> as annotations (core unchanged)</li>
+            </ul>
 
-<!-- Canonical JSON (Paid, includes AI Insights) -->
-<article class="card primary" style="margin:0; display:flex; flex-direction:column;">
- <h2 style="margin-bottom:6px;">
-  📦 Structured Transaction Data (JSON)
-</h2>
+            <div style="margin-top: auto;"></div>
 
-<p class="small" style="margin:0 0 10px 0; font-weight:800; opacity:0.98;">
-  Turn messy banking JSON into a consistent, reliable transaction format you can actually work with.
-</p>
+            <div style="margin-top: 12px;">
+              <a
+                href="/pro.html"
+                class="cta-button"
+                style="background-color: #4a2d21; color: #ffffff;"
+              >
+                Get structured JSON + AI Insights
+              </a>
+            </div>
+          </article>
 
-<p class="small" style="margin:0; opacity:0.95;">
-  Designed for real workflows — scripts, spreadsheets, databases, and custom tools — with a stable structure that doesn’t change underneath you.
-</p>
+          <!-- QuickBooks (Pro) -->
+          <article class="card primary" style="margin: 0; display: flex; flex-direction: column;">
+            <h2 style="margin-bottom: 6px;">🧮 QuickBooks Import Files</h2>
 
-<ul class="small" style="margin-top:10px; opacity:0.95;">
-  <li>One predictable transaction format across banks and aggregators</li>
-  <li>Consistent fields, timestamps, and naming</li>
-  <li><strong>Includes AI-powered insights</strong> added as annotations (core data unchanged)</li>
-  <li>Safe to store, version, diff, and build against</li>
-</ul>
+            <p class="small" style="margin: 0 0 10px 0; font-weight: 800; opacity: 0.98;">
+              Generate a QuickBooks import that comes in clean.
+            </p>
 
-  <!-- Spacer -->
-  <div style="margin-top:auto;"></div>
+            <ul class="small" style="margin-top: 0; opacity: 0.95;">
+              <li>Import-ready columns</li>
+              <li>Amounts normalized</li>
+              <li>Safer duplicate handling</li>
+            </ul>
 
-  <div style="margin-top:12px;">
-    <a href="/pro.html"
-   class="cta-button"
-   style="background-color:#4a2d21; color:#ffffff;">
-  Get Pro Access
-</a>
-  </div>
-</article>
+            <div style="margin-top: auto;"></div>
 
-<!-- QuickBooks (Pro) -->
-<article class="card primary" style="margin:0; display:flex; flex-direction:column;">
-  <h2 style="margin-bottom:6px;">
-🧮 QuickBooks Import Files
-  </h2>
-
-  <p class="small" style="margin:0 0 10px 0; font-weight:800; opacity:0.98;">
-    Turn bank transactions into QuickBooks-ready files that import cleanly — no manual column mapping.
-  </p>
-
-  <p class="small" style="margin:0; opacity:0.95;">
-    Designed for bookkeeping workflows: consistent formatting, predictable rules, and fewer “why won’t this import?” headaches.
-  </p>
-
-  <ul class="small" style="margin-top:10px; opacity:0.95;">
-    <li>Import-ready headers and structure</li>
-    <li>Amounts are normalized so the import behaves predictably</li>
-    <li>Duplicate collisions rejected by default (safer imports)</li>
-  </ul>
-
-  <!-- Spacer -->
-  <div style="margin-top:auto;"></div>
-
-  <div style="margin-top:12px;">
-    <a href="/pro.html"
-       class="cta-button"
-       style="background-color:#4a2d21; color:#ffffff;">
-      Get Pro Access
-    </a>
-  </div>
-</article>
-
+            <div style="margin-top: 12px;">
+              <a
+                href="/pro.html"
+                class="cta-button"
+                style="background-color: #4a2d21; color: #ffffff;"
+              >
+                Generate QuickBooks import
+              </a>
+            </div>
+          </article>
         </div>
       </section>
-
-      <!-- DEMO: Input + Toggle Output Preview (CSV + QuickBooks examples) -->
-      <section class="grid" style="margin-top:16px; grid-template-columns: 1fr;">
-
-        <!-- Input -->
-        <article class="card primary">
-          <h2>Example input (JSON)</h2>
-          <p class="small">This is the kind of data you upload.</p>
-
-          <pre class="small" style="white-space:pre-wrap; margin-top:10px;">{
-  "transactions_path": "Data.Transaction",
-  "payload": {
-    "Data": {
-      "Transaction": [
-        {
-          "transaction_id": "tx_84721",
-          "account_ref": "88931",
-          "transaction_ref": "Invoice 84721",
-          "amount": 72.40,
-          "currency": "CAD",
-          "posted_local_time": "2025-12-18T09:14:55-05:00",
-          "description": "Downtown Coffee Shop",
-          "credit_debit_indicator": "Debit"
-        }
-      ]
-    },
-    "Meta": { "total": 1 }
-  }
-}
-</pre>
-        </article>
-
-     <!-- Output toggle + preview container -->
-<article class="card" style="margin-top:12px;">
-  <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
-    <div>
-      <h2 style="margin:0;">Example output</h2>
-      <p class="small" style="margin:6px 0 0 0; opacity:0.85;">
-        Canonical JSON includes optional <strong>AI-powered Insights</strong> (annotations only).
-      </p>
-    </div>
-
-    <!-- Toggle (3 offerings) -->
-    <div style="display:inline-flex; gap: 8px; align-items:center; flex-wrap:wrap;">
-
-      <button id="toggleCsv" type="button" onclick="msSetOutput('csv')" style="
-        padding: 10px 16px;
-        border-radius: 999px;
-        font-weight: 700;
-        cursor: pointer;
-        border: 2px solid rgba(0,0,0,0.25);
-        background: #ffffff;
-        color: #000000;
-      ">
-        Transactions CSV
-      </button>
-
-      <button id="toggleJson" type="button" onclick="msSetOutput('json')" style="
-        padding: 10px 16px;
-        border-radius: 999px;
-        font-weight: 700;
-        cursor: pointer;
-        border: 2px solid rgba(0,0,0,0.25);
-        background: #ffffff;
-        color: #000000;
-      ">
-        Canonical JSON (AI Insights)
-      </button>
-
-      <button id="toggleQb" type="button" onclick="msSetOutput('qb')" style="
-        padding: 10px 16px;
-        border-radius: 999px;
-        font-weight: 700;
-        cursor: pointer;
-        border: 2px solid #2CA01C;
-        background: #ffffff;
-        color: #000000;
-      ">
-        QuickBooks Expenses
-      </button>
-
-    </div>
-  </div>
-
-  <!-- OUTPUT: CSV -->
-  <div id="msOutCsv" style="margin-top:14px;">
-    <h3 style="margin: 0 0 8px 0;">Transactions CSV</h3>
-
-    <div style="
-      display:grid;
-      grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr);
-      gap:0;
-      border: 1px solid rgba(0,0,0,0.12);
-      border-radius: 12px;
-      overflow:hidden;
-      background: rgba(255,255,255,0.55);
-    ">
-      <div class="small" style="padding:10px 12px; font-weight:700; border-bottom:1px solid rgba(0,0,0,0.08);">transaction_fingerprint</div>
-      <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">computed (stable fingerprint)</div>
-
-      <div class="small" style="padding:10px 12px; font-weight:700; border-bottom:1px solid rgba(0,0,0,0.08);">institution_code</div>
-      <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">examplebank</div>
-
-      <div class="small" style="padding:10px 12px; font-weight:700; border-bottom:1px solid rgba(0,0,0,0.08);">amount_minor</div>
-      <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">-7240</div>
-
-      <div class="small" style="padding:10px 12px; font-weight:700; border-bottom:1px solid rgba(0,0,0,0.08);">currency</div>
-      <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">CAD</div>
-
-      <div class="small" style="padding:10px 12px; font-weight:700; border-bottom:1px solid rgba(0,0,0,0.08);">direction</div>
-      <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">debit</div>
-
-      <div class="small" style="padding:10px 12px; font-weight:700; border-bottom:1px solid rgba(0,0,0,0.08);">original_description</div>
-      <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">Downtown Coffee Shop</div>
-
-      <div class="small" style="padding:10px 12px; font-weight:700; border-bottom:1px solid rgba(0,0,0,0.08);">posted_at_utc</div>
-      <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">2025-12-18T14:14:55Z</div>
-
-      <div class="small" style="padding:10px 12px; font-weight:700;">aggregator_code</div>
-      <div class="small" style="padding:10px 12px;">exampleagg</div>
-    </div>
-
-    <p style="margin-top: 12px;">
-    <a href="/transform.html"
-       class="cta-button"
-       style="background-color:#2CA01C; color:#ffffff;">
-      Convert to CSV (Free)
-    </a>
-    </p>
-  </div>
-
-  <!-- OUTPUT: Canonical JSON (includes AI Insights preview) -->
-  <div id="msOutJson" style="margin-top:14px; display:none;">
-    <h3 style="margin: 0 0 8px 0;">Canonical Transaction JSON</h3>
-    <p class="small" style="margin-top:8px; opacity:0.85;">
-      Full, versioned transaction object (deterministic core). Optional <strong>AI-powered Insights</strong> can be included as annotations.
-    </p>
-
-    <pre class="small" style="
-      white-space:pre-wrap;
-      margin-top:10px;
-      border: 1px solid rgba(0,0,0,0.12);
-      border-radius: 12px;
-      padding: 12px;
-      background: rgba(255,255,255,0.55);
-      overflow:auto;
-    ">{
-  "schema_version": "transactions-v1.0",
-  "transaction_fingerprint": "computed-stable-fingerprint",
-  "transaction_ref": "Invoice 84721",
-  "account_ref": "88931",
-  "institution_code": "examplebank",
-  "aggregator_code": "exampleagg",
-  "effective_at": "2025-12-18T14:14:55Z",
-  "posted_at": "2025-12-18T14:14:55Z",
-  "amount": { "amount_minor": -7240, "currency": "CAD" },
-  "direction": "debit",
-  "original_description": "Downtown Coffee Shop",
-  "status": "posted",
-  "mutability": "immutable"
-}</pre>
-
-    <!-- AI INSIGHTS (embedded, not a separate offering) -->
-    <div style="
-      margin-top: 12px;
-      border: 1px solid rgba(0,0,0,0.10);
-      border-radius: 12px;
-      overflow:hidden;
-      background: rgba(120, 70, 255, 0.06);
-    ">
-      <div style="padding: 12px;">
-        <div class="small" style="font-weight: 900; margin-bottom: 6px;">✨ AI-powered Insights (optional)</div>
-        <p class="small" style="margin:0; opacity:0.9;">
-          Best-effort analysis fields (e.g., categorization &amp; signals). They never change the deterministic transaction core.
-        </p>
-      </div>
-      <div style="border-top: 1px solid rgba(0,0,0,0.08); padding: 12px;">
-        <pre class="small" style="white-space:pre-wrap; margin:0; overflow:auto;">"insights": {
-  "category": {
-    "value": "coffee_fast_food",
-    "confidence": 0.86,
-    "version": "cat-v1",
-    "signals": ["merchant_keyword:coffee", "description_pattern:shop"],
-    "model": { "provider": "gemini", "model": "gemini-2.0-flash", "latency_ms": 120 }
-  }
-}</pre>
-      </div>
-    </div>
-
-    <p style="margin-top: 12px;">
-       <a href="/pro.html"
-   class="cta-button"
-   style="background-color:#4a2d21; color:#ffffff;">
-  Get Pro Access
-</a>
-    </p>
-  </div>
-
-  <!-- OUTPUT: QuickBooks Expenses -->
-  <div id="msOutQb" style="margin-top:14px; display:none;">
-    <h3 style="margin: 0 0 8px 0;">QuickBooks Expenses CSV</h3>
-    <p class="small" style="margin-top:8px; opacity:0.85;">
-      Designed for direct import into QuickBooks (no manual column mapping).
-    </p>
-
-    <div style="
-      display:grid;
-      grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr);
-      gap:0;
-      border: 1px solid rgba(0,0,0,0.12);
-      border-radius: 12px;
-      overflow:hidden;
-      background: rgba(255,255,255,0.55);
-    ">
-      <div class="small" style="padding:10px 12px; font-weight:700; border-bottom:1px solid rgba(0,0,0,0.08);">Date</div>
-      <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">2025-12-18</div>
-
-      <div class="small" style="padding:10px 12px; font-weight:700; border-bottom:1px solid rgba(0,0,0,0.08);">Payee</div>
-      <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">(blank in v1)</div>
-
-      <div class="small" style="padding:10px 12px; font-weight:700; border-bottom:1px solid rgba(0,0,0,0.08);">Description</div>
-      <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">Downtown Coffee Shop</div>
-
-      <div class="small" style="padding:10px 12px; font-weight:700; border-bottom:1px solid rgba(0,0,0,0.08);">Amount</div>
-      <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">72.40</div>
-
-      <div class="small" style="padding:10px 12px; font-weight:700; border-bottom:1px solid rgba(0,0,0,0.08);">Reference</div>
-      <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">Invoice 84721</div>
-
-      <div class="small" style="padding:10px 12px; font-weight:700;">AccountRef</div>
-      <div class="small" style="padding:10px 12px;">88931</div>
-    </div>
-
-    <div style="
-      margin-top: 12px;
-      padding: 12px;
-      border-radius: 12px;
-      background: rgba(44,160,28,0.08);
-    ">
-      <p class="small" style="margin:0 0 10px 0;">
-        Ready to generate QuickBooks files?
-      </p>
-       <a href="/pro.html"
-   class="cta-button"
-   style="background-color:#4a2d21; color:#ffffff;">
-  Get Pro Access
-</a>
-
-    </div>
-  </div>
-
-  <!-- Toggle script -->
-  <script>
-    function msApplyToggleStyles(activeId) {
-      const ids = ['toggleCsv', 'toggleJson', 'toggleQb'];
-
-      ids.forEach(id => {
-        const b = document.getElementById(id);
-        if (!b) return;
-
-        const isActive = (id === activeId);
-
-        // Base (inactive)
-        b.style.background = '#ffffff';
-        b.style.color = '#000000';
-
-        // Default border
-        if (id === 'toggleQb') {
-          b.style.border = '2px solid #2CA01C';
-        } else {
-          b.style.border = '2px solid rgba(0,0,0,0.25)';
-        }
-
-        // Active styling
-        if (isActive) {
-          if (id === 'toggleQb') {
-            b.style.background = '#2CA01C';
-            b.style.border = '2px solid #2CA01C';
-            b.style.color = '#ffffff';
-          } else {
-            b.style.background = 'rgba(0,0,0,0.08)';
-            b.style.border = '2px solid rgba(0,0,0,0.35)';
-            b.style.color = '#000000';
-          }
-        }
-      });
-    }
-
-    function msSetOutput(which) {
-      const panes = {
-        csv: document.getElementById('msOutCsv'),
-        json: document.getElementById('msOutJson'),
-        qb: document.getElementById('msOutQb'),
-      };
-
-      Object.keys(panes).forEach(k => {
-        if (panes[k]) panes[k].style.display = (k === which) ? 'block' : 'none';
-      });
-
-      if (which === 'qb') return msApplyToggleStyles('toggleQb');
-      if (which === 'json') return msApplyToggleStyles('toggleJson');
-      return msApplyToggleStyles('toggleCsv');
-    }
-
-    // force correct initial state
-    msSetOutput('csv');
-  </script>
-
-</article>
-
-
-      </section>
-
     </main>
 
     <footer>
       © MapleSchema 2026 — Canonical transactions (CSV, JSON, Insights, QuickBooks) • Privacy-first •
       <a href="/enterprise">For fintech &amp; developers</a>
     </footer>
-
   </div>
 </body>
 </html>
