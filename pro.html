@@ -1,49 +1,73 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>MapleSchema Pro</title>
+  <title>MapleSchema Pro — Structured Exports + QuickBooks</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="MapleSchema Pro: structured transaction JSON (with optional Insights) and QuickBooks-ready import files. Sign in to subscribe or manage billing. See example outputs." />
+
   <link rel="stylesheet" href="/css/style.css" />
+
   <style>
+    /* Keep this page self-contained + consistent with your existing style.css */
     .row { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
     .btn {
       display:inline-flex; align-items:center; justify-content:center;
       padding: 10px 14px; border-radius:10px; border:0;
       font-weight:800; cursor:pointer; text-decoration:none;
+      line-height:1;
       background:#4a2d21; color:#fff;
+      width: fit-content;
     }
     .btn.secondary { background:#222; }
     .btn.qb { background:#2CA01C; }
+    .btn.disabled { opacity:0.55; cursor:not-allowed; }
     .box { padding:14px; border:1px solid rgba(0,0,0,0.12); border-radius:12px; background:rgba(255,255,255,0.65); }
-    .muted { opacity:0.8; }
+    .muted { opacity:0.85; }
     code { background: rgba(0,0,0,0.06); padding: 2px 6px; border-radius: 6px; }
     pre { white-space: pre-wrap; }
+
+    .hero-mini { padding: 18px 0 0 0; }
+    .hero-mini h1 { margin-bottom: 8px; }
+    .pillbar { display:flex; flex-wrap:wrap; gap:10px; margin-top:10px; opacity:0.95; }
+    .pill { padding:6px 10px; border-radius:999px; border:1px solid rgba(0,0,0,0.12); background: rgba(255,255,255,0.55); font-weight:700; font-size:0.9rem; }
+    .grid2 { display:grid; grid-template-columns: 1fr; gap:12px; }
+    @media (min-width: 900px) { .grid2 { grid-template-columns: 1.2fr 0.8fr; } }
+
+    /* Toggle buttons (examples) */
+    .toggleWrap { display:inline-flex; gap:8px; flex-wrap:wrap; align-items:center; }
+    .toggleBtn {
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-weight: 800;
+      cursor: pointer;
+      border: 2px solid rgba(0,0,0,0.25);
+      background: #ffffff;
+      color: #000000;
+    }
   </style>
-<!-- Firebase SDKs -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-<script>
-  // Firebase configuration (STAGING)
-  const firebaseConfig = {
-    apiKey: "AIzaSyB960RtycsSigsJ77KwYlRWlPBb4e1DU1s",
-    authDomain: "mapleschema-staging.firebaseapp.com",
-    projectId: "mapleschema-staging",
-    storageBucket: "mapleschema-staging.firebasestorage.app",
-    messagingSenderId: "851079947514",
-    appId: "1:851079947514:web:809a28d25d24eef5f01543",
-    measurementId: "G-FCNZJQVSHV"
-  };
 
-  // Init Firebase
-  firebase.initializeApp(firebaseConfig);
+  <!-- Firebase (compat) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 
-  // Auth handle
-  const auth = firebase.auth();
+  <script>
+    // ====== SINGLE SOURCE OF TRUTH (use real strings; no placeholders) ======
+    // NOTE: This is your STAGING Firebase web config as provided.
+    const firebaseConfig = {
+      apiKey: "AIzaSyB960RtycsSigsJ77KwYlRWlPBb4e1DU1s",
+      authDomain: "mapleschema-staging.firebaseapp.com",
+      projectId: "mapleschema-staging",
+      storageBucket: "mapleschema-staging.firebasestorage.app",
+      messagingSenderId: "851079947514",
+      appId: "1:851079947514:web:809a28d25d24eef5f01543",
+      measurementId: "G-FCNZJQVSHV"
+    };
 
-  // API base (staging)
-  const API_BASE = "https://staging.api.mapleschema.com";
-</script>
+    // NOTE: This is your STAGING API base as provided.
+    const API_BASE = "https://staging.api.mapleschema.com";
+  </script>
 </head>
 
 <body>
@@ -64,66 +88,251 @@
     </header>
 
     <main class="container" style="margin-top:16px;">
-      <h1>MapleSchema Pro</h1>
-      <p class="muted">
-        This page targets <strong>staging</strong> API endpoints for billing and testing.
-      </p>
-
-      <div class="box" style="margin-top:12px;">
-        <div class="row">
-          <button id="btnLogin" class="btn">Sign in with Google</button>
-          <button id="btnLogout" class="btn secondary" disabled>Log out</button>
-          <button id="btnBilling" class="btn" disabled>Billing (Manage / Subscribe)</button>
-        </div>
-
-        <div style="margin-top:12px;">
-          <div><strong>Status:</strong> <span id="authStatus">Not signed in</span></div>
-          <div class="muted" style="margin-top:6px;">
-            API target: <code id="apiBase"></code>
-          </div>
-        </div>
-
-        <div id="msg" class="muted" style="margin-top:12px;"></div>
-        <pre id="debug" class="muted" style="margin-top:10px; display:none;"></pre>
-      </div>
-
-      <div class="box" style="margin-top:12px;">
-        <h2 style="margin-top:0;">Tools</h2>
-        <div class="row">
-          <a class="btn secondary" href="/transform.html">Free CSV Convert</a>
-          <a class="btn" href="/transactions-json.html">Canonical JSON</a>
-          <a class="btn qb" href="/quickbooks.html">QuickBooks</a>
-        </div>
-        <p class="muted" style="margin-top:10px;">
-          Paid tools will be blocked by the API unless your Firestore <code>tier</code> is <code>paid</code>.
-          Billing will redirect you to Stripe Checkout / Portal.
+      <!-- HERO -->
+      <section class="hero-mini">
+        <h1>MapleSchema Pro</h1>
+        <p class="muted" style="max-width: 980px; margin: 0;">
+          Generate <strong>structured transaction data</strong> (JSON) and <strong>QuickBooks-ready import files</strong>.
+          Built for workflows that need clean outputs — fast.
         </p>
-      </div>
+
+        <div class="pillbar" aria-label="Trust bar">
+          <div class="pill">No bank login required</div>
+          <div class="pill">Stateless processing</div>
+          <div class="pill">Instant download</div>
+          <div class="pill">Stable structure</div>
+        </div>
+      </section>
+
+      <!-- TOP GRID -->
+      <section class="grid2" style="margin-top:14px;">
+        <!-- LEFT: Billing + Auth -->
+        <article class="box">
+          <h2 style="margin-top:0;">Subscription</h2>
+
+          <div class="row">
+            <button id="btnLogin" class="btn">Sign in with Google</button>
+            <button id="btnLogout" class="btn secondary" disabled>Log out</button>
+            <button id="btnBilling" class="btn" disabled>Manage Billing</button>
+          </div>
+
+          <div style="margin-top:12px;">
+            <div><strong>Status:</strong> <span id="authStatus">Not signed in</span></div>
+            <div class="muted" style="margin-top:6px;">
+              API target: <code id="apiBase"></code>
+            </div>
+          </div>
+
+          <div id="msg" class="muted" style="margin-top:12px;"></div>
+          <pre id="debug" class="muted" style="margin-top:10px; display:none;"></pre>
+
+          <div style="margin-top:12px; border-top:1px solid rgba(0,0,0,0.10); padding-top:12px;">
+            <p class="muted" style="margin:0;">
+              Not subscribed yet? Click <strong>Manage Billing</strong> — we’ll send you to Stripe to subscribe (or manage/cancel if you already have a plan).
+            </p>
+          </div>
+        </article>
+
+        <!-- RIGHT: Pro tools -->
+        <article class="box">
+          <h2 style="margin-top:0;">Pro tools</h2>
+
+          <div class="row">
+            <a class="btn secondary" href="/transform.html">Free CSV Convert</a>
+            <a class="btn" href="/transactions-json.html">Structured JSON</a>
+            <a class="btn qb" href="/quickbooks.html">QuickBooks Import</a>
+          </div>
+
+          <p class="muted" style="margin-top:10px;">
+            Pro outputs are gated by your account tier. If you’re not subscribed, the API will block paid routes.
+          </p>
+
+          <p class="muted" style="margin:10px 0 0 0;">
+            Tip: If you just want to sanity-check your data, start with the free CSV converter.
+          </p>
+        </article>
+      </section>
+
+      <!-- EXAMPLES -->
+      <section style="margin-top:12px;">
+        <article class="box">
+          <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+            <div>
+              <h2 style="margin-top:0;">Example outputs</h2>
+              <p class="muted" style="margin:6px 0 0 0;">
+                What you get after converting raw bank data. Structured JSON can include optional <strong>Insights</strong> as annotations (core data unchanged).
+              </p>
+            </div>
+
+            <div class="toggleWrap" aria-label="Example output selector">
+              <button id="toggleCsv" type="button" class="toggleBtn" onclick="msSetOutput('csv')">Transactions CSV</button>
+              <button id="toggleJson" type="button" class="toggleBtn" onclick="msSetOutput('json')">Structured JSON (Insights)</button>
+              <button id="toggleQb" type="button" class="toggleBtn" onclick="msSetOutput('qb')" style="border:2px solid #2CA01C;">QuickBooks Expenses</button>
+            </div>
+          </div>
+
+          <!-- INPUT (kept short; not a homepage wall) -->
+          <div style="margin-top:14px;">
+            <h3 style="margin: 0 0 8px 0;">Example input (uploaded data)</h3>
+            <pre class="muted" style="margin:0; border:1px solid rgba(0,0,0,0.12); border-radius:12px; padding:12px; background: rgba(255,255,255,0.55); overflow:auto;">{
+  "transactions_path": "Data.Transaction",
+  "payload": {
+    "Data": {
+      "Transaction": [
+        {
+          "transaction_id": "tx_84721",
+          "account_ref": "88931",
+          "transaction_ref": "Invoice 84721",
+          "amount": 72.40,
+          "currency": "CAD",
+          "posted_local_time": "2025-12-18T09:14:55-05:00",
+          "description": "Downtown Coffee Shop",
+          "credit_debit_indicator": "Debit"
+        }
+      ]
+    },
+    "Meta": { "total": 1 }
+  }
+}</pre>
+          </div>
+
+          <!-- OUTPUT: CSV -->
+          <div id="msOutCsv" style="margin-top:14px;">
+            <h3 style="margin: 0 0 8px 0;">Transactions CSV</h3>
+            <div style="
+              display:grid;
+              grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr);
+              gap:0;
+              border: 1px solid rgba(0,0,0,0.12);
+              border-radius: 12px;
+              overflow:hidden;
+              background: rgba(255,255,255,0.55);
+            ">
+              <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">transaction_fingerprint</div>
+              <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">computed (stable fingerprint)</div>
+
+              <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">institution_code</div>
+              <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">examplebank</div>
+
+              <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">amount_minor</div>
+              <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">-7240</div>
+
+              <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">currency</div>
+              <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">CAD</div>
+
+              <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">direction</div>
+              <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">debit</div>
+
+              <div class="muted" style="padding:10px 12px; font-weight:900;">original_description</div>
+              <div class="muted" style="padding:10px 12px;">Downtown Coffee Shop</div>
+            </div>
+
+            <div style="margin-top:12px;">
+              <a class="btn secondary" href="/transform.html">Try CSV Converter (Free)</a>
+            </div>
+          </div>
+
+          <!-- OUTPUT: JSON -->
+          <div id="msOutJson" style="margin-top:14px; display:none;">
+            <h3 style="margin: 0 0 8px 0;">Structured Transaction JSON</h3>
+            <p class="muted" style="margin-top:8px;">
+              Deterministic core transaction object. Optional <strong>Insights</strong> are annotations only.
+            </p>
+
+            <pre class="muted" style="margin-top:10px; border: 1px solid rgba(0,0,0,0.12); border-radius: 12px; padding: 12px; background: rgba(255,255,255,0.55); overflow:auto;">{
+  "schema_version": "transactions-v1.0",
+  "transaction_fingerprint": "computed-stable-fingerprint",
+  "transaction_ref": "Invoice 84721",
+  "account_ref": "88931",
+  "institution_code": "examplebank",
+  "aggregator_code": "exampleagg",
+  "posted_at": "2025-12-18T14:14:55Z",
+  "amount": { "amount_minor": -7240, "currency": "CAD" },
+  "direction": "debit",
+  "original_description": "Downtown Coffee Shop",
+  "status": "posted",
+  "mutability": "immutable"
+}</pre>
+
+            <div style="
+              margin-top: 12px;
+              border: 1px solid rgba(0,0,0,0.10);
+              border-radius: 12px;
+              overflow:hidden;
+              background: rgba(120, 70, 255, 0.06);
+            ">
+              <div style="padding: 12px;">
+                <div class="muted" style="font-weight: 900; margin-bottom: 6px;">✨ Optional Insights (annotations)</div>
+                <p class="muted" style="margin:0;">
+                  Best-effort analysis fields (e.g., categorization &amp; signals). They never change the transaction core.
+                </p>
+              </div>
+              <div style="border-top: 1px solid rgba(0,0,0,0.08); padding: 12px;">
+                <pre class="muted" style="white-space:pre-wrap; margin:0; overflow:auto;">"insights": {
+  "category": {
+    "value": "coffee_fast_food",
+    "confidence": 0.86,
+    "version": "cat-v1",
+    "signals": ["merchant_keyword:coffee", "description_pattern:shop"],
+    "model": { "provider": "gemini", "model": "gemini-2.0-flash", "latency_ms": 120 }
+  }
+}</pre>
+              </div>
+            </div>
+
+            <div style="margin-top:12px;">
+              <a class="btn" href="/transactions-json.html">Open Structured JSON Tool</a>
+            </div>
+          </div>
+
+          <!-- OUTPUT: QuickBooks -->
+          <div id="msOutQb" style="margin-top:14px; display:none;">
+            <h3 style="margin: 0 0 8px 0;">QuickBooks Expenses CSV</h3>
+            <p class="muted" style="margin-top:8px;">
+              Designed for direct import into QuickBooks (no manual column mapping).
+            </p>
+
+            <div style="
+              display:grid;
+              grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr);
+              gap:0;
+              border: 1px solid rgba(0,0,0,0.12);
+              border-radius: 12px;
+              overflow:hidden;
+              background: rgba(255,255,255,0.55);
+            ">
+              <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">Date</div>
+              <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">2025-12-18</div>
+
+              <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">Description</div>
+              <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">Downtown Coffee Shop</div>
+
+              <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">Amount</div>
+              <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">72.40</div>
+
+              <div class="muted" style="padding:10px 12px; font-weight:900;">Reference</div>
+              <div class="muted" style="padding:10px 12px;">Invoice 84721</div>
+            </div>
+
+            <div style="margin-top:12px;">
+              <a class="btn qb" href="/quickbooks.html">Open QuickBooks Tool</a>
+            </div>
+          </div>
+        </article>
+      </section>
     </main>
 
     <footer>
-      © MapleSchema 2026 • Pro Hub
+      © MapleSchema 2026 • Pro
     </footer>
   </div>
 
   <script>
-    // ====== CONFIG (ONLY TODO HERE) ======
-    // Paste your Firebase web config from Firebase Console → Project settings → Web app.
-    const firebaseConfig = {
-      apiKey: "PASTE_ME",
-      authDomain: "PASTE_ME",
-      projectId: "PASTE_ME",
-      appId: "PASTE_ME",
-      // others optional: storageBucket, messagingSenderId
-    };
-
-    // Force staging API for now.
-    const API_BASE = "https://staging.api.mapleschema.com";
-    document.getElementById("apiBase").textContent = API_BASE;
-
-    // ====== INIT ======
+    // ====== INIT (exactly once) ======
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
+
+    document.getElementById("apiBase").textContent = API_BASE;
 
     const elStatus = document.getElementById("authStatus");
     const elMsg = document.getElementById("msg");
@@ -133,17 +342,12 @@
     const btnLogout = document.getElementById("btnLogout");
     const btnBilling = document.getElementById("btnBilling");
 
-    function setMsg(s) {
-      elMsg.textContent = s || "";
-    }
+    function setMsg(s) { elMsg.textContent = s || ""; }
     function setDebug(obj) {
       elDebug.style.display = "block";
       elDebug.textContent = typeof obj === "string" ? obj : JSON.stringify(obj, null, 2);
     }
-    function clearDebug() {
-      elDebug.style.display = "none";
-      elDebug.textContent = "";
-    }
+    function clearDebug() { elDebug.style.display = "none"; elDebug.textContent = ""; }
 
     auth.onAuthStateChanged((user) => {
       clearDebug();
@@ -151,13 +355,13 @@
         elStatus.textContent = "Not signed in";
         btnLogout.disabled = true;
         btnBilling.disabled = true;
-        setMsg("");
+        setMsg("Sign in to subscribe or manage billing.");
         return;
       }
       elStatus.textContent = `Signed in as ${user.email}`;
       btnLogout.disabled = false;
       btnBilling.disabled = false;
-      setMsg("Ready. Click Billing to manage or subscribe.");
+      setMsg("Ready. Click Manage Billing to subscribe or manage your plan.");
     });
 
     btnLogin.addEventListener("click", async () => {
@@ -175,8 +379,8 @@
     btnLogout.addEventListener("click", async () => {
       clearDebug();
       setMsg("Signing out…");
-      await auth.signOut();
-      setMsg("");
+      try { await auth.signOut(); } catch (_) {}
+      setMsg("Signed out.");
     });
 
     async function postWithAuth(path) {
@@ -199,6 +403,7 @@
     btnBilling.addEventListener("click", async () => {
       clearDebug();
       setMsg("Opening billing…");
+
       try {
         // 1) Try portal first (manage/cancel)
         const portal = await postWithAuth("/v1/billing/portal");
@@ -207,8 +412,7 @@
           return;
         }
 
-        // If portal failed because user has no Stripe customer yet, fall back to checkout.
-        // Your backend uses 409 CONFLICT for "no billing customer exists".
+        // 2) If no customer yet, fall back to checkout (backend uses 409 for "no billing customer exists")
         if (portal.res.status === 409) {
           setMsg("No billing profile yet. Redirecting to checkout…");
           const checkout = await postWithAuth("/v1/billing/checkout");
@@ -221,7 +425,7 @@
           return;
         }
 
-        // Any other portal error
+        // 3) Any other portal error
         setMsg("Billing portal failed.");
         setDebug({ status: portal.res.status, body: portal.json || portal.text });
 
@@ -230,6 +434,57 @@
         setDebug({ error: String(e) });
       }
     });
+
+    // ====== Examples toggle ======
+    function msApplyToggleStyles(activeId) {
+      const ids = ["toggleCsv", "toggleJson", "toggleQb"];
+      ids.forEach((id) => {
+        const b = document.getElementById(id);
+        if (!b) return;
+
+        const isActive = (id === activeId);
+
+        // base
+        b.style.background = "#ffffff";
+        b.style.color = "#000000";
+        b.style.border = (id === "toggleQb")
+          ? "2px solid #2CA01C"
+          : "2px solid rgba(0,0,0,0.25)";
+
+        // active
+        if (isActive) {
+          if (id === "toggleQb") {
+            b.style.background = "#2CA01C";
+            b.style.border = "2px solid #2CA01C";
+            b.style.color = "#ffffff";
+          } else {
+            b.style.background = "rgba(0,0,0,0.08)";
+            b.style.border = "2px solid rgba(0,0,0,0.35)";
+            b.style.color = "#000000";
+          }
+        }
+      });
+    }
+
+    function msSetOutput(which) {
+      const panes = {
+        csv: document.getElementById("msOutCsv"),
+        json: document.getElementById("msOutJson"),
+        qb: document.getElementById("msOutQb"),
+      };
+
+      Object.keys(panes).forEach((k) => {
+        if (panes[k]) panes[k].style.display = (k === which) ? "block" : "none";
+      });
+
+      if (which === "qb") return msApplyToggleStyles("toggleQb");
+      if (which === "json") return msApplyToggleStyles("toggleJson");
+      return msApplyToggleStyles("toggleCsv");
+    }
+
+    // default
+    msSetOutput("csv");
   </script>
 </body>
 </html>
+```
