@@ -102,43 +102,25 @@
 
       <!-- HERO -->
       <section class="pro-hero">
-        <h1>MapleSchema Pro</h1>
-        <p class="pro-lead">
+       <h1>MapleSchema Pro</h1>
+        <p class="hero-lead">
           Upload bank data → Pick a format → Download instantly
-        </p>
-        <p class="pro-sub">
-          Structured JSON (with optional Insights) and QuickBooks-ready import files.
         </p>
       </section>
 
       <!-- Thin bar link to free CSV -->
-      <section class="grid1" style="margin-top:12px;">
-        <a class="thinbar" href="/transform.html">
-          <span>🔁 Free CSV Converter</span>
-          <small>Quick sanity-check →</small>
-        </a>
-      </section>
-
-      <!-- Subscription (simple) -->
-      <section class="grid1" style="margin-top:12px;">
-        <article class="box">
-          <h2 style="margin-top:0;">Subscription</h2>
-
-          <div class="row">
-            <button id="btnLogin" class="btn">Sign in with Google</button>
-            <button id="btnLogout" class="btn secondary" disabled>Log out</button>
-            <button id="btnBilling" class="btn" disabled>Manage Billing</button>
-          </div>
-
-          <div style="margin-top:12px;">
-            <div><strong>Status:</strong> <span id="authStatus">Not signed in</span></div>
-          </div>
-
-          <div id="msg" class="muted" style="margin-top:10px;"></div>
-          <pre id="debug" class="muted" style="margin-top:10px; display:none;"></pre>
+      <section>
+        <article class="box" style="border-left: 6px solid #2CA01C;">
+          <h2>Free CSV Converter</h2>
+          <p class="muted">
+            Convert raw banking JSON into a clean, normalized CSV — instantly.
+          </p>
+      
+          <a class="btn qb" href="/transform.html">
+            Convert JSON → CSV
+          </a>
         </article>
       </section>
-
       <!-- Pro examples (only the 2 pro outputs) -->
       <section style="margin-top:12px;">
         <article class="box">
@@ -199,7 +181,7 @@
             <p class="muted" style="margin-top:8px;">
               Designed for direct import into QuickBooks (no manual column mapping).
             </p>
-
+           
             <div style="
               display:grid;
               grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr);
@@ -221,7 +203,20 @@
               <div class="muted" style="padding:10px 12px; font-weight:900;">Reference</div>
               <div class="muted" style="padding:10px 12px;">stmt_line_1842</div>
             </div>
-
+       
+       <!-- Subscription (simple) -->
+            <section>
+              <article class="box">
+                <h2>Subscription</h2>
+                <p class="muted">
+                  Access Pro exports and automation-ready formats.
+                </p>
+                <a class="btn" href="/subscribe.html">
+                  Subscribe to MapleSchema Pro
+                </a>
+              </article>
+            </section>
+            
             <div style="margin-top:12px;">
               <a class="btn qb" href="/quickbooks.html">Open QuickBooks Tool</a>
             </div>
