@@ -94,81 +94,118 @@
       </article>
     </section>
 
-    <!-- 2. PRO SUBSCRIPTION -->
-    <section style="margin-top:12px;">
-      <article class="box">
-        <h2>MapleSchema Pro</h2>
+   <!-- 2. PRO SUBSCRIPTION -->
+<section style="margin-top:12px;">
+  <article class="box">
+    <h2>MapleSchema Pro</h2>
 
-        <p class="muted">
-          MapleSchema Pro unlocks higher-volume exports and AI-enriched outputs for production workflows.
-        </p>
+    <p class="muted">
+      MapleSchema Pro unlocks higher-volume exports and AI-enriched outputs for production workflows.
+    </p>
 
-        <ul class="muted" style="margin:10px 0 12px 18px;">
-          <li><strong>Up to 1,000 transactions per request</strong> (5× the free tier)</li>
-          <li><strong>Core CSV</strong> or CSV with optional <strong>AI-powered Insights</strong></li>
-          <li><strong>Structured transaction JSON</strong> with AI Insights for workflows</li>
-          <li><strong>QuickBooks-ready</strong> Expense and Payment import files</li>
-        </ul>
+    <ul class="muted" style="margin:10px 0 12px 18px;">
+      <li><strong>Up to 1,000 transactions per request</strong> (free tier: 200)</li>
+      <li><strong>Core CSV</strong> or CSV with optional <strong>AI-powered Insights</strong></li>
+      <li><strong>Structured transaction JSON</strong> with AI Insights for workflows</li>
+      <li><strong>QuickBooks-ready</strong> Expense and Payment import files</li>
+    </ul>
 
-        <p class="muted" style="margin-bottom:12px;">
-          AI Insights are added as non-destructive annotations.
-          Core transaction data is never modified.
-        </p>
+    <p class="muted" style="margin-bottom:12px;">
+      AI Insights are added as non-destructive annotations — core transaction data is never modified.
+    </p>
 
-        <a class="btn" href="/subscribe.html">
-          Subscribe to MapleSchema Pro — $4 / month
-        </a>
-      </article>
-    </section>
+    <a class="btn" href="/subscribe.html">
+      Subscribe to MapleSchema Pro — $4 / month
+    </a>
+  </article>
+</section>
+
 
     <!-- 3. EXAMPLE OUTPUTS (LOGGED-OUT ONLY) -->
-    <section style="margin-top:12px;">
-      <article class="box">
-        <h2>Example outputs</h2>
-        <p class="muted">
-          What MapleSchema Pro produces from raw banking data.
-        </p>
+  <!-- 3. EXAMPLE OUTPUTS -->
+<section style="margin-top:12px;">
+  <article class="box">
+    <h2>Example outputs</h2>
+    <p class="muted">
+      What MapleSchema Pro produces from raw banking data.
+    </p>
 
-        <div class="toggleWrap">
-          <button class="toggleBtn" onclick="showExample('json')">
-            Structured JSON
-          </button>
-          <button
-            class="toggleBtn"
-            onclick="showExample('qb')"
-            style="border-color:#2CA01C;"
-          >
-            QuickBooks Import
-          </button>
-        </div>
+    <div class="toggleWrap">
+      <button class="toggleBtn" onclick="showExample('json')">Structured JSON</button>
+      <button class="toggleBtn" onclick="showExample('qb')" style="border-color:#2CA01C;">
+        QuickBooks Import
+      </button>
+    </div>
 
-        <!-- JSON -->
-        <pre id="exJson">{
+    <!-- JSON -->
+    <pre id="exJson" style="margin-top:12px;">{
   "schema_version": "transactions-v1.0",
   "transaction_fingerprint": "ms_fp_9f1c2c7b0d2a",
   "transaction_ref": "stmt_line_1842",
   "account_ref": "chq_001",
   "institution_code": "rbc_ca",
   "aggregator_code": "flinks",
+
+  "effective_at": "2026-01-14T19:22:11Z",
   "posted_at": "2026-01-14T19:22:11Z",
-  "amount": { "amount_minor": -724, "currency": "CAD" },
+
+  "amount": {
+    "amount_minor": -724,
+    "currency": "CAD"
+  },
   "direction": "debit",
+
   "original_description": "TIM HORTONS #0059 / LONDON ON",
   "status": "posted",
   "mutability": "immutable",
+
+  "normalization": {
+    "mapping_method": "institution_mapper_v1",
+    "input_timezone": "America/Toronto",
+    "warnings": []
+  },
+
   "insights": {
     "category": {
       "value": "coffee_fast_food",
-      "confidence": 0.92
+      "confidence": 0.92,
+      "version": "cat-v1",
+      "signals": [
+        "merchant_keyword:tim hortons",
+        "pattern:#\\d{2,4}",
+        "geo:ON"
+      ]
+    },
+    "merchant": {
+      "value": "Tim Hortons",
+      "confidence": 0.89,
+      "version": "merchant-v1",
+      "signals": [
+        "brand_db_match",
+        "alias:tim hortons"
+      ]
+    },
+    "description_analysis": {
+      "en": "Franchise coffee shop purchase (likely in-store).",
+      "fr": "Achat dans une franchise de café (probablement en magasin).",
+      "confidence": 0.84,
+      "version": "desc-v1",
+      "signals": [
+        "token:TIM",
+        "token:HORTONS",
+        "store_id:#0059",
+        "city:LONDON",
+        "region:ON"
+      ]
     }
   }
 }</pre>
 
-        <!-- QUICKBOOKS -->
-        <pre id="exQb" style="display:none;">Date,Payee,Description,Amount,Reference,Account
+    <!-- QB -->
+    <pre id="exQb" style="margin-top:12px; display:none;">Date,Payee,Description,Amount,Reference,AccountRef
 2026-01-14,Tim Hortons,Coffee purchase,7.24,stmt_line_1842,Expenses</pre>
-      </article>
-    </section>
+  </article>
+</section>
 
   </main>
 
