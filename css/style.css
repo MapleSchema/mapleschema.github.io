@@ -410,6 +410,12 @@ h2, h3 {
   margin-bottom: 40px;
 }
 .panel + .panel { margin-top: 16px; }
+
+/* Cards inside panels should not add extra outside spacing */
+.panel > .card,
+.panel section > .card {
+  margin-bottom: 0;
+}
 /* =========================
    Responsive
 ========================= */
