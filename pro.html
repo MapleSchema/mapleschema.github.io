@@ -1,6 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script>
+  // choose env by hostname (simple + deterministic)
+  const isStaging =
+    location.hostname.includes("localhost") ||
+    location.hostname.includes("staging");
+    
+  window.MAPLE_FIREBASE_CONFIG = isStaging
+    ? {
+        apiKey: "AIzaSyB960RtycsSigsJ77KwYlRWlPBb4e1DU1s",
+        authDomain: "mapleschema-staging.firebaseapp.com",
+        projectId: "mapleschema-staging",
+        appId: "1:851079947514:web:809a28d25d24eef5f01543",
+      }
+    : {
+        apiKey: "AIzaSyBgeIGdlYuQfBSGofSSjGoqq8s6KWnPrAE",
+        authDomain: "mapleschema-prod.firebaseapp.com",
+        projectId: "mapleschema-prod",
+        appId: "1:379867061540:web:cab36006b09975b78ca7b1",
+      };
+    
+    window.MAPLE_API_BASE = isStaging
+    ? "https://api-staging.mapleschema.com"
+    : "https://api.mapleschema.com";
+</script>
+
   <meta charset="UTF-8" />
   <title>MapleSchema Pro — Structured JSON & QuickBooks Exports</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
