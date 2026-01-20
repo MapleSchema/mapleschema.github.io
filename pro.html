@@ -364,7 +364,7 @@
       const idToken = await user.getIdToken(true);
 
       // 3) Call backend to create Stripe Checkout session
-      const resp = await fetch("/v1/billing/checkout", {
+      const resp = await fetch(`${window.MAPLE_API_BASE}/v1/billing/checkout`, {
         method: "POST",
         headers: {
           "Authorization": "Bearer " + idToken,
