@@ -1,11 +1,17 @@
 // /js/convert.js
 (() => {
-  const API_BASE = "https://api.mapleschema.com";
-  const ORIGIN_HINT = "https://mapleschema.com"; // informational only
+  // -----------------------
+  // Env + constants
+  // -----------------------
+  const API_BASE = (window.MAPLE_API_BASE || "https://api.mapleschema.com").replace(/\/+$/, "");
+  const ORIGIN_HINT = (window.location && window.location.origin) ? window.location.origin : "https://mapleschema.com";
 
-  // --- DOM helpers
+  // -----------------------
+  // DOM helpers
+  // -----------------------
   const $ = (id) => document.getElementById(id);
 
+  // Converter/auth UI elements (may be missing on non-convert pages)
   const statusEl = $("authStatus");
   const emailEl = $("authEmail");
   const signInBtn = $("btnSignIn");
@@ -21,11 +27,38 @@
   const errorText = $("errorText");
   const requestIdEl = $("requestId");
 
-  const signInWrap = document.getElementById("signInWrap");
-  const signedInCard = document.getElementById("signedInCard");
-
-
+  const signInWrap = $("signInWrap");
+  const signedInCard = $("signedInCard");
   const routingWrap = $("routingWrap");
+
+  // -----------------------
+  // Page detection
+  // -----------------------
+  // Only enable converter UI wiring if the expected converter elements exist.
+  const hasConverterUI =
+    !!fileInput && !!convertBtn && !!signInBtn && !!signOutBtn && !!errorBox && !!errorText;
+
+  // -----------------------
+  // State
+  // -----------------------
+  let currentUser = null;
+
+  // -----------------------
+  // UI helpers (no-ops if UI not present)
+  // -----------------------
+  function setError(message, requestId = "") {
+    if (!errorBox || !errorText) return;
+    errorBox.style.display = "block";
+    errorText.textContent = message || "Unknown error.";
+    if (requestIdEl) requestIdEl.textContent = requestId ? `Request ID: ${requestId}` : "";
+  }
+
+  function clearError() {
+    if (!errorBox || !errorText) return;
+    errorBox.style.display = "none";
+    errorText.textContent = "";
+    if (requestIdEl) requestIdEl.textContent = "";
+  }
 
   function hasRealOptions(sel) {
     return sel && sel.options && sel.options.length > 1; // placeholder + real options
@@ -40,65 +73,57 @@
       return;
     }
 
-    // Otherwise show.
     routingWrap.style.display = "grid";
-  }
-  
-  // --- State
-  let currentUser = null;
-
-  function setError(message, requestId = "") {
-    errorBox.style.display = "block";
-    errorText.textContent = message;
-    requestIdEl.textContent = requestId ? `Request ID: ${requestId}` : "";
-  }
-
-  function clearError() {
-    errorBox.style.display = "none";
-    errorText.textContent = "";
-    requestIdEl.textContent = "";
   }
 
   function setSignedOutUI() {
     currentUser = null;
-    statusEl.textContent = "Not signed in";
-    emailEl.textContent = "";
-  
-    // Toggle auth UI
+
+    if (statusEl) statusEl.textContent = "Not signed in";
+    if (emailEl) emailEl.textContent = "";
+
     if (signInWrap) signInWrap.style.display = "block";
     if (signedInCard) signedInCard.style.display = "none";
-    signInBtn.disabled = false;
-    signOutBtn.disabled = true;
-    signOutBtn.style.display = "none";
-  
-    fileInput.disabled = true;
-    convertBtn.disabled = true;
-    fileNameEl.textContent = "No file selected";
-  }
 
+    if (signInBtn) signInBtn.disabled = false;
+    if (signOutBtn) {
+      signOutBtn.disabled = true;
+      signOutBtn.style.display = "none";
+    }
+
+    if (fileInput) fileInput.disabled = true;
+    if (convertBtn) convertBtn.disabled = true;
+    if (fileNameEl) fileNameEl.textContent = "No file selected";
+  }
 
   function setSignedInUI(user) {
     currentUser = user;
-    statusEl.textContent = "Signed in";
-    emailEl.textContent = user?.email || "";
-  
-    // Toggle auth UI
+
+    if (statusEl) statusEl.textContent = "Signed in";
+    if (emailEl) emailEl.textContent = user?.email || "";
+
     if (signInWrap) signInWrap.style.display = "none";
     if (signedInCard) signedInCard.style.display = "block";
-    signInBtn.disabled = true;
-    signOutBtn.disabled = false;
-    signOutBtn.style.display = "inline-flex";
-  
-    fileInput.disabled = false;
-    convertBtn.disabled = !fileInput.files?.length;
+
+    if (signInBtn) signInBtn.disabled = true;
+    if (signOutBtn) {
+      signOutBtn.disabled = false;
+      signOutBtn.style.display = "inline-flex";
+    }
+
+    if (fileInput) fileInput.disabled = false;
+    if (convertBtn) convertBtn.disabled = !fileInput?.files?.length;
   }
 
-
   function setBusy(isBusy) {
-    convertBtn.disabled = isBusy || !currentUser || !fileInput.files?.length;
+    if (!convertBtn) return;
+    convertBtn.disabled = isBusy || !currentUser || !fileInput?.files?.length;
     convertBtn.textContent = isBusy ? "Converting..." : "Convert to CSV";
   }
 
+  // -----------------------
+  // File / download helpers
+  // -----------------------
   function downloadBlob(blob, filename) {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -122,23 +147,15 @@
     const text = await file.text();
     try {
       return JSON.parse(text);
-    } catch (e) {
+    } catch {
       throw new Error("File is not valid JSON.");
     }
   }
 
   function buildConvertRequestBody(parsedJson) {
-    // Your backend accepts aggregator_code and institution_code as optional now.
-    // Dropdowns supply either "" or a supported code.
     const aggregator_code = (aggSelect?.value ?? "").trim();
     const institution_code = (bankSelect?.value ?? "").trim();
 
-    // For now, we assume the uploaded JSON is already in the "transactions" array shape
-    // your API expects (or close enough for the general mapper).
-    //
-    // If the file is a top-level array, treat it as transactions.
-    // If the file is an object with `transactions`, use that.
-    // Otherwise, attempt to locate a common UK OB style path: Data.Transaction.
     let transactions = null;
 
     if (Array.isArray(parsedJson)) {
@@ -146,7 +163,6 @@
     } else if (parsedJson && Array.isArray(parsedJson.transactions)) {
       transactions = parsedJson.transactions;
     } else if (parsedJson && parsedJson.Data && Array.isArray(parsedJson.Data.Transaction)) {
-      // UK OB sample shape
       transactions = parsedJson.Data.Transaction;
     }
 
@@ -159,53 +175,86 @@
     return {
       aggregator_code,
       institution_code,
-      transactions
+      transactions,
     };
   }
 
-  // --- Firebase wiring (loaded from CDN in HTML)
-  async function initFirebase() {
-    // Expect window.MAPLE_FIREBASE_CONFIG to be defined in HTML.
+  // -----------------------
+  // Firebase wiring
+  // -----------------------
+  function ensureFirebaseSDKPresent() {
+    // compat SDK exposes global `firebase`
+    return typeof window.firebase !== "undefined" && window.firebase && typeof window.firebase.initializeApp === "function";
+  }
+
+  function initFirebaseAppOnce() {
     const cfg = window.MAPLE_FIREBASE_CONFIG;
     if (!cfg) {
       setError("Firebase config missing. MAPLE_FIREBASE_CONFIG is not defined.");
-      return;
+      return false;
+    }
+    if (!ensureFirebaseSDKPresent()) {
+      setError("Firebase SDK missing. Ensure firebase-app-compat.js and firebase-auth-compat.js are loaded.");
+      return false;
     }
 
-    // firebase.* comes from compat scripts for simplicity on a static site
-    firebase.initializeApp(cfg);
+    // Prevent "Firebase App named '[DEFAULT]' already exists"
+    if (!window.firebase.apps || window.firebase.apps.length === 0) {
+      window.firebase.initializeApp(cfg);
+    }
 
-    firebase.auth().onAuthStateChanged((user) => {
-      clearError();
-      if (!user) {
-        setSignedOutUI();
-        return;
-      }
-      setSignedInUI(user);
-    });
-
-    signInBtn.addEventListener("click", async (e) => {
-      e.preventDefault();
-      clearError();
-      try {
-        const provider = new firebase.auth.GoogleAuthProvider();
-        await firebase.auth().signInWithPopup(provider);
-      } catch (err) {
-        setError(err?.message || "Sign-in failed.");
-      }
-    });
-
-    signOutBtn.addEventListener("click", async (e) => {
-      e.preventDefault();
-      clearError();
-      try {
-        await firebase.auth().signOut();
-      } catch (err) {
-        setError(err?.message || "Sign-out failed.");
-      }
-    });
+    return true;
   }
 
+  async function initFirebaseAuthBindings() {
+    const ok = initFirebaseAppOnce();
+    if (!ok) return;
+
+    // Listen for auth changes globally (works on any page)
+    window.firebase.auth().onAuthStateChanged((user) => {
+      // Don't clear error on every page unless converter UI exists (avoid hiding unrelated errors)
+      if (hasConverterUI) clearError();
+
+      if (!user) {
+        if (hasConverterUI) setSignedOutUI();
+        currentUser = null;
+        return;
+      }
+
+      currentUser = user;
+      if (hasConverterUI) setSignedInUI(user);
+    });
+
+    // Only wire buttons if present
+    if (signInBtn) {
+      signInBtn.addEventListener("click", async (e) => {
+        e.preventDefault();
+        if (hasConverterUI) clearError();
+        try {
+          const provider = new window.firebase.auth.GoogleAuthProvider();
+          await window.firebase.auth().signInWithPopup(provider);
+        } catch (err) {
+          setError(err?.message || "Sign-in failed.");
+        }
+      });
+    }
+
+    if (signOutBtn) {
+      signOutBtn.addEventListener("click", async (e) => {
+        e.preventDefault();
+        if (hasConverterUI) clearError();
+        try {
+          await window.firebase.auth().signOut();
+        } catch (err) {
+          setError(err?.message || "Sign-out failed.");
+        }
+      });
+    }
+  }
+
+  // -----------------------
+  // Converter handler
+  // -----------------------
   async function handleConvertClick(e) {
     e.preventDefault();
     clearError();
@@ -214,7 +263,8 @@
       setError("Please sign in first.");
       return;
     }
-    const file = fileInput.files?.[0];
+
+    const file = fileInput?.files?.[0];
     if (!file) {
       setError("Please choose a JSON file first.");
       return;
@@ -232,9 +282,9 @@
         method: "POST",
         headers: {
           "Authorization": `Bearer ${idToken}`,
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(body)
+        body: JSON.stringify(body),
       });
 
       const requestId = res.headers.get("X-Request-Id") || "";
@@ -246,13 +296,12 @@
         try {
           const j = await res.json();
           msg = j?.error?.message || msg;
-          rid = j?.error?.request_id || rid; // ✅ prefer body
+          rid = j?.error?.request_id || rid;
         } catch (_) {}
 
         setError(msg, rid);
         return;
       }
-
 
       const blob = await res.blob();
       const cd = res.headers.get("Content-Disposition");
@@ -266,24 +315,31 @@
     }
   }
 
-  function initUI() {
-    // default UI
+  // -----------------------
+  // Boot
+  // -----------------------
+  document.addEventListener("DOMContentLoaded", async () => {
+    // Always initialize Firebase (so other pages can rely on auth state)
+    await initFirebaseAuthBindings();
+
+    // Only initialize converter UI if present
+    if (!hasConverterUI) return;
+
     setSignedOutUI();
     clearError();
     updateRoutingVisibility();
-    fileInput.addEventListener("change", () => {
-      clearError();
-      const f = fileInput.files?.[0];
-      fileNameEl.textContent = f ? f.name : "No file selected";
-      convertBtn.disabled = !currentUser || !f;
-    });
 
-    convertBtn.addEventListener("click", handleConvertClick);
-  }
+    if (fileInput) {
+      fileInput.addEventListener("change", () => {
+        clearError();
+        const f = fileInput.files?.[0];
+        if (fileNameEl) fileNameEl.textContent = f ? f.name : "No file selected";
+        if (convertBtn) convertBtn.disabled = !currentUser || !f;
+      });
+    }
 
-  // Boot
-  document.addEventListener("DOMContentLoaded", async () => {
-    initUI();
-    await initFirebase();
+    if (convertBtn) {
+      convertBtn.addEventListener("click", handleConvertClick);
+    }
   });
 })();
