@@ -204,56 +204,45 @@
               Clean, stable fields across banks. (Insights are optional annotations.)
               <a href="/pro.html">See full examples</a>
             </p>
-
-            <pre class="small" style="
-              white-space: pre-wrap;
-              margin-top: 10px;
+            <div style="
+              display:grid;
+              grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr);
+              gap:0;
               border: 1px solid rgba(0,0,0,0.12);
               border-radius: 12px;
-              padding: 12px;
+              overflow:hidden;
               background: rgba(255,255,255,0.55);
-              overflow: auto;
-            ">{
-  "schema_version": "transactions-v1.0",
-  "transaction_fingerprint": "ms_fp_9f1c2c7b0d2a",
-  "transaction_ref": "stmt_line_1842",
-  "account_ref": "chq_001",
-  "institution_code": "rbc_ca",
-  "aggregator_code": "flinks",
-  "effective_at": "2026-01-14T19:22:11Z",
-  "posted_at": "2026-01-14T19:22:11Z",
-  "amount": { "amount_minor": -724, "currency": "CAD" },
-  "direction": "debit",
-  "original_description": "TIM HORTONS #0059 / LONDON ON",
-  "status": "posted",
-  "mutability": "immutable",
-  "normalization": {
-    "warnings": [],
-    "mapping_method": "institution_mapper_v1",
-    "input_timezone": "America/Toronto"
-  },
-  "insights": {
-    "category": {
-      "value": "coffee_fast_food",
-      "confidence": 0.92,
-      "version": "cat-v1",
-      "signals": ["merchant_keyword:tim hortons", "pattern:#\\d{2,4}", "geo:ON"]
-    },
-    "merchant": {
-      "value": "Tim Hortons",
-      "confidence": 0.89,
-      "version": "merchant-v1",
-      "signals": ["alias:tim hortons", "brand_db_match"]
-    },
-    "description_analysis": {
-      "en": "Franchise coffee shop purchase (likely in-store).",
-      "fr": "Achat dans une franchise de café (probablement en magasin).",
-      "confidence": 0.84,
-      "version": "desc-v1",
-      "signals": ["token:TIM", "token:HORTONS", "store_id:#0059", "city:LONDON", "region:ON"]
-    }
-  }
-}</pre>
+              margin-top:10px;
+            ">
+              <!-- Header -->
+              <div class="small" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">Field</div>
+              <div class="small" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">Example value</div>
+            
+              <div class="small" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">transaction_fingerprint</div>
+              <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">ms_fp_9f1c2c7b0d2a</div>
+            
+              <div class="small" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">institution_code</div>
+              <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">rbc_ca</div>
+            
+              <div class="small" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">amount_minor</div>
+              <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">-724</div>
+            
+              <div class="small" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">currency</div>
+              <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">CAD</div>
+            
+              <div class="small" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">direction</div>
+              <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">debit</div>
+            
+              <div class="small" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">original_description</div>
+              <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">TIM HORTONS #0059 / LONDON ON</div>
+            
+              <div class="small" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">posted_at_utc</div>
+              <div class="small" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">2026-01-14T19:22:11Z</div>
+            
+              <div class="small" style="padding:10px 12px; font-weight:900;">aggregator_code</div>
+              <div class="small" style="padding:10px 12px;">flinks</div>
+            </div>
+
           </article>
         </div>
       </section>
