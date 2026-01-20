@@ -114,7 +114,7 @@
       AI Insights are added as non-destructive annotations — core transaction data is never modified.
     </p>
 
-    <a class="btn" href="/subscribe.html">
+    <a id="subscribeBtn" class="btn" href="#">
       Subscribe to MapleSchema Pro — $4 / month
     </a>
   </article>
@@ -302,6 +302,65 @@
     © MapleSchema 2026 • Pro
   </footer>
 </div>
+<script>
+  async function ensureGoogleSignIn() {
+    const auth = firebase.auth();
+    let user = auth.currentUser;
+
+    if (user) return user;
+
+    const provider = new firebase.auth.GoogleAuthProvider();
+    const result = await auth.signInWithPopup(provider);
+    return result.user;
+  }
+
+  async function startCheckout() {
+    try {
+      // 1) Ensure user is signed in
+      const user = await ensureGoogleSignIn();
+      if (!user) {
+        alert("Sign-in failed. Please try again.");
+        return;
+      }
+
+      // 2) Get Firebase ID token
+      const idToken = await user.getIdToken(true);
+
+      // 3) Call backend to create Stripe Checkout session
+      const resp = await fetch("/v1/stripe/checkout", {
+        method: "POST",
+        headers: {
+          "Authorization": "Bearer " + idToken,
+          "Content-Type": "application/json"
+        }
+      });
+
+      if (!resp.ok) {
+        const text = await resp.text();
+        alert("Checkout failed.\n\n" + text);
+        return;
+      }
+
+      const data = await resp.json();
+      if (!data.url) {
+        alert("Checkout failed: no redirect URL.");
+        return;
+      }
+
+      // 4) Redirect to Stripe Checkout
+      window.location.href = data.url;
+
+    } catch (err) {
+      console.error(err);
+      alert("Something went wrong. Please try again.");
+    }
+  }
+
+  document.getElementById("subscribeBtn")?.addEventListener("click", (e) => {
+    e.preventDefault();
+    startCheckout();
+  });
+</script>
 
 <script>
   function msApplyToggleStyles(activeId) {
