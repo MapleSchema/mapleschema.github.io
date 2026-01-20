@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script>
+<script>
   // choose env by hostname (simple + deterministic)
   const isStaging =
     location.hostname.includes("localhost") ||
@@ -24,6 +24,18 @@
     window.MAPLE_API_BASE = isStaging
     ? "https://api-staging.mapleschema.com"
     : "https://api.mapleschema.com";
+</script>
+  <!-- Firebase SDKs (compat, because your code uses firebase.auth()) -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+<script>
+  // Initialize Firebase once
+  if (!window.firebase) {
+    console.error("Firebase SDK failed to load.");
+  } else if (!firebase.apps.length) {
+    firebase.initializeApp(window.MAPLE_FIREBASE_CONFIG);
+  }
 </script>
 
   <meta charset="UTF-8" />
