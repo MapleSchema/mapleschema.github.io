@@ -354,47 +354,38 @@
     return result.user;
   }
 
-  async function startCheckout() {
-    try {
-      // 1) Ensure user is signed in
-      const user = await ensureGoogleSignIn();
-      if (!user) {
-        alert("Sign-in failed. Please try again.");
-        return;
+async function startCheckout() {
+  try {
+    // Ensure user exists
+    const user = firebase.auth().currentUser || (await ensureGoogleSignIn());
+    if (!user) throw new Error("Not signed in");
+
+    // Ensure token exists
+    const idToken = await user.getIdToken(true);
+    if (!idToken || idToken.length < 50) throw new Error("Missing ID token");
+
+    const resp = await fetch(`${window.MAPLE_API_BASE}/v1/billing/checkout`, {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${idToken}`,
+        "Content-Type": "application/json"
       }
+    });
 
-      // 2) Get Firebase ID token
-      const idToken = await user.getIdToken(true);
-
-      // 3) Call backend to create Stripe Checkout session
-      const resp = await fetch(`${window.MAPLE_API_BASE}/v1/billing/checkout`, {
-        method: "POST",
-        headers: {
-          "Authorization": "Bearer " + idToken,
-          "Content-Type": "application/json"
-        }
-      });
-
-      if (!resp.ok) {
-        const text = await resp.text();
-        alert("Checkout failed.\n\n" + text);
-        return;
-      }
-
-      const data = await resp.json();
-      if (!data.url) {
-        alert("Checkout failed: no redirect URL.");
-        return;
-      }
-
-      // 4) Redirect to Stripe Checkout
-      window.location.href = data.url;
-
-    } catch (err) {
-      console.error(err);
-      alert("Something went wrong. Please try again.");
+    if (!resp.ok) {
+      const text = await resp.text();
+      alert("Checkout failed.\n\n" + text);
+      return;
     }
+
+    const data = await resp.json();
+    window.location.href = data.url;
+  } catch (e) {
+    console.error(e);
+    alert("Checkout failed.\n\n" + (e?.message || e));
   }
+}
+
 
   document.getElementById("subscribeBtn")?.addEventListener("click", (e) => {
     e.preventDefault();
