@@ -1,46 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script>
-  // TEMP: keep prod site pointing at staging while Stripe is in test mode.
-  const FORCE_STAGING_BILLING = true;
-
-  const isStaging =
-    FORCE_STAGING_BILLING ||
-    location.hostname.includes("localhost") ||
-    location.hostname.includes("staging");
-  
-  window.MAPLE_FIREBASE_CONFIG = isStaging
-    ? {
-        apiKey: "AIzaSyB960RtycsSigsJ77KwYlRWlPBb4e1DU1s",
-        authDomain: "mapleschema-staging.firebaseapp.com",
-        projectId: "mapleschema-staging",
-        appId: "1:851079947514:web:809a28d25d24eef5f01543",
-      }
-    : {
-        apiKey: "AIzaSyBgeIGdlYuQfBSGofSSjGoqq8s6KWnPrAE",
-        authDomain: "mapleschema-prod.firebaseapp.com",
-        projectId: "mapleschema-prod",
-        appId: "1:379867061540:web:cab36006b09975b78ca7b1",
-      };
-    
-    window.MAPLE_API_BASE = isStaging
-    ? "https://staging.api.mapleschema.com"
-    : "https://api.mapleschema.com";
-</script>
-  <!-- Firebase SDKs (compat, because your code uses firebase.auth()) -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-
-<script>
-  // Initialize Firebase once
-  if (!window.firebase) {
-    console.error("Firebase SDK failed to load.");
-  } else if (!firebase.apps.length) {
-    firebase.initializeApp(window.MAPLE_FIREBASE_CONFIG);
-  }
-</script>
-
   <meta charset="UTF-8" />
   <title>MapleSchema Pro — Structured JSON & QuickBooks Exports</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -50,6 +10,56 @@
   />
 
   <link rel="stylesheet" href="/css/style.css" />
+
+  <script>
+    // TEMP: keep prod site pointing at staging while Stripe is in test mode.
+    const FORCE_STAGING_BILLING = true;
+
+    const isStaging =
+      FORCE_STAGING_BILLING ||
+      location.hostname.includes("localhost") ||
+      location.hostname.includes("staging");
+
+    window.MAPLE_FIREBASE_CONFIG = isStaging
+      ? {
+          apiKey: "AIzaSyB960RtycsSigsJ77KwYlRWlPBb4e1DU1s",
+          authDomain: "mapleschema-staging.firebaseapp.com",
+          projectId: "mapleschema-staging",
+          appId: "1:851079947514:web:809a28d25d24eef5f01543",
+        }
+      : {
+          apiKey: "AIzaSyBgeIGdlYuQfBSGofSSjGoqq8s6KWnPrAE",
+          authDomain: "mapleschema-prod.firebaseapp.com",
+          projectId: "mapleschema-prod",
+          appId: "1:379867061540:web:cab36006b09975b78ca7b1",
+        };
+
+    window.MAPLE_API_BASE = isStaging
+      ? "https://staging.api.mapleschema.com"
+      : "https://api.mapleschema.com";
+
+    // Quick visibility in console, early.
+    console.log("[MS][env] FORCE_STAGING_BILLING=", FORCE_STAGING_BILLING);
+    console.log("[MS][env] isStaging=", isStaging);
+    console.log("[MS][env] MAPLE_API_BASE=", window.MAPLE_API_BASE);
+    console.log("[MS][env] MAPLE_FIREBASE_CONFIG.projectId=", window.MAPLE_FIREBASE_CONFIG?.projectId);
+  </script>
+
+  <!-- Firebase SDKs (compat, because code uses firebase.auth()) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+  <script>
+    // Initialize Firebase once
+    if (!window.firebase) {
+      console.error("[MS][firebase] Firebase SDK failed to load.");
+    } else if (!firebase.apps.length) {
+      firebase.initializeApp(window.MAPLE_FIREBASE_CONFIG);
+      console.log("[MS][firebase] initializeApp OK");
+    } else {
+      console.log("[MS][firebase] already initialized");
+    }
+  </script>
 
   <style>
     .box {
@@ -87,6 +97,31 @@
       overflow: auto;
       margin-top:12px;
     }
+
+    /* Debug panel */
+    .dbg {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 12px;
+      line-height: 1.35;
+      background: rgba(0,0,0,0.06);
+      border: 1px solid rgba(0,0,0,0.12);
+      border-radius: 12px;
+      padding: 12px;
+      margin-top: 12px;
+    }
+    .dbg .row { display:flex; gap:10px; padding: 2px 0; }
+    .dbg .k { width: 210px; opacity: 0.85; }
+    .dbg .v { flex: 1; word-break: break-word; }
+    .dbg .actions { display:flex; gap:8px; margin-top: 10px; flex-wrap: wrap; }
+    .dbg .btn2 {
+      display:inline-flex;
+      padding: 8px 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(0,0,0,0.15);
+      background: #fff;
+      font-weight: 800;
+      cursor:pointer;
+    }
   </style>
 </head>
 
@@ -120,6 +155,33 @@
       </p>
     </section>
 
+    <!-- DEBUG PANEL -->
+    <section style="margin-top:12px;">
+      <article class="box">
+        <h2 style="margin-top:0;">Debug</h2>
+        <p class="muted" style="margin-top:6px;">
+          This panel is temporary. It shows auth + environment + last request state.
+        </p>
+
+        <div class="dbg" id="dbgPanel">
+          <div class="row"><div class="k">hostname</div><div class="v" id="dbgHost"></div></div>
+          <div class="row"><div class="k">FORCE_STAGING_BILLING</div><div class="v" id="dbgForce"></div></div>
+          <div class="row"><div class="k">MAPLE_API_BASE</div><div class="v" id="dbgApiBase"></div></div>
+          <div class="row"><div class="k">firebase projectId</div><div class="v" id="dbgProject"></div></div>
+          <div class="row"><div class="k">auth state</div><div class="v" id="dbgAuthState"></div></div>
+          <div class="row"><div class="k">user email</div><div class="v" id="dbgEmail"></div></div>
+          <div class="row"><div class="k">idToken length</div><div class="v" id="dbgTokenLen"></div></div>
+          <div class="row"><div class="k">last request</div><div class="v" id="dbgLastReq"></div></div>
+          <div class="row"><div class="k">last response</div><div class="v" id="dbgLastResp"></div></div>
+
+          <div class="actions">
+            <button class="btn2" id="btnDbgRefresh" type="button">Refresh debug</button>
+            <button class="btn2" id="btnSignOut" type="button">Sign out</button>
+          </div>
+        </div>
+      </article>
+    </section>
+
     <!-- 1. FREE CSV CONVERTER (ENTRY POINT) -->
     <section style="margin-top:16px;">
       <article class="box" style="border-left:6px solid #2CA01C;">
@@ -134,207 +196,105 @@
       </article>
     </section>
 
-   <!-- 2. PRO SUBSCRIPTION -->
-<section style="margin-top:12px;">
-  <article class="box">
-    <h2>MapleSchema Pro</h2>
+    <!-- 2. PRO SUBSCRIPTION -->
+    <section style="margin-top:12px;">
+      <article class="box">
+        <h2>MapleSchema Pro</h2>
 
-    <p class="muted">
-      MapleSchema Pro unlocks higher-volume exports and AI-enriched outputs for production workflows.
-    </p>
+        <p class="muted">
+          MapleSchema Pro unlocks higher-volume exports and AI-enriched outputs for production workflows.
+        </p>
 
-    <ul class="muted" style="margin:10px 0 12px 18px;">
-      <li><strong>Up to 1,000 transactions per request</strong> (free tier: 200)</li>
-      <li><strong>Core CSV</strong> or CSV with optional <strong>AI-powered Insights</strong></li>
-      <li><strong>Structured transaction JSON</strong> with AI Insights for workflows</li>
-      <li><strong>QuickBooks-ready</strong> Expense and Payment import files</li>
-    </ul>
+        <ul class="muted" style="margin:10px 0 12px 18px;">
+          <li><strong>Up to 1,000 transactions per request</strong> (free tier: 200)</li>
+          <li><strong>Core CSV</strong> or CSV with optional <strong>AI-powered Insights</strong></li>
+          <li><strong>Structured transaction JSON</strong> with AI Insights for workflows</li>
+          <li><strong>QuickBooks-ready</strong> Expense and Payment import files</li>
+        </ul>
 
-    <p class="muted" style="margin-bottom:12px;">
-      AI Insights are added as non-destructive annotations — core transaction data is never modified.
-    </p>
+        <p class="muted" style="margin-bottom:12px;">
+          AI Insights are added as non-destructive annotations — core transaction data is never modified.
+        </p>
 
-    <a id="subscribeBtn" class="btn" href="#">
-      Subscribe to MapleSchema Pro — $4 / month
-    </a>
-  </article>
-</section>
-    
-  <!-- 3. EXAMPLE OUTPUTS -->
-<!-- 3A. LOGGED OUT → EXAMPLES -->
-<section id="loggedOutExamples" style="margin-top:12px;">
-  <article class="box">
-    <h2 style="margin-top:0;">Example outputs</h2>
-    <p class="muted" style="margin:6px 0 0 0;">
-      Pro outputs: <strong>Structured CSV</strong>, <strong>Structured JSON</strong>, and <strong>QuickBooks Format</strong>.
-    </p>
+        <a id="subscribeBtn" class="btn" href="#">
+          Subscribe to MapleSchema Pro — $4 / month
+        </a>
+      </article>
+    </section>
 
-    <div class="toggleWrap" aria-label="Example output selector" style="margin-top:12px;">
-      <button id="toggleCsv" type="button" class="toggleBtn" onclick="msSetOutput('csv')">Structured CSV</button>
-      <button id="toggleJson" type="button" class="toggleBtn" onclick="msSetOutput('json')">Structured JSON</button>
-      <button id="toggleQb" type="button" class="toggleBtn" onclick="msSetOutput('qb')" style="border:2px solid #2CA01C;">QuickBooks Format</button>
-    </div>
+    <!-- 3. EXAMPLE OUTPUTS -->
+    <section id="loggedOutExamples" style="margin-top:12px;">
+      <article class="box">
+        <h2 style="margin-top:0;">Example outputs</h2>
+        <p class="muted" style="margin:6px 0 0 0;">
+          Pro outputs: <strong>Structured CSV</strong>, <strong>Structured JSON</strong>, and <strong>QuickBooks Format</strong>.
+        </p>
 
-    <!-- OUTPUT: Structured CSV (Name / Value) -->
-    <div id="msOutCsv" style="margin-top:14px; display:none;">
-      <h3 style="margin: 0 0 8px 0;">Structured CSV (Name → Value)</h3>
-      <p class="muted" style="margin-top:8px;">
-        Same fields as Structured JSON, shown as a simple Name/Value export.
-      </p>
+        <div class="toggleWrap" aria-label="Example output selector" style="margin-top:12px;">
+          <button id="toggleCsv" type="button" class="toggleBtn" onclick="msSetOutput('csv')">Structured CSV</button>
+          <button id="toggleJson" type="button" class="toggleBtn" onclick="msSetOutput('json')">Structured JSON</button>
+          <button id="toggleQb" type="button" class="toggleBtn" onclick="msSetOutput('qb')" style="border:2px solid #2CA01C;">QuickBooks Format</button>
+        </div>
 
-      <div style="
-        display:grid;
-        grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr);
-        gap:0;
-        border: 1px solid rgba(0,0,0,0.12);
-        border-radius: 12px;
-        overflow:hidden;
-        background: rgba(255,255,255,0.55);
-      ">
-        <!-- Header row -->
-        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">Name</div>
-        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">Value</div>
+        <!-- OUTPUT: Structured CSV (Name / Value) -->
+        <div id="msOutCsv" style="margin-top:14px; display:none;">
+          <h3 style="margin: 0 0 8px 0;">Structured CSV (Name → Value)</h3>
+          <p class="muted" style="margin-top:8px;">
+            Same fields as Structured JSON, shown as a simple Name/Value export.
+          </p>
 
-        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">schema_version</div>
-        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">transactions-v1.0</div>
+          <div style="
+            display:grid;
+            grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr);
+            gap:0;
+            border: 1px solid rgba(0,0,0,0.12);
+            border-radius: 12px;
+            overflow:hidden;
+            background: rgba(255,255,255,0.55);
+          ">
+            <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">Name</div>
+            <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">Value</div>
 
-        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">transaction_fingerprint</div>
-        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">ms_fp_9f1c2c7b0d2a</div>
+            <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">transaction_fingerprint</div>
+            <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">ms_fp_9f1c2c7b0d2a</div>
 
-        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">transaction_ref</div>
-        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">stmt_line_1842</div>
+            <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">institution_code</div>
+            <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">rbc_ca</div>
 
-        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">account_ref</div>
-        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">chq_001</div>
+            <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">amount_minor</div>
+            <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">-724</div>
 
-        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">institution_code</div>
-        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">rbc_ca</div>
+            <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">currency</div>
+            <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">CAD</div>
 
-        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">aggregator_code</div>
-        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">flinks</div>
+            <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">direction</div>
+            <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">debit</div>
 
-        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">effective_at</div>
-        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">2026-01-14T19:22:11Z</div>
+            <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">original_description</div>
+            <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">TIM HORTONS #0059 / LONDON ON</div>
 
-        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">posted_at</div>
-        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">2026-01-14T19:22:11Z</div>
+            <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">posted_at_utc</div>
+            <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">2026-01-14T19:22:11Z</div>
 
-        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">amount.amount_minor</div>
-        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">-724</div>
+            <div class="muted" style="padding:10px 12px; font-weight:900;">aggregator_code</div>
+            <div class="muted" style="padding:10px 12px;">flinks</div>
+          </div>
+        </div>
 
-        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">amount.currency</div>
-        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">CAD</div>
+        <!-- OUTPUT: Structured JSON -->
+        <div id="msOutJson" style="margin-top:14px;">
+          <h3 style="margin: 0 0 8px 0;">Structured Transaction JSON</h3>
+          <pre class="muted" style="margin-top:10px; border: 1px solid rgba(0,0,0,0.12); border-radius: 12px; padding: 12px; background: rgba(255,255,255,0.55); overflow:auto;">{ "schema_version": "transactions-v1.0", "transaction_fingerprint": "ms_fp_9f1c2c7b0d2a", "institution_code": "rbc_ca", "posted_at": "2026-01-14T19:22:11Z", "amount": { "amount_minor": -724, "currency": "CAD" } }</pre>
+        </div>
 
-        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">direction</div>
-        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">debit</div>
-
-        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">original_description</div>
-        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">TIM HORTONS #0059 / LONDON ON</div>
-
-        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">status</div>
-        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">posted</div>
-
-        <div class="muted" style="padding:10px 12px; font-weight:900;">mutability</div>
-        <div class="muted" style="padding:10px 12px;">immutable</div>
-      </div>
-    </div>
-
-    <!-- OUTPUT: Structured JSON (UNCHANGED) -->
-    <div id="msOutJson" style="margin-top:14px;">
-      <h3 style="margin: 0 0 8px 0;">Structured Transaction JSON</h3>
-      <p class="muted" style="margin-top:8px;">
-        Deterministic core transaction object. Optional <strong>Insights</strong> are annotations only.
-      </p>
-
-      <pre class="muted" style="margin-top:10px; border: 1px solid rgba(0,0,0,0.12); border-radius: 12px; padding: 12px; background: rgba(255,255,255,0.55); overflow:auto;">{
-  "schema_version": "transactions-v1.0",
-  "transaction_fingerprint": "ms_fp_9f1c2c7b0d2a",
-  "transaction_ref": "stmt_line_1842",
-  "account_ref": "chq_001",
-  "institution_code": "rbc_ca",
-  "aggregator_code": "flinks",
-
-  "effective_at": "2026-01-14T19:22:11Z",
-  "posted_at": "2026-01-14T19:22:11Z",
-
-  "amount": { "amount_minor": -724, "currency": "CAD" },
-  "direction": "debit",
-
-  "original_description": "TIM HORTONS #0059 / LONDON ON",
-  "status": "posted",
-  "mutability": "immutable",
-
-  "normalization": {
-    "mapping_method": "institution_mapper_v1",
-    "input_timezone": "America/Toronto",
-    "warnings": []
-  },
-
-  "insights": {
-    "category": {
-      "value": "coffee_fast_food",
-      "confidence": 0.92,
-      "version": "cat-v1",
-      "signals": ["merchant_keyword:tim hortons", "pattern:#\\d{2,4}", "geo:ON"]
-    },
-    "merchant": {
-      "value": "Tim Hortons",
-      "confidence": 0.89,
-      "version": "merchant-v1",
-      "signals": ["brand_db_match", "alias:tim hortons"]
-    },
-    "description_analysis": {
-      "en": "Franchise coffee shop purchase (likely in-store).",
-      "fr": "Achat dans une franchise de café (probablement en magasin).",
-      "confidence": 0.84,
-      "version": "desc-v1",
-      "signals": ["token:TIM", "token:HORTONS", "store_id:#0059", "city:LONDON", "region:ON"]
-    }
-  }
-}</pre>
-    </div>
-
-    <!-- OUTPUT: QuickBooks Format (Name / Value) -->
-    <div id="msOutQb" style="margin-top:14px; display:none;">
-      <h3 style="margin: 0 0 8px 0;">QuickBooks Format (Payment)</h3>
-      <p class="muted" style="margin-top:8px;">
-        Fields match QuickBooks: Date, Payee, Description, Amount, Reference, AccountRef.
-      </p>
-
-      <div style="
-        display:grid;
-        grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr);
-        gap:0;
-        border: 1px solid rgba(0,0,0,0.12);
-        border-radius: 12px;
-        overflow:hidden;
-        background: rgba(255,255,255,0.55);
-      ">
-        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">Name</div>
-        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">Value</div>
-
-        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">Date</div>
-        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">2026-01-14</div>
-
-        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">Payee</div>
-        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">Example Vendor</div>
-
-        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">Description</div>
-        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">Payment — invoice settlement</div>
-
-        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">Amount</div>
-        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">724.00</div>
-
-        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">Reference</div>
-        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">PAYMENT-1842</div>
-
-        <div class="muted" style="padding:10px 12px; font-weight:900;">AccountRef</div>
-        <div class="muted" style="padding:10px 12px;">Accounts Payable</div>
-      </div>
-    </div>
-  </article>
-</section>
-
+        <!-- OUTPUT: QuickBooks Format -->
+        <div id="msOutQb" style="margin-top:14px; display:none;">
+          <h3 style="margin: 0 0 8px 0;">QuickBooks Format (Payment)</h3>
+          <pre class="muted" style="margin-top:10px; border: 1px solid rgba(0,0,0,0.12); border-radius: 12px; padding: 12px; background: rgba(255,255,255,0.55); overflow:auto;">Date,Payee,Description,Amount,Reference,AccountRef
+2026-01-14,Example Vendor,Payment — invoice settlement,724.00,PAYMENT-1842,Accounts Payable</pre>
+        </div>
+      </article>
+    </section>
 
   </main>
 
@@ -342,55 +302,135 @@
     © MapleSchema 2026 • Pro
   </footer>
 </div>
+
 <script>
+  // -------------------------
+  // Debug panel helpers
+  // -------------------------
+  const dbg = (id) => document.getElementById(id);
+  const setDbg = (id, val) => { const el = dbg(id); if (el) el.textContent = String(val ?? ""); };
+
+  let lastTokenLen = "";
+  let lastReq = "";
+  let lastResp = "";
+
+  function refreshDebug() {
+    setDbg("dbgHost", location.hostname);
+    setDbg("dbgForce", String(typeof FORCE_STAGING_BILLING !== "undefined" ? FORCE_STAGING_BILLING : ""));
+    setDbg("dbgApiBase", window.MAPLE_API_BASE);
+    try {
+      setDbg("dbgProject", firebase?.app()?.options?.projectId || "(unknown)");
+    } catch (_) {
+      setDbg("dbgProject", "(firebase not ready)");
+    }
+
+    const user = firebase?.auth?.()?.currentUser || null;
+    setDbg("dbgAuthState", user ? "signed-in" : "signed-out");
+    setDbg("dbgEmail", user?.email || "");
+    setDbg("dbgTokenLen", lastTokenLen || "");
+    setDbg("dbgLastReq", lastReq || "");
+    setDbg("dbgLastResp", lastResp || "");
+  }
+
+  document.getElementById("btnDbgRefresh")?.addEventListener("click", refreshDebug);
+  document.getElementById("btnSignOut")?.addEventListener("click", async () => {
+    try {
+      await firebase.auth().signOut();
+      console.log("[MS][auth] signed out");
+      lastTokenLen = "";
+      refreshDebug();
+    } catch (e) {
+      console.error("[MS][auth] signOut failed", e);
+      alert("Sign out failed: " + (e?.message || e));
+    }
+  });
+
+  // Keep debug panel updated on auth change
+  firebase.auth().onAuthStateChanged((user) => {
+    console.log("[MS][auth] state changed:", user ? user.email : "(signed out)");
+    refreshDebug();
+  });
+
+  // -------------------------
+  // Auth + Checkout
+  // -------------------------
   async function ensureGoogleSignIn() {
     const auth = firebase.auth();
     let user = auth.currentUser;
 
     if (user) return user;
 
+    console.log("[MS][auth] signInWithPopup starting...");
     const provider = new firebase.auth.GoogleAuthProvider();
     const result = await auth.signInWithPopup(provider);
+    console.log("[MS][auth] signInWithPopup OK:", result?.user?.email);
     return result.user;
   }
 
-async function startCheckout() {
-  try {
-    // Ensure user exists
-    const user = firebase.auth().currentUser || (await ensureGoogleSignIn());
-    if (!user) throw new Error("Not signed in");
+  async function startCheckout() {
+    try {
+      console.log("[MS][checkout] startCheckout()");
+      console.log("[MS][checkout] MAPLE_API_BASE =", window.MAPLE_API_BASE);
 
-    // Ensure token exists
-    const idToken = await user.getIdToken(true);
-    if (!idToken || idToken.length < 50) throw new Error("Missing ID token");
+      // Ensure user exists
+      const user = firebase.auth().currentUser || (await ensureGoogleSignIn());
+      if (!user) throw new Error("Not signed in");
 
-    const resp = await fetch(`${window.MAPLE_API_BASE}/v1/billing/checkout`, {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${idToken}`,
-        "Content-Type": "application/json"
-      }
-    });
+      // Ensure token exists
+      const idToken = await user.getIdToken(true);
+      if (!idToken || idToken.length < 50) throw new Error("Missing ID token");
 
-    if (!resp.ok) {
+      lastTokenLen = String(idToken.length);
+      console.log("[MS][checkout] token_len =", idToken.length);
+      console.log("[MS][checkout] token_prefix =", idToken.slice(0, 16) + "...");
+
+      const url = `${window.MAPLE_API_BASE}/v1/billing/checkout`;
+      lastReq = `POST ${url} (auth=Bearer <token>)`;
+      refreshDebug();
+
+      const resp = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${idToken}`,
+          "Content-Type": "application/json"
+        }
+      });
+
+      console.log("[MS][checkout] HTTP", resp.status);
+
       const text = await resp.text();
-      alert("Checkout failed.\n\n" + text);
-      return;
+      lastResp = `HTTP ${resp.status}: ${text.slice(0, 300)}${text.length > 300 ? "…" : ""}`;
+      refreshDebug();
+
+      if (!resp.ok) {
+        alert("Checkout failed.\n\n" + text);
+        return;
+      }
+
+      const data = JSON.parse(text);
+      console.log("[MS][checkout] response json:", data);
+
+      if (!data?.url) {
+        alert("Checkout failed: missing redirect URL.");
+        return;
+      }
+
+      window.location.href = data.url;
+    } catch (e) {
+      console.error("[MS][checkout] exception:", e);
+      lastResp = "EXCEPTION: " + (e?.message || e);
+      refreshDebug();
+      alert("Checkout failed.\n\n" + (e?.message || e));
     }
-
-    const data = await resp.json();
-    window.location.href = data.url;
-  } catch (e) {
-    console.error(e);
-    alert("Checkout failed.\n\n" + (e?.message || e));
   }
-}
-
 
   document.getElementById("subscribeBtn")?.addEventListener("click", (e) => {
     e.preventDefault();
     startCheckout();
   });
+
+  // Initial paint
+  document.addEventListener("DOMContentLoaded", refreshDebug);
 </script>
 
 <script>
@@ -438,10 +478,8 @@ async function startCheckout() {
     return msApplyToggleStyles("toggleJson");
   }
 
-  // default
   msSetOutput("json");
 </script>
-
 
 </body>
 </html>
