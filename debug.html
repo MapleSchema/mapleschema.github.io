@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MapleSchema Debug — Billing</title>
+
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; background: #f6f6f6; }
+    .wrap { max-width: 980px; margin: 0 auto; padding: 20px; }
+    h1 { margin: 0 0 10px 0; font-size: 22px; }
+    .muted { opacity: 0.75; margin: 0 0 14px 0; }
+    .card { background: #fff; border: 1px solid rgba(0,0,0,0.12); border-radius: 12px; padding: 14px; margin-top: 12px; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; font-size: 12px; }
+    .grid { display: grid; grid-template-columns: 240px 1fr; gap: 6px 10px; }
+    .k { opacity: 0.75; }
+    .v { word-break: break-word; }
+    .btns { display:flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    button {
+      appearance: none;
+      border: 1px solid rgba(0,0,0,0.18);
+      background: #fff;
+      border-radius: 10px;
+      padding: 9px 12px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    button.primary { background: #4a2d21; color: #fff; border-color: rgba(0,0,0,0.0); }
+    button.danger { background: #b00020; color: #fff; border-color: rgba(0,0,0,0.0); }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+    pre {
+      white-space: pre-wrap;
+      word-break: break-word;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(0,0,0,0.12);
+      background: rgba(0,0,0,0.04);
+      margin: 10px 0 0 0;
+      max-height: 360px;
+      overflow: auto;
+    }
+    .tag { display:inline-block; padding: 3px 8px; border-radius: 999px; background: rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.10); font-weight: 800; }
+    .row { display:flex; align-items:center; gap: 8px; flex-wrap: wrap; }
+  </style>
+
+  <script>
+    // TEMP: keep prod site pointing at staging while Stripe is in test mode.
+    const FORCE_STAGING_BILLING = true;
+
+    const isStaging =
+      FORCE_STAGING_BILLING ||
+      location.hostname.includes("localhost") ||
+      location.hostname.includes("staging");
+
+    window.MAPLE_FIREBASE_CONFIG = isStaging
+      ? {
+          apiKey: "AIzaSyB960RtycsSigsJ77KwYlRWlPBb4e1DU1s",
+          authDomain: "mapleschema-staging.firebaseapp.com",
+          projectId: "mapleschema-staging",
+          appId: "1:851079947514:web:809a28d25d24eef5f01543",
+        }
+      : {
+          apiKey: "AIzaSyBgeIGdlYuQfBSGofSSjGoqq8s6KWnPrAE",
+          authDomain: "mapleschema-prod.firebaseapp.com",
+          projectId: "mapleschema-prod",
+          appId: "1:379867061540:web:cab36006b09975b78ca7b1",
+        };
+
+    window.MAPLE_API_BASE = isStaging
+      ? "https://staging.api.mapleschema.com"
+      : "https://api.mapleschema.com";
+
+    console.log("[DBG][env] FORCE_STAGING_BILLING=", FORCE_STAGING_BILLING);
+    console.log("[DBG][env] isStaging=", isStaging);
+    console.log("[DBG][env] MAPLE_API_BASE=", window.MAPLE_API_BASE);
+    console.log("[DBG][env] Firebase projectId=", window.MAPLE_FIREBASE_CONFIG?.projectId);
+  </script>
+
+  <!-- Firebase compat SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+  <script>
+    if (!window.firebase) {
+      console.error("[DBG][firebase] Firebase SDK failed to load.");
+    } else if (!firebase.apps.length) {
+      firebase.initializeApp(window.MAPLE_FIREBASE_CONFIG);
+      console.log("[DBG][firebase] initializeApp OK");
+    } else {
+      console.log("[DBG][firebase] already initialized");
+    }
+  </script>
+</head>
+
+<body>
+  <div class="wrap">
+    <h1>Billing Debug</h1>
+    <p class="muted">
+      Use this page to validate Firebase auth + token + billing endpoints (checkout/portal) without touching <span class="mono">pro.html</span>.
+    </p>
+
+    <div class="card">
+      <div class="row">
+        <span class="tag mono" id="tagAuth">auth: unknown</span>
+        <span class="tag mono" id="tagEnv">env: unknown</span>
+        <span class="tag mono" id="tagApi">api: unknown</span>
+        <span class="tag mono" id="tagProject">firebase: unknown</span>
+      </div>
+
+      <div style="margin-top:12px;" class="grid mono">
+        <div class="k">hostname</div><div class="v" id="vHost"></div>
+        <div class="k">FORCE_STAGING_BILLING</div><div class="v" id="vForce"></div>
+        <div class="k">MAPLE_API_BASE</div><div class="v" id="vApi"></div>
+        <div class="k">firebase projectId</div><div class="v" id="vProject"></div>
+        <div class="k">currentUser</div><div class="v" id="vUser"></div>
+        <div class="k">email</div><div class="v" id="vEmail"></div>
+        <div class="k">idToken length</div><div class="v" id="vTokLen"></div>
+        <div class="k">idToken prefix</div><div class="v" id="vTokPrefix"></div>
+        <div class="k">last request</div><div class="v" id="vLastReq"></div>
+        <div class="k">last response</div><div class="v" id="vLastResp"></div>
+      </div>
+
+      <div class="btns">
+        <button class="primary" id="btnSignIn">Sign in (Google)</button>
+        <button class="danger" id="btnSignOut">Sign out</button>
+        <button id="btnGetToken">Get ID token</button>
+        <button id="btnPing">Call /ping</button>
+        <button class="primary" id="btnCheckout">POST /v1/billing/checkout</button>
+        <button id="btnPortal">POST /v1/billing/portal</button>
+        <button id="btnRefresh">Refresh panel</button>
+        <button id="btnClear">Clear output</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="row">
+        <strong>Output</strong>
+        <span class="muted mono">(full response body + status; includes request_id if returned)</span>
+      </div>
+      <pre class="mono" id="out"></pre>
+    </div>
+  </div>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const out = $("out");
+
+    let lastToken = "";
+    let lastReq = "";
+    let lastResp = "";
+
+    function logLine(s) {
+      console.log(s);
+      out.textContent += s + "\n";
+    }
+
+    function setVal(id, v) { $(id).textContent = String(v ?? ""); }
+
+    function prettyJSON(text) {
+      try { return JSON.stringify(JSON.parse(text), null, 2); } catch { return text; }
+    }
+
+    function updateTags() {
+      const user = firebase.auth().currentUser;
+      $("tagAuth").textContent = user ? "auth: signed-in" : "auth: signed-out";
+      $("tagEnv").textContent = `env: ${window.MAPLE_FIREBASE_CONFIG?.projectId || "unknown"}`;
+      $("tagApi").textContent = `api: ${window.MAPLE_API_BASE || "unknown"}`;
+      $("tagProject").textContent = `firebase: ${firebase.app().options.projectId || "unknown"}`;
+    }
+
+    function refreshPanel() {
+      const user = firebase.auth().currentUser;
+
+      setVal("vHost", location.hostname);
+      setVal("vForce", String(typeof FORCE_STAGING_BILLING !== "undefined" ? FORCE_STAGING_BILLING : ""));
+      setVal("vApi", window.MAPLE_API_BASE);
+      setVal("vProject", firebase?.app()?.options?.projectId || "(unknown)");
+      setVal("vUser", user ? "present" : "null");
+      setVal("vEmail", user?.email || "");
+      setVal("vTokLen", lastToken ? lastToken.length : "");
+      setVal("vTokPrefix", lastToken ? (lastToken.slice(0, 18) + "...") : "");
+      setVal("vLastReq", lastReq || "");
+      setVal("vLastResp", lastResp || "");
+
+      updateTags();
+    }
+
+    async function ensureSignedIn() {
+      const auth = firebase.auth();
+      if (auth.currentUser) return auth.currentUser;
+
+      logLine("[DBG] signInWithPopup starting...");
+      const provider = new firebase.auth.GoogleAuthProvider();
+      const result = await auth.signInWithPopup(provider);
+      logLine("[DBG] signInWithPopup OK: " + (result?.user?.email || ""));
+      return result.user;
+    }
+
+    async function getToken() {
+      const user = firebase.auth().currentUser;
+      if (!user) throw new Error("Not signed in");
+      const tok = await user.getIdToken(true);
+      if (!tok || tok.length < 50) throw new Error("Missing/short token");
+      lastToken = tok;
+      return tok;
+    }
+
+    async function callAPI(path, method = "POST", needsAuth = true) {
+      const base = window.MAPLE_API_BASE;
+      const url = `${base}${path}`;
+      lastReq = `${method} ${url}`;
+      refreshPanel();
+
+      let headers = { "Content-Type": "application/json" };
+      if (needsAuth) {
+        const tok = await getToken();
+        headers["Authorization"] = `Bearer ${tok}`;
+      }
+
+      logLine("");
+      logLine("=== REQUEST ===");
+      logLine(lastReq);
+      logLine("auth=" + (needsAuth ? "Bearer <token>" : "none"));
+
+      const resp = await fetch(url, { method, headers });
+
+      const text = await resp.text();
+      const body = prettyJSON(text);
+
+      lastResp = `HTTP ${resp.status}`;
+      refreshPanel();
+
+      logLine("=== RESPONSE ===");
+      logLine(`HTTP ${resp.status}`);
+      logLine(body);
+
+      // Try to show request_id if present
+      try {
+        const j = JSON.parse(text);
+        const rid = j?.error?.request_id || j?.request_id || "";
+        if (rid) logLine(`[DBG] request_id=${rid}`);
+      } catch (_) {}
+
+      return { status: resp.status, text };
+    }
+
+    // Wire buttons
+    $("btnSignIn").addEventListener("click", async () => {
+      try {
+        await ensureSignedIn();
+        lastToken = "";
+        refreshPanel();
+      } catch (e) {
+        logLine("[ERR] Sign-in failed: " + (e?.message || e));
+        refreshPanel();
+      }
+    });
+
+    $("btnSignOut").addEventListener("click", async () => {
+      try {
+        await firebase.auth().signOut();
+        lastToken = "";
+        logLine("[DBG] signed out");
+        refreshPanel();
+      } catch (e) {
+        logLine("[ERR] Sign-out failed: " + (e?.message || e));
+        refreshPanel();
+      }
+    });
+
+    $("btnGetToken").addEventListener("click", async () => {
+      try {
+        await ensureSignedIn();
+        const tok = await getToken();
+        logLine("[DBG] token OK (len=" + tok.length + ")");
+        refreshPanel();
+      } catch (e) {
+        logLine("[ERR] Token failed: " + (e?.message || e));
+        refreshPanel();
+      }
+    });
+
+    $("btnPing").addEventListener("click", async () => {
+      try {
+        await callAPI("/ping", "GET", false);
+      } catch (e) {
+        logLine("[ERR] ping failed: " + (e?.message || e));
+        refreshPanel();
+      }
+    });
+
+    $("btnCheckout").addEventListener("click", async () => {
+      try {
+        await ensureSignedIn();
+        await callAPI("/v1/billing/checkout", "POST", true);
+      } catch (e) {
+        logLine("[ERR] checkout failed: " + (e?.message || e));
+        refreshPanel();
+      }
+    });
+
+    $("btnPortal").addEventListener("click", async () => {
+      try {
+        await ensureSignedIn();
+        await callAPI("/v1/billing/portal", "POST", true);
+      } catch (e) {
+        logLine("[ERR] portal failed: " + (e?.message || e));
+        refreshPanel();
+      }
+    });
+
+    $("btnRefresh").addEventListener("click", refreshPanel);
+
+    $("btnClear").addEventListener("click", () => {
+      out.textContent = "";
+      lastReq = "";
+      lastResp = "";
+      lastToken = "";
+      refreshPanel();
+    });
+
+    // Auth state listener
+    firebase.auth().onAuthStateChanged((user) => {
+      console.log("[DBG][auth] state:", user ? user.email : "(signed out)");
+      refreshPanel();
+    });
+
+    // Initial paint
+    document.addEventListener("DOMContentLoaded", () => {
+      refreshPanel();
+      logLine("[DBG] loaded. Use buttons above to sign in + call endpoints.");
+    });
+  </script>
+</body>
+</html>
