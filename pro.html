@@ -86,40 +86,48 @@
     <div id="requestId" class="small" style="margin-top: 6px; opacity: 0.9;"></div>
   </div>
 
-  <!-- CARD 1: SIGN IN ONLY -->
-  <section style="margin-top:16px;">
-    <article class="card primary" style="margin:0; width:100%; padding: 26px 32px;">
-      <div style="display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;">
-        <div>
-          <h2 style="margin:0;">Sign in</h2>
-          <p class="small" style="margin:6px 0 0; opacity:0.92;">
-            Sign into your account.
-          </p>
-        </div>
+<!-- CARD 1: AUTH STATE -->
+<section style="margin-top:16px;">
+  <article class="card primary" style="margin:0; width:100%; padding: 26px 32px;">
 
-        <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
-          <div id="signInWrap">
-            <button id="btnSignIn" class="button-primary" type="button"
-              style="display:inline-flex; align-items:center; gap:8px;">
-              <span aria-hidden="true">🔒</span>
-              Continue with Google
-            </button>
-          </div>
+    <!-- SIGNED OUT STATE -->
+    <div id="authSignedOut"
+      style="display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;">
 
-          <button id="btnSignOut" class="button-primary" type="button" disabled
-            style="opacity:0.85; display:none;">
-            Sign out
-          </button>
-        </div>
+      <div>
+        <h2 style="margin:0;">Sign in</h2>
+        <p class="small" style="margin:6px 0 0; opacity:0.92;">
+          Sign in to unlock uploads and conversions.
+        </p>
       </div>
 
-      <div id="signedInCard" class="small"
-        style="display:none; margin-top: 14px; padding: 12px 14px; border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; background: rgba(0,0,0,0.06); opacity: 0.95;">
-        <strong>Status:</strong> <span id="authStatus">Not signed in</span><br />
-        <span id="authEmail" style="opacity:0.9;"></span>
+      <button id="btnSignIn" class="button-primary" type="button"
+        style="display:inline-flex; align-items:center; gap:8px;">
+        <span aria-hidden="true">🔒</span>
+        Continue with Google
+      </button>
+    </div>
+
+    <!-- SIGNED IN STATE -->
+    <div id="authSignedIn"
+      style="display:none; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;">
+
+      <div>
+        <h2 style="margin:0;">Workspace ready</h2>
+        <p class="small" style="margin:6px 0 0; opacity:0.8;">
+          Signed in as <span id="authEmail" style="font-weight:600;"></span>
+        </p>
       </div>
-    </article>
-  </section>
+
+      <button id="btnSignOut" class="button-secondary" type="button"
+        style="opacity:0.7;">
+        Sign out
+      </button>
+    </div>
+
+  </article>
+</section>
+
 
   <!-- CARD 2: UPLOAD (LEFT) + OUTPUT (RIGHT) -->
   <section style="margin-top:16px;">
