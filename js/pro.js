@@ -1,6 +1,6 @@
 /* /js/pro.js
    MapleSchema Pro page logic
-   - Auth (Google via Firebase compat)
+   - Auth (Google via Firebase compat) with exclusive signed-in / signed-out UI
    - Populate routing dropdowns (aggregator/bank) if available
    - Hide routing UI if empty
    - Upload + convert using paid endpoints
@@ -8,10 +8,7 @@
 
 (() => {
   // ---- Config ----
-  // If you have a dedicated API domain, set window.MAPLE_API_BASE in HTML before this script.
-  // Otherwise it will use same-origin.
   const API_BASE = (window.MAPLE_API_BASE || "").replace(/\/$/, "");
-
   const SUBSCRIBE_URL = "/subscribe.html";
 
   // ---- DOM helpers ----
@@ -57,14 +54,12 @@
     }
 
     try {
-      // Avoid duplicate init if hot-reloading or multiple scripts
       if (!firebase.apps || firebase.apps.length === 0) {
         firebase.initializeApp(window.MAPLE_FIREBASE_CONFIG);
       }
       return true;
-    } catch (e) {
-      // If already initialized, ignore
-      return true;
+    } catch {
+      return true; // already initialized
     }
   }
 
@@ -83,10 +78,9 @@
     const out = msSelectedOutput();
     const insights = $("msInsights");
     const label = $("msInsightsLabel");
-
-    const enabled = (out === "csv" || out === "json");
     if (!insights || !label) return;
 
+    const enabled = (out === "csv" || out === "json");
     if (!enabled) {
       insights.checked = false;
       insights.disabled = true;
@@ -101,32 +95,23 @@
   function updateRoutingVisibility() {
     const aggSelect = $("aggregatorCode");
     const instSelect = $("institutionCode");
-
     const aggWrap = $("aggregatorWrap");
     const instWrap = $("institutionWrap");
     const routingWrap = $("routingWrap");
 
     if (!aggSelect || !instSelect || !routingWrap) return;
 
-    // Treat "(none)" placeholder as the only option => empty
-    const aggHasOptions = aggSelect.options.length > 1;
+    const aggHasOptions = aggSelect.options.length > 1;   // "(none)" + something
     const instHasOptions = instSelect.options.length > 1;
 
     if (aggWrap) aggWrap.style.display = aggHasOptions ? "" : "none";
     if (instWrap) instWrap.style.display = instHasOptions ? "" : "none";
 
     routingWrap.style.display = (aggHasOptions || instHasOptions) ? "grid" : "none";
-
-    // Optional polish: if only one visible, make it full width
-    if (aggHasOptions && instHasOptions) {
-      routingWrap.style.gridTemplateColumns = "1fr 1fr";
-    } else {
-      routingWrap.style.gridTemplateColumns = "1fr";
-    }
+    routingWrap.style.gridTemplateColumns = (aggHasOptions && instHasOptions) ? "1fr 1fr" : "1fr";
   }
 
-  // ---- Populate routing selects (safe + optional) ----
-  // This tries a few endpoints (in order). If none exist, it quietly leaves dropdowns as "(none)" and hides them.
+  // ---- Populate routing selects (optional) ----
   async function tryFetchJson(path, idToken) {
     const url = `${API_BASE}${path}`;
     const headers = idToken ? { Authorization: `Bearer ${idToken}` } : {};
@@ -137,7 +122,7 @@
 
   function fillSelect(selectEl, items, placeholderText = "(none)") {
     if (!selectEl) return;
-    // Keep first placeholder option
+
     selectEl.innerHTML = "";
     const opt0 = document.createElement("option");
     opt0.value = "";
@@ -147,9 +132,9 @@
     if (!Array.isArray(items)) return;
 
     for (const it of items) {
-      // support {code,name} or {id,label} or string
       let value = "";
       let label = "";
+
       if (typeof it === "string") {
         value = it;
         label = it;
@@ -157,7 +142,9 @@
         value = it.code ?? it.id ?? it.value ?? "";
         label = it.name ?? it.label ?? it.code ?? it.id ?? value;
       }
+
       if (!value) continue;
+
       const opt = document.createElement("option");
       opt.value = value;
       opt.textContent = label;
@@ -170,11 +157,10 @@
     const instSelect = $("institutionCode");
     if (!aggSelect || !instSelect) return;
 
-    // Default: leave as "(none)" and hide unless we find data
+    // Start empty (then hide if stays empty)
     fillSelect(aggSelect, [], "(none)");
     fillSelect(instSelect, [], "(none)");
 
-    // Try common patterns (you can remove paths you don’t use)
     const candidates = [
       { kind: "aggregators", path: "/v1/routing/aggregators" },
       { kind: "aggregators", path: "/v1/routing/aggregator-codes" },
@@ -195,8 +181,10 @@
         const data = await tryFetchJson(c.path, idToken);
         if (!data) continue;
 
-        // Accept either {items:[...]} or direct array
-        const arr = Array.isArray(data) ? data : (data.items || data.aggregators || data.institutions || null);
+        const arr = Array.isArray(data)
+          ? data
+          : (data.items || data.aggregators || data.institutions || null);
+
         if (!Array.isArray(arr)) continue;
 
         if (c.kind === "aggregators") aggregators = arr;
@@ -204,7 +192,7 @@
 
         if (aggregators && institutions) break;
       } catch {
-        // ignore and try next
+        // ignore
       }
     }
 
@@ -214,37 +202,30 @@
     updateRoutingVisibility();
   }
 
-  // ---- Auth UI wiring ----
+  // ---- Auth (exclusive UI state) ----
   function setSignedOutUI() {
-    setText($("authStatus"), "Not signed in");
+    // These must exist in your updated HTML section
+    if ($("authSignedOut")) $("authSignedOut").style.display = "flex";
+    if ($("authSignedIn")) $("authSignedIn").style.display = "none";
     setText($("authEmail"), "");
-
-    hide($("signedInCard"));
-
-    show($("signInWrap"));
-    hide($("btnSignOut"));
-    setDisabled($("btnSignOut"), true);
 
     setDisabled($("fileInput"), true);
     setDisabled($("btnConvert"), true);
 
-    // Routing dropdowns may be populated later; still hide if empty
+    // If routing stays empty, keep it hidden
     updateRoutingVisibility();
   }
 
   function setSignedInUI(email) {
-    setText($("authStatus"), "Signed in");
+    if ($("authSignedOut")) $("authSignedOut").style.display = "none";
+    if ($("authSignedIn")) $("authSignedIn").style.display = "flex";
     setText($("authEmail"), email || "");
 
-    show($("signedInCard"));
-
-    hide($("signInWrap"));
-    show($("btnSignOut"));
-    setDisabled($("btnSignOut"), false);
-
     setDisabled($("fileInput"), false);
-    // Convert stays disabled until a file is selected
-    setDisabled($("btnConvert"), true);
+
+    // Convert enabled only when file is selected (wireFileInput handles it too)
+    const fileSelected = !!$("fileInput")?.files?.[0];
+    setDisabled($("btnConvert"), !fileSelected);
   }
 
   async function ensureGoogleSignInOrSubscribe() {
@@ -262,10 +243,9 @@
   }
 
   async function getIdTokenOrThrow() {
-    const auth = firebase.auth();
-    const user = auth.currentUser;
+    const user = firebase.auth().currentUser;
     if (!user) throw new Error("Not signed in");
-    return await user.getIdToken(/* forceRefresh */ true);
+    return await user.getIdToken(true);
   }
 
   // ---- File handling ----
@@ -277,7 +257,7 @@
       clearError();
       const f = fileInput.files && fileInput.files[0];
       setText($("fileName"), f ? f.name : "No file selected");
-      // Enable convert only if signed in and file present
+
       const authed = !!firebase.auth().currentUser;
       setDisabled($("btnConvert"), !(authed && !!f));
     });
@@ -285,23 +265,21 @@
 
   // ---- Convert ----
   function selectedRouting() {
-    const aggregatorCode = $("aggregatorCode")?.value || "";
-    const institutionCode = $("institutionCode")?.value || "";
-    return { aggregatorCode, institutionCode };
+    return {
+      aggregatorCode: $("aggregatorCode")?.value || "",
+      institutionCode: $("institutionCode")?.value || "",
+    };
   }
 
   async function doConvert() {
     clearError();
 
-    // Ensure auth
     const user = await ensureGoogleSignInOrSubscribe();
     if (!user) return;
 
     const idToken = await getIdTokenOrThrow();
 
-    // Ensure file
-    const fileInput = $("fileInput");
-    const file = fileInput?.files?.[0];
+    const file = $("fileInput")?.files?.[0];
     if (!file) {
       showError("Please choose a JSON file first.", null);
       return;
@@ -313,43 +291,36 @@
 
     const { aggregatorCode, institutionCode } = selectedRouting();
 
-    // Build multipart form data
     const fd = new FormData();
     fd.append("file", file, file.name);
-
-    // Options: keep these generic; your backend can ignore what it doesn’t need.
     fd.append("output", output);
     fd.append("insights", includeInsights ? "true" : "false");
-
     if (aggregatorCode) fd.append("aggregator_code", aggregatorCode);
     if (institutionCode) fd.append("institution_code", institutionCode);
 
-    // Disable button while processing
     const btn = $("btnConvert");
+    const prevText = btn?.textContent || "TRANSFORM";
     setDisabled(btn, true);
-    const prevText = btn?.textContent;
     if (btn) btn.textContent = "WORKING…";
 
     try {
       const resp = await fetch(`${API_BASE}${endpoint}`, {
         method: "POST",
-        headers: {
-          Authorization: `Bearer ${idToken}`,
-        },
+        headers: { Authorization: `Bearer ${idToken}` },
         body: fd,
       });
 
-      // Tier / auth failures => subscribe
       if (resp.status === 401 || resp.status === 403 || resp.status === 402) {
         window.location.href = SUBSCRIBE_URL;
         return;
       }
 
-      // Try to surface request id if present
-      const requestId = resp.headers.get("x-request-id") || resp.headers.get("x-maple-request-id") || "";
+      const requestId =
+        resp.headers.get("x-request-id") ||
+        resp.headers.get("x-maple-request-id") ||
+        "";
 
       if (!resp.ok) {
-        // attempt to read json error
         let msg = `Convert failed (HTTP ${resp.status}).`;
         try {
           const j = await resp.json();
@@ -361,10 +332,8 @@
         return;
       }
 
-      // Download result
       const blob = await resp.blob();
 
-      // filename: Content-Disposition if present
       let filename = "";
       const cd = resp.headers.get("content-disposition") || "";
       const m = /filename\*?=(?:UTF-8''|")?([^\";]+)\"?/i.exec(cd);
@@ -386,8 +355,7 @@
     } catch (e) {
       showError(e?.message || "Unexpected error during convert.", null);
     } finally {
-      if (btn) btn.textContent = prevText || "TRANSFORM";
-      // Re-enable if file still selected + still authed
+      if (btn) btn.textContent = prevText;
       const authed = !!firebase.auth().currentUser;
       const fileStillThere = !!$("fileInput")?.files?.[0];
       setDisabled(btn, !(authed && fileStillThere));
@@ -399,14 +367,13 @@
     $("btnSignIn")?.addEventListener("click", async () => {
       clearError();
       await ensureGoogleSignInOrSubscribe();
-      // auth state listener will update UI
     });
 
     $("btnSignOut")?.addEventListener("click", async () => {
       clearError();
       try {
         await firebase.auth().signOut();
-      } catch (e) {
+      } catch {
         showError("Sign out failed.", null);
       }
     });
@@ -431,36 +398,27 @@
 
       setSignedInUI(user.email || "");
 
-      // Populate routing dropdowns (optional). If none exist, we hide them.
       try {
         const idToken = await user.getIdToken();
         await populateRoutingDropdowns(idToken);
       } catch {
-        // If routing endpoints don't exist, hide the row
         updateRoutingVisibility();
       }
-
-      // Enable convert if file is already selected
-      const fileSelected = !!$("fileInput")?.files?.[0];
-      setDisabled($("btnConvert"), !(fileSelected));
     });
   }
 
   // ---- Boot ----
   document.addEventListener("DOMContentLoaded", () => {
     clearError();
-
-    // Ensure Firebase is live
     if (!initFirebaseOnce()) return;
 
-    // Initial UI
-    setSignedOutUI();
-
-    // Wire everything
     wireButtons();
     wireFileInput();
     syncInsightsUI();
-    updateRoutingVisibility();
+
+    // Initial state (before Firebase callback fires)
+    setSignedOutUI();
+
     wireAuthState();
   });
 })();
