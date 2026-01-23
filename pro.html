@@ -93,7 +93,7 @@
         <div>
           <h2 style="margin:0;">Sign in</h2>
           <p class="small" style="margin:6px 0 0; opacity:0.92;">
-            Sign in once, then you can upload and generate outputs immediately.
+            Sign into your account.
           </p>
         </div>
 
@@ -139,22 +139,24 @@
         <!-- LEFT: BIG UPLOAD -->
         <div>
 
-          <div id="routingWrap"
+         <div id="routingWrap"
             style="display:grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 0 0 12px;">
-            <div>
+          
+            <div id="aggregatorWrap">
               <label class="small" style="font-weight: 800;">Aggregator</label>
               <select id="aggregatorCode" style="width: 100%; padding: 10px; border-radius: 10px;">
                 <option value="">(none)</option>
               </select>
             </div>
-            <div>
+          
+            <div id="institutionWrap">
               <label class="small" style="font-weight: 800;">Bank</label>
               <select id="institutionCode" style="width: 100%; padding: 10px; border-radius: 10px;">
                 <option value="">(none)</option>
               </select>
             </div>
+          
           </div>
-
           <div style="
               border: 1px dashed rgba(120,80,50,0.35);
               border-radius: 14px;
