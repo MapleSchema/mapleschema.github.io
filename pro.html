@@ -59,7 +59,7 @@
         </a>
 
         <nav>
-          <a href="/account.html">Account</a>
+          <a id="navAccount" href="#" style="display:none;">Account</a>
           <a href="/support.html">Support</a>
           <a href="/privacy.html">Privacy</a>
         </nav>
@@ -337,6 +337,66 @@
     };
   </script>
   <script src="/js/pro.js"></script>
+
+  <!-- Account → Stripe Customer Portal (only visible when signed in) -->
+  <script>
+    (function () {
+      function show(el, yes) { if (!el) return; el.style.display = yes ? "" : "none"; }
+
+      async function openPortal() {
+        try {
+          const user = firebase.auth().currentUser;
+          if (!user) return; // should not happen because link hidden when signed out
+
+          const idToken = await user.getIdToken(/* forceRefresh */ true);
+
+          const resp = await fetch("/v1/billing/portal", {
+            method: "POST",
+            headers: {
+              "Authorization": "Bearer " + idToken,
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ return_path: "/pro.html" })
+          });
+
+          const data = await resp.json().catch(() => ({}));
+          if (!resp.ok) {
+            const msg = data && (data.error || data.message) ? (data.error || data.message) : ("Portal request failed (" + resp.status + ").");
+            alert(msg);
+            return;
+          }
+
+          const url = data && (data.url || data.portal_url || data.redirect_url);
+          if (!url) {
+            alert("Portal URL missing from server response.");
+            return;
+          }
+
+          window.location.href = url;
+        } catch (e) {
+          alert("Could not open billing portal. Please try again.");
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const navAccount = document.getElementById("navAccount");
+        if (!navAccount) return;
+
+        navAccount.addEventListener("click", function (e) {
+          e.preventDefault();
+          openPortal();
+        });
+
+        // Toggle visibility based on auth state
+        if (window.firebase && firebase.auth) {
+          firebase.auth().onAuthStateChanged(function (user) {
+            show(navAccount, !!user);
+          });
+        }
+      });
+    })();
+  </script>
+
 </body>
 
 </html>
