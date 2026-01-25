@@ -2,16 +2,16 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>MapleSchema — Developer Documentation (v1)</title>
+  <title>MapleSchema — Developer Documentation</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta
     name="description"
-    content="Developer documentation for MapleSchema v1 — transform Canadian open banking transaction payloads into a single, deterministic JSON schema."
+    content="Developer documentation for MapleSchema — schema-first transaction normalization. Learn authentication (Project ID + API key), /v1/transactions/transform request/response, and optional Insights."
   />
 
   <!-- SEO + Social -->
-  <meta property="og:title" content="MapleSchema — Developer Documentation (v1)">
-  <meta property="og:description" content="Learn how to call the MapleSchema v1 /transform endpoint, authenticate with API keys, and consume the transactions-v1.0 normalized schema.">
+  <meta property="og:title" content="MapleSchema — Developer Documentation">
+  <meta property="og:description" content="How to call /v1/transactions/transform with Project ID + API key, consume the canonical transaction schema, and enable optional Insights.">
   <meta property="og:url" content="https://mapleschema.com/docs.html">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://mapleschema.com/images/mapleschema-social.png">
@@ -25,34 +25,48 @@
   <!-- Main stylesheet -->
   <link rel="stylesheet" href="/css/style.css" />
 
-  <!-- Copy button styles (small + self-contained) -->
+  <!-- Small, self-contained helpers -->
   <style>
-    .code-block {
-      position: relative;
-      text-align: left;
-    }
-
+    .code-block { position: relative; text-align: left; }
     .copy-btn {
-      position: absolute;
-      top: 0.75rem;
-      right: 0.75rem;
-      font-size: 0.75rem;
-      padding: 0.35rem 0.6rem;
-      border: none;
-      border-radius: 4px;
-      background: #2f80ed;
-      color: white;
-      cursor: pointer;
-      opacity: 0.9;
-      line-height: 1;
+      position: absolute; top: 0.75rem; right: 0.75rem;
+      font-size: 0.75rem; padding: 0.35rem 0.6rem;
+      border: none; border-radius: 4px;
+      background: #2f80ed; color: white;
+      cursor: pointer; opacity: 0.9; line-height: 1;
     }
-
     .copy-btn:hover { opacity: 1; }
+    .copy-btn:disabled { background: #27ae60; cursor: default; opacity: 1; }
 
-    .copy-btn:disabled {
-      background: #27ae60;
-      cursor: default;
-      opacity: 1;
+    /* Simple two-column table (Field path / Meaning) */
+    .ms-table {
+      margin-top: 10px;
+      border: 1px solid rgba(0,0,0,0.12);
+      border-radius: 12px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.55);
+    }
+    .ms-table-head, .ms-table-row {
+      display: grid;
+      grid-template-columns: minmax(260px, 1fr) minmax(260px, 2fr);
+    }
+    .ms-table-head {
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+      background: rgba(255,255,255,0.35);
+    }
+    .ms-table-row { border-bottom: 1px solid rgba(0,0,0,0.08); }
+    .ms-table-row:last-child { border-bottom: none; }
+    .ms-cell { padding: 10px 12px; }
+    .ms-key { font-weight: 900; }
+
+    /* Insights card emphasis */
+    .ms-pill {
+      display:inline-block;
+      padding: 2px 10px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      background: rgba(0,0,0,0.06);
+      border: 1px solid rgba(0,0,0,0.08);
     }
   </style>
 </head>
@@ -60,306 +74,237 @@
 <body>
 <div id="site">
 
-<header>
-  <div class="container header-inner">
-    <a href="/index.html" class="logo-link">
-      <div class="logo-wrapper">
-        <img src="/images/mapleschema-transparent-icon.png"
-             class="logo"
-             alt="MapleSchema logo">
-      </div>
-    </a>
-
-    <nav>
-      <a href="/docs.html">Docs</a>
-      <a href="/security.html">Security</a>
-      <a href="/pricing.html">Pricing</a>
-      <a href="/contact.html">Contact</a>
-      <a href="/request-key.html" class="nav-cta">Get API Key</a>
-    </nav>
-  </div>
-</header>
-
-<main class="container">
-
-  <!-- HERO -->
-  <section class="hero">
-    <h1>Developer Docs — MapleSchema v1</h1>
-
-    <p class="hero-lead">
-      Transform Canadian open banking transaction payloads into a single, deterministic
-      <code>transactions-v1.0</code> schema. This page covers base URLs, authentication,
-      the <code>/v1/transactions/transform</code> endpoint, request and response formats, and error handling.
-    </p>
-  </section>
-
-  <!-- QUICKSTART -->
-  <section class="card" style="text-align:center;">
-    <h2>Quickstart</h2>
-
-    <p>
-      MapleSchema is a production API.
-      To run real transformations, request an API key and submit a request to
-      <code>/v1/transactions/transform</code>.
-    </p>
-
-    <p>
-      <a href="/request-key.html" class="button-primary">
-        Request an API Key
+  <header>
+    <div class="container header-inner">
+      <a href="/index.html" class="logo-link">
+        <div class="logo-wrapper">
+          <img src="/images/mapleschema-transparent-icon.png" class="logo" alt="MapleSchema logo">
+        </div>
       </a>
-    </p>
 
-    <hr style="margin:2rem 0; opacity:0.3;" />
+      <nav>
+        <a href="/docs.html">Docs</a>
+        <a href="/security.html">Security</a>
+        <a href="/contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
 
-    <h3>Example: Transform Transactions</h3>
+  <main class="container">
 
-    <p class="small">
-      The example below shows a complete request using a real Open Banking
-      transactions payload and the v1 contract.
-    </p>
+    <!-- HERO -->
+    <section class="hero">
+      <h1>Developer Docs</h1>
 
-    <p class="small"><strong>Request</strong></p>
-    <div class="code-block">
-      <button class="copy-btn" onclick="copyCode(this)" aria-label="Copy curl command">Copy</button>
+      <p class="hero-lead">
+        MapleSchema normalizes upstream banking transaction payloads into a single deterministic transaction contract.
+        This page covers authentication (Project ID + API key), the <code>/v1/transactions/transform</code> endpoint,
+        and optional <strong>Insights</strong>.
+      </p>
 
-      <pre><code class="language-bash">curl -X POST https://api.mapleschema.com/v1/transactions/transform \
+      <p class="small">
+        This is infrastructure-style documentation: stable contract, predictable failure modes, and minimal surprises.
+      </p>
+    </section>
+
+    <!-- QUICKSTART -->
+    <section class="card" style="text-align:center;">
+      <h2>Quickstart</h2>
+
+      <p class="small">
+        Send an upstream payload to <code>/v1/transactions/transform</code>.
+        Authenticate using <strong>Project ID</strong> + <strong>API key</strong>.
+      </p>
+
+      <p style="margin-top:14px;">
+        <a href="/contact.html" class="button-primary">Request Enterprise Access</a>
+      </p>
+
+      <hr style="margin:2rem 0; opacity:0.3;" />
+
+      <h3>Example: Transform a payload</h3>
+
+      <p class="small">
+        The command below posts a payload and returns a deterministic batch response.
+      </p>
+
+      <p class="small"><strong>Request (curl)</strong></p>
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)" aria-label="Copy curl command">Copy</button>
+<pre><code class="language-bash">curl -X POST https://api.mapleschema.com/v1/transactions/transform \
   -H "X-Project-Id: YOUR_PROJECT_ID" \
   -H "X-Api-Key: YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d @transactions.json
 </code></pre>
-    </div>
+      </div>
 
-    <p class="small">
-      Save the JSON below as <code>transactions.json</code>, then run the command.
-      Replace <code>YOUR_PROJECT_ID</code> and <code>YOUR_API_KEY</code> with the values issued to you.
-    </p>
+      <p class="small">
+        Save the JSON below as <code>transactions.json</code>, then run the command.
+        Replace <code>YOUR_PROJECT_ID</code> and <code>YOUR_API_KEY</code> with values issued to your org.
+      </p>
 
-    <p class="small"><strong>Sample Input (transactions.json)</strong></p>
-    <div class="code-block">
-      <button class="copy-btn" onclick="copyCode(this)" aria-label="Copy sample JSON payload">Copy</button>
-
-      <pre><code class="language-json">{
-  "Data": {
-    "Transaction": [
-      {
-        "AccountId": "22289",
-        "TransactionId": "123",
-        "TransactionReference": "Ref 123",
-        "Amount": { "Amount": "10.00", "Currency": "GBP" },
-        "CreditDebitIndicator": "Credit",
-        "Status": "Booked",
-        "BookingDateTime": "2017-04-05T10:43:07+00:00",
-        "ValueDateTime": "2017-04-05T10:45:22+00:00",
-        "TransactionInformation": "Cash from Aubrey",
-        "BankTransactionCode": {
-          "Code": "ReceivedCreditTransfer",
-          "SubCode": "DomesticCreditTransfer"
-        },
-        "ProprietaryBankTransactionCode": {
-          "Code": "Transfer",
-          "Issuer": "AlphaBank"
+      <p class="small"><strong>Sample Input (transactions.json)</strong></p>
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)" aria-label="Copy sample JSON payload">Copy</button>
+<pre><code class="language-json">{
+  "aggregator_code": "flinks",
+  "institution_code": "rbc_ca",
+  "payload": {
+    "Data": {
+      "Transaction": [
+        {
+          "AccountId": "chq_001",
+          "TransactionId": "stmt_line_1842",
+          "TransactionReference": "stmt_line_1842",
+          "Amount": { "Amount": "7.24", "Currency": "CAD" },
+          "CreditDebitIndicator": "Debit",
+          "Status": "Booked",
+          "BookingDateTime": "2026-01-14T19:22:11Z",
+          "ValueDateTime": "2026-01-14T19:22:11Z",
+          "TransactionInformation": "TIM HORTONS #0059 / LONDON ON",
+          "ProprietaryBankTransactionCode": { "Code": "POS", "Issuer": "rbc_ca" }
         }
-      },
-      {
-        "AccountId": "31820",
-        "TransactionId": "567",
-        "TransactionReference": "Ref 124",
-        "Amount": { "Amount": "100.00", "Currency": "GBP" },
-        "CreditDebitIndicator": "Debit",
-        "Status": "Booked",
-        "BookingDateTime": "2017-05-02T14:22:09+00:00",
-        "ValueDateTime": "2017-05-02T14:22:09+00:00",
-        "TransactionInformation": "Paid the gas bill",
-        "AddressLine": "Coventry",
-        "BankTransactionCode": {
-          "Code": "IssuedCreditTransfer",
-          "SubCode": "AutomaticTransfer"
-        },
-        "ProprietaryBankTransactionCode": {
-          "Code": "DirectDebit",
-          "Issuer": "AlphaBank"
-        }
-      }
-    ]
-  },
-  "Links": { "Self": "https://api.alphabank.com/open-banking/v3.1/aisp/transactions" },
-  "Meta": {
-    "TotalPages": 1,
-    "FirstAvailableDateTime": "2017-05-03T00:00:00+00:00",
-    "LastAvailableDateTime": "2017-12-03T00:00:00+00:00"
+      ]
+    },
+    "Links": { "Self": "https://api.flinks.com/transactions" },
+    "Meta": {
+      "TotalPages": 1,
+      "FirstAvailableDateTime": "2026-01-01T00:00:00Z",
+      "LastAvailableDateTime": "2026-01-31T23:59:59Z"
+    }
   }
 }</code></pre>
-    </div>
-  </section>
+      </div>
+    </section>
 
-  <!-- BASE URLS / AUTH / ENDPOINT OVERVIEW -->
-  <section class="docs-section">
+    <!-- AUTH -->
+    <section class="docs-section">
+      <article class="card">
+        <h2>🔑 Authentication</h2>
 
-    <article class="card">
-      <h2>🔑 Authentication</h2>
+        <p>
+          Enterprise calls use a <strong>Project model</strong>. Every request must include:
+        </p>
 
-      <p>
-        All requests to the MapleSchema API require two headers:
-        a <strong>Project ID</strong> and an <strong>API Key</strong>.
-        The Project ID identifies which project is making the request, and the API Key
-        authenticates and authorizes that project. Both must be included for every call
-        to <code>/v1/transactions/transform</code>.
-      </p>
+        <ul>
+          <li><strong>X-Project-Id</strong> — identifies which project/environment is calling (e.g. <code>prod-ledger</code>, <code>analytics</code>)</li>
+          <li><strong>X-Api-Key</strong> — authorizes that project’s usage</li>
+        </ul>
 
-      <pre>
-X-Project-Id: YOUR_PROJECT_ID
-X-Api-Key: YOUR_API_KEY
-      </pre>
+<pre>X-Project-Id: YOUR_PROJECT_ID
+X-Api-Key: YOUR_API_KEY</pre>
 
-      <p>
-        Your Project ID and API Key are generated when you request access through the website.
-        Each key is scoped to a single project. Missing or invalid credentials will return a
-        deterministic authentication error response.
-      </p>
-    </article>
+        <p class="small">
+          Missing or invalid credentials return a deterministic auth error.
+        </p>
+      </article>
 
-    <article class="card">
-      <h2>🔁 Transform Endpoint</h2>
+      <article class="card">
+        <h2>🔁 Transform Endpoint</h2>
 
-      <p>
-        The primary endpoint in MapleSchema v1 is <code>POST /v1/transactions/transform</code>.
-        It accepts institution-specific open banking transaction payloads and returns
-        normalized <code>transactions-v1.0</code> objects. All processing is stateless
-        and performed in memory.
-      </p>
+        <ul>
+          <li><strong>Method</strong>: <code>POST</code></li>
+          <li><strong>Path</strong>: <code>/v1/transactions/transform</code></li>
+          <li><strong>Content-Type</strong>: <code>application/json</code></li>
+          <li><strong>Auth</strong>: <code>X-Project-Id</code> + <code>X-Api-Key</code></li>
+        </ul>
 
-      <ul>
-        <li><strong>Method</strong>: <code>POST</code></li>
-        <li><strong>Path</strong>: <code>/v1/transactions/transform</code></li>
-        <li><strong>Content-Type</strong>: <code>application/json</code></li>
-        <li><strong>Auth</strong>: <code>X-Project-Id</code> and <code>X-Api-Key</code> headers</li>
-      </ul>
+        <p class="small">
+          The API accepts either:
+          <strong>(A)</strong> raw <code>transactions</code> array, or
+          <strong>(B)</strong> a full upstream <code>payload</code> object plus extraction context.
+        </p>
+      </article>
+    </section>
 
-      <pre>
-X-Project-Id: YOUR_PROJECT_ID
-X-Api-Key: YOUR_API_KEY
-      </pre>
+    <!-- REQUEST BODY -->
+    <section class="docs-section">
+      <article class="card">
+        <h2>📥 Request Body</h2>
 
-      <p>
-        The response from <code>/v1/transactions/transform</code> is a JSON object containing a metadata block
-        and a transactions array conforming to the <code>transactions-v1.0</code> schema.
-        All timestamps are returned in UTC, and all amounts follow signed-value semantics paired with an explicit
-        <code>direction</code> field for clarity across account types.
-      </p>
-    </article>
+        <p>
+          You can send transactions in two ways:
+        </p>
 
-  </section>
-
-  <!-- REQUEST SCHEMA -->
-  <section class="docs-section">
-
-    <article class="card">
-      <h2>📥 Request Body Overview</h2>
-
-      <p>
-        The request to <code>/v1/transactions/transform</code> contains a required
-        <code>transactions</code> array and optional routing hints.
-      </p>
-
-      <pre>
-{
+        <h3 style="margin-bottom:8px;">A) Provide <code>transactions</code> directly</h3>
+        <div class="code-block">
+          <button class="copy-btn" onclick="copyCode(this)" aria-label="Copy direct transactions example">Copy</button>
+<pre><code class="language-json">{
+  "aggregator_code": "flinks",
   "institution_code": "rbc_ca",
-  "aggregator_code": "direct_ob",
   "transactions": [
-    { /* transaction object */ }
+    { "AccountId": "chq_001", "TransactionId": "stmt_line_1842", "Amount": { "Amount": "7.24", "Currency": "CAD" }, "CreditDebitIndicator": "Debit", "BookingDateTime": "2026-01-14T19:22:11Z", "TransactionInformation": "TIM HORTONS #0059 / LONDON ON" }
   ]
-}
-      </pre>
+}</code></pre>
+        </div>
 
-      <ul>
-        <li>
-          <strong>transactions</strong> (array, required) — list of transaction objects
-          to normalize in this request.
-        </li>
-        <li>
-          <strong>institution_code</strong> (string, optional) — default institution
-          mapping to apply when not specified per transaction.
-        </li>
-        <li>
-          <strong>aggregator_code</strong> (string, optional) — identifies the upstream
-          provider (e.g. <code>"flinks"</code>, <code>"plaid"</code>, <code>"direct_ob"</code>).
-        </li>
-      </ul>
+        <h3 style="margin:18px 0 8px;">B) Provide a full upstream <code>payload</code></h3>
+        <p class="small">
+          This is useful when you want MapleSchema to extract <code>Data.Transaction</code> (or another path) for you.
+        </p>
 
-      <p class="small">
-        When both top-level and per-transaction routing fields are provided,
-        per-transaction values take precedence.
-      </p>
-    </article>
+        <div class="ms-table">
+          <div class="ms-table-head">
+            <div class="small ms-cell ms-key">Field</div>
+            <div class="small ms-cell ms-key">Meaning</div>
+          </div>
 
-    <article class="card">
-      <h2>📄 Transaction Object — Core Fields (v1)</h2>
+          <div class="ms-table-row">
+            <div class="small ms-cell ms-key">aggregator_code</div>
+            <div class="small ms-cell">Upstream provider identifier (e.g. <code>flinks</code>)</div>
+          </div>
 
-      <p>
-        Each item in the <code>transactions</code> array represents a single upstream
-        transaction. Field availability varies by institution and aggregator.
-      </p>
+          <div class="ms-table-row">
+            <div class="small ms-cell ms-key">institution_code</div>
+            <div class="small ms-cell">Institution mapping to apply (e.g. <code>rbc_ca</code>)</div>
+          </div>
 
-      <h3>Required</h3>
-      <ul>
-        <li>
-          <code>posted_local_time</code> (string) — local posted time in RFC3339 with offset,
-          e.g. <code>2025-12-04T09:30:00-05:00</code>.
-        </li>
-        <li>
-          <code>amount</code> (object) — exact, unsigned monetary value.
-        </li>
-        <li>
-          <code>direction</code> (string) — <code>"debit"</code> or <code>"credit"</code>.
-        </li>
-        <li>
-          <code>description</code> (string) — raw description text from the upstream source.
-        </li>
-      </ul>
+          <div class="ms-table-row">
+            <div class="small ms-cell ms-key">payload</div>
+            <div class="small ms-cell">Full upstream object containing a transactions array somewhere inside</div>
+          </div>
 
-      <h3>Optional</h3>
-      <ul>
-        <li><code>value_local_time</code> — local value date/time, when provided.</li>
-        <li><code>authorized_local_time</code> — authorization time for card transactions.</li>
-        <li><code>transaction_type</code> — coarse upstream type (e.g. <code>"CARD"</code>).</li>
-        <li><code>status</code> — upstream status (e.g. <code>"BOOKED"</code>).</li>
-        <li><code>bank_transaction_code</code> — standardized transaction code, when available.</li>
-        <li><code>proprietary_code</code> — institution-specific code.</li>
-        <li><code>related_transaction_id</code> — reference to a logically related transaction.</li>
-        <li><code>metadata</code> — free-form key/value bag.</li>
-        <li><code>extras</code> — passthrough fields preserved from the raw payload.</li>
-        <li>
-          <code>client_ref</code> — optional, opaque identifier echoed back unchanged
-          for client reconciliation.
-        </li>
-      </ul>
+          <div class="ms-table-row">
+            <div class="small ms-cell ms-key">transactions_path</div>
+            <div class="small ms-cell"><span class="ms-pill">optional</span> Dot-path to the transactions array (defaults to provider strategy)</div>
+          </div>
 
-      <p class="small">
-        MapleSchema does not enforce format or uniqueness for <code>client_ref</code>
-        and does not interpret its value.
-      </p>
-    </article>
+          <div class="ms-table-row">
+            <div class="small ms-cell ms-key">include_insights</div>
+            <div class="small ms-cell"><span class="ms-pill">optional</span> If true, request Insights annotations (paid/enterprise only)</div>
+          </div>
+        </div>
 
-  </section>
+        <p class="small" style="margin-top:10px;">
+          If you omit both <code>transactions</code> and <code>payload</code>, the API returns a client error.
+        </p>
+      </article>
+    </section>
 
-  <!-- RESPONSE SCHEMA -->
-  <section class="card">
-    <h2>📤 Normalized Response — <code>transactions-v1.0</code></h2>
+    <!-- RESPONSE -->
+    <section class="docs-section">
+      <article class="card">
+        <h2>📤 Response Body</h2>
 
-    <p>
-      The response from <code>/v1/transactions/transform</code> is a JSON object containing a
-      <code>metadata</code> block describing the batch and a <code>transactions</code>
-      array of normalized <code>transactions-v1.0</code> objects.
-    </p>
+        <p>
+          The API returns a batch response:
+        </p>
 
-    <pre>
-{
+        <ul>
+          <li><code>metadata</code> — request diagnostics and counts</li>
+          <li><code>transactions</code> — deterministic, canonical transactions (sorted stably)</li>
+        </ul>
+
+        <p class="small"><strong>Sample Output (trimmed)</strong></p>
+        <div class="code-block">
+          <button class="copy-btn" onclick="copyCode(this)" aria-label="Copy sample output">Copy</button>
+<pre><code class="language-json">{
   "metadata": {
-    "request_id": "auto-1764972823590099100",
+    "request_id": "req_123",
     "institution_code": "rbc_ca",
-    "received_at": "2025-12-05T22:13:43.5900991Z",
-    "processed_at": "2025-12-05T22:13:43.5900991Z",
+    "received_at": "2026-01-14T19:22:12Z",
+    "processed_at": "2026-01-14T19:22:12Z",
     "input_count": 1,
     "output_count": 1,
     "failed_count": 0
@@ -367,214 +312,240 @@ X-Api-Key: YOUR_API_KEY
   "transactions": [
     {
       "schema_version": "transactions-v1.0",
-
-      "stable_transaction_id": "rbc_ca-abc123",
+      "transaction_fingerprint": "ms_fp_9f1c2c7b0d2a",
+      "transaction_ref": "stmt_line_1842",
+      "account_ref": "chq_001",
       "institution_code": "rbc_ca",
-      "aggregator_code": "direct_ob",
-      "transaction_id": "abc123",
-      "account_id": "chequing-001",
-
-      "posted_at": "2026-01-12T19:30:00Z",
-      "value_at": null,
-      "value_local_time_raw": "2026-01-12T14:30:00-05:00",
-      "authorized_at": null,
-
-      "amount": -18.42,
-      "currency": "CAD",
+      "aggregator_code": "flinks",
+      "effective_at": "2026-01-14T19:22:11Z",
+      "posted_at": "2026-01-14T19:22:11Z",
+      "amount": { "amount_minor": 724, "amount_raw": -7.24, "currency": "CAD" },
       "direction": "debit",
-
-      "bank_transaction_code": "",
-      "proprietary_code": "",
-      "mcc": "",
-
-      "transaction_type": "card",
-
-      "original_description": "POS 07/12  UBER *TRIP   HELP.UBER.COM CA",
-      "transformed_description": "Uber trip",
-      "transformed_description_fr": "Course Uber",
-
-      "merchant_name": "Uber Technologies",
-      "merchant_name_fr": "Uber Technologies",
-      "category": null,
+      "original_description": "TIM HORTONS #0059 / LONDON ON",
       "status": "posted",
-
-      "normalization": {
-        "mapping_method": "rbc_ca_core_v1",
-        "warnings": [],
-        "input_timezone": "America/Toronto"
-      },
-
-      "insights": {
-        "suggested_type": "card",
-        "suggested_type_confidence": 0.92,
-        "description_confidence": 0.97,
-        "merchant_name_confidence": 0.98
-      },
-
-      "fx": null,
-
-      "extras": {
-        "raw_terminal_id": "UBR12345",
-        "raw_processor_code": "POS_UBR"
-      }
+      "mutability": "unknown",
+      "normalization": { "mapping_method": "direct", "warnings": [], "input_timezone": "Z" },
+      "insights": null,
+      "extras": {}
     }
   ]
-}
-    </pre>
+}</code></pre>
+        </div>
 
-    <p>
-      All timestamps are UTC. Amounts are signed and paired with an explicit
-      <code>direction</code> to make debits and credits unambiguous, regardless of account type.
-    </p>
-  </section>
+        <p class="small">
+          Notes:
+          <strong>amount.amount_minor</strong> is an unsigned magnitude; sign is conveyed by <strong>direction</strong> and <strong>amount.amount_raw</strong>.
+          Timestamps are normalized to UTC.
+        </p>
+      </article>
 
-  <!-- RESPONSE FIELD BREAKDOWN -->
-  <section>
-    <article class="card">
-      <h2>Core Fields</h2>
-      <ul>
-        <li>
-          <strong>schema_version</strong> (string, required) — currently
-          <code>"transactions-v1.0"</code>.
-        </li>
-        <li>
-          <strong>institution_code</strong> (string, required) — the code you provided on input,
-          e.g. <code>"rbc_ca"</code>.
-        </li>
-        <li>
-          <strong>transaction_id</strong> (string, required) — derived from the institution ID
-          when available; stable per institution.
-        </li>
-        <li>
-          <strong>posted_at</strong> (string, required) — posted time in UTC,
-          <code>YYYY-MM-DDThh:mm:ssZ</code>.
-        </li>
-        <li>
-          <strong>authorized_at</strong> (string, nullable) — authorization time in UTC when
-          distinguishable.
-        </li>
-      </ul>
-    </article>
+      <article class="card">
+        <h2>🧾 Canonical Transaction Fields (dot notation)</h2>
 
-    <article class="card">
-      <h2>Amount & Direction</h2>
-      <ul>
-        <li>
-          <strong>amount</strong> (number, required) — signed decimal amount. Debits from the
-          account are typically negative, credits positive.
-        </li>
-        <li>
-          <strong>currency</strong> (string, required) — ISO currency code, e.g. <code>"CAD"</code>.
-        </li>
-        <li>
-          <strong>direction</strong> (string, required) — one of <code>"debit"</code> or
-          <code>"credit"</code>, representing the direction relative to the account holder.
-        </li>
-        <li>
-          <strong>transaction_type</strong> (string, required) — high-level classification such
-          as <code>"card"</code>, <code>"transfer"</code>, or <code>"fee"</code>.
-        </li>
-      </ul>
-      <p class="small">
-        Direction and signed amount are designed to be unambiguous across chequing, credit card,
-        and line-of-credit accounts.
-      </p>
-    </article>
+        <p class="small">
+          These are the fields most downstream systems depend on. Values shown match the sample input/output above.
+        </p>
 
-    <article class="card">
-      <h2>Descriptions &amp; Merchant</h2>
-      <ul>
-        <li>
-          <strong>original_description</strong> (string, required) — raw description or
-          merchant line from the institution.
-        </li>
-        <li>
-          <strong>transformed_description</strong> (string, nullable) — MapleSchema’s cleaned,
-          human-readable description, when available.
-        </li>
-        <li>
-          <strong>transformed_description_fr</strong> (string, nullable) — French version of the
-          transformed description, when available.
-        </li>
-        <li>
-          <strong>merchant_name</strong> (string, nullable) — normalized merchant or brand name.
-        </li>
-        <li>
-          <strong>merchant_name_fr</strong> (string, nullable) — French merchant or brand name,
-          when available.
-        </li>
-      </ul>
-    </article>
+        <div class="ms-table">
+          <div class="ms-table-head">
+            <div class="small ms-cell ms-key">Field path</div>
+            <div class="small ms-cell ms-key">Meaning</div>
+          </div>
 
-    <article class="card">
-      <h2>Status &amp; Classification</h2>
-      <ul>
-        <li>
-          <strong>status</strong> (string, required) — normalized transaction status, such as
-          <code>"posted"</code> or <code>"pending"</code>.
-        </li>
-        <li>
-          <strong>category</strong> (object, nullable) — reserved for future categorization;
-          current integrations may treat this as opaque.
-        </li>
-      </ul>
-    </article>
+          <div class="ms-table-row">
+            <div class="small ms-cell ms-key">schema_version</div>
+            <div class="small ms-cell">Contract version (currently <code>transactions-v1.0</code>)</div>
+          </div>
 
-    <section class="card">
-      <h2>Batch Metadata</h2>
-      <p>
-        The top-level <code>metadata</code> object describes the entire transform batch:
-      </p>
-      <ul>
-        <li><strong>request_id</strong> — identifier for this API call, useful for log correlation.</li>
-        <li><strong>institution_code</strong> — institution/adapter used for this batch.</li>
-        <li><strong>received_at</strong>, <strong>processed_at</strong> — UTC timestamps for when
-            the batch was received and processed.</li>
-        <li><strong>input_count</strong> — number of transactions in the request payload.</li>
-        <li><strong>output_count</strong> — number of successfully normalized transactions.</li>
-        <li><strong>failed_count</strong> — number of transactions that failed validation or normalization.</li>
-      </ul>
+          <div class="ms-table-row">
+            <div class="small ms-cell ms-key">transaction_fingerprint</div>
+            <div class="small ms-cell">Stable fingerprint used for batch collision detection</div>
+          </div>
+
+          <div class="ms-table-row">
+            <div class="small ms-cell ms-key">transaction_ref</div>
+            <div class="small ms-cell">Optional caller-owned transaction reference (echoed if provided)</div>
+          </div>
+
+          <div class="ms-table-row">
+            <div class="small ms-cell ms-key">account_ref</div>
+            <div class="small ms-cell">Optional caller-owned account reference (echoed if provided)</div>
+          </div>
+
+          <div class="ms-table-row">
+            <div class="small ms-cell ms-key">institution_code</div>
+            <div class="small ms-cell">Institution adapter used for normalization</div>
+          </div>
+
+          <div class="ms-table-row">
+            <div class="small ms-cell ms-key">aggregator_code</div>
+            <div class="small ms-cell">Upstream provider identifier</div>
+          </div>
+
+          <div class="ms-table-row">
+            <div class="small ms-cell ms-key">effective_at</div>
+            <div class="small ms-cell">Required canonical timestamp (posted/value/authorized in UTC)</div>
+          </div>
+
+          <div class="ms-table-row">
+            <div class="small ms-cell ms-key">posted_at</div>
+            <div class="small ms-cell">Posted time in UTC (nullable if not provided upstream)</div>
+          </div>
+
+          <div class="ms-table-row">
+            <div class="small ms-cell ms-key">amount.amount_minor</div>
+            <div class="small ms-cell">Unsigned magnitude in minor units (e.g. cents)</div>
+          </div>
+
+          <div class="ms-table-row">
+            <div class="small ms-cell ms-key">amount.amount_raw</div>
+            <div class="small ms-cell">Signed decimal value (helps humans; downstream should prefer minor+direction)</div>
+          </div>
+
+          <div class="ms-table-row">
+            <div class="small ms-cell ms-key">amount.currency</div>
+            <div class="small ms-cell">ISO currency code (e.g. CAD)</div>
+          </div>
+
+          <div class="ms-table-row">
+            <div class="small ms-cell ms-key">direction</div>
+            <div class="small ms-cell"><code>debit</code> or <code>credit</code></div>
+          </div>
+
+          <div class="ms-table-row">
+            <div class="small ms-cell ms-key">original_description</div>
+            <div class="small ms-cell">Raw upstream description line</div>
+          </div>
+
+          <div class="ms-table-row">
+            <div class="small ms-cell ms-key">status</div>
+            <div class="small ms-cell">Normalized ledger inclusion status (e.g. posted/pending)</div>
+          </div>
+
+          <div class="ms-table-row">
+            <div class="small ms-cell ms-key">mutability</div>
+            <div class="small ms-cell">Mutability indicator (currently <code>unknown</code> unless upstream signals are present)</div>
+          </div>
+
+          <div class="ms-table-row">
+            <div class="small ms-cell ms-key">normalization.mapping_method</div>
+            <div class="small ms-cell">Mapping method used to produce the normalized object</div>
+          </div>
+
+          <div class="ms-table-row">
+            <div class="small ms-cell ms-key">normalization.warnings</div>
+            <div class="small ms-cell">Best-effort warnings for diagnostics (array)</div>
+          </div>
+
+          <div class="ms-table-row">
+            <div class="small ms-cell ms-key">normalization.input_timezone</div>
+            <div class="small ms-cell">Timezone derived from upstream timestamp offset</div>
+          </div>
+
+          <div class="ms-table-row">
+            <div class="small ms-cell ms-key">extras</div>
+            <div class="small ms-cell">Passthrough metadata (includes internal <code>_ms</code> diagnostics when available)</div>
+          </div>
+        </div>
+      </article>
     </section>
 
-    <article class="card">
-      <h2>Status, Country &amp; Meta</h2>
-      <ul>
-        <li>
-          <strong>status</strong> (string, required) — normalized transaction status, such as
-          <code>"posted"</code> or <code>"pending"</code>.
-        </li>
-        <li>
-          <strong>category</strong> (string, nullable) — reserved for future categorization.
-        </li>
-        <li>
-          <strong>country_code</strong> (string, nullable) — ISO country code when derivable,
-          e.g. <code>"CA"</code>.
-        </li>
-      </ul>
-    </article>
-  </section>
+    <!-- INSIGHTS -->
+    <section class="docs-section">
+      <article class="card primary">
+        <h2>✨ Insights (optional)</h2>
 
-  <article class="card">
-    <h2>Changelog</h2>
-    <p>The full version history of MapleSchema, shown in raw Markdown format.</p>
-    <p><a href="/changelog.html">View Changelog →</a></p>
-  </article>
+        <p>
+          Insights are optional annotations on top of the canonical transaction.
+          They never change core fields. They are best-effort: on provider failure, MapleSchema degrades to safe defaults.
+        </p>
 
-  <!-- CONTACT -->
-  <section class="card">
-    <h2>Questions or Integration Help?</h2>
-    <p>
-      If you have questions about integrating MapleSchema, need clarification on the
-      <code>transactions-v1.0</code> schema, or want to discuss higher-volume usage,
-      reach out via the <a href="/contact.html">contact page</a>.
-    </p>
-  </section>
+        <div class="ms-table">
+          <div class="ms-table-head">
+            <div class="small ms-cell ms-key">Field path</div>
+            <div class="small ms-cell ms-key">Meaning</div>
+          </div>
 
-</main>
+          <div class="ms-table-row">
+            <div class="small ms-cell ms-key">include_insights</div>
+            <div class="small ms-cell">Request flag (true/false). When true, Insights may be populated.</div>
+          </div>
 
-<footer>
-  © MapleSchema 2025 — Sweet, Compliance-First Open Banking Normalization
-</footer>
+          <div class="ms-table-row">
+            <div class="small ms-cell ms-key">insights.category.value</div>
+            <div class="small ms-cell">Category enum value (e.g. <code>coffee_fast_food</code>)</div>
+          </div>
+
+          <div class="ms-table-row">
+            <div class="small ms-cell ms-key">insights.category.confidence</div>
+            <div class="small ms-cell">0..1 confidence score</div>
+          </div>
+
+          <div class="ms-table-row">
+            <div class="small ms-cell ms-key">insights.category.version</div>
+            <div class="small ms-cell">Insights version identifier</div>
+          </div>
+
+          <div class="ms-table-row">
+            <div class="small ms-cell ms-key">insights.category.signals</div>
+            <div class="small ms-cell">Short explanations (array of strings)</div>
+          </div>
+
+          <div class="ms-table-row">
+            <div class="small ms-cell ms-key">insights.category.model.provider</div>
+            <div class="small ms-cell">Provider name (e.g. <code>gemini</code>)</div>
+          </div>
+
+          <div class="ms-table-row">
+            <div class="small ms-cell ms-key">insights.category.model.model</div>
+            <div class="small ms-cell">Provider model identifier</div>
+          </div>
+
+          <div class="ms-table-row">
+            <div class="small ms-cell ms-key">insights.category.model.latency_ms</div>
+            <div class="small ms-cell">Best-effort latency annotation</div>
+          </div>
+
+          <div class="ms-table-row">
+            <div class="small ms-cell ms-key">insights.description</div>
+            <div class="small ms-cell">Best-effort cleaned description (must be short and non-speculative)</div>
+          </div>
+        </div>
+
+        <p class="small" style="margin-top:10px;">
+          To request Insights, add <code>"include_insights": true</code> to your request body.
+          If Insights are not available, the API may return <code>INS_toggle error</code> for requests that require it.
+        </p>
+
+        <p class="small muted">
+          Enterprise: Insights availability depends on your project configuration and entitlements.
+        </p>
+      </article>
+    </section>
+
+    <!-- ERRORS -->
+    <section class="docs-section">
+      <article class="card">
+        <h2>⚠️ Errors &amp; limits</h2>
+
+        <p class="small">
+          The API returns typed errors with a stable <code>code</code>, a human-safe message, and a <code>request_id</code>.
+          When a failure occurs during extraction or mapping, the response includes diagnostics (e.g. candidate paths, failed indexes).
+        </p>
+
+        <p class="small">
+          Transaction limits may apply per request. If you exceed caps, the API returns <code>TX_LIMIT_EXCEEDED</code> (hard cap)
+          or <code>FREE_TX_LIMIT_EXCEEDED</code> (free/core flows).
+        </p>
+      </article>
+    </section>
+
+  </main>
+
+  <footer>
+    © MapleSchema 2026 — Schema-first transaction normalization •
+    <a href="/enterprise">Enterprise</a>
+  </footer>
 
 </div>
 
@@ -583,14 +554,12 @@ X-Api-Key: YOUR_API_KEY
     const wrapper = button.closest(".code-block");
     const codeEl = wrapper ? wrapper.querySelector("code") : null;
     const text = codeEl ? codeEl.innerText : "";
-
     if (!text) return;
 
     navigator.clipboard.writeText(text).then(() => {
       const original = button.textContent;
       button.textContent = "Copied ✓";
       button.disabled = true;
-
       setTimeout(() => {
         button.textContent = original;
         button.disabled = false;
