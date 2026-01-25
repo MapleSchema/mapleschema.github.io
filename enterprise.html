@@ -3,16 +3,16 @@
 
 <head>
   <meta charset="UTF-8" />
-  <title>MapleSchema — One Sweet Way to Normalize Canadian Open Banking</title>
+  <title>MapleSchema Enterprise — Internal Transaction Normalization for Fintech Platforms</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description"
-    content="MapleSchema normalizes Canadian open banking transactions into a stable JSON schema with anonymized, idempotent transaction IDs — zero retention, compliance-first." />
+    content="MapleSchema is a schema-first transaction normalization layer for fintech platforms. Deterministic outputs, stable IDs, privacy-conscious processing. Licensed for internal use." />
 
   <!-- SEO + Social -->
-  <meta property="og:title" content="MapleSchema — One Sweet Way to Normalize Canadian Open Banking">
+  <meta property="og:title" content="MapleSchema Enterprise — Internal Transaction Normalization for Fintech Platforms">
   <meta property="og:description"
-    content="Normalize Canadian open banking transactions into a stable schema with anonymized, idempotent IDs — stateless, zero-retention, compliance-first.">
-  <meta property="og:url" content="https://mapleschema.com/">
+    content="Schema-first transaction normalization for fintech teams: deterministic outputs, stable IDs, privacy-conscious processing. Licensed for internal use.">
+  <meta property="og:url" content="https://mapleschema.com/enterprise">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://mapleschema.com/images/mapleschema-social.png">
   <meta name="twitter:card" content="summary_large_image">
@@ -40,133 +40,130 @@
         <nav>
           <a href="/docs.html">Docs</a>
           <a href="/security.html">Security</a>
-          <a href="/pricing.html">Pricing</a>
           <a href="/contact.html">Contact</a>
-          <a href="/request-key.html" class="nav-cta">Get API Key</a>
+          <a href="/enterprise-demo.html" class="nav-cta">View Demo</a>
         </nav>
       </div>
     </header>
-
 
     <main class="container">
 
       <!-- HERO -->
       <section class="hero">
-        <h1>Open Banking Transactions Shouldn’t Be This Hard.</h1>
+        <h1>Transaction Normalization as Internal Infrastructure.</h1>
 
         <p class="hero-lead">
-          In Canadian <strong>open banking</strong>, every aggregator locks you into their
-          transaction model — and those models change.
-          MapleSchema gives you one stable schema so
-          <strong>their changes don’t become your rewrites.</strong>
+          MapleSchema is a <strong>schema-first normalization layer</strong> for fintech platforms.
+          It sits between upstream providers and your downstream systems, so <strong>format changes don’t become rewrites</strong>.
         </p>
 
         <p class="hero-support">
-          MapleSchema transactions are normalized with a <strong>stable, anonymized, idempotent ID</strong>
-          — preventing duplicates without the need to expose internal account or customer identifiers.
+          Outputs are <strong>deterministic</strong> and include <strong>stable, anonymized, idempotent transaction IDs</strong>
+          to prevent duplicates without exposing internal customer or account identifiers.
         </p>
 
         <p style="margin-top: 24px;">
-          <a href="/request-key.html" class="button-primary">
-            Start Free — Normalize Your First Transactions in Minutes
+          <a href="/enterprise-demo.html" class="button-primary">
+            View the Enterprise Demo
           </a>
         </p>
 
         <p class="proof" style="margin-top: 12px;">
-          No credit card • 25,000 transactions/month • Canadian servers • Zero retention
+          Licensed for internal use • Privacy-conscious processing • Deterministic outputs
         </p>
       </section>
 
       <hr class="hero-divider" />
 
+      <!-- VALUE GRID -->
       <section class="grid">
 
         <article class="card">
-          <h2>🔀 Many Aggregators - One Schema</h2>
+          <h2>🔀 One Canonical Schema</h2>
           <p class="small">
-            Aggregators use different transaction formats — and change them over time.
-            MapleSchema normalizes everything into a single, stable transaction schema.
+            Normalize across aggregators and bank feeds into a stable contract your systems can rely on.
           </p>
         </article>
 
         <article class="card primary">
-          <h2>🕶️ Fully Anonymous Transactions</h2>
+          <h2>🧾 Deterministic + Audit-Friendly</h2>
           <p class="small">
-            In-memory processing only. No account IDs. No customer identifiers.
-            No PII. No raw transaction data retained. Minimal logging.
+            Predictable transformations, structured failures, and explainable outputs designed for operational use.
           </p>
         </article>
 
         <article class="card">
-          <h2>⏱️ Skip the Build Phase</h2>
+          <h2>🕶️ Privacy-Conscious by Design</h2>
           <p class="small">
-            Don’t build or maintain mappers. Send raw transactions to
-            <code>/v1/transactions/transform</code> and get a stable schema back —
-            so your team can focus on product, not infrastructure.
-          </p>
-        </article>
-
-
-        <article class="card">
-          <h2>🍁 Built for Canadian Open Banking</h2>
-          <p class="small">
-            Transactions are processed on Canadian servers and designed
-            to meet open-banking compliance expectations.
+            In-memory processing, minimal logging, and no reliance on internal customer identifiers for dedupe.
           </p>
         </article>
 
         <article class="card">
-          <h2>🔎 Forensics-Ready Output</h2>
+          <h2>🧱 Fits Your Existing Stack</h2>
           <p class="small">
-            Deterministic outcomes, structured error types, and anonymized logs —
-            designed for fast root-cause analysis and predictable failure handling.
+            MapleSchema isolates upstream volatility from ledgers, analytics, reporting, and exports.
           </p>
         </article>
 
         <article class="card">
-          <h2>🔓 No Vendor Lock-In</h2>
+          <h2>🔓 Reduce Vendor Coupling</h2>
           <p class="small">
-            Put MapleSchema in front of your ingestion pipeline.
-            No vendor lock-in, no rewrite — just normalize and move on.
+            Avoid baking provider-specific fields into downstream systems. Normalize once, then move.
           </p>
         </article>
-      </section>
+
+        <article class="card">
+          <h2>🍁 Canada-Oriented Constraints</h2>
+          <p class="small">
+            Built with common Canadian open-banking constraints in mind (data minimization, auditability, residency).
+          </p>
+        </article>
+
       </section>
 
+      <!-- HOW IT FITS (SHORT) -->
+      <section class="card" style="margin-top: 24px;">
+        <h2>Where It Fits</h2>
 
-      <!-- CTA / CONVERSION -->
-      <section class="card">
+        <p class="small">
+          <strong>Upstream</strong>: aggregators / bank feeds → <strong>MapleSchema</strong>: normalize + dedupe + stable IDs →
+          <strong>Downstream</strong>: ledger / analytics / reporting.
+        </p>
 
-        <h2>Stop Maintaining Transaction Mappings. Try the Fix.</h2>
+        <p class="small" style="margin-top: 8px;">
+          MapleSchema does not replace your providers or analytics layer. It removes the brittle glue between them.
+        </p>
+      </section>
+
+      <!-- ENTERPRISE INQUIRIES -->
+      <section class="card" style="margin-top: 24px;">
+        <h2>Enterprise Inquiries</h2>
 
         <p>
-          MapleSchema removes the ongoing cost of maintaining aggregator-specific
-          transaction mappings — without storing customer data or locking you into
-          a vendor.
+          MapleSchema Enterprise is licensed as internal infrastructure. There is no public enterprise pricing.
         </p>
 
         <p class="small">
-          Connect your existing open-banking feed, send real transaction payloads,
-          and see the same stable schema come back immediately.
+          If you’re evaluating transaction normalization, include:
+          monthly volume, providers in use, and target downstream consumers.
         </p>
 
         <p style="text-align:center; margin-top:24px;">
-          <a href="/request-key.html" class="button-primary">
-            Start Free — Get an API Key in Minutes
+          <a href="/contact.html" class="button-primary">
+            Contact for Enterprise
           </a>
         </p>
 
         <p class="small" style="text-align:center; margin-top:12px;">
-          No credit card • 25,000 transactions/month • Canadian servers • Zero retention
+          Prefer email? Use the contact page and include “Enterprise” in the subject.
         </p>
-
       </section>
-
 
     </main>
 
     <footer>
-      © MapleSchema 2025 — Sweet, Compliance-First Open Banking Normalization
+      © MapleSchema 2026 — Schema-first transaction normalization for fintech platforms
     </footer>
 
   </div>
