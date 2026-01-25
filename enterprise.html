@@ -141,34 +141,34 @@
   <h2 style="margin-top:0;">Example: One space, two views</h2>
 
   <p class="small" style="margin-top: 6px; opacity: 0.9;">
-    Toggle between a representative upstream payload and the canonical target state your downstream systems can rely on.
-    (Insights are optional annotations; core fields remain stable.)
+    Toggle between a representative upstream payload and MapleSchema’s canonical transaction contract.
+    (Insights are optional annotations; core fields remain deterministic.)
   </p>
 
-  <!-- Toggle -->
+  <!-- Toggle (default = Raw) -->
   <div style="display:flex; gap:8px; margin: 12px 0 10px 0; flex-wrap:wrap;">
-    <button
-      id="btnTarget"
-      class="cta-button"
-      style="background:#4a2d21; color:#fff;"
-      onclick="msShowTarget()"
-      type="button"
-    >
-      Canonical target state
-    </button>
-
     <button
       id="btnRaw"
       class="cta-button"
-      style="background:rgba(0,0,0,0.08); color:#4a2d21;"
+      style="background:#4a2d21; color:#fff;"
       onclick="msShowRaw()"
       type="button"
     >
       Upstream raw JSON
     </button>
+
+    <button
+      id="btnTarget"
+      class="cta-button"
+      style="background:rgba(0,0,0,0.08); color:#4a2d21;"
+      onclick="msShowTarget()"
+      type="button"
+    >
+      Processed (canonical)
+    </button>
   </div>
 
-  <!-- Shared viewport (same place) -->
+  <!-- Shared viewport -->
   <div style="
     margin-top: 10px;
     border: 1px solid rgba(0,0,0,0.12);
@@ -177,129 +177,8 @@
     overflow: hidden;
   ">
 
-    <!-- TARGET STATE (default visible) -->
-    <div id="msViewTarget" style="padding: 14px;">
-      <div style="display:flex; justify-content:space-between; gap:12px; align-items:baseline; flex-wrap:wrap;">
-        <h3 style="margin: 0;">Target state (canonical transaction)</h3>
-        <span class="small muted" style="opacity:0.85;">Deterministic core fields • Optional Insights are annotations</span>
-      </div>
-
-      <div style="
-        margin-top: 10px;
-        border: 1px solid rgba(0,0,0,0.12);
-        border-radius: 12px;
-        overflow: hidden;
-        background: rgba(255,255,255,0.55);
-      ">
-        <div style="
-          display:grid;
-          grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr);
-          border-bottom: 1px solid rgba(0,0,0,0.08);
-          background: rgba(255,255,255,0.35);
-        ">
-          <div class="small" style="padding:10px 12px; font-weight:900;">Field</div>
-          <div class="small" style="padding:10px 12px; font-weight:900;">Example value</div>
-        </div>
-
-        <!-- rows -->
-        <div style="display:grid; grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
-          <div class="small" style="padding:10px 12px; font-weight:900;">schema_version</div>
-          <div class="small" style="padding:10px 12px;">transactions-v1.0</div>
-        </div>
-
-        <div style="display:grid; grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
-          <div class="small" style="padding:10px 12px; font-weight:900;">transaction_fingerprint</div>
-          <div class="small" style="padding:10px 12px;">ms_fp_9f1c2c7b0d2a</div>
-        </div>
-
-        <div style="display:grid; grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
-          <div class="small" style="padding:10px 12px; font-weight:900;">transaction_ref</div>
-          <div class="small" style="padding:10px 12px;">stmt_line_1842</div>
-        </div>
-
-        <div style="display:grid; grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
-          <div class="small" style="padding:10px 12px; font-weight:900;">account_ref</div>
-          <div class="small" style="padding:10px 12px;">chq_001</div>
-        </div>
-
-        <div style="display:grid; grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
-          <div class="small" style="padding:10px 12px; font-weight:900;">institution_code</div>
-          <div class="small" style="padding:10px 12px;">rbc_ca</div>
-        </div>
-
-        <div style="display:grid; grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
-          <div class="small" style="padding:10px 12px; font-weight:900;">aggregator_code</div>
-          <div class="small" style="padding:10px 12px;">flinks</div>
-        </div>
-
-        <div style="display:grid; grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
-          <div class="small" style="padding:10px 12px; font-weight:900;">posted_at</div>
-          <div class="small" style="padding:10px 12px;">2026-01-14T19:22:11Z</div>
-        </div>
-
-        <div style="display:grid; grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
-          <div class="small" style="padding:10px 12px; font-weight:900;">effective_at</div>
-          <div class="small" style="padding:10px 12px;">2026-01-14T19:22:11Z</div>
-        </div>
-
-        <div style="display:grid; grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
-          <div class="small" style="padding:10px 12px; font-weight:900;">amount</div>
-          <div class="small" style="padding:10px 12px;">-724 (minor units), CAD</div>
-        </div>
-
-        <div style="display:grid; grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
-          <div class="small" style="padding:10px 12px; font-weight:900;">direction</div>
-          <div class="small" style="padding:10px 12px;">debit</div>
-        </div>
-
-        <div style="display:grid; grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
-          <div class="small" style="padding:10px 12px; font-weight:900;">original_description</div>
-          <div class="small" style="padding:10px 12px;">TIM HORTONS #0059 / LONDON ON</div>
-        </div>
-
-        <div style="display:grid; grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
-          <div class="small" style="padding:10px 12px; font-weight:900;">status</div>
-          <div class="small" style="padding:10px 12px;">posted</div>
-        </div>
-
-        <div style="display:grid; grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
-          <div class="small" style="padding:10px 12px; font-weight:900;">mutability</div>
-          <div class="small" style="padding:10px 12px;">immutable</div>
-        </div>
-
-        <div style="display:grid; grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
-          <div class="small" style="padding:10px 12px; font-weight:900;">mapping_method</div>
-          <div class="small" style="padding:10px 12px;">institution_mapper_v1</div>
-        </div>
-
-        <div style="display:grid; grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
-          <div class="small" style="padding:10px 12px; font-weight:900;">input_timezone</div>
-          <div class="small" style="padding:10px 12px;">America/Toronto</div>
-        </div>
-
-        <div style="display:grid; grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
-          <div class="small" style="padding:10px 12px; font-weight:900;">insights.category</div>
-          <div class="small" style="padding:10px 12px;">coffee_fast_food (0.92)</div>
-        </div>
-
-        <div style="display:grid; grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
-          <div class="small" style="padding:10px 12px; font-weight:900;">insights.merchant</div>
-          <div class="small" style="padding:10px 12px;">Tim Hortons (0.89)</div>
-        </div>
-
-        <div style="display:grid; grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr);">
-          <div class="small" style="padding:10px 12px; font-weight:900;">insights.description_analysis</div>
-          <div class="small" style="padding:10px 12px;">Franchise coffee shop purchase (0.84)</div>
-        </div>
-      </div>
-
-      <p class="small muted" style="margin-top:10px;">
-        Canonical fields stay stable even if upstream providers rename fields, add nesting, or change identifiers.
-      </p>
-    </div>
-
-    <!-- RAW JSON (hidden by default) -->
-    <div id="msViewRaw" style="display:none; padding: 14px;">
+    <!-- RAW JSON (default visible) -->
+    <div id="msViewRaw" style="display:block; padding: 14px;">
       <div style="display:flex; justify-content:space-between; gap:12px; align-items:baseline; flex-wrap:wrap;">
         <h3 style="margin: 0;">Upstream raw JSON</h3>
         <span class="small muted" style="opacity:0.85;">Provider-specific structure • Unstable identifiers</span>
@@ -355,24 +234,160 @@
       </p>
     </div>
 
+    <!-- PROCESSED (hidden by default) -->
+    <div id="msViewTarget" style="display:none; padding: 14px;">
+      <div style="display:flex; justify-content:space-between; gap:12px; align-items:baseline; flex-wrap:wrap;">
+        <h3 style="margin: 0;">Processed (canonical transaction)</h3>
+        <span class="small muted" style="opacity:0.85;">Dot paths map to the JSON contract</span>
+      </div>
+
+      <p class="muted" style="margin-top:8px;">
+        What your downstream systems can rely on. Core fields are deterministic.
+        Optional <strong>insights.*</strong> fields are annotations only.
+      </p>
+
+      <div style="
+        margin-top: 10px;
+        border: 1px solid rgba(0,0,0,0.12);
+        border-radius: 12px;
+        overflow: hidden;
+        background: rgba(255,255,255,0.55);
+      ">
+        <!-- Header -->
+        <div style="
+          display:grid;
+          grid-template-columns: minmax(260px, 1fr) minmax(260px, 2fr);
+          border-bottom: 1px solid rgba(0,0,0,0.08);
+          background: rgba(255,255,255,0.35);
+        ">
+          <div class="small" style="padding:10px 12px; font-weight:900;">Field path</div>
+          <div class="small" style="padding:10px 12px; font-weight:900;">Example value</div>
+        </div>
+
+        <!-- helpers: row template -->
+        <div style="display:grid; grid-template-columns: minmax(260px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
+          <div class="small" style="padding:10px 12px; font-weight:900;">schema_version</div>
+          <div class="small" style="padding:10px 12px;">transactions-v1.0</div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: minmax(260px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
+          <div class="small" style="padding:10px 12px; font-weight:900;">transaction_fingerprint</div>
+          <div class="small" style="padding:10px 12px;">ms_fp_9f1c2c7b0d2a</div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: minmax(260px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
+          <div class="small" style="padding:10px 12px; font-weight:900;">transaction_ref</div>
+          <div class="small" style="padding:10px 12px;">stmt_line_1842</div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: minmax(260px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
+          <div class="small" style="padding:10px 12px; font-weight:900;">account_ref</div>
+          <div class="small" style="padding:10px 12px;">chq_001</div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: minmax(260px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
+          <div class="small" style="padding:10px 12px; font-weight:900;">institution_code</div>
+          <div class="small" style="padding:10px 12px;">rbc_ca</div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: minmax(260px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
+          <div class="small" style="padding:10px 12px; font-weight:900;">aggregator_code</div>
+          <div class="small" style="padding:10px 12px;">flinks</div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: minmax(260px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
+          <div class="small" style="padding:10px 12px; font-weight:900;">effective_at</div>
+          <div class="small" style="padding:10px 12px;">2026-01-14T19:22:11Z</div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: minmax(260px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
+          <div class="small" style="padding:10px 12px; font-weight:900;">posted_at</div>
+          <div class="small" style="padding:10px 12px;">2026-01-14T19:22:11Z</div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: minmax(260px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
+          <div class="small" style="padding:10px 12px; font-weight:900;">amount.currency</div>
+          <div class="small" style="padding:10px 12px;">CAD</div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: minmax(260px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
+          <div class="small" style="padding:10px 12px; font-weight:900;">amount.amount_minor</div>
+          <div class="small" style="padding:10px 12px;">724</div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: minmax(260px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
+          <div class="small" style="padding:10px 12px; font-weight:900;">amount.amount_raw</div>
+          <div class="small" style="padding:10px 12px;">-7.24</div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: minmax(260px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
+          <div class="small" style="padding:10px 12px; font-weight:900;">direction</div>
+          <div class="small" style="padding:10px 12px;">debit</div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: minmax(260px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
+          <div class="small" style="padding:10px 12px; font-weight:900;">original_description</div>
+          <div class="small" style="padding:10px 12px;">TIM HORTONS #0059 / LONDON ON</div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: minmax(260px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
+          <div class="small" style="padding:10px 12px; font-weight:900;">status</div>
+          <div class="small" style="padding:10px 12px;">posted</div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: minmax(260px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
+          <div class="small" style="padding:10px 12px; font-weight:900;">mutability</div>
+          <div class="small" style="padding:10px 12px;">immutable</div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: minmax(260px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
+          <div class="small" style="padding:10px 12px; font-weight:900;">normalization.mapping_method</div>
+          <div class="small" style="padding:10px 12px;">institution_mapper_v1</div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: minmax(260px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
+          <div class="small" style="padding:10px 12px; font-weight:900;">normalization.input_timezone</div>
+          <div class="small" style="padding:10px 12px;">America/Toronto</div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: minmax(260px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
+          <div class="small" style="padding:10px 12px; font-weight:900;">insights.category.value</div>
+          <div class="small" style="padding:10px 12px;">coffee_fast_food</div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: minmax(260px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
+          <div class="small" style="padding:10px 12px; font-weight:900;">insights.category.confidence</div>
+          <div class="small" style="padding:10px 12px;">0.92</div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: minmax(260px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
+          <div class="small" style="padding:10px 12px; font-weight:900;">insights.category.version</div>
+          <div class="small" style="padding:10px 12px;">cat-v1</div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: minmax(260px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
+          <div class="small" style="padding:10px 12px; font-weight:900;">insights.category.signals[0]</div>
+          <div class="small" style="padding:10px 12px;">merchant_keyword:tim hortons</div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: minmax(260px, 1fr) minmax(260px, 2fr);">
+          <div class="small" style="padding:10px 12px; font-weight:900;">insights.description</div>
+          <div class="small" style="padding:10px 12px;">Franchise coffee shop purchase (likely in-store).</div>
+        </div>
+      </div>
+
+      <p class="small muted" style="margin-top:10px;">
+        Downstream systems depend on a stable contract; upstream feeds can change without forcing rewrites.
+      </p>
+    </div>
+
   </div>
 
-  <!-- Toggle script (safe to include once; no dependencies) -->
+  <!-- Toggle script (include once on the page) -->
   <script>
-    function msShowTarget() {
-      document.getElementById('msViewTarget').style.display = 'block';
-      document.getElementById('msViewRaw').style.display = 'none';
-
-      document.getElementById('btnTarget').style.background = '#4a2d21';
-      document.getElementById('btnTarget').style.color = '#fff';
-
-      document.getElementById('btnRaw').style.background = 'rgba(0,0,0,0.08)';
-      document.getElementById('btnRaw').style.color = '#4a2d21';
-    }
-
     function msShowRaw() {
-      document.getElementById('msViewTarget').style.display = 'none';
       document.getElementById('msViewRaw').style.display = 'block';
+      document.getElementById('msViewTarget').style.display = 'none';
 
       document.getElementById('btnRaw').style.background = '#4a2d21';
       document.getElementById('btnRaw').style.color = '#fff';
@@ -380,8 +395,20 @@
       document.getElementById('btnTarget').style.background = 'rgba(0,0,0,0.08)';
       document.getElementById('btnTarget').style.color = '#4a2d21';
     }
+
+    function msShowTarget() {
+      document.getElementById('msViewRaw').style.display = 'none';
+      document.getElementById('msViewTarget').style.display = 'block';
+
+      document.getElementById('btnTarget').style.background = '#4a2d21';
+      document.getElementById('btnTarget').style.color = '#fff';
+
+      document.getElementById('btnRaw').style.background = 'rgba(0,0,0,0.08)';
+      document.getElementById('btnRaw').style.color = '#4a2d21';
+    }
   </script>
 </section>
+
 
 
   <!-- FEATURES GRID (FORCED 3×2) -->
