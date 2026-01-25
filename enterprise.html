@@ -192,62 +192,133 @@
   }
 }</pre>
       </div>
+<!-- OUTPUT: Target state (Human-readable) -->
+<div id="msTargetState">
+  <h3 style="margin: 0 0 8px 0;">Target state (canonical transaction)</h3>
+  <p class="muted" style="margin-top:8px;">
+    What your downstream systems can rely on. Deterministic core fields. Optional <strong>Insights</strong> are annotations only.
+  </p>
 
-      <!-- OUTPUT: Structured JSON -->
-      <div id="msOutJson">
-        <h3 style="margin: 0 0 8px 0;">Structured Transaction JSON</h3>
-        <p class="muted" style="margin-top:8px;">
-          Deterministic core transaction object. Optional <strong>Insights</strong> are annotations only.
-        </p>
-
-        <pre class="ms-code-pre muted">{
-  "schema_version": "transactions-v1.0",
-  "transaction_fingerprint": "ms_fp_9f1c2c7b0d2a",
-  "transaction_ref": "stmt_line_1842",
-  "account_ref": "chq_001",
-  "institution_code": "rbc_ca",
-  "aggregator_code": "flinks",
-
-  "effective_at": "2026-01-14T19:22:11Z",
-  "posted_at": "2026-01-14T19:22:11Z",
-
-  "amount": { "amount_minor": -724, "currency": "CAD" },
-  "direction": "debit",
-
-  "original_description": "TIM HORTONS #0059 / LONDON ON",
-  "status": "posted",
-  "mutability": "immutable",
-
-  "normalization": {
-    "mapping_method": "institution_mapper_v1",
-    "input_timezone": "America/Toronto",
-    "warnings": []
-  },
-
-  "insights": {
-    "category": {
-      "value": "coffee_fast_food",
-      "confidence": 0.92,
-      "version": "cat-v1",
-      "signals": ["merchant_keyword:tim hortons", "pattern:#\\d{2,4}", "geo:ON"]
-    },
-    "merchant": {
-      "value": "Tim Hortons",
-      "confidence": 0.89,
-      "version": "merchant-v1",
-      "signals": ["brand_db_match", "alias:tim hortons"]
-    },
-    "description_analysis": {
-      "en": "Franchise coffee shop purchase (likely in-store).",
-      "fr": "Achat dans une franchise de café (probablement en magasin).",
-      "confidence": 0.84,
-      "version": "desc-v1",
-      "signals": ["token:TIM", "token:HORTONS", "store_id:#0059", "city:LONDON", "region:ON"]
-    }
-  }
-}</pre>
-      </div>
+  <div style="
+    margin-top:10px;
+    border: 1px solid rgba(0,0,0,0.12);
+    border-radius: 12px;
+    overflow:hidden;
+    background: rgba(255,255,255,0.55);
+  ">
+    <div style="
+      display:grid;
+      grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr);
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+      background: rgba(255,255,255,0.35);
+    ">
+      <div class="small" style="padding:10px 12px; font-weight:900;">Field</div>
+      <div class="small" style="padding:10px 12px; font-weight:900;">Example value</div>
     </div>
+
+    <!-- Core identity -->
+    <div style="display:grid; grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
+      <div class="small" style="padding:10px 12px; font-weight:900;">schema_version</div>
+      <div class="small" style="padding:10px 12px;">transactions-v1.0</div>
+    </div>
+
+    <div style="display:grid; grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
+      <div class="small" style="padding:10px 12px; font-weight:900;">transaction_fingerprint</div>
+      <div class="small" style="padding:10px 12px;">ms_fp_9f1c2c7b0d2a</div>
+    </div>
+
+    <div style="display:grid; grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
+      <div class="small" style="padding:10px 12px; font-weight:900;">transaction_ref</div>
+      <div class="small" style="padding:10px 12px;">stmt_line_1842</div>
+    </div>
+
+    <div style="display:grid; grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
+      <div class="small" style="padding:10px 12px; font-weight:900;">account_ref</div>
+      <div class="small" style="padding:10px 12px;">chq_001</div>
+    </div>
+
+    <div style="display:grid; grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
+      <div class="small" style="padding:10px 12px; font-weight:900;">institution_code</div>
+      <div class="small" style="padding:10px 12px;">rbc_ca</div>
+    </div>
+
+    <div style="display:grid; grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
+      <div class="small" style="padding:10px 12px; font-weight:900;">aggregator_code</div>
+      <div class="small" style="padding:10px 12px;">flinks</div>
+    </div>
+
+    <!-- Timing -->
+    <div style="display:grid; grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
+      <div class="small" style="padding:10px 12px; font-weight:900;">posted_at</div>
+      <div class="small" style="padding:10px 12px;">2026-01-14T19:22:11Z</div>
+    </div>
+
+    <div style="display:grid; grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
+      <div class="small" style="padding:10px 12px; font-weight:900;">effective_at</div>
+      <div class="small" style="padding:10px 12px;">2026-01-14T19:22:11Z</div>
+    </div>
+
+    <!-- Money -->
+    <div style="display:grid; grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
+      <div class="small" style="padding:10px 12px; font-weight:900;">amount</div>
+      <div class="small" style="padding:10px 12px;">-724 (minor units), CAD</div>
+    </div>
+
+    <div style="display:grid; grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
+      <div class="small" style="padding:10px 12px; font-weight:900;">direction</div>
+      <div class="small" style="padding:10px 12px;">debit</div>
+    </div>
+
+    <!-- Description + state -->
+    <div style="display:grid; grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
+      <div class="small" style="padding:10px 12px; font-weight:900;">original_description</div>
+      <div class="small" style="padding:10px 12px;">TIM HORTONS #0059 / LONDON ON</div>
+    </div>
+
+    <div style="display:grid; grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
+      <div class="small" style="padding:10px 12px; font-weight:900;">status</div>
+      <div class="small" style="padding:10px 12px;">posted</div>
+    </div>
+
+    <div style="display:grid; grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
+      <div class="small" style="padding:10px 12px; font-weight:900;">mutability</div>
+      <div class="small" style="padding:10px 12px;">immutable</div>
+    </div>
+
+    <!-- Normalization -->
+    <div style="display:grid; grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
+      <div class="small" style="padding:10px 12px; font-weight:900;">mapping_method</div>
+      <div class="small" style="padding:10px 12px;">institution_mapper_v1</div>
+    </div>
+
+    <div style="display:grid; grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
+      <div class="small" style="padding:10px 12px; font-weight:900;">input_timezone</div>
+      <div class="small" style="padding:10px 12px;">America/Toronto</div>
+    </div>
+
+    <!-- Insights (summary) -->
+    <div style="display:grid; grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
+      <div class="small" style="padding:10px 12px; font-weight:900;">insights.category</div>
+      <div class="small" style="padding:10px 12px;">coffee_fast_food (0.92)</div>
+    </div>
+
+    <div style="display:grid; grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr); border-bottom:1px solid rgba(0,0,0,0.08);">
+      <div class="small" style="padding:10px 12px; font-weight:900;">insights.merchant</div>
+      <div class="small" style="padding:10px 12px;">Tim Hortons (0.89)</div>
+    </div>
+
+    <div style="display:grid; grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr);">
+      <div class="small" style="padding:10px 12px; font-weight:900;">insights.description_analysis</div>
+      <div class="small" style="padding:10px 12px;">Franchise coffee shop purchase (0.84)</div>
+    </div>
+  </div>
+
+  <p class="small muted" style="margin-top:10px;">
+    Your canonical schema stays stable even if upstream providers rename fields, add nesting, or change identifiers.
+  </p>
+</div>
+
+   
   </section>
 
   <!-- FEATURES GRID (FORCED 3×2) -->
