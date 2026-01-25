@@ -177,7 +177,7 @@
       </div>
     </section>
 
-    <!-- AUTH -->
+    <!-- AUTH + ENDPOINT -->
     <section class="docs-section">
       <article class="card">
         <h2>🔑 Authentication</h2>
@@ -222,10 +222,6 @@ X-Api-Key: YOUR_API_KEY</pre>
       <article class="card">
         <h2>📥 Request Body</h2>
 
-        <p>
-          You can send transactions in two ways:
-        </p>
-
         <h3 style="margin-bottom:8px;">A) Provide <code>transactions</code> directly</h3>
         <div class="code-block">
           <button class="copy-btn" onclick="copyCode(this)" aria-label="Copy direct transactions example">Copy</button>
@@ -233,14 +229,24 @@ X-Api-Key: YOUR_API_KEY</pre>
   "aggregator_code": "flinks",
   "institution_code": "rbc_ca",
   "transactions": [
-    { "AccountId": "chq_001", "TransactionId": "stmt_line_1842", "Amount": { "Amount": "7.24", "Currency": "CAD" }, "CreditDebitIndicator": "Debit", "BookingDateTime": "2026-01-14T19:22:11Z", "TransactionInformation": "TIM HORTONS #0059 / LONDON ON" }
+    {
+      "AccountId": "chq_001",
+      "TransactionId": "stmt_line_1842",
+      "TransactionReference": "stmt_line_1842",
+      "Amount": { "Amount": "7.24", "Currency": "CAD" },
+      "CreditDebitIndicator": "Debit",
+      "Status": "Booked",
+      "BookingDateTime": "2026-01-14T19:22:11Z",
+      "ValueDateTime": "2026-01-14T19:22:11Z",
+      "TransactionInformation": "TIM HORTONS #0059 / LONDON ON"
+    }
   ]
 }</code></pre>
         </div>
 
         <h3 style="margin:18px 0 8px;">B) Provide a full upstream <code>payload</code></h3>
         <p class="small">
-          This is useful when you want MapleSchema to extract <code>Data.Transaction</code> (or another path) for you.
+          Useful when you want MapleSchema to extract <code>Data.Transaction</code> (or another path) for you.
         </p>
 
         <div class="ms-table">
@@ -292,7 +298,7 @@ X-Api-Key: YOUR_API_KEY</pre>
 
         <ul>
           <li><code>metadata</code> — request diagnostics and counts</li>
-          <li><code>transactions</code> — deterministic, canonical transactions (sorted stably)</li>
+          <li><code>transactions</code> — deterministic canonical transactions (sorted stably)</li>
         </ul>
 
         <p class="small"><strong>Sample Output (trimmed)</strong></p>
@@ -342,7 +348,7 @@ X-Api-Key: YOUR_API_KEY</pre>
         <h2>🧾 Canonical Transaction Fields (dot notation)</h2>
 
         <p class="small">
-          These are the fields most downstream systems depend on. Values shown match the sample input/output above.
+          These are the fields most downstream systems depend on.
         </p>
 
         <div class="ms-table">
@@ -351,100 +357,25 @@ X-Api-Key: YOUR_API_KEY</pre>
             <div class="small ms-cell ms-key">Meaning</div>
           </div>
 
-          <div class="ms-table-row">
-            <div class="small ms-cell ms-key">schema_version</div>
-            <div class="small ms-cell">Contract version (currently <code>transactions-v1.0</code>)</div>
-          </div>
-
-          <div class="ms-table-row">
-            <div class="small ms-cell ms-key">transaction_fingerprint</div>
-            <div class="small ms-cell">Stable fingerprint used for batch collision detection</div>
-          </div>
-
-          <div class="ms-table-row">
-            <div class="small ms-cell ms-key">transaction_ref</div>
-            <div class="small ms-cell">Optional caller-owned transaction reference (echoed if provided)</div>
-          </div>
-
-          <div class="ms-table-row">
-            <div class="small ms-cell ms-key">account_ref</div>
-            <div class="small ms-cell">Optional caller-owned account reference (echoed if provided)</div>
-          </div>
-
-          <div class="ms-table-row">
-            <div class="small ms-cell ms-key">institution_code</div>
-            <div class="small ms-cell">Institution adapter used for normalization</div>
-          </div>
-
-          <div class="ms-table-row">
-            <div class="small ms-cell ms-key">aggregator_code</div>
-            <div class="small ms-cell">Upstream provider identifier</div>
-          </div>
-
-          <div class="ms-table-row">
-            <div class="small ms-cell ms-key">effective_at</div>
-            <div class="small ms-cell">Required canonical timestamp (posted/value/authorized in UTC)</div>
-          </div>
-
-          <div class="ms-table-row">
-            <div class="small ms-cell ms-key">posted_at</div>
-            <div class="small ms-cell">Posted time in UTC (nullable if not provided upstream)</div>
-          </div>
-
-          <div class="ms-table-row">
-            <div class="small ms-cell ms-key">amount.amount_minor</div>
-            <div class="small ms-cell">Unsigned magnitude in minor units (e.g. cents)</div>
-          </div>
-
-          <div class="ms-table-row">
-            <div class="small ms-cell ms-key">amount.amount_raw</div>
-            <div class="small ms-cell">Signed decimal value (helps humans; downstream should prefer minor+direction)</div>
-          </div>
-
-          <div class="ms-table-row">
-            <div class="small ms-cell ms-key">amount.currency</div>
-            <div class="small ms-cell">ISO currency code (e.g. CAD)</div>
-          </div>
-
-          <div class="ms-table-row">
-            <div class="small ms-cell ms-key">direction</div>
-            <div class="small ms-cell"><code>debit</code> or <code>credit</code></div>
-          </div>
-
-          <div class="ms-table-row">
-            <div class="small ms-cell ms-key">original_description</div>
-            <div class="small ms-cell">Raw upstream description line</div>
-          </div>
-
-          <div class="ms-table-row">
-            <div class="small ms-cell ms-key">status</div>
-            <div class="small ms-cell">Normalized ledger inclusion status (e.g. posted/pending)</div>
-          </div>
-
-          <div class="ms-table-row">
-            <div class="small ms-cell ms-key">mutability</div>
-            <div class="small ms-cell">Mutability indicator (currently <code>unknown</code> unless upstream signals are present)</div>
-          </div>
-
-          <div class="ms-table-row">
-            <div class="small ms-cell ms-key">normalization.mapping_method</div>
-            <div class="small ms-cell">Mapping method used to produce the normalized object</div>
-          </div>
-
-          <div class="ms-table-row">
-            <div class="small ms-cell ms-key">normalization.warnings</div>
-            <div class="small ms-cell">Best-effort warnings for diagnostics (array)</div>
-          </div>
-
-          <div class="ms-table-row">
-            <div class="small ms-cell ms-key">normalization.input_timezone</div>
-            <div class="small ms-cell">Timezone derived from upstream timestamp offset</div>
-          </div>
-
-          <div class="ms-table-row">
-            <div class="small ms-cell ms-key">extras</div>
-            <div class="small ms-cell">Passthrough metadata (includes internal <code>_ms</code> diagnostics when available)</div>
-          </div>
+          <div class="ms-table-row"><div class="small ms-cell ms-key">schema_version</div><div class="small ms-cell">Contract version (currently <code>transactions-v1.0</code>)</div></div>
+          <div class="ms-table-row"><div class="small ms-cell ms-key">transaction_fingerprint</div><div class="small ms-cell">Stable fingerprint used for collision detection</div></div>
+          <div class="ms-table-row"><div class="small ms-cell ms-key">transaction_ref</div><div class="small ms-cell">Optional caller-owned transaction reference (echoed if provided)</div></div>
+          <div class="ms-table-row"><div class="small ms-cell ms-key">account_ref</div><div class="small ms-cell">Optional caller-owned account reference (echoed if provided)</div></div>
+          <div class="ms-table-row"><div class="small ms-cell ms-key">institution_code</div><div class="small ms-cell">Institution adapter used for normalization</div></div>
+          <div class="ms-table-row"><div class="small ms-cell ms-key">aggregator_code</div><div class="small ms-cell">Upstream provider identifier</div></div>
+          <div class="ms-table-row"><div class="small ms-cell ms-key">effective_at</div><div class="small ms-cell">Required canonical timestamp in UTC</div></div>
+          <div class="ms-table-row"><div class="small ms-cell ms-key">posted_at</div><div class="small ms-cell">Posted time in UTC (nullable if not provided upstream)</div></div>
+          <div class="ms-table-row"><div class="small ms-cell ms-key">amount.amount_minor</div><div class="small ms-cell">Unsigned magnitude in minor units (e.g. cents)</div></div>
+          <div class="ms-table-row"><div class="small ms-cell ms-key">amount.amount_raw</div><div class="small ms-cell">Signed decimal helper value</div></div>
+          <div class="ms-table-row"><div class="small ms-cell ms-key">amount.currency</div><div class="small ms-cell">ISO currency code (e.g. CAD)</div></div>
+          <div class="ms-table-row"><div class="small ms-cell ms-key">direction</div><div class="small ms-cell"><code>debit</code> or <code>credit</code></div></div>
+          <div class="ms-table-row"><div class="small ms-cell ms-key">original_description</div><div class="small ms-cell">Raw upstream description line</div></div>
+          <div class="ms-table-row"><div class="small ms-cell ms-key">status</div><div class="small ms-cell">Normalized ledger inclusion status (e.g. posted/pending)</div></div>
+          <div class="ms-table-row"><div class="small ms-cell ms-key">mutability</div><div class="small ms-cell">Mutability indicator (currently <code>unknown</code>)</div></div>
+          <div class="ms-table-row"><div class="small ms-cell ms-key">normalization.mapping_method</div><div class="small ms-cell">Mapping method used to produce the normalized object</div></div>
+          <div class="ms-table-row"><div class="small ms-cell ms-key">normalization.warnings</div><div class="small ms-cell">Best-effort warnings for diagnostics (array)</div></div>
+          <div class="ms-table-row"><div class="small ms-cell ms-key">normalization.input_timezone</div><div class="small ms-cell">Timezone derived from upstream timestamp offset</div></div>
+          <div class="ms-table-row"><div class="small ms-cell ms-key">extras</div><div class="small ms-cell">Passthrough metadata (may include internal <code>_ms</code> diagnostics)</div></div>
         </div>
       </article>
     </section>
@@ -456,7 +387,7 @@ X-Api-Key: YOUR_API_KEY</pre>
 
         <p>
           Insights are optional annotations on top of the canonical transaction.
-          They never change core fields. They are best-effort: on provider failure, MapleSchema degrades to safe defaults.
+          They never change core fields. They are best-effort and degrade safely on provider failure.
         </p>
 
         <div class="ms-table">
@@ -465,59 +396,19 @@ X-Api-Key: YOUR_API_KEY</pre>
             <div class="small ms-cell ms-key">Meaning</div>
           </div>
 
-          <div class="ms-table-row">
-            <div class="small ms-cell ms-key">include_insights</div>
-            <div class="small ms-cell">Request flag (true/false). When true, Insights may be populated.</div>
-          </div>
-
-          <div class="ms-table-row">
-            <div class="small ms-cell ms-key">insights.category.value</div>
-            <div class="small ms-cell">Category enum value (e.g. <code>coffee_fast_food</code>)</div>
-          </div>
-
-          <div class="ms-table-row">
-            <div class="small ms-cell ms-key">insights.category.confidence</div>
-            <div class="small ms-cell">0..1 confidence score</div>
-          </div>
-
-          <div class="ms-table-row">
-            <div class="small ms-cell ms-key">insights.category.version</div>
-            <div class="small ms-cell">Insights version identifier</div>
-          </div>
-
-          <div class="ms-table-row">
-            <div class="small ms-cell ms-key">insights.category.signals</div>
-            <div class="small ms-cell">Short explanations (array of strings)</div>
-          </div>
-
-          <div class="ms-table-row">
-            <div class="small ms-cell ms-key">insights.category.model.provider</div>
-            <div class="small ms-cell">Provider name (e.g. <code>gemini</code>)</div>
-          </div>
-
-          <div class="ms-table-row">
-            <div class="small ms-cell ms-key">insights.category.model.model</div>
-            <div class="small ms-cell">Provider model identifier</div>
-          </div>
-
-          <div class="ms-table-row">
-            <div class="small ms-cell ms-key">insights.category.model.latency_ms</div>
-            <div class="small ms-cell">Best-effort latency annotation</div>
-          </div>
-
-          <div class="ms-table-row">
-            <div class="small ms-cell ms-key">insights.description</div>
-            <div class="small ms-cell">Best-effort cleaned description (must be short and non-speculative)</div>
-          </div>
+          <div class="ms-table-row"><div class="small ms-cell ms-key">include_insights</div><div class="small ms-cell">Request flag (true/false). When true, Insights may be populated.</div></div>
+          <div class="ms-table-row"><div class="small ms-cell ms-key">insights.category.value</div><div class="small ms-cell">Category enum value (e.g. <code>coffee_fast_food</code>)</div></div>
+          <div class="ms-table-row"><div class="small ms-cell ms-key">insights.category.confidence</div><div class="small ms-cell">0..1 confidence score</div></div>
+          <div class="ms-table-row"><div class="small ms-cell ms-key">insights.category.version</div><div class="small ms-cell">Insights version identifier</div></div>
+          <div class="ms-table-row"><div class="small ms-cell ms-key">insights.category.signals</div><div class="small ms-cell">Short explanations (array of strings)</div></div>
+          <div class="ms-table-row"><div class="small ms-cell ms-key">insights.category.model.provider</div><div class="small ms-cell">Provider name (e.g. <code>gemini</code>)</div></div>
+          <div class="ms-table-row"><div class="small ms-cell ms-key">insights.category.model.model</div><div class="small ms-cell">Provider model identifier</div></div>
+          <div class="ms-table-row"><div class="small ms-cell ms-key">insights.category.model.latency_ms</div><div class="small ms-cell">Best-effort latency annotation</div></div>
+          <div class="ms-table-row"><div class="small ms-cell ms-key">insights.description</div><div class="small ms-cell">Best-effort cleaned description (short, non-speculative)</div></div>
         </div>
 
         <p class="small" style="margin-top:10px;">
           To request Insights, add <code>"include_insights": true</code> to your request body.
-          If Insights are not available, the API may return <code>INS_toggle error</code> for requests that require it.
-        </p>
-
-        <p class="small muted">
-          Enterprise: Insights availability depends on your project configuration and entitlements.
         </p>
       </article>
     </section>
@@ -529,7 +420,7 @@ X-Api-Key: YOUR_API_KEY</pre>
 
         <p class="small">
           The API returns typed errors with a stable <code>code</code>, a human-safe message, and a <code>request_id</code>.
-          When a failure occurs during extraction or mapping, the response includes diagnostics (e.g. candidate paths, failed indexes).
+          When failures occur during extraction or mapping, responses include diagnostics (e.g. candidate paths, failed indexes).
         </p>
 
         <p class="small">
@@ -537,6 +428,19 @@ X-Api-Key: YOUR_API_KEY</pre>
           or <code>FREE_TX_LIMIT_EXCEEDED</code> (free/core flows).
         </p>
       </article>
+    </section>
+
+    <!-- ONE CARD FOR ALL INQUIRIES -->
+    <section class="card" style="text-align:center;">
+      <h2>All inquiries</h2>
+      <p class="small">
+        Questions, access, enterprise usage, or integration help:
+        email <a href="mailto:mapleschema@gmail.com">mapleschema@gmail.com</a>.
+      </p>
+      <p class="small" style="margin-top:10px;">
+        Follow updates on Twitter:
+        <a href="https://twitter.com/mapleschema" target="_blank" rel="noopener noreferrer">@mapleschema</a>
+      </p>
     </section>
 
   </main>
