@@ -24,6 +24,49 @@
 
   <!-- Main stylesheet -->
   <link rel="stylesheet" href="/css/style.css" />
+  <style>
+  /* Enterprise page layout helpers */
+  .ms-enterprise-grid-3x2 {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(240px, 1fr));
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+  }
+  @media (max-width: 980px) {
+    .ms-enterprise-grid-3x2 {
+      grid-template-columns: repeat(2, minmax(240px, 1fr));
+    }
+  }
+  @media (max-width: 640px) {
+    .ms-enterprise-grid-3x2 {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .ms-two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 14px;
+  }
+  @media (max-width: 980px) {
+    .ms-two-col {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .ms-code-pre {
+    margin-top: 10px;
+    border: 1px solid rgba(0,0,0,0.12);
+    border-radius: 12px;
+    padding: 12px;
+    background: rgba(255,255,255,0.55);
+    overflow: auto;
+    max-height: 520px;
+  }
+</style>
+
 </head>
 
 <body>
@@ -48,119 +91,211 @@
 
     <main class="container">
 
-      <!-- HERO -->
-      <section class="hero">
-        <h1>Transaction Normalization as Internal Infrastructure.</h1>
+  <!-- HERO -->
+  <section class="hero">
+    <h1>Transaction Normalization as Internal Infrastructure.</h1>
 
-        <p class="hero-lead">
-          MapleSchema is a <strong>schema-first normalization layer</strong> for fintech platforms.
-          It sits between upstream providers and your downstream systems, so <strong>format changes don’t become rewrites</strong>.
+    <p class="hero-lead">
+      MapleSchema is a schema-first normalization layer for fintech platforms.
+      It sits between upstream providers and downstream systems, so format changes don’t become rewrites.
+    </p>
+
+    <p class="hero-support">
+      Outputs are deterministic and include stable, anonymized, idempotent transaction IDs
+      to prevent duplicates without exposing internal customer or account identifiers.
+    </p>
+
+    <p style="margin-top: 24px;">
+      <a href="/enterprise-demo.html" class="button-primary">
+        View the Enterprise Demo
+      </a>
+    </p>
+
+    <p class="proof" style="margin-top: 12px;">
+      Licensed for internal use • Privacy-conscious processing • Deterministic outputs
+    </p>
+  </section>
+
+  <hr class="hero-divider" />
+
+  <!-- HOW IT WORKS (CARD) -->
+  <section class="card" style="margin-top: 18px;">
+    <h2 style="margin-top:0;">How it works</h2>
+
+    <p class="small" style="margin-top: 8px;">
+      <strong>Upstream</strong>: aggregators / bank feeds → <strong>MapleSchema</strong>: normalize, dedupe, stable IDs →
+      <strong>Downstream</strong>: ledgers, analytics, reporting, exports.
+    </p>
+
+    <p class="small" style="margin-top: 8px;">
+      MapleSchema does not replace your providers or analytics layer. It isolates upstream volatility from downstream systems.
+    </p>
+  </section>
+
+  <!-- EXAMPLE (CARD) -->
+  <section class="card primary" style="margin-top: 14px;">
+    <h2 style="margin-top:0;">Example: Upstream payload → Canonical output</h2>
+
+    <p class="small" style="margin-top: 6px; opacity: 0.9;">
+      Left: representative upstream transaction feed. Right: MapleSchema canonical transaction JSON (core unchanged; optional Insights are annotations).
+    </p>
+
+    <div class="ms-two-col">
+      <!-- INPUT: Raw JSON -->
+      <div>
+        <h3 style="margin: 0 0 8px 0;">Upstream Raw JSON</h3>
+        <p class="muted" style="margin-top:8px;">
+          Provider-specific structure, unstable fields, and identifiers you don’t want to leak downstream.
         </p>
 
-        <p class="hero-support">
-          Outputs are <strong>deterministic</strong> and include <strong>stable, anonymized, idempotent transaction IDs</strong>
-          to prevent duplicates without exposing internal customer or account identifiers.
+        <pre class="ms-code-pre muted">{
+  "Data": {
+    "Transaction": [
+      {
+        "AccountId": "chq_001",
+        "TransactionId": "stmt_line_1842",
+        "TransactionReference": "stmt_line_1842",
+        "Amount": { "Amount": "7.24", "Currency": "CAD" },
+        "CreditDebitIndicator": "Debit",
+        "Status": "Booked",
+        "BookingDateTime": "2026-01-14T19:22:11Z",
+        "ValueDateTime": "2026-01-14T19:22:11Z",
+        "TransactionInformation": "TIM HORTONS #0059 / LONDON ON",
+        "BankTransactionCode": { "Code": "CardPurchase", "SubCode": "Merchant" },
+        "ProprietaryBankTransactionCode": { "Code": "POS", "Issuer": "rbc_ca" }
+      },
+      {
+        "AccountId": "chq_001",
+        "TransactionId": "stmt_line_1843",
+        "TransactionReference": "stmt_line_1843",
+        "Amount": { "Amount": "42.10", "Currency": "CAD" },
+        "CreditDebitIndicator": "Credit",
+        "Status": "Booked",
+        "BookingDateTime": "2026-01-14T20:01:55Z",
+        "ValueDateTime": "2026-01-14T20:01:55Z",
+        "TransactionInformation": "E-TRANSFER AUTODEPOSIT",
+        "BankTransactionCode": { "Code": "ReceivedCreditTransfer", "SubCode": "Interac" },
+        "ProprietaryBankTransactionCode": { "Code": "Transfer", "Issuer": "rbc_ca" }
+      }
+    ]
+  },
+  "Links": { "Self": "https://api.flinks.com/transactions" },
+  "Meta": {
+    "TotalPages": 1,
+    "FirstAvailableDateTime": "2026-01-01T00:00:00Z",
+    "LastAvailableDateTime": "2026-01-31T23:59:59Z",
+    "InstitutionCode": "rbc_ca",
+    "AggregatorCode": "flinks"
+  }
+}</pre>
+      </div>
+
+      <!-- OUTPUT: Structured JSON -->
+      <div id="msOutJson">
+        <h3 style="margin: 0 0 8px 0;">Structured Transaction JSON</h3>
+        <p class="muted" style="margin-top:8px;">
+          Deterministic core transaction object. Optional <strong>Insights</strong> are annotations only.
         </p>
 
-        <p style="margin-top: 24px;">
-          <a href="/enterprise-demo.html" class="button-primary">
-            View the Enterprise Demo
-          </a>
-        </p>
+        <pre class="ms-code-pre muted">{
+  "schema_version": "transactions-v1.0",
+  "transaction_fingerprint": "ms_fp_9f1c2c7b0d2a",
+  "transaction_ref": "stmt_line_1842",
+  "account_ref": "chq_001",
+  "institution_code": "rbc_ca",
+  "aggregator_code": "flinks",
 
-        <p class="proof" style="margin-top: 12px;">
-          Licensed for internal use • Privacy-conscious processing • Deterministic outputs
-        </p>
-      </section>
+  "effective_at": "2026-01-14T19:22:11Z",
+  "posted_at": "2026-01-14T19:22:11Z",
 
-      <hr class="hero-divider" />
+  "amount": { "amount_minor": -724, "currency": "CAD" },
+  "direction": "debit",
 
-      <!-- VALUE GRID -->
-      <section class="grid">
+  "original_description": "TIM HORTONS #0059 / LONDON ON",
+  "status": "posted",
+  "mutability": "immutable",
 
-        <article class="card">
-          <h2>🔀 One Canonical Schema</h2>
-          <p class="small">
-            Normalize across aggregators and bank feeds into a stable contract your systems can rely on.
-          </p>
-        </article>
+  "normalization": {
+    "mapping_method": "institution_mapper_v1",
+    "input_timezone": "America/Toronto",
+    "warnings": []
+  },
 
-        <article class="card primary">
-          <h2>🧾 Deterministic + Audit-Friendly</h2>
-          <p class="small">
-            Predictable transformations, structured failures, and explainable outputs designed for operational use.
-          </p>
-        </article>
+  "insights": {
+    "category": {
+      "value": "coffee_fast_food",
+      "confidence": 0.92,
+      "version": "cat-v1",
+      "signals": ["merchant_keyword:tim hortons", "pattern:#\\d{2,4}", "geo:ON"]
+    },
+    "merchant": {
+      "value": "Tim Hortons",
+      "confidence": 0.89,
+      "version": "merchant-v1",
+      "signals": ["brand_db_match", "alias:tim hortons"]
+    },
+    "description_analysis": {
+      "en": "Franchise coffee shop purchase (likely in-store).",
+      "fr": "Achat dans une franchise de café (probablement en magasin).",
+      "confidence": 0.84,
+      "version": "desc-v1",
+      "signals": ["token:TIM", "token:HORTONS", "store_id:#0059", "city:LONDON", "region:ON"]
+    }
+  }
+}</pre>
+      </div>
+    </div>
+  </section>
 
-        <article class="card">
-          <h2>🕶️ Privacy-Conscious by Design</h2>
-          <p class="small">
-            In-memory processing, minimal logging, and no reliance on internal customer identifiers for dedupe.
-          </p>
-        </article>
+  <!-- FEATURES GRID (FORCED 3×2) -->
+  <section class="ms-enterprise-grid-3x2" style="margin-top: 14px;">
 
-        <article class="card">
-          <h2>🧱 Fits Your Existing Stack</h2>
-          <p class="small">
-            MapleSchema isolates upstream volatility from ledgers, analytics, reporting, and exports.
-          </p>
-        </article>
+    <article class="card">
+      <h2>🔀 One Canonical Schema</h2>
+      <p class="small">
+        Normalize across aggregators and bank feeds into a stable contract your systems can rely on.
+      </p>
+    </article>
 
-        <article class="card">
-          <h2>🔓 Reduce Vendor Coupling</h2>
-          <p class="small">
-            Avoid baking provider-specific fields into downstream systems. Normalize once, then move.
-          </p>
-        </article>
+    <article class="card primary">
+      <h2>🧾 Deterministic &amp; Audit-Friendly</h2>
+      <p class="small">
+        Predictable transformations, structured failures, and explainable outputs designed for operational use.
+      </p>
+    </article>
 
-        <article class="card">
-          <h2>🍁 Canada-Oriented Constraints</h2>
-          <p class="small">
-            Built with common Canadian open-banking constraints in mind (data minimization, auditability, residency).
-          </p>
-        </article>
+    <article class="card">
+      <h2>🕶️ Privacy-Conscious by Design</h2>
+      <p class="small">
+        In-memory processing, minimal logging, and no reliance on internal customer identifiers for deduplication.
+      </p>
+    </article>
 
-      </section>
+    <article class="card">
+      <h2>🧱 Fits Your Existing Stack</h2>
+      <p class="small">
+        MapleSchema isolates upstream volatility from ledgers, analytics, reporting, and exports.
+      </p>
+    </article>
 
-      <!-- HOW IT FITS (SHORT) -->
-      <section class="card" style="margin-top: 24px;">
-        <h2>Where It Fits</h2>
+    <article class="card">
+      <h2>🔓 Reduce Vendor Coupling</h2>
+      <p class="small">
+        Avoid baking provider-specific fields into downstream systems. Normalize once, then move.
+      </p>
+    </article>
 
-        <p class="small">
-          <strong>Upstream</strong>: aggregators / bank feeds → <strong>MapleSchema</strong>: normalize + dedupe + stable IDs →
-          <strong>Downstream</strong>: ledger / analytics / reporting.
-        </p>
+    <article class="card">
+      <h2>🍁 Canada-Oriented Constraints</h2>
+      <p class="small">
+        Built with common Canadian open-banking constraints in mind: data minimization, auditability, and residency.
+      </p>
+    </article>
 
-        <p class="small" style="margin-top: 8px;">
-          MapleSchema does not replace your providers or analytics layer. It removes the brittle glue between them.
-        </p>
-      </section>
+  </section>
 
-      <!-- ENTERPRISE INQUIRIES -->
-      <section class="card" style="margin-top: 24px;">
-        <h2>Enterprise Inquiries</h2>
+</main>
 
-        <p>
-          MapleSchema Enterprise is licensed as internal infrastructure. There is no public enterprise pricing.
-        </p>
-
-        <p class="small">
-          If you’re evaluating transaction normalization, include:
-          monthly volume, providers in use, and target downstream consumers.
-        </p>
-
-        <p style="text-align:center; margin-top:24px;">
-          <a href="/contact.html" class="button-primary">
-            Contact for Enterprise
-          </a>
-        </p>
-
-        <p class="small" style="text-align:center; margin-top:12px;">
-          Prefer email? Use the contact page and include “Enterprise” in the subject.
-        </p>
-      </section>
-
-    </main>
 
     <footer>
       © MapleSchema 2026 — Schema-first transaction normalization for fintech platforms
