@@ -228,50 +228,49 @@
             Built with common Canadian open-banking constraints in mind: data minimization, auditability, and residency.
           </p>
         </article>
-
       </section>
+<!-- EXAMPLE (CARD) -->
+<section class="card" style="margin-top: 14px;">
+  <h2 style="margin-top:0;">Example: One space, two views</h2>
 
-      <!-- EXAMPLE (CARD) -->
-      <section class="card" style="margin-top: 14px;">
-        <h2 style="margin-top:0;">Example: One space, two views</h2>
+  <p class="small" style="margin-top: 6px; opacity: 0.9;">
+    Toggle between a representative upstream payload and the canonical contract your downstream systems can rely on.
+    Optional <strong>insights.*</strong> fields are annotations only.
+  </p>
 
-        <p class="small" style="margin-top: 6px; opacity: 0.9;">
-          Toggle between a representative upstream payload and the canonical contract your downstream systems can rely on.
-          Optional <strong>insights.*</strong> fields are annotations only.
-        </p>
+  <!-- Toggle (default = Raw) -->
+  <div class="ms-toggle">
+    <button id="btnRaw" class="cta-button" style="background:#4a2d21; color:#fff;" onclick="msShowRaw()" type="button">
+      Upstream raw JSON
+    </button>
 
-        <!-- Toggle (default = Raw) -->
-        <div class="ms-toggle">
-          <button id="btnRaw" class="cta-button" style="background:#4a2d21; color:#fff;" onclick="msShowRaw()" type="button">
-            Upstream raw JSON
-          </button>
+    <button id="btnTarget" class="cta-button" style="background:rgba(0,0,0,0.08); color:#4a2d21;" onclick="msShowTarget()" type="button">
+      Processed (canonical)
+    </button>
+  </div>
 
-          <button id="btnTarget" class="cta-button" style="background:rgba(0,0,0,0.08); color:#4a2d21;" onclick="msShowTarget()" type="button">
-            Processed (canonical)
-          </button>
-        </div>
+  <!-- Shared viewport -->
+  <div style="
+    margin-top: 10px;
+    border: 1px solid rgba(0,0,0,0.12);
+    border-radius: 14px;
+    background: rgba(255,255,255,0.35);
+    overflow: hidden;
+  ">
 
-        <!-- Shared viewport -->
-        <div style="
-          margin-top: 10px;
-          border: 1px solid rgba(0,0,0,0.12);
-          border-radius: 14px;
-          background: rgba(255,255,255,0.35);
-          overflow: hidden;
-        ">
+    <!-- RAW JSON (default visible) — aligned to processed table values -->
+    <div id="msViewRaw" style="display:block; padding: 14px;">
+      <div style="display:flex; justify-content:space-between; gap:12px; align-items:baseline; flex-wrap:wrap;">
+        <h3 style="margin: 0;">Upstream raw JSON</h3>
+        <span class="small muted" style="opacity:0.85;">Provider-specific structure • Unstable identifiers</span>
+      </div>
 
-          <!-- RAW JSON (default visible) -->
-          <div id="msViewRaw" style="display:block; padding: 14px;">
-            <div style="display:flex; justify-content:space-between; gap:12px; align-items:baseline; flex-wrap:wrap;">
-              <h3 style="margin: 0;">Upstream raw JSON</h3>
-              <span class="small muted" style="opacity:0.85;">Provider-specific structure • Unstable identifiers</span>
-            </div>
+      <p class="muted" style="margin-top:8px;">
+        Provider-specific structure and identifiers you don’t want to leak downstream.
+        (This sample is tuned so the canonical view matches the values below.)
+      </p>
 
-            <p class="muted" style="margin-top:8px;">
-              Provider-specific structure, unstable fields, and identifiers you don’t want to leak downstream.
-            </p>
-
-            <pre class="ms-code-pre muted">{
+      <pre class="ms-code-pre muted">{
   "Data": {
     "Transaction": [
       {
@@ -284,21 +283,7 @@
         "BookingDateTime": "2026-01-14T19:22:11Z",
         "ValueDateTime": "2026-01-14T19:22:11Z",
         "TransactionInformation": "TIM HORTONS #0059 / LONDON ON",
-        "BankTransactionCode": { "Code": "CardPurchase", "SubCode": "Merchant" },
         "ProprietaryBankTransactionCode": { "Code": "POS", "Issuer": "rbc_ca" }
-      },
-      {
-        "AccountId": "chq_001",
-        "TransactionId": "stmt_line_1843",
-        "TransactionReference": "stmt_line_1843",
-        "Amount": { "Amount": "42.10", "Currency": "CAD" },
-        "CreditDebitIndicator": "Credit",
-        "Status": "Booked",
-        "BookingDateTime": "2026-01-14T20:01:55Z",
-        "ValueDateTime": "2026-01-14T20:01:55Z",
-        "TransactionInformation": "E-TRANSFER AUTODEPOSIT",
-        "BankTransactionCode": { "Code": "ReceivedCreditTransfer", "SubCode": "Interac" },
-        "ProprietaryBankTransactionCode": { "Code": "Transfer", "Issuer": "rbc_ca" }
       }
     ]
   },
@@ -308,152 +293,153 @@
     "FirstAvailableDateTime": "2026-01-01T00:00:00Z",
     "LastAvailableDateTime": "2026-01-31T23:59:59Z",
     "InstitutionCode": "rbc_ca",
-    "AggregatorCode": "flinks"
+    "AggregatorCode": "flinks",
+    "InputTimezone": "America/Toronto",
+    "MappingMethod": "institution_mapper_v1"
   }
 }</pre>
 
-            <p class="small muted" style="margin-top:10px;">
-              MapleSchema exists to isolate downstream systems from upstream volatility like this.
-            </p>
-          </div>
+      <p class="small muted" style="margin-top:10px;">
+        MapleSchema exists to isolate downstream systems from upstream volatility like this.
+      </p>
+    </div>
 
-          <!-- PROCESSED (hidden by default) -->
-          <div id="msViewTarget" style="display:none; padding: 14px;">
-            <div style="display:flex; justify-content:space-between; gap:12px; align-items:baseline; flex-wrap:wrap;">
-              <h3 style="margin: 0;">Processed (canonical transaction)</h3>
-              <span class="small muted" style="opacity:0.85;">Dot paths map to the JSON contract</span>
-            </div>
+    <!-- PROCESSED (hidden by default) -->
+    <div id="msViewTarget" style="display:none; padding: 14px;">
+      <div style="display:flex; justify-content:space-between; gap:12px; align-items:baseline; flex-wrap:wrap;">
+        <h3 style="margin: 0;">Processed (canonical transaction)</h3>
+        <span class="small muted" style="opacity:0.85;">Dot paths map to the JSON contract</span>
+      </div>
 
-            <p class="muted" style="margin-top:8px;">
-              What your downstream systems can rely on. Core fields are deterministic.
-              Optional <strong>insights.*</strong> fields are annotations only.
-            </p>
+      <p class="muted" style="margin-top:8px;">
+        What your downstream systems can rely on. Core fields are deterministic.
+        Optional <strong>insights.*</strong> fields are annotations only.
+      </p>
 
-            <div class="ms-table">
-              <div class="ms-table-head">
-                <div class="small ms-cell ms-key">Field path</div>
-                <div class="small ms-cell ms-key">Example value</div>
-              </div>
-
-              <div class="ms-table-row">
-                <div class="small ms-cell ms-key">schema_version</div>
-                <div class="small ms-cell">transactions-v1.0</div>
-              </div>
-
-              <div class="ms-table-row">
-                <div class="small ms-cell ms-key">transaction_fingerprint</div>
-                <div class="small ms-cell">ms_fp_9f1c2c7b0d2a</div>
-              </div>
-
-              <div class="ms-table-row">
-                <div class="small ms-cell ms-key">transaction_ref</div>
-                <div class="small ms-cell">stmt_line_1842</div>
-              </div>
-
-              <div class="ms-table-row">
-                <div class="small ms-cell ms-key">account_ref</div>
-                <div class="small ms-cell">chq_001</div>
-              </div>
-
-              <div class="ms-table-row">
-                <div class="small ms-cell ms-key">institution_code</div>
-                <div class="small ms-cell">rbc_ca</div>
-              </div>
-
-              <div class="ms-table-row">
-                <div class="small ms-cell ms-key">aggregator_code</div>
-                <div class="small ms-cell">flinks</div>
-              </div>
-
-              <div class="ms-table-row">
-                <div class="small ms-cell ms-key">effective_at</div>
-                <div class="small ms-cell">2026-01-14T19:22:11Z</div>
-              </div>
-
-              <div class="ms-table-row">
-                <div class="small ms-cell ms-key">posted_at</div>
-                <div class="small ms-cell">2026-01-14T19:22:11Z</div>
-              </div>
-
-              <div class="ms-table-row">
-                <div class="small ms-cell ms-key">amount.currency</div>
-                <div class="small ms-cell">CAD</div>
-              </div>
-
-              <div class="ms-table-row">
-                <div class="small ms-cell ms-key">amount.amount_minor</div>
-                <div class="small ms-cell">724</div>
-              </div>
-
-              <div class="ms-table-row">
-                <div class="small ms-cell ms-key">amount.amount_raw</div>
-                <div class="small ms-cell">-7.24</div>
-              </div>
-
-              <div class="ms-table-row">
-                <div class="small ms-cell ms-key">direction</div>
-                <div class="small ms-cell">debit</div>
-              </div>
-
-              <div class="ms-table-row">
-                <div class="small ms-cell ms-key">original_description</div>
-                <div class="small ms-cell">TIM HORTONS #0059 / LONDON ON</div>
-              </div>
-
-              <div class="ms-table-row">
-                <div class="small ms-cell ms-key">status</div>
-                <div class="small ms-cell">posted</div>
-              </div>
-
-              <div class="ms-table-row">
-                <div class="small ms-cell ms-key">mutability</div>
-                <div class="small ms-cell">immutable</div>
-              </div>
-
-              <div class="ms-table-row">
-                <div class="small ms-cell ms-key">normalization.mapping_method</div>
-                <div class="small ms-cell">institution_mapper_v1</div>
-              </div>
-
-              <div class="ms-table-row">
-                <div class="small ms-cell ms-key">normalization.input_timezone</div>
-                <div class="small ms-cell">America/Toronto</div>
-              </div>
-
-              <div class="ms-table-row">
-                <div class="small ms-cell ms-key">insights.category.value</div>
-                <div class="small ms-cell">coffee_fast_food</div>
-              </div>
-
-              <div class="ms-table-row">
-                <div class="small ms-cell ms-key">insights.category.confidence</div>
-                <div class="small ms-cell">0.92</div>
-              </div>
-
-              <div class="ms-table-row">
-                <div class="small ms-cell ms-key">insights.category.version</div>
-                <div class="small ms-cell">cat-v1</div>
-              </div>
-
-              <div class="ms-table-row">
-                <div class="small ms-cell ms-key">insights.category.signals[0]</div>
-                <div class="small ms-cell">merchant_keyword:tim hortons</div>
-              </div>
-
-              <div class="ms-table-row">
-                <div class="small ms-cell ms-key">insights.description</div>
-                <div class="small ms-cell">Franchise coffee shop purchase (likely in-store).</div>
-              </div>
-            </div>
-
-            <p class="small muted" style="margin-top:10px;">
-              Downstream systems depend on a stable contract; upstream feeds can change without forcing rewrites.
-            </p>
-          </div>
-
+      <div class="ms-table">
+        <div class="ms-table-head">
+          <div class="small ms-cell ms-key">Field path</div>
+          <div class="small ms-cell ms-key">Example value</div>
         </div>
-      </section>
 
+        <div class="ms-table-row">
+          <div class="small ms-cell ms-key">schema_version</div>
+          <div class="small ms-cell">transactions-v1.0</div>
+        </div>
+
+        <div class="ms-table-row">
+          <div class="small ms-cell ms-key">transaction_fingerprint</div>
+          <div class="small ms-cell">ms_fp_9f1c2c7b0d2a</div>
+        </div>
+
+        <div class="ms-table-row">
+          <div class="small ms-cell ms-key">transaction_ref</div>
+          <div class="small ms-cell">stmt_line_1842</div>
+        </div>
+
+        <div class="ms-table-row">
+          <div class="small ms-cell ms-key">account_ref</div>
+          <div class="small ms-cell">chq_001</div>
+        </div>
+
+        <div class="ms-table-row">
+          <div class="small ms-cell ms-key">institution_code</div>
+          <div class="small ms-cell">rbc_ca</div>
+        </div>
+
+        <div class="ms-table-row">
+          <div class="small ms-cell ms-key">aggregator_code</div>
+          <div class="small ms-cell">flinks</div>
+        </div>
+
+        <div class="ms-table-row">
+          <div class="small ms-cell ms-key">effective_at</div>
+          <div class="small ms-cell">2026-01-14T19:22:11Z</div>
+        </div>
+
+        <div class="ms-table-row">
+          <div class="small ms-cell ms-key">posted_at</div>
+          <div class="small ms-cell">2026-01-14T19:22:11Z</div>
+        </div>
+
+        <div class="ms-table-row">
+          <div class="small ms-cell ms-key">amount.currency</div>
+          <div class="small ms-cell">CAD</div>
+        </div>
+
+        <div class="ms-table-row">
+          <div class="small ms-cell ms-key">amount.amount_minor</div>
+          <div class="small ms-cell">724</div>
+        </div>
+
+        <div class="ms-table-row">
+          <div class="small ms-cell ms-key">amount.amount_raw</div>
+          <div class="small ms-cell">-7.24</div>
+        </div>
+
+        <div class="ms-table-row">
+          <div class="small ms-cell ms-key">direction</div>
+          <div class="small ms-cell">debit</div>
+        </div>
+
+        <div class="ms-table-row">
+          <div class="small ms-cell ms-key">original_description</div>
+          <div class="small ms-cell">TIM HORTONS #0059 / LONDON ON</div>
+        </div>
+
+        <div class="ms-table-row">
+          <div class="small ms-cell ms-key">status</div>
+          <div class="small ms-cell">posted</div>
+        </div>
+
+        <div class="ms-table-row">
+          <div class="small ms-cell ms-key">mutability</div>
+          <div class="small ms-cell">immutable</div>
+        </div>
+
+        <div class="ms-table-row">
+          <div class="small ms-cell ms-key">normalization.mapping_method</div>
+          <div class="small ms-cell">institution_mapper_v1</div>
+        </div>
+
+        <div class="ms-table-row">
+          <div class="small ms-cell ms-key">normalization.input_timezone</div>
+          <div class="small ms-cell">America/Toronto</div>
+        </div>
+
+        <div class="ms-table-row">
+          <div class="small ms-cell ms-key">insights.category.value</div>
+          <div class="small ms-cell">coffee_fast_food</div>
+        </div>
+
+        <div class="ms-table-row">
+          <div class="small ms-cell ms-key">insights.category.confidence</div>
+          <div class="small ms-cell">0.92</div>
+        </div>
+
+        <div class="ms-table-row">
+          <div class="small ms-cell ms-key">insights.category.version</div>
+          <div class="small ms-cell">cat-v1</div>
+        </div>
+
+        <div class="ms-table-row">
+          <div class="small ms-cell ms-key">insights.category.signals[0]</div>
+          <div class="small ms-cell">merchant_keyword:tim hortons</div>
+        </div>
+
+        <div class="ms-table-row">
+          <div class="small ms-cell ms-key">insights.description</div>
+          <div class="small ms-cell">Franchise coffee shop purchase (likely in-store).</div>
+        </div>
+      </div>
+
+      <p class="small muted" style="margin-top:10px;">
+        Downstream systems depend on a stable contract; upstream feeds can change without forcing rewrites.
+      </p>
+    </div>
+
+  </div>
+</section>
     </main>
 
     <footer>
