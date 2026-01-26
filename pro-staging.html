@@ -380,6 +380,7 @@
 
   <!-- Account → Stripe Customer Portal (only visible when signed in) -->
   <script>
+    window.MAPLE_API_BASE = "https://staging.api.mapleschema.com";
     (function () {
       function show(el, yes) { if (!el) return; el.style.display = yes ? "" : "none"; }
 
@@ -391,7 +392,7 @@
           const idToken = await user.getIdToken(true);
 
           // NOTE: if your backend isn't on the same origin, this must be an absolute URL.
-          const resp = await fetch("/v1/billing/portal", {
+          const resp = await fetch("${window.MAPLE_API_BASE}/v1/billing/portal", {
             method: "POST",
             headers: {
               "Authorization": "Bearer " + idToken,
