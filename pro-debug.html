@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>MapleSchema Pro — Paid Workspace</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description"
+    content="Your MapleSchema Pro workspace. Upload data, generate advanced outputs, and access paid features." />
+
+  <meta property="og:title" content="MapleSchema Pro — Paid Workspace">
+  <meta property="og:description"
+    content="Your paid MapleSchema workspace is active. Upload data and generate advanced outputs.">
+  <meta property="og:url" content="https://mapleschema.com/pro.html">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://mapleschema.com/images/mapleschema-social.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+
+<body>
+  <div id="site">
+
+    <!-- PAID CONFIRMATION BANNER -->
+    <div style="
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+      background: linear-gradient(90deg, #0f6f3a, #158a4a);
+    ">
+      <div class="container" style="text-align:center; padding:12px 0;">
+        <span style="
+          font-size: 0.95rem;
+          color: #e9fff2;
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          font-weight: 600;
+        ">
+          <span aria-hidden="true">✔</span>
+          Your <strong>MapleSchema Pro</strong> subscription is active. Paid features are enabled.
+        </span>
+      </div>
+    </div>
+
+    <!-- HEADER -->
+    <header>
+      <div class="container header-inner">
+        <a href="/pro.html" class="logo-link">
+          <div class="logo-wrapper">
+            <img
+              src="/images/mapleschema-transparent-pro-icon.png"
+              class="logo"
+              alt="MapleSchema Pro logo">
+          </div>
+        </a>
+
+        <nav>
+          <a id="navAccount" href="#" style="display:none;">Account</a>
+          <a href="/support.html">Support</a>
+          <a href="/privacy.html">Privacy</a>
+        </nav>
+      </div>
+    </header>
+
+<main class="container">
+
+  <!-- HERO -->
+  <section class="hero" style="padding-bottom: 0;">
+    <h1>Transform your banking data into something more human.</h1>
+
+    <p class="hero-lead" style="max-width: 950px; margin-top: 10px;">
+      <strong>Welcome to MapleSchema Pro.</strong> Bookmark this page — it’s your paid workspace for conversions,
+      QuickBooks exports, and Insights-enabled outputs. You have unlocked up to <strong>1000</strong> transactions per request.
+    </p>
+  </section>
+
+  <!-- ERROR BOX (kept, but moved above cards) -->
+  <div id="errorBox"
+    style="display:none; margin-top: 16px; padding: 12px 14px; border-radius: 12px; border: 1px solid rgba(255,80,80,0.35); background: rgba(255,0,0,0.08);">
+    <div style="font-weight: 800; margin-bottom: 6px;">Error</div>
+    <div id="errorText" class="small"></div>
+    <div id="requestId" class="small" style="margin-top: 6px; opacity: 0.9;"></div>
+  </div>
+
+<!-- CARD 1: AUTH STATE -->
+<section style="margin-top:16px;">
+  <article class="card primary" style="margin:0; width:100%; padding: 26px 32px;">
+
+    <!-- SIGNED OUT STATE -->
+    <div id="authSignedOut"
+      style="display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;">
+
+      <div>
+        <h2 style="margin:0;">Sign in</h2>
+        <p class="small" style="margin:6px 0 0; opacity:0.92;">
+          Sign in to unlock uploads and conversions.
+        </p>
+      </div>
+
+      <button id="btnSignIn" class="button-primary" type="button"
+        style="display:inline-flex; align-items:center; gap:8px;">
+        <span aria-hidden="true">🔒</span>
+        Continue with Google
+      </button>
+    </div>
+
+    <!-- SIGNED IN STATE -->
+    <div id="authSignedIn"
+      style="display:none; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;">
+
+      <div>
+        <h2 style="margin:0;">Workspace ready</h2>
+        <p class="small" style="margin:6px 0 0; opacity:0.8;">
+          Signed in as <span id="authEmail" style="font-weight:600;"></span>
+        </p>
+      </div>
+
+      <button id="btnSignOut" class="button-secondary" type="button"
+        style="opacity:0.7;">
+        Sign out
+      </button>
+    </div>
+
+  </article>
+</section>
+
+
+  <!-- CARD 2: UPLOAD (LEFT) + OUTPUT (RIGHT) -->
+  <section style="margin-top:16px;">
+    <article class="card primary" style="margin:0; width:100%; padding: 26px 32px;">
+
+      <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:16px; flex-wrap:wrap;">
+        <div>
+          <h2 style="margin:0;">Convert</h2>
+          <p class="small" style="margin:6px 0 0; opacity:0.92;">
+            Upload a JSON export, choose an output, and download the result.
+          </p>
+        </div>
+      </div>
+
+      <div style="margin-top:18px; display:grid; grid-template-columns: 1.35fr 0.9fr; gap: 22px; align-items:start;">
+
+        <!-- LEFT: BIG UPLOAD -->
+        <div>
+
+         <div id="routingWrap"
+            style="display:grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 0 0 12px;">
+          
+            <div id="aggregatorWrap">
+              <label class="small" style="font-weight: 800;">Aggregator</label>
+              <select id="aggregatorCode" style="width: 100%; padding: 10px; border-radius: 10px;">
+                <option value="">(none)</option>
+              </select>
+            </div>
+          
+            <div id="institutionWrap">
+              <label class="small" style="font-weight: 800;">Bank</label>
+              <select id="institutionCode" style="width: 100%; padding: 10px; border-radius: 10px;">
+                <option value="">(none)</option>
+              </select>
+            </div>
+          
+          </div>
+          <div style="
+              border: 1px dashed rgba(120,80,50,0.35);
+              border-radius: 14px;
+              padding: 22px;
+              background: rgba(255,255,255,0.42);
+              min-height: 170px;
+            ">
+
+            <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:14px; flex-wrap:wrap;">
+              <div>
+                <div style="font-weight:800; font-size:1.05rem;">Choose a JSON file</div>
+                <div class="small" style="opacity:0.92; margin-top:6px;">
+                  <span id="fileName">No file selected</span>
+                </div>
+                <div class="small" style="opacity:0.9; margin-top:10px;">
+                  Supported: JSON exports • Max 10MB
+                </div>
+              </div>
+
+              <div style="display:flex; flex-direction:column; gap:10px; align-items:flex-end;">
+                <input id="fileInput" type="file" accept="application/json,.json" disabled />
+              </div>
+            </div>
+
+            <p class="small" style="margin-top: 12px; opacity: 0.95;">
+              Tip: if you haven’t signed in yet, do that first — it unlocks conversion.
+            </p>
+          </div>
+        </div>
+
+        <!-- RIGHT: OUTPUTS (VERTICAL) + BUTTON -->
+        <div style="padding: 4px 2px;">
+
+          <div style="font-weight: 900; margin-bottom: 10px;">Output</div>
+
+          <div style="display:flex; flex-direction:column; gap:10px; margin-top:8px;">
+            <label class="small" style="display:flex; gap:10px; align-items:center; font-weight:800;">
+              <input type="radio" name="msOutput" value="csv" checked />
+              CSV
+            </label>
+
+            <label class="small" style="display:flex; gap:10px; align-items:center; font-weight:800;">
+              <input type="radio" name="msOutput" value="json" />
+              Structured JSON
+            </label>
+
+            <label class="small" style="display:flex; gap:10px; align-items:center; font-weight:800;">
+              <input type="radio" name="msOutput" value="quickbooks" />
+              QuickBooks
+            </label>
+
+            <label id="msInsightsLabel" class="small"
+              style="display:flex; gap:10px; align-items:center; font-weight:800; margin-top:6px;">
+              <input id="msInsights" type="checkbox" />
+              Include Insights <span class="small" style="opacity:0.75; font-weight:700;">(CSV + JSON only)</span>
+            </label>
+          </div>
+
+          <div style="margin-top: 16px;">
+            <button id="btnConvert" type="button" disabled style="
+                display:inline-flex;
+                align-items:center;
+                justify-content:center;
+                gap:8px;
+                width: 100%;
+                padding: 14px 18px;
+                border-radius: 999px;
+                border: none;
+                cursor: pointer;
+                font-weight: 900;
+                font-size: 1rem;
+                letter-spacing: 0.04em;
+                text-transform: uppercase;
+                background:#2CA01C;
+                color:#ffffff;
+              ">
+              TRANSFORM
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- small inline logic: insights only for csv/json -->
+      <script>
+        (function () {
+          function syncInsights() {
+            const out = document.querySelector('input[name="msOutput"]:checked')?.value || "csv";
+            const insights = document.getElementById("msInsights");
+            const label = document.getElementById("msInsightsLabel");
+            const enabled = (out === "csv" || out === "json");
+
+            if (!enabled) {
+              insights.checked = false;
+              insights.disabled = true;
+              label.style.opacity = "0.55";
+            } else {
+              insights.disabled = false;
+              label.style.opacity = "1";
+            }
+          }
+
+          document.addEventListener("change", function (e) {
+            if (e.target && e.target.name === "msOutput") syncInsights();
+          });
+
+          syncInsights();
+        })();
+      </script>
+
+    </article>
+  </section>
+
+  <!-- FINAL CARD: DOWNLOAD HELP -->
+  <section style="margin-top:16px;">
+    <div style="display:flex; justify-content:center; width: 100%;">
+      <div style="
+          width: 100%;
+          max-width: 1100px;
+          box-sizing: border-box;
+          padding: 28px 32px;
+          border-radius: 12px;
+          border: 1px solid rgba(0,0,0,0.12);
+          background: rgba(255,255,255,0.65);
+        ">
+        <div style="display:flex; align-items:center; justify-content:space-between; gap: 18px; flex-wrap:wrap;">
+          <div>
+            <div style="font-weight:900; font-size:1.15rem;">
+              Questions?
+            </div>
+            <div style="margin-top:8px; font-size:0.95rem; opacity:0.9;">
+              Contact us at <strong>mapleschema@gmail.com</strong>
+            </div>
+          </div>
+
+          <img
+            src="/images/mapleschema-transparent-pro-icon.png"
+            alt="MapleSchema Pro"
+            style="height:120px; width:auto;"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+
+    <footer>
+      © MapleSchema 2026 — Export to Excel &amp; Google Sheets • Privacy-first •
+      <a href="/enterprise">For fintech &amp; developers</a>
+    </footer>
+  </div>
+  
+    <!-- Firebase (Compat SDK for simplest static hosting integration) -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  
+    <!-- Your Firebase config (fill these in from your Firebase Web App settings) -->
+   <script>
+    // Firebase Web App config (PROD)
+    // Generated from Firebase Console → Project settings → Web app
+    window.MAPLE_FIREBASE_CONFIG = {
+      apiKey: "AIzaSyBgeIGdlYuQfBSGofSSjGoqq8s6KWnPrAE",
+      authDomain: "mapleschema-prod.firebaseapp.com",
+      projectId: "mapleschema-prod",
+      storageBucket: "mapleschema-prod.firebasestorage.app",
+      messagingSenderId: "379867061540",
+      appId: "1:379867061540:web:cab36006b09975b78ca7b1"
+    };
+  </script>
+  <script src="/js/pro.js"></script>
+
+  <!-- Account → Stripe Customer Portal (only visible when signed in) -->
+  <script>
+    (function () {
+      function show(el, yes) { if (!el) return; el.style.display = yes ? "" : "none"; }
+
+      async function openPortal() {
+        try {
+          const user = firebase.auth().currentUser;
+          if (!user) return; // should not happen because link hidden when signed out
+
+          const idToken = await user.getIdToken(/* forceRefresh */ true);
+
+          const resp = await fetch("/v1/billing/portal", {
+            method: "POST",
+            headers: {
+              "Authorization": "Bearer " + idToken,
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ return_path: "/pro.html" })
+          });
+
+          const data = await resp.json().catch(() => ({}));
+          if (!resp.ok) {
+            const msg = data && (data.error || data.message) ? (data.error || data.message) : ("Portal request failed (" + resp.status + ").");
+            alert(msg);
+            return;
+          }
+
+          const url = data && (data.url || data.portal_url || data.redirect_url);
+          if (!url) {
+            alert("Portal URL missing from server response.");
+            return;
+          }
+
+          window.location.href = url;
+        } catch (e) {
+          alert("Could not open billing portal. Please try again.");
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const navAccount = document.getElementById("navAccount");
+        if (!navAccount) return;
+
+        navAccount.addEventListener("click", function (e) {
+          e.preventDefault();
+          openPortal();
+        });
+
+        // Toggle visibility based on auth state
+        if (window.firebase && firebase.auth) {
+          firebase.auth().onAuthStateChanged(function (user) {
+            show(navAccount, !!user);
+          });
+        }
+      });
+    })();
+  </script>
+
+</body>
+
+</html>
