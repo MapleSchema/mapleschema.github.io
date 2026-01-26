@@ -439,44 +439,5 @@
       });
     })();
   </script>
-
-  <!-- Debug safety: DO NOT disable just because host is mapleschema.com
-       (you are hosting staging pages there). Make it path-based. -->
-  <script>
-    (function () {
-      const path = (location.pathname || "").toLowerCase();
-      const isThisDebugPage =
-        path.endsWith("/pro-staging.html") || path.endsWith("/pro-debug.html");
-
-      if (!isThisDebugPage) return;
-
-      // Optional: if you *also* serve a separate prod host, put it here.
-      // DO NOT treat mapleschema.com as dangerous if you host staging pages there.
-      const host = (location.hostname || "").toLowerCase();
-      const dangerousHost = false; // set true only if you have a separate prod-only hostname
-
-      if (!dangerousHost) return;
-
-      const btnConvert = document.getElementById("btnConvert");
-      if (btnConvert) {
-        btnConvert.disabled = true;
-        btnConvert.textContent = "DISABLED (DEBUG PAGE ON PROD HOST)";
-        btnConvert.style.opacity = "0.6";
-        btnConvert.style.cursor = "not-allowed";
-      }
-
-      const navAccount = document.getElementById("navAccount");
-      if (navAccount) navAccount.style.display = "none";
-
-      const errorBox = document.getElementById("errorBox");
-      const errorText = document.getElementById("errorText");
-      if (errorBox && errorText) {
-        errorBox.style.display = "";
-        errorText.textContent =
-          "This is a STAGING/DEBUG page opened on a production host. Actions are disabled to prevent mistakes.";
-      }
-    })();
-  </script>
-
 </body>
 </html>
