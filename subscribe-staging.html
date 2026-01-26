@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  // TEMP: keep prod site pointing at staging while Stripe is in test mode.
+  const FORCE_STAGING_BILLING = true;
+
+  const isStaging =
+    FORCE_STAGING_BILLING ||
+    location.hostname.includes("localhost") ||
+    location.hostname.includes("staging");
+  
+  window.MAPLE_FIREBASE_CONFIG = isStaging
+    ? {
+        apiKey: "AIzaSyB960RtycsSigsJ77KwYlRWlPBb4e1DU1s",
+        authDomain: "mapleschema-staging.firebaseapp.com",
+        projectId: "mapleschema-staging",
+        appId: "1:851079947514:web:809a28d25d24eef5f01543",
+      }
+    : {
+        apiKey: "AIzaSyBgeIGdlYuQfBSGofSSjGoqq8s6KWnPrAE",
+        authDomain: "mapleschema-prod.firebaseapp.com",
+        projectId: "mapleschema-prod",
+        appId: "1:379867061540:web:cab36006b09975b78ca7b1",
+      };
+    
+    window.MAPLE_API_BASE = isStaging
+    ? "https://staging.api.mapleschema.com"
+    : "https://api.mapleschema.com";
+</script>
+  <!-- Firebase SDKs (compat, because your code uses firebase.auth()) -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+<script>
+  // Initialize Firebase once
+  if (!window.firebase) {
+    console.error("Firebase SDK failed to load.");
+  } else if (!firebase.apps.length) {
+    firebase.initializeApp(window.MAPLE_FIREBASE_CONFIG);
+  }
+</script>
+
+  <meta charset="UTF-8" />
+  <title>MapleSchema Pro — Structured JSON & QuickBooks Exports</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content="MapleSchema Pro generates structured transaction JSON and QuickBooks-ready imports from raw banking data."
+  />
+
+  <link rel="stylesheet" href="/css/style.css" />
+
+  <style>
+    .box {
+      padding: 16px;
+      border: 1px solid rgba(0,0,0,0.12);
+      border-radius: 12px;
+      background: rgba(255,255,255,0.65);
+    }
+    .btn {
+      display: inline-flex;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-weight: 800;
+      text-decoration: none;
+      background: #4a2d21;
+      color: #fff;
+    }
+    .btn.qb { background:#2CA01C; }
+    .muted { opacity:0.85; }
+    .toggleWrap { display:flex; gap:8px; margin-top:12px; }
+    .toggleBtn {
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 2px solid rgba(0,0,0,0.25);
+      background:#fff;
+      font-weight:800;
+      cursor:pointer;
+    }
+    pre {
+      white-space: pre-wrap;
+      border: 1px solid rgba(0,0,0,0.12);
+      border-radius: 12px;
+      padding: 12px;
+      background: rgba(255,255,255,0.55);
+      overflow: auto;
+      margin-top:12px;
+    }
+  </style>
+</head>
+
+<body>
+<div id="site">
+
+  <!-- HEADER -->
+  <header>
+    <div class="container header-inner">
+      <a href="/index.html" class="logo-link">
+        <img
+          src="/images/mapleschema-transparent-pro-icon.png"
+          class="logo"
+          alt="MapleSchema Pro"
+        />
+      </a>
+      <nav>
+        <a href="/privacy.html">Privacy</a>
+        <a href="/contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container" style="margin-top:20px;">
+
+    <!-- HERO -->
+    <section>
+      <h1>MapleSchema Pro</h1>
+      <p class="hero-lead">
+        Upload bank data → Pick a format → Download instantly
+      </p>
+    </section>
+
+    <!-- 1. FREE CSV CONVERTER (ENTRY POINT) -->
+    <section style="margin-top:16px;">
+      <article class="box" style="border-left:6px solid #2CA01C;">
+        <h2>Free CSV Converter</h2>
+        <p class="muted">
+          Convert raw banking JSON into a clean, normalized CSV.
+          Limited to <strong>200 transactions per request</strong>.
+        </p>
+        <a class="btn qb" href="/transform.html">
+          Convert JSON → CSV
+        </a>
+      </article>
+    </section>
+
+   <!-- 2. PRO SUBSCRIPTION -->
+<section style="margin-top:12px;">
+  <article class="box">
+    <h2>MapleSchema Pro</h2>
+
+    <p class="muted">
+      MapleSchema Pro unlocks higher-volume exports and AI-enriched outputs for production workflows.
+    </p>
+
+    <ul class="muted" style="margin:10px 0 12px 18px;">
+      <li><strong>Up to 1,000 transactions per request</strong> (free tier: 200)</li>
+      <li><strong>Core CSV</strong> or CSV with optional <strong>AI-powered Insights</strong></li>
+      <li><strong>Structured transaction JSON</strong> with AI Insights for workflows</li>
+      <li><strong>QuickBooks-ready</strong> Expense and Payment import files</li>
+    </ul>
+
+    <p class="muted" style="margin-bottom:12px;">
+      AI Insights are added as non-destructive annotations — core transaction data is never modified.
+    </p>
+
+    <a id="subscribeBtn" class="btn" href="#">
+      Subscribe to MapleSchema Pro — $4 / month
+    </a>
+  </article>
+</section>
+    
+  <!-- 3. EXAMPLE OUTPUTS -->
+<!-- 3A. LOGGED OUT → EXAMPLES -->
+<section id="loggedOutExamples" style="margin-top:12px;">
+  <article class="box">
+    <h2 style="margin-top:0;">Example outputs</h2>
+    <p class="muted" style="margin:6px 0 0 0;">
+      Pro outputs: <strong>Structured CSV</strong>, <strong>Structured JSON</strong>, and <strong>QuickBooks Format</strong>.
+    </p>
+
+    <div class="toggleWrap" aria-label="Example output selector" style="margin-top:12px;">
+      <button id="toggleCsv" type="button" class="toggleBtn" onclick="msSetOutput('csv')">Structured CSV</button>
+      <button id="toggleJson" type="button" class="toggleBtn" onclick="msSetOutput('json')">Structured JSON</button>
+      <button id="toggleQb" type="button" class="toggleBtn" onclick="msSetOutput('qb')" style="border:2px solid #2CA01C;">QuickBooks Format</button>
+    </div>
+
+    <!-- OUTPUT: Structured CSV (Name / Value) -->
+    <div id="msOutCsv" style="margin-top:14px; display:none;">
+      <h3 style="margin: 0 0 8px 0;">Structured CSV (Name → Value)</h3>
+      <p class="muted" style="margin-top:8px;">
+        Same fields as Structured JSON, shown as a simple Name/Value export.
+      </p>
+
+      <div style="
+        display:grid;
+        grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr);
+        gap:0;
+        border: 1px solid rgba(0,0,0,0.12);
+        border-radius: 12px;
+        overflow:hidden;
+        background: rgba(255,255,255,0.55);
+      ">
+        <!-- Header row -->
+        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">Name</div>
+        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">Value</div>
+
+        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">schema_version</div>
+        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">transactions-v1.0</div>
+
+        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">transaction_fingerprint</div>
+        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">ms_fp_9f1c2c7b0d2a</div>
+
+        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">transaction_ref</div>
+        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">stmt_line_1842</div>
+
+        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">account_ref</div>
+        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">chq_001</div>
+
+        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">institution_code</div>
+        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">rbc_ca</div>
+
+        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">aggregator_code</div>
+        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">flinks</div>
+
+        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">effective_at</div>
+        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">2026-01-14T19:22:11Z</div>
+
+        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">posted_at</div>
+        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">2026-01-14T19:22:11Z</div>
+
+        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">amount.amount_minor</div>
+        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">-724</div>
+
+        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">amount.currency</div>
+        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">CAD</div>
+
+        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">direction</div>
+        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">debit</div>
+
+        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">original_description</div>
+        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">TIM HORTONS #0059 / LONDON ON</div>
+
+        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">status</div>
+        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">posted</div>
+
+        <div class="muted" style="padding:10px 12px; font-weight:900;">mutability</div>
+        <div class="muted" style="padding:10px 12px;">immutable</div>
+      </div>
+    </div>
+
+    <!-- OUTPUT: Structured JSON (UNCHANGED) -->
+    <div id="msOutJson" style="margin-top:14px;">
+      <h3 style="margin: 0 0 8px 0;">Structured Transaction JSON</h3>
+      <p class="muted" style="margin-top:8px;">
+        Deterministic core transaction object. Optional <strong>Insights</strong> are annotations only.
+      </p>
+
+      <pre class="muted" style="margin-top:10px; border: 1px solid rgba(0,0,0,0.12); border-radius: 12px; padding: 12px; background: rgba(255,255,255,0.55); overflow:auto;">{
+  "schema_version": "transactions-v1.0",
+  "transaction_fingerprint": "ms_fp_9f1c2c7b0d2a",
+  "transaction_ref": "stmt_line_1842",
+  "account_ref": "chq_001",
+  "institution_code": "rbc_ca",
+  "aggregator_code": "flinks",
+
+  "effective_at": "2026-01-14T19:22:11Z",
+  "posted_at": "2026-01-14T19:22:11Z",
+
+  "amount": { "amount_minor": -724, "currency": "CAD" },
+  "direction": "debit",
+
+  "original_description": "TIM HORTONS #0059 / LONDON ON",
+  "status": "posted",
+  "mutability": "immutable",
+
+  "normalization": {
+    "mapping_method": "institution_mapper_v1",
+    "input_timezone": "America/Toronto",
+    "warnings": []
+  },
+
+  "insights": {
+    "category": {
+      "value": "coffee_fast_food",
+      "confidence": 0.92,
+      "version": "cat-v1",
+      "signals": ["merchant_keyword:tim hortons", "pattern:#\\d{2,4}", "geo:ON"]
+    },
+    "merchant": {
+      "value": "Tim Hortons",
+      "confidence": 0.89,
+      "version": "merchant-v1",
+      "signals": ["brand_db_match", "alias:tim hortons"]
+    },
+    "description_analysis": {
+      "en": "Franchise coffee shop purchase (likely in-store).",
+      "fr": "Achat dans une franchise de café (probablement en magasin).",
+      "confidence": 0.84,
+      "version": "desc-v1",
+      "signals": ["token:TIM", "token:HORTONS", "store_id:#0059", "city:LONDON", "region:ON"]
+    }
+  }
+}</pre>
+    </div>
+
+    <!-- OUTPUT: QuickBooks Format (Name / Value) -->
+    <div id="msOutQb" style="margin-top:14px; display:none;">
+      <h3 style="margin: 0 0 8px 0;">QuickBooks Format (Payment)</h3>
+      <p class="muted" style="margin-top:8px;">
+        Fields match QuickBooks: Date, Payee, Description, Amount, Reference, AccountRef.
+      </p>
+
+      <div style="
+        display:grid;
+        grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr);
+        gap:0;
+        border: 1px solid rgba(0,0,0,0.12);
+        border-radius: 12px;
+        overflow:hidden;
+        background: rgba(255,255,255,0.55);
+      ">
+        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">Name</div>
+        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">Value</div>
+
+        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">Date</div>
+        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">2026-01-14</div>
+
+        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">Payee</div>
+        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">Example Vendor</div>
+
+        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">Description</div>
+        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">Payment — invoice settlement</div>
+
+        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">Amount</div>
+        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">724.00</div>
+
+        <div class="muted" style="padding:10px 12px; font-weight:900; border-bottom:1px solid rgba(0,0,0,0.08);">Reference</div>
+        <div class="muted" style="padding:10px 12px; border-bottom:1px solid rgba(0,0,0,0.08);">PAYMENT-1842</div>
+
+        <div class="muted" style="padding:10px 12px; font-weight:900;">AccountRef</div>
+        <div class="muted" style="padding:10px 12px;">Accounts Payable</div>
+      </div>
+    </div>
+  </article>
+</section>
+
+
+  </main>
+
+  <footer>
+    © MapleSchema 2026 • Pro
+  </footer>
+</div>
+<script>
+  async function ensureGoogleSignIn() {
+    const auth = firebase.auth();
+    let user = auth.currentUser;
+
+    if (user) return user;
+
+    const provider = new firebase.auth.GoogleAuthProvider();
+    const result = await auth.signInWithPopup(provider);
+    return result.user;
+  }
+
+async function startCheckout() {
+  try {
+    // Ensure user exists
+    const user = firebase.auth().currentUser || (await ensureGoogleSignIn());
+    if (!user) throw new Error("Not signed in");
+
+    // Ensure token exists
+    const idToken = await user.getIdToken(true);
+    if (!idToken || idToken.length < 50) throw new Error("Missing ID token");
+
+    const resp = await fetch(`${window.MAPLE_API_BASE}/v1/billing/checkout`, {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${idToken}`,
+        "Content-Type": "application/json"
+      }
+    });
+
+    if (!resp.ok) {
+      const data = await resp.json().catch(() => null);
+    
+      const code = data?.error?.code;
+      const url  = data?.error?.details?.url;
+    
+      if (resp.status === 409 && code === "ALREADY_PAID" && url) {
+        window.location.href = url;
+        return;
+      }
+    
+      const msg = data?.error?.message || (await resp.text().catch(() => "")) || "Checkout failed.";
+      alert("Checkout failed.\n\n" + msg);
+      return;
+    }
+
+
+    const data = await resp.json();
+    window.location.href = data.url;
+  } catch (e) {
+    console.error(e);
+    alert("Checkout failed.\n\n" + (e?.message || e));
+  }
+}
+
+
+  document.getElementById("subscribeBtn")?.addEventListener("click", (e) => {
+    e.preventDefault();
+    startCheckout();
+  });
+</script>
+
+<script>
+  function msApplyToggleStyles(activeId) {
+    const ids = ["toggleCsv", "toggleJson", "toggleQb"];
+    ids.forEach((id) => {
+      const b = document.getElementById(id);
+      if (!b) return;
+
+      const isActive = (id === activeId);
+
+      b.style.background = "#ffffff";
+      b.style.color = "#000000";
+      b.style.border = (id === "toggleQb")
+        ? "2px solid #2CA01C"
+        : "2px solid rgba(0,0,0,0.25)";
+
+      if (isActive) {
+        if (id === "toggleQb") {
+          b.style.background = "#2CA01C";
+          b.style.border = "2px solid #2CA01C";
+          b.style.color = "#ffffff";
+        } else {
+          b.style.background = "rgba(0,0,0,0.08)";
+          b.style.border = "2px solid rgba(0,0,0,0.35)";
+          b.style.color = "#000000";
+        }
+      }
+    });
+  }
+
+  function msSetOutput(which) {
+    const panes = {
+      csv: document.getElementById("msOutCsv"),
+      json: document.getElementById("msOutJson"),
+      qb: document.getElementById("msOutQb"),
+    };
+
+    Object.keys(panes).forEach((k) => {
+      if (panes[k]) panes[k].style.display = (k === which) ? "block" : "none";
+    });
+
+    if (which === "qb") return msApplyToggleStyles("toggleQb");
+    if (which === "csv") return msApplyToggleStyles("toggleCsv");
+    return msApplyToggleStyles("toggleJson");
+  }
+
+  // default
+  msSetOutput("json");
+</script>
+
+
+</body>
+</html>
