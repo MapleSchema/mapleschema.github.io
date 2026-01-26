@@ -373,10 +373,21 @@ async function startCheckout() {
     });
 
     if (!resp.ok) {
-      const text = await resp.text();
-      alert("Checkout failed.\n\n" + text);
+      const data = await resp.json().catch(() => null);
+    
+      const code = data?.error?.code;
+      const url  = data?.error?.details?.url;
+    
+      if (resp.status === 409 && code === "ALREADY_PAID" && url) {
+        window.location.href = url;
+        return;
+      }
+    
+      const msg = data?.error?.message || (await resp.text().catch(() => "")) || "Checkout failed.";
+      alert("Checkout failed.\n\n" + msg);
       return;
     }
+
 
     const data = await resp.json();
     window.location.href = data.url;
