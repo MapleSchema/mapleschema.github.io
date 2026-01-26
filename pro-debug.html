@@ -2,8 +2,9 @@
 <html lang="en">
 
 <head>
+  <meta name="robots" content="noindex, nofollow">
   <meta charset="UTF-8" />
-  <title>MapleSchema Pro — Paid Workspace</title>
+  <title>MapleSchema PRO (STAGING) — Debug Workspace</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description"
     content="Your MapleSchema Pro workspace. Upload data, generate advanced outputs, and access paid features." />
@@ -25,6 +26,29 @@
 
 <body>
   <div id="site">
+<!-- STAGING / DEBUG BANNER (hard to miss) -->
+<div id="envBanner" style="
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+  background: linear-gradient(90deg, #7a0b0b, #b31313);
+">
+  <div class="container" style="text-align:center; padding:12px 0;">
+    <span style="
+      font-size: 0.95rem;
+      color: #fff2f2;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+    ">
+      <span aria-hidden="true">🧪</span>
+      STAGING / DEBUG — DO NOT USE FOR REAL CUSTOMERS OR REAL PAYMENTS
+    </span>
+  </div>
+</div>
 
     <!-- PAID CONFIRMATION BANNER -->
     <div style="
@@ -41,7 +65,7 @@
           font-weight: 600;
         ">
           <span aria-hidden="true">✔</span>
-          Your <strong>MapleSchema Pro</strong> subscription is active. Paid features are enabled.
+          Your <strong>MapleSchema Pro</strong> subscription is active. Paid features are enabled. DEBUG-ONLY
         </span>
       </div>
     </div>
@@ -396,6 +420,41 @@
       });
     })();
   </script>
+<script>
+  (function () {
+    // If this debug page is ever opened on the real prod domain, disable dangerous actions.
+    const host = (location.hostname || "").toLowerCase();
+    const isProdHost = (host === "mapleschema.com" || host === "www.mapleschema.com");
+
+    if (isProdHost) {
+      // Make the banner even louder
+      const b = document.getElementById("envBanner");
+      if (b) b.style.background = "linear-gradient(90deg, #000, #000)";
+
+      // Disable convert + account portal links
+      const btnConvert = document.getElementById("btnConvert");
+      if (btnConvert) {
+        btnConvert.disabled = true;
+        btnConvert.textContent = "DISABLED (DEBUG PAGE ON PROD DOMAIN)";
+        btnConvert.style.opacity = "0.6";
+        btnConvert.style.cursor = "not-allowed";
+      }
+
+      const navAccount = document.getElementById("navAccount");
+      if (navAccount) {
+        navAccount.style.display = "none";
+      }
+
+      // Optional: show an explicit error box
+      const errorBox = document.getElementById("errorBox");
+      const errorText = document.getElementById("errorText");
+      if (errorBox && errorText) {
+        errorBox.style.display = "";
+        errorText.textContent = "This is a STAGING/DEBUG page opened on the PROD domain. Actions are disabled to prevent mistakes.";
+      }
+    }
+  })();
+</script>
 
 </body>
 
