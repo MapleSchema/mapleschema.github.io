@@ -1,32 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script>
-  // TEMP: keep prod site pointing at staging while Stripe is in test mode.
-  const FORCE_STAGING_BILLING = true;
-
-  const isStaging =
-    FORCE_STAGING_BILLING ||
-    location.hostname.includes("localhost") ||
-    location.hostname.includes("staging");
-  
-  window.MAPLE_FIREBASE_CONFIG = isStaging
-    ? {
-        apiKey: "AIzaSyB960RtycsSigsJ77KwYlRWlPBb4e1DU1s",
-        authDomain: "mapleschema-staging.firebaseapp.com",
-        projectId: "mapleschema-staging",
-        appId: "1:851079947514:web:809a28d25d24eef5f01543",
-      }
-    : {
+<script> 
+  window.MAPLE_FIREBASE_CONFIG = {
         apiKey: "AIzaSyBgeIGdlYuQfBSGofSSjGoqq8s6KWnPrAE",
         authDomain: "mapleschema-prod.firebaseapp.com",
         projectId: "mapleschema-prod",
         appId: "1:379867061540:web:cab36006b09975b78ca7b1",
       };
     
-    window.MAPLE_API_BASE = isStaging
-    ? "https://staging.api.mapleschema.com"
-    : "https://api.mapleschema.com";
+    window.MAPLE_API_BASE = "https://api.mapleschema.com";
 </script>
   <!-- Firebase SDKs (compat, because your code uses firebase.auth()) -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
