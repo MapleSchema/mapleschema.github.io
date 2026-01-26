@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>MapleSchema — Convert to CSV</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Sign in, upload your banking export, and download a spreadsheet-ready CSV instantly." />
+
+  <meta property="og:title" content="MapleSchema — Convert to CSV">
+  <meta property="og:description" content="Sign in, upload your banking export, and download a spreadsheet-ready CSV instantly.">
+  <meta property="og:url" content="https://mapleschema.com/convert.html">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://mapleschema.com/images/mapleschema-social.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+
+<body>
+  <div id="site">
+
+    <div style="border-bottom: 1px solid rgba(255,255,255,0.10); background: rgba(0,0,0,0.12);">
+      <div class="container" style="text-align:center; padding:12px 0;">
+        <a href="/enterprise" style="text-decoration:none; color:inherit;">
+          <span style="font-size: 0.95rem; opacity: 0.95; display: inline-flex; align-items: center; gap: 6px;">
+            <span aria-hidden="true">🍁</span>
+            Fintechs and businesses: visit the <strong>Enterprise Portal</strong> for API access and support.
+          </span>
+        </a>
+      </div>
+    </div>
+
+    <header>
+      <div class="container header-inner">
+        <a href="/index.html" class="logo-link">
+          <div class="logo-wrapper">
+            <img src="/images/mapleschema-transparent-icon.png" class="logo" alt="MapleSchema logo">
+          </div>
+        </a>
+
+        <nav>
+          <a href="/privacy.html">Privacy</a>
+          <a href="/contact.html">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+
+      <section class="hero" style="padding-bottom: 0;">
+        <h1>Transform your banking data into something more human.</h1>
+
+        <p class="hero-lead" style="max-width: 900px;">
+          <strong>Sign in</strong> → <strong>Upload file</strong> → <strong>Download spreadsheet</strong>
+        </p>
+
+        <p class="proof" style="margin-top: 10px;">
+          200 transactions per request free • No credit card • Instant download
+        </p>
+      </section>
+
+      <section class="grid" style="margin-top:16px; grid-template-columns:1fr; padding:0; background:none; border-radius:0;">
+        <article class="card primary" style="margin: 0; width: 100%; padding: 28px 32px;">
+          <!-- ERROR BOX -->
+          <div id="errorBox" style="display:none; margin-bottom: 16px; padding: 12px 14px; border-radius: 12px; border: 1px solid rgba(255,80,80,0.35); background: rgba(255,0,0,0.08);">
+            <div style="font-weight: 800; margin-bottom: 6px;">Error</div>
+            <div id="errorText" class="small"></div>
+            <div id="requestId" class="small" style="margin-top: 6px; opacity: 0.9;"></div>
+          </div>
+
+          <div style="display:grid; grid-template-columns: 1fr 1.2fr; gap: 26px; align-items:start;">
+
+            <!-- SIGN IN -->
+            <div>
+              <h2 style="margin-bottom: 6px;">1) Sign in</h2>
+              <p class="small" style="margin-top: 0;">
+                Sign in once, then upload and download instantly.
+              </p>
+
+                <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
+                <div id="signInWrap">
+                  <button id="btnSignIn" class="button-primary" type="button" style="display:inline-flex; align-items:center; gap:8px;">
+                    <span aria-hidden="true">🔒</span>
+                    Continue with Google
+                  </button>
+                </div>
+              
+                <button id="btnSignOut" class="button-primary" type="button" disabled style="opacity:0.8; display:none;">
+                  Sign out
+                </button>
+              </div>
+              
+              <div id="signedInCard" class="small" style="display:none; margin-top: 14px; padding: 10px 12px; border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; background: rgba(0,0,0,0.06); opacity: 0.95;">
+                <strong>Status:</strong> <span id="authStatus">Not signed in</span><br />
+                <span id="authEmail" style="opacity:0.9;"></span>
+              </div>
+
+
+              <p class="small" style="margin-top: 10px; opacity: 0.92;">
+                Don’t have a Google account?
+                <a href="/contact.html">Contact us</a>.
+              </p>
+            </div>
+
+            <!-- UPLOAD -->
+            <div>
+              <h2 style="margin-bottom: 6px;">2) Upload your file</h2>
+              <p class="small" style="margin-top: 0;">
+                Supported: JSON exports • Max 10MB
+              </p>
+
+             <div id="routingWrap" style="display:grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 10px 0 12px;">
+              <div>
+                <label class="small" style="font-weight: 800;">Aggregator</label>
+                <select id="aggregatorCode" style="width: 100%; padding: 10px; border-radius: 10px;">
+                  <option value="">(none)</option>
+                </select>
+              </div>
+              <div>
+                <label class="small" style="font-weight: 800;">Bank</label>
+                <select id="institutionCode" style="width: 100%; padding: 10px; border-radius: 10px;">
+                  <option value="">(none)</option>
+                </select>
+              </div>
+            </div>
+
+              <div style="border: 1px dashed rgba(120,80,50,0.35); border-radius: 12px; padding: 18px; background: rgba(255,255,255,0.35);">
+                <div style="display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap;">
+                  <div>
+                    <div style="font-weight:700;">Choose a JSON file</div>
+                    <div class="small" style="opacity:0.92; margin-top:4px;">
+                      <span id="fileName">No file selected</span>
+                    </div>
+                  </div>
+
+                  <input id="fileInput" type="file" accept="application/json,.json" disabled />
+                </div>
+
+                <p class="small" style="margin-top: 12px; opacity: 0.95;">
+                  After you sign in, select a file and convert immediately.
+                </p>
+              </div>
+            </div>
+
+          </div>
+
+          <hr style="margin: 22px 0; border: 0; border-top: 1px solid rgba(255,255,255,0.12);">
+
+          <!-- CONVERT -->
+         <div style="display:flex; align-items:flex-start; justify-content:flex-end; gap:18px; flex-wrap:wrap;">
+          <div style="text-align:right;">
+               <button
+            id="btnConvert"
+            type="button"
+            disabled
+            style="
+              display:inline-flex;
+              align-items:center;
+              gap:8px;
+              padding: 12px 28px;
+              border-radius: 999px;
+              border: none;
+              cursor: pointer;
+              font-weight: 900;
+              font-size: 1rem;
+              letter-spacing: 0.04em;
+              text-transform: uppercase;
+              background:#2CA01C;
+              color:#ffffff;
+            "
+          >
+            CONVERT
+          </button>
+
+    
+            <p class="small" style="margin-top: 10px; opacity: 0.92;">
+              Requires Google sign-in.
+            </p>
+          </div>
+        </div>
+        </article>
+      </section>
+
+<section style="margin-top:16px;">
+  <div
+    style="
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    "
+  >
+    <div
+      style="
+        width: 100%;
+        max-width: 1100px;
+        box-sizing: border-box;
+        padding: 28px 32px;
+        border-radius: 12px;
+        border: 1px solid rgba(0,0,0,0.12);
+        background: rgba(255,255,255,0.65);
+      "
+    >
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 16px;
+        "
+      >
+        <div>
+          <div style="font-weight:800; font-size:1.1rem;">
+            Limits
+          </div>
+          <div style="margin-top:6px; font-size:0.9rem; opacity:0.85;">
+            Free accounts can convert up to <strong>200 transactions</strong>.
+            Upgrade to Pro for higher limits.
+          </div>
+        </div>
+
+        <a href="/pro.html" style="display:inline-flex; align-items:center;">
+          <img
+            src="/images/mapleschema-transparent-pro-icon.png"
+            alt="MapleSchema Pro"
+            style="height:72px; width:auto;"
+          />
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+    </main>
+
+    <footer>
+      © MapleSchema 2026 — Export to Excel &amp; Google Sheets • Privacy-first •
+      <a href="/enterprise">For fintech &amp; developers</a>
+    </footer>
+
+  </div>
+
+  <!-- Firebase (Compat SDK for simplest static hosting integration) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+  <!-- Your Firebase config (fill these in from your Firebase Web App settings) -->
+ <script>
+  // Firebase Web App config (PROD)
+  // Generated from Firebase Console → Project settings → Web app
+  window.MAPLE_FIREBASE_CONFIG = {
+    apiKey: "AIzaSyBgeIGdlYuQfBSGofSSjGoqq8s6KWnPrAE",
+    authDomain: "mapleschema-prod.firebaseapp.com",
+    projectId: "mapleschema-prod",
+    storageBucket: "mapleschema-prod.firebasestorage.app",
+    messagingSenderId: "379867061540",
+    appId: "1:379867061540:web:cab36006b09975b78ca7b1"
+  };
+</script>
+
+
+  <!-- Converter logic -->
+  <script src="/js/convert.js"></script>
+</body>
+
+</html>
