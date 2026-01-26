@@ -8,8 +8,11 @@
 
 (() => {
   // ---- Config ----
-  const API_BASE = (window.MAPLE_API_BASE || "").replace(/\/$/, "");
-  const SUBSCRIBE_URL = "/subscribe.html";
+  const API_BASE = (window.MAPLE_API_BASE || "https://api.mapleschema.com").replace(/\/+$/, "");
+  const SUBSCRIBE_URL =
+  window.MAPLE_SUBSCRIBE_URL ||
+  (String(window.location.pathname || "").includes("staging") ? "/subscribe-staging.html" : "/subscribe.html");
+
 
   // ---- DOM helpers ----
   const $ = (id) => document.getElementById(id);
