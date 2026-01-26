@@ -342,16 +342,14 @@
       <a href="/enterprise">For fintech &amp; developers</a>
     </footer>
   </div>
-  
     <!-- Firebase (Compat SDK for simplest static hosting integration) -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-  
-    <!-- Your Firebase config (fill these in from your Firebase Web App settings) -->
-   <script>
-    // Firebase Web App config (PROD)
-    // Generated from Firebase Console → Project settings → Web app
-    const firebaseConfig = {
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+  <!-- STAGING Firebase config (Compat + existing pro.js expects this global) -->
+  <script>
+    window.MAPLE_ENV = "staging";
+    window.MAPLE_FIREBASE_CONFIG = {
       apiKey: "AIzaSyB960RtycsSigsJ77KwYlRWlPBb4e1DU1s",
       authDomain: "mapleschema-staging.firebaseapp.com",
       projectId: "mapleschema-staging",
@@ -360,7 +358,24 @@
       appId: "1:851079947514:web:809a28d25d24eef5f01543",
       measurementId: "G-FCNZJQVSHV"
     };
+
+    // Initialize Firebase exactly once
+    try {
+      if (!firebase.apps || firebase.apps.length === 0) {
+        firebase.initializeApp(window.MAPLE_FIREBASE_CONFIG);
+      }
+    } catch (e) {
+      const errorBox = document.getElementById("errorBox");
+      const errorText = document.getElementById("errorText");
+      if (errorBox && errorText) {
+        errorBox.style.display = "";
+        errorText.textContent =
+          "Firebase init failed: " + (e && e.message ? e.message : String(e));
+      }
+    }
   </script>
+
+  <!-- Your page logic (expects firebase already initialized) -->
   <script src="/js/pro.js"></script>
 
   <!-- Account → Stripe Customer Portal (only visible when signed in) -->
@@ -371,22 +386,26 @@
       async function openPortal() {
         try {
           const user = firebase.auth().currentUser;
-          if (!user) return; // should not happen because link hidden when signed out
+          if (!user) return;
 
-          const idToken = await user.getIdToken(/* forceRefresh */ true);
+          const idToken = await user.getIdToken(true);
 
+          // NOTE: if your backend isn't on the same origin, this must be an absolute URL.
           const resp = await fetch("/v1/billing/portal", {
             method: "POST",
             headers: {
               "Authorization": "Bearer " + idToken,
               "Content-Type": "application/json"
             },
-            body: JSON.stringify({ return_path: "/pro.html" })
+            // return to staging page, not prod
+            body: JSON.stringify({ return_path: "/pro-staging.html" })
           });
 
           const data = await resp.json().catch(() => ({}));
           if (!resp.ok) {
-            const msg = data && (data.error || data.message) ? (data.error || data.message) : ("Portal request failed (" + resp.status + ").");
+            const msg = data && (data.error || data.message)
+              ? (data.error || data.message)
+              : ("Portal request failed (" + resp.status + ").");
             alert(msg);
             return;
           }
@@ -412,7 +431,6 @@
           openPortal();
         });
 
-        // Toggle visibility based on auth state
         if (window.firebase && firebase.auth) {
           firebase.auth().onAuthStateChanged(function (user) {
             show(navAccount, !!user);
@@ -421,42 +439,44 @@
       });
     })();
   </script>
-<script>
-  (function () {
-    // If this debug page is ever opened on the real prod domain, disable dangerous actions.
-    const host = (location.hostname || "").toLowerCase();
-    const isProdHost = (host === "mapleschema.com" || host === "www.mapleschema.com");
 
-    if (isProdHost) {
-      // Make the banner even louder
-      const b = document.getElementById("envBanner");
-      if (b) b.style.background = "linear-gradient(90deg, #000, #000)";
+  <!-- Debug safety: DO NOT disable just because host is mapleschema.com
+       (you are hosting staging pages there). Make it path-based. -->
+  <script>
+    (function () {
+      const path = (location.pathname || "").toLowerCase();
+      const isThisDebugPage =
+        path.endsWith("/pro-staging.html") || path.endsWith("/pro-debug.html");
 
-      // Disable convert + account portal links
+      if (!isThisDebugPage) return;
+
+      // Optional: if you *also* serve a separate prod host, put it here.
+      // DO NOT treat mapleschema.com as dangerous if you host staging pages there.
+      const host = (location.hostname || "").toLowerCase();
+      const dangerousHost = false; // set true only if you have a separate prod-only hostname
+
+      if (!dangerousHost) return;
+
       const btnConvert = document.getElementById("btnConvert");
       if (btnConvert) {
         btnConvert.disabled = true;
-        btnConvert.textContent = "DISABLED (DEBUG PAGE ON PROD DOMAIN)";
+        btnConvert.textContent = "DISABLED (DEBUG PAGE ON PROD HOST)";
         btnConvert.style.opacity = "0.6";
         btnConvert.style.cursor = "not-allowed";
       }
 
       const navAccount = document.getElementById("navAccount");
-      if (navAccount) {
-        navAccount.style.display = "none";
-      }
+      if (navAccount) navAccount.style.display = "none";
 
-      // Optional: show an explicit error box
       const errorBox = document.getElementById("errorBox");
       const errorText = document.getElementById("errorText");
       if (errorBox && errorText) {
         errorBox.style.display = "";
-        errorText.textContent = "This is a STAGING/DEBUG page opened on the PROD domain. Actions are disabled to prevent mistakes.";
+        errorText.textContent =
+          "This is a STAGING/DEBUG page opened on a production host. Actions are disabled to prevent mistakes.";
       }
-    }
-  })();
-</script>
+    })();
+  </script>
 
 </body>
-
 </html>
