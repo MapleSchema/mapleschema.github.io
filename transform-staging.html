@@ -303,49 +303,6 @@
     }
   </script>
 
-  <!-- Prevent mistakes (only if this debug file is opened where it shouldn't be) -->
-  <script>
-    (function () {
-      const host = (location.hostname || "").toLowerCase();
-      const path = (location.pathname || "").toLowerCase();
-
-      // Only apply protection on THIS debug page path.
-      // (So hosting debug on mapleschema.com doesn't disable itself unless you want it to.)
-      const isDebugPage =
-        path.endsWith("/transform-debug.html") ||
-        path.endsWith("/convert-debug.html") ||
-        path.endsWith("/transform-staging.html");
-
-      if (!isDebugPage) return;
-
-      // If you EVER accidentally put this debug page on a real prod hostname you consider dangerous,
-      // lock it down. Adjust this list if your staging host is also mapleschema.com.
-      const dangerousHost =
-        host === "www.mapleschema.com"; // keep mapleschema.com allowed if that's where you host debug
-
-      if (!dangerousHost) return;
-
-      const btnConvert = document.getElementById("btnConvert");
-      if (btnConvert) {
-        btnConvert.disabled = true;
-        btnConvert.textContent = "DISABLED (DEBUG PAGE ON PROD HOST)";
-        btnConvert.style.opacity = "0.6";
-        btnConvert.style.cursor = "not-allowed";
-      }
-
-      const fileInput = document.getElementById("fileInput");
-      if (fileInput) fileInput.disabled = true;
-
-      const errorBox = document.getElementById("errorBox");
-      const errorText = document.getElementById("errorText");
-      if (errorBox && errorText) {
-        errorBox.style.display = "";
-        errorText.textContent =
-          "This is a STAGING/DEBUG page opened on a production host. Actions are disabled to prevent mistakes.";
-      }
-    })();
-  </script>
-
   <!-- Converter logic -->
   <script src="/js/convert.js"></script>
 
