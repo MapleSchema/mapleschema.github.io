@@ -2,14 +2,15 @@
 <html lang="en">
 
 <head>
+  <meta name="robots" content="noindex, nofollow">
   <meta charset="UTF-8" />
-  <title>MapleSchema — Convert to CSV</title>
+  <title>MapleSchema (STAGING) — Transform Debug</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="Sign in, upload your banking export, and download a spreadsheet-ready CSV instantly." />
 
   <meta property="og:title" content="MapleSchema — Convert to CSV">
   <meta property="og:description" content="Sign in, upload your banking export, and download a spreadsheet-ready CSV instantly.">
-  <meta property="og:url" content="https://mapleschema.com/convert.html">
+  <meta property="og:url" content="https://mapleschema.com/transform-debug.html">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://mapleschema.com/images/mapleschema-social.png">
   <meta name="twitter:card" content="summary_large_image">
@@ -23,6 +24,29 @@
 
 <body>
   <div id="site">
+<!-- STAGING / DEBUG BANNER -->
+<div id="envBanner" style="
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+  background: linear-gradient(90deg, #7a0b0b, #b31313);
+">
+  <div class="container" style="text-align:center; padding:12px 0;">
+    <span style="
+      font-size: 0.95rem;
+      color: #fff2f2;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+    ">
+      <span aria-hidden="true">🧪</span>
+      STAGING / DEBUG — DO NOT USE FOR REAL CUSTOMERS OR REAL PAYMENTS
+    </span>
+  </div>
+</div>
 
     <div style="border-bottom: 1px solid rgba(255,255,255,0.10); background: rgba(0,0,0,0.12);">
       <div class="container" style="text-align:center; padding:12px 0;">
@@ -59,9 +83,10 @@
           <strong>Sign in</strong> → <strong>Upload file</strong> → <strong>Download spreadsheet</strong>
         </p>
 
-        <p class="proof" style="margin-top: 10px;">
-          200 transactions per request free • No credit card • Instant download
+       <p class="proof" style="margin-top: 10px;">
+          STAGING / DEBUG PAGE • 200 transactions per request free • No credit card • Instant download
         </p>
+
       </section>
 
       <section class="grid" style="margin-top:16px; grid-template-columns:1fr; padding:0; background:none; border-radius:0;">
@@ -254,14 +279,43 @@
  <script>
   // Firebase Web App config (PROD)
   // Generated from Firebase Console → Project settings → Web app
-  window.MAPLE_FIREBASE_CONFIG = {
-    apiKey: "AIzaSyBgeIGdlYuQfBSGofSSjGoqq8s6KWnPrAE",
-    authDomain: "mapleschema-prod.firebaseapp.com",
-    projectId: "mapleschema-prod",
-    storageBucket: "mapleschema-prod.firebasestorage.app",
-    messagingSenderId: "379867061540",
-    appId: "1:379867061540:web:cab36006b09975b78ca7b1"
-  };
+ const firebaseConfig = {
+  apiKey: "AIzaSyB960RtycsSigsJ77KwYlRWlPBb4e1DU1s",
+  authDomain: "mapleschema-staging.firebaseapp.com",
+  projectId: "mapleschema-staging",
+  storageBucket: "mapleschema-staging.firebasestorage.app",
+  messagingSenderId: "851079947514",
+  appId: "1:851079947514:web:809a28d25d24eef5f01543",
+  measurementId: "G-FCNZJQVSHV"
+};
+</script>
+<script>
+  (function () {
+    const host = (location.hostname || "").toLowerCase();
+    const isProdHost = (host === "mapleschema.com" || host === "www.mapleschema.com");
+
+    if (!isProdHost) return;
+
+    // Disable actions
+    const btnConvert = document.getElementById("btnConvert");
+    if (btnConvert) {
+      btnConvert.disabled = true;
+      btnConvert.textContent = "DISABLED (DEBUG PAGE ON PROD DOMAIN)";
+      btnConvert.style.opacity = "0.6";
+      btnConvert.style.cursor = "not-allowed";
+    }
+
+    const fileInput = document.getElementById("fileInput");
+    if (fileInput) fileInput.disabled = true;
+
+    // Show a loud error box
+    const errorBox = document.getElementById("errorBox");
+    const errorText = document.getElementById("errorText");
+    if (errorBox && errorText) {
+      errorBox.style.display = "";
+      errorText.textContent = "This is a STAGING/DEBUG page opened on the PROD domain. Actions are disabled to prevent mistakes.";
+    }
+  })();
 </script>
 
 
