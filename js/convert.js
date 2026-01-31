@@ -445,7 +445,7 @@
       const parsed = await readFileAsJSON(file);
       const body = buildConvertRequestBody(parsed);
 
-      const url = `${API_BASE}/v1/transactions/convert`;
+      const url = `${API_BASE}/v1/core/csv`;
 
       const res = await fetch(url, {
         method: "POST",
