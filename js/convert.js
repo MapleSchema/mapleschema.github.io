@@ -4,14 +4,13 @@
   // Env + constants
   // -----------------------
   const API_BASE = (window.MAPLE_API_BASE || "https://api.mapleschema.com").replace(/\/+$/, "");
-  const ORIGIN_HINT = (window.location && window.location.origin) ? window.location.origin : "https://mapleschema.com";
+  const ORIGIN = (window.location && window.location.origin) ? window.location.origin : "https://mapleschema.com";
 
   // -----------------------
   // DOM helpers
   // -----------------------
   const $ = (id) => document.getElementById(id);
 
-  // Converter/auth UI elements (may be missing on non-convert pages)
   const statusEl = $("authStatus");
   const emailEl = $("authEmail");
   const signInBtn = $("btnSignIn");
@@ -23,6 +22,7 @@
   const fileInput = $("fileInput");
   const fileNameEl = $("fileName");
   const convertBtn = $("btnConvert");
+
   const errorBox = $("errorBox");
   const errorText = $("errorText");
   const requestIdEl = $("requestId");
@@ -31,10 +31,7 @@
   const signedInCard = $("signedInCard");
   const routingWrap = $("routingWrap");
 
-  // -----------------------
-  // Page detection
-  // -----------------------
-  // Only enable converter UI wiring if the expected converter elements exist.
+  // Converter UI exists?
   const hasConverterUI =
     !!fileInput && !!convertBtn && !!signInBtn && !!signOutBtn && !!errorBox && !!errorText;
 
@@ -44,7 +41,7 @@
   let currentUser = null;
 
   // -----------------------
-  // UI helpers (no-ops if UI not present)
+  // Small UI utilities
   // -----------------------
   function setError(message, requestId = "") {
     if (!errorBox || !errorText) return;
@@ -61,19 +58,84 @@
   }
 
   function hasRealOptions(sel) {
-    return sel && sel.options && sel.options.length > 1; // placeholder + real options
+    return sel && sel.options && sel.options.length > 1;
   }
 
   function updateRoutingVisibility() {
     if (!routingWrap) return;
-
-    // Hide if neither dropdown has any real options.
     if (!hasRealOptions(aggSelect) && !hasRealOptions(bankSelect)) {
       routingWrap.style.display = "none";
       return;
     }
-
     routingWrap.style.display = "grid";
+  }
+
+  // Find the dashed upload box to visually “confirm selection”
+  function findUploadBox() {
+    if (!fileInput) return null;
+    // nearest wrapper with dashed border from your HTML (best-effort)
+    let el = fileInput.parentElement;
+    for (let i = 0; i < 8 && el; i++) {
+      const style = (el.getAttribute && el.getAttribute("style")) ? el.getAttribute("style") : "";
+      if (style && style.includes("dashed")) return el;
+      el = el.parentElement;
+    }
+    return null;
+  }
+
+  const uploadBox = findUploadBox();
+  let selectedPillEl = null;
+
+  function ensureSelectedPill() {
+    if (selectedPillEl || !uploadBox) return;
+    // Create a small "Selected ✓" pill and attach near the top of the upload box
+    selectedPillEl = document.createElement("div");
+    selectedPillEl.textContent = "Selected ✓";
+    selectedPillEl.style.cssText = `
+      display:none;
+      margin-bottom:10px;
+      width: fit-content;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 0.85rem;
+      letter-spacing: 0.02em;
+      border: 1px solid rgba(44,160,28,0.45);
+      background: rgba(44,160,28,0.10);
+      color: rgba(20,70,20,0.95);
+    `;
+    uploadBox.prepend(selectedPillEl);
+  }
+
+  function formatMB(bytes) {
+    if (!Number.isFinite(bytes)) return "";
+    return (bytes / (1024 * 1024)).toFixed(2);
+  }
+
+  function setUploadSelectedUI(file) {
+    if (!hasConverterUI) return;
+
+    ensureSelectedPill();
+
+    if (!file) {
+      if (fileNameEl) fileNameEl.textContent = "No file selected";
+
+      if (selectedPillEl) selectedPillEl.style.display = "none";
+      if (uploadBox) {
+        uploadBox.style.border = "1px dashed rgba(120,80,50,0.35)";
+        uploadBox.style.background = "rgba(255,255,255,0.35)";
+      }
+      return;
+    }
+
+    const mb = formatMB(file.size);
+    if (fileNameEl) fileNameEl.textContent = `${file.name}${mb ? ` • ${mb} MB` : ""}`;
+
+    if (selectedPillEl) selectedPillEl.style.display = "inline-flex";
+    if (uploadBox) {
+      uploadBox.style.border = "1px solid rgba(44,160,28,0.55)";
+      uploadBox.style.background = "rgba(44,160,28,0.08)";
+    }
   }
 
   function setSignedOutUI() {
@@ -93,7 +155,8 @@
 
     if (fileInput) fileInput.disabled = true;
     if (convertBtn) convertBtn.disabled = true;
-    if (fileNameEl) fileNameEl.textContent = "No file selected";
+
+    setUploadSelectedUI(null);
   }
 
   function setSignedInUI(user) {
@@ -112,13 +175,20 @@
     }
 
     if (fileInput) fileInput.disabled = false;
-    if (convertBtn) convertBtn.disabled = !fileInput?.files?.length;
+
+    const hasFile = !!fileInput?.files?.length;
+    if (convertBtn) convertBtn.disabled = !hasFile;
+    if (hasFile) setUploadSelectedUI(fileInput.files[0]);
   }
 
   function setBusy(isBusy) {
     if (!convertBtn) return;
-    convertBtn.disabled = isBusy || !currentUser || !fileInput?.files?.length;
-    convertBtn.textContent = isBusy ? "Converting..." : "Convert to CSV";
+
+    const hasFile = !!fileInput?.files?.length;
+    convertBtn.disabled = isBusy || !currentUser || !hasFile;
+
+    // Match your HTML vibe: short + loud
+    convertBtn.textContent = isBusy ? "CONVERTING..." : "CONVERT";
   }
 
   // -----------------------
@@ -137,7 +207,6 @@
 
   function parseFilenameFromContentDisposition(cd) {
     if (!cd) return "";
-    // handles: attachment; filename="mapleschema.csv"
     const match = /filename\*?=(?:UTF-8''|")?([^\";]+)/i.exec(cd);
     if (!match) return "";
     return decodeURIComponent(match[1].replace(/"/g, "").trim());
@@ -172,19 +241,51 @@
       );
     }
 
-    return {
-      aggregator_code,
-      institution_code,
-      transactions,
-    };
+    return { aggregator_code, institution_code, transactions };
+  }
+
+  // -----------------------
+  // Response parsing helpers (makes 404 useful)
+  // -----------------------
+  function safeTrim(s, max = 800) {
+    if (!s) return "";
+    const t = String(s);
+    return t.length > max ? `${t.slice(0, max)}…` : t;
+  }
+
+  async function readErrorBody(res) {
+    const ct = (res.headers.get("Content-Type") || "").toLowerCase();
+
+    // Prefer JSON if it really is JSON
+    if (ct.includes("application/json")) {
+      try {
+        const j = await res.json();
+        const msg = j?.error?.message || j?.message || "";
+        const rid = j?.error?.request_id || "";
+        return { msg, requestId: rid };
+      } catch {
+        // fallthrough
+      }
+    }
+
+    // Otherwise read text (this catches: "404 page not found")
+    try {
+      const text = await res.text();
+      return { msg: safeTrim(text), requestId: "" };
+    } catch {
+      return { msg: "", requestId: "" };
+    }
   }
 
   // -----------------------
   // Firebase wiring
   // -----------------------
   function ensureFirebaseSDKPresent() {
-    // compat SDK exposes global `firebase`
-    return typeof window.firebase !== "undefined" && window.firebase && typeof window.firebase.initializeApp === "function";
+    return (
+      typeof window.firebase !== "undefined" &&
+      window.firebase &&
+      typeof window.firebase.initializeApp === "function"
+    );
   }
 
   function initFirebaseAppOnce() {
@@ -197,12 +298,9 @@
       setError("Firebase SDK missing. Ensure firebase-app-compat.js and firebase-auth-compat.js are loaded.");
       return false;
     }
-
-    // Prevent "Firebase App named '[DEFAULT]' already exists"
     if (!window.firebase.apps || window.firebase.apps.length === 0) {
       window.firebase.initializeApp(cfg);
     }
-
     return true;
   }
 
@@ -210,14 +308,12 @@
     const ok = initFirebaseAppOnce();
     if (!ok) return;
 
-    // Listen for auth changes globally (works on any page)
     window.firebase.auth().onAuthStateChanged((user) => {
-      // Don't clear error on every page unless converter UI exists (avoid hiding unrelated errors)
       if (hasConverterUI) clearError();
 
       if (!user) {
-        if (hasConverterUI) setSignedOutUI();
         currentUser = null;
+        if (hasConverterUI) setSignedOutUI();
         return;
       }
 
@@ -225,7 +321,6 @@
       if (hasConverterUI) setSignedInUI(user);
     });
 
-    // Only wire buttons if present
     if (signInBtn) {
       signInBtn.addEventListener("click", async (e) => {
         e.preventDefault();
@@ -253,7 +348,7 @@
   }
 
   // -----------------------
-  // Converter handler
+  // Convert handler
   // -----------------------
   async function handleConvertClick(e) {
     e.preventDefault();
@@ -274,15 +369,18 @@
 
     try {
       const idToken = await currentUser.getIdToken(true);
-
       const parsed = await readFileAsJSON(file);
       const body = buildConvertRequestBody(parsed);
 
-      const res = await fetch(`${API_BASE}/v1/transactions/convert`, {
+      const url = `${API_BASE}/v1/transactions/convert`;
+
+      const res = await fetch(url, {
         method: "POST",
         headers: {
           "Authorization": `Bearer ${idToken}`,
           "Content-Type": "application/json",
+          // optional: can help server-side logging correlate calls from the web app
+          "X-Client-Origin": ORIGIN,
         },
         body: JSON.stringify(body),
       });
@@ -290,16 +388,26 @@
       const requestId = res.headers.get("X-Request-Id") || "";
 
       if (!res.ok) {
-        let msg = `Convert failed (HTTP ${res.status}).`;
-        let rid = requestId;
+        const parsedErr = await readErrorBody(res);
 
-        try {
-          const j = await res.json();
-          msg = j?.error?.message || msg;
-          rid = j?.error?.request_id || rid;
-        } catch (_) {}
+        // If it’s the classic Go 404, make it immediately obvious what to fix.
+        if (res.status === 404) {
+          const extra = parsedErr.msg ? `\n\nResponse: ${parsedErr.msg}` : "";
+          setError(
+            `Convert failed (HTTP 404).\nEndpoint not found.\n\nURL: ${url}${extra}\n\nThis usually means the server does not have that route in prod, or your API gateway is not forwarding /v1/transactions/convert.`,
+            requestId || parsedErr.requestId || ""
+          );
+          return;
+        }
 
-        setError(msg, rid);
+        let msg = parsedErr.msg || `Convert failed (HTTP ${res.status}).`;
+        // If the body is HTML or noisy, keep it short.
+        msg = safeTrim(msg, 600);
+
+        setError(
+          `${msg}\n\nURL: ${url}`,
+          requestId || parsedErr.requestId || ""
+        );
         return;
       }
 
@@ -319,21 +427,24 @@
   // Boot
   // -----------------------
   document.addEventListener("DOMContentLoaded", async () => {
-    // Always initialize Firebase (so other pages can rely on auth state)
     await initFirebaseAuthBindings();
 
-    // Only initialize converter UI if present
     if (!hasConverterUI) return;
 
     setSignedOutUI();
     clearError();
     updateRoutingVisibility();
+    ensureSelectedPill();
 
     if (fileInput) {
       fileInput.addEventListener("change", () => {
         clearError();
-        const f = fileInput.files?.[0];
-        if (fileNameEl) fileNameEl.textContent = f ? f.name : "No file selected";
+        const f = fileInput.files?.[0] || null;
+
+        // obvious visual confirmation
+        setUploadSelectedUI(f);
+
+        // enable convert when signed in + file selected
         if (convertBtn) convertBtn.disabled = !currentUser || !f;
       });
     }
