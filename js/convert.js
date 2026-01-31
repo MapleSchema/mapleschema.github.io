@@ -31,7 +31,6 @@
   const signedInCard = $("signedInCard");
   const routingWrap = $("routingWrap");
 
-  // Converter UI exists?
   const hasConverterUI =
     !!fileInput && !!convertBtn && !!signInBtn && !!signOutBtn && !!errorBox && !!errorText;
 
@@ -40,8 +39,12 @@
   // -----------------------
   let currentUser = null;
 
+  // File buttons (injected)
+  let chooseBtn = null;
+  let removeBtn = null;
+
   // -----------------------
-  // Small UI utilities
+  // UI helpers
   // -----------------------
   function setError(message, requestId = "") {
     if (!errorBox || !errorText) return;
@@ -70,12 +73,11 @@
     routingWrap.style.display = "grid";
   }
 
-  // Find the dashed upload box to visually “confirm selection”
+  // Find the dashed upload box (best-effort, based on inline style)
   function findUploadBox() {
     if (!fileInput) return null;
-    // nearest wrapper with dashed border from your HTML (best-effort)
     let el = fileInput.parentElement;
-    for (let i = 0; i < 8 && el; i++) {
+    for (let i = 0; i < 10 && el; i++) {
       const style = (el.getAttribute && el.getAttribute("style")) ? el.getAttribute("style") : "";
       if (style && style.includes("dashed")) return el;
       el = el.parentElement;
@@ -88,7 +90,6 @@
 
   function ensureSelectedPill() {
     if (selectedPillEl || !uploadBox) return;
-    // Create a small "Selected ✓" pill and attach near the top of the upload box
     selectedPillEl = document.createElement("div");
     selectedPillEl.textContent = "Selected ✓";
     selectedPillEl.style.cssText = `
@@ -107,9 +108,13 @@
     uploadBox.prepend(selectedPillEl);
   }
 
-  function formatMB(bytes) {
+  function formatFileSize(bytes) {
     if (!Number.isFinite(bytes)) return "";
-    return (bytes / (1024 * 1024)).toFixed(2);
+    if (bytes < 1024) return `${bytes} B`;
+    const kb = bytes / 1024;
+    if (kb < 1024) return `${kb.toFixed(1)} KB`;
+    const mb = kb / 1024;
+    return `${mb.toFixed(2)} MB`;
   }
 
   function setUploadSelectedUI(file) {
@@ -125,17 +130,23 @@
         uploadBox.style.border = "1px dashed rgba(120,80,50,0.35)";
         uploadBox.style.background = "rgba(255,255,255,0.35)";
       }
+
+      if (chooseBtn) chooseBtn.textContent = "Choose file";
+      if (removeBtn) removeBtn.style.display = "none";
       return;
     }
 
-    const mb = formatMB(file.size);
-    if (fileNameEl) fileNameEl.textContent = `${file.name}${mb ? ` • ${mb} MB` : ""}`;
+    const sizeLabel = formatFileSize(file.size);
+    if (fileNameEl) fileNameEl.textContent = `${file.name}${sizeLabel ? ` • ${sizeLabel}` : ""}`;
 
     if (selectedPillEl) selectedPillEl.style.display = "inline-flex";
     if (uploadBox) {
       uploadBox.style.border = "1px solid rgba(44,160,28,0.55)";
       uploadBox.style.background = "rgba(44,160,28,0.08)";
     }
+
+    if (chooseBtn) chooseBtn.textContent = "Change file";
+    if (removeBtn) removeBtn.style.display = "inline-flex";
   }
 
   function setSignedOutUI() {
@@ -178,17 +189,83 @@
 
     const hasFile = !!fileInput?.files?.length;
     if (convertBtn) convertBtn.disabled = !hasFile;
+
     if (hasFile) setUploadSelectedUI(fileInput.files[0]);
   }
 
   function setBusy(isBusy) {
     if (!convertBtn) return;
-
     const hasFile = !!fileInput?.files?.length;
     convertBtn.disabled = isBusy || !currentUser || !hasFile;
-
-    // Match your HTML vibe: short + loud
     convertBtn.textContent = isBusy ? "CONVERTING..." : "CONVERT";
+  }
+
+  // -----------------------
+  // File button injection
+  // -----------------------
+  function styleActionButton(btn, kind = "primary") {
+    // Keep it consistent with your page without relying on external classes.
+    if (!btn) return;
+    const base = `
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      padding: 8px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(0,0,0,0.15);
+      cursor: pointer;
+      font-weight: 800;
+      font-size: 0.9rem;
+      user-select:none;
+      white-space:nowrap;
+    `;
+    const primary = `background: rgba(255,255,255,0.85);`;
+    const secondary = `background: rgba(0,0,0,0.06);`;
+    btn.style.cssText = base + (kind === "secondary" ? secondary : primary);
+  }
+
+  function injectFileButtons() {
+    if (!hasConverterUI || !fileInput) return;
+
+    // Put buttons where the native file input currently sits.
+    const host = fileInput.parentElement;
+    if (!host) return;
+
+    // Hide the native input, but keep it functional.
+    fileInput.style.position = "absolute";
+    fileInput.style.left = "-9999px";
+    fileInput.style.width = "1px";
+    fileInput.style.height = "1px";
+    fileInput.style.opacity = "0";
+
+    chooseBtn = document.createElement("button");
+    chooseBtn.type = "button";
+    chooseBtn.textContent = "Choose file";
+    styleActionButton(chooseBtn, "primary");
+
+    removeBtn = document.createElement("button");
+    removeBtn.type = "button";
+    removeBtn.textContent = "Remove";
+    styleActionButton(removeBtn, "secondary");
+    removeBtn.style.display = "none";
+
+    // Insert buttons before the hidden input.
+    host.insertBefore(removeBtn, fileInput);
+    host.insertBefore(chooseBtn, removeBtn);
+
+    chooseBtn.addEventListener("click", () => {
+      if (fileInput.disabled) return;
+      fileInput.click();
+    });
+
+    removeBtn.addEventListener("click", () => {
+      clearError();
+      // Clearing file input reliably: set value to empty string.
+      fileInput.value = "";
+      setUploadSelectedUI(null);
+      if (convertBtn) convertBtn.disabled = !currentUser;
+    });
   }
 
   // -----------------------
@@ -245,7 +322,7 @@
   }
 
   // -----------------------
-  // Response parsing helpers (makes 404 useful)
+  // Error parsing helpers
   // -----------------------
   function safeTrim(s, max = 800) {
     if (!s) return "";
@@ -256,7 +333,6 @@
   async function readErrorBody(res) {
     const ct = (res.headers.get("Content-Type") || "").toLowerCase();
 
-    // Prefer JSON if it really is JSON
     if (ct.includes("application/json")) {
       try {
         const j = await res.json();
@@ -268,7 +344,6 @@
       }
     }
 
-    // Otherwise read text (this catches: "404 page not found")
     try {
       const text = await res.text();
       return { msg: safeTrim(text), requestId: "" };
@@ -281,11 +356,9 @@
   // Firebase wiring
   // -----------------------
   function ensureFirebaseSDKPresent() {
-    return (
-      typeof window.firebase !== "undefined" &&
-      window.firebase &&
-      typeof window.firebase.initializeApp === "function"
-    );
+    return typeof window.firebase !== "undefined"
+      && window.firebase
+      && typeof window.firebase.initializeApp === "function";
   }
 
   function initFirebaseAppOnce() {
@@ -379,7 +452,6 @@
         headers: {
           "Authorization": `Bearer ${idToken}`,
           "Content-Type": "application/json",
-          // optional: can help server-side logging correlate calls from the web app
           "X-Client-Origin": ORIGIN,
         },
         body: JSON.stringify(body),
@@ -390,24 +462,17 @@
       if (!res.ok) {
         const parsedErr = await readErrorBody(res);
 
-        // If it’s the classic Go 404, make it immediately obvious what to fix.
         if (res.status === 404) {
           const extra = parsedErr.msg ? `\n\nResponse: ${parsedErr.msg}` : "";
           setError(
-            `Convert failed (HTTP 404).\nEndpoint not found.\n\nURL: ${url}${extra}\n\nThis usually means the server does not have that route in prod, or your API gateway is not forwarding /v1/transactions/convert.`,
+            `Convert failed (HTTP 404).\nEndpoint not found.\n\nURL: ${url}${extra}`,
             requestId || parsedErr.requestId || ""
           );
           return;
         }
 
-        let msg = parsedErr.msg || `Convert failed (HTTP ${res.status}).`;
-        // If the body is HTML or noisy, keep it short.
-        msg = safeTrim(msg, 600);
-
-        setError(
-          `${msg}\n\nURL: ${url}`,
-          requestId || parsedErr.requestId || ""
-        );
+        const msg = safeTrim(parsedErr.msg || `Convert failed (HTTP ${res.status}).`, 600);
+        setError(`${msg}\n\nURL: ${url}`, requestId || parsedErr.requestId || "");
         return;
       }
 
@@ -434,17 +499,17 @@
     setSignedOutUI();
     clearError();
     updateRoutingVisibility();
+
     ensureSelectedPill();
+    injectFileButtons();
 
     if (fileInput) {
       fileInput.addEventListener("change", () => {
         clearError();
         const f = fileInput.files?.[0] || null;
 
-        // obvious visual confirmation
         setUploadSelectedUI(f);
 
-        // enable convert when signed in + file selected
         if (convertBtn) convertBtn.disabled = !currentUser || !f;
       });
     }
