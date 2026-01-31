@@ -452,7 +452,6 @@
         headers: {
           "Authorization": `Bearer ${idToken}`,
           "Content-Type": "application/json",
-          "X-Client-Origin": ORIGIN,
         },
         body: JSON.stringify(body),
       });
