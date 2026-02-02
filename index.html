@@ -27,107 +27,197 @@
 
   <link rel="stylesheet" href="/css/style.css" />
 
-  <script
-    data-goatcounter="https://mapleschema.goatcounter.com/count"
-    async
-    src="//gc.zgo.at/count.js"
-  ></script>
+  <script data-goatcounter="https://mapleschema.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 
-  <!-- Mobile-first overrides (drop-in, safe) -->
+  <!-- Drop-in page CSS: mobile-first, avoids overflow/overlap -->
   <style>
-    /* ---- Small layout helpers without touching global CSS ---- */
-    .ms-topstrip { border-bottom: 1px solid rgba(255,255,255,0.10); background: rgba(0,0,0,0.12); }
-    .ms-topstrip .container { text-align:center; padding: 12px 0; }
-    .ms-topstrip a { text-decoration:none; color:inherit; }
-    .ms-topstrip span { font-size:0.95rem; opacity:0.95; display:inline-flex; align-items:center; gap:6px; }
+    /* ---- Safety resets (fix right-side clipping + odd card behavior) ---- */
+    *,
+    *::before,
+    *::after { box-sizing: border-box; }
 
-    .ms-home-panel {
+    html, body {
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
+    /* ---- Page wrapper ---- */
+    .ms-wrap { min-height: 100vh; display: flex; flex-direction: column; }
+    .ms-main { flex: 1; }
+
+    /* ---- Top strip ---- */
+    .ms-topstrip {
+      border-bottom: 1px solid rgba(255,255,255,0.10);
+      background: rgba(0,0,0,0.12);
+    }
+    .ms-topstrip .container { padding-top: 10px; padding-bottom: 10px; }
+    .ms-topstrip a { text-decoration: none; color: inherit; display: block; }
+    .ms-topstrip-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      line-height: 1.2;
+      text-align: center;
+      flex-wrap: wrap;
+      padding: 0 4px;
+    }
+    .ms-topstrip-full { display: inline; }
+    .ms-topstrip-short { display: none; }
+
+    /* ---- Header: keep logo + nav sane on mobile ---- */
+    header .header-inner { gap: 12px; }
+    .ms-nav {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+    .ms-nav a { padding: 8px 10px; border-radius: 10px; }
+
+    /* ---- Hero typography tuning (without fighting global styles too hard) ---- */
+    .ms-hero h1 { text-wrap: balance; }
+    .ms-hero .hero-lead { text-wrap: balance; }
+
+    /* ---- Panels + cards: no overflow, no overlap ---- */
+    .ms-panel {
       margin-top: 14px;
-      margin-bottom: 16px;
       padding: 24px;
       background: var(--panel-bg);
       border-radius: 16px;
+      max-width: 100%;
+      overflow: hidden; /* prevents any child border/padding from bleeding */
     }
 
-    /* Key fix: auto-fit makes the card grid collapse naturally */
-    .ms-home-grid {
+    .ms-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr)); /* desktop */
       gap: 12px;
       margin: 0;
       padding: 0;
+      max-width: 100%;
     }
 
-    .ms-card-flex {
-      margin: 0;
+    .ms-card {
       display: flex;
       flex-direction: column;
-      min-height: 100%;
+      min-width: 0;
+      max-width: 100%;
+      height: auto;
+      position: static;     /* neutralize weird global rules */
+      transform: none;      /* neutralize weird global rules */
+      float: none;          /* neutralize weird global rules */
     }
 
+    .ms-card h2 { margin: 0 0 6px 0; }
+    .ms-card .ms-strong { margin: 0 0 10px 0; font-weight: 800; opacity: 0.98; }
+    .ms-card ul { margin-top: 0; opacity: 0.95; }
     .ms-spacer { margin-top: auto; }
 
+    /* Buttons: never float, always stay inside card */
+    .ms-card .cta-button {
+      display: inline-block;
+      width: 100%;
+      max-width: 100%;
+      text-align: center;
+      position: static !important;
+      float: none !important;
+      clear: both !important;
+      white-space: normal;
+    }
+
+    /* ---- Example “table” grid ---- */
+    .ms-example {
+      margin-top: 16px;
+    }
     .ms-example-grid {
       display: grid;
-      grid-template-columns: minmax(220px, 1fr) minmax(260px, 2fr);
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
       gap: 0;
       border: 1px solid rgba(0,0,0,0.12);
       border-radius: 12px;
       overflow: hidden;
       background: rgba(255,255,255,0.55);
       margin-top: 10px;
+      max-width: 100%;
     }
-
-    .ms-cell { padding: 10px 12px; border-bottom: 1px solid rgba(0,0,0,0.08); }
+    .ms-cell {
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+      min-width: 0;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
     .ms-cell.h { font-weight: 900; }
     .ms-cell.last { border-bottom: none; }
 
-    /* ---- Mobile responsiveness ---- */
+    /* ---- Footer: center + wrap cleanly ---- */
+    footer.ms-footer {
+      text-align: center;
+      padding: 18px 16px;
+      line-height: 1.35;
+      word-break: break-word;
+    }
+    footer.ms-footer .ms-footer-row {
+      display: inline-flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 6px;
+      max-width: 100%;
+    }
+    footer.ms-footer a { display: inline-block; }
+
+    /* ---- Mobile breakpoints ---- */
     @media (max-width: 720px) {
-      /* If your global .container has fixed padding, this helps without breaking desktop */
       .container { padding-left: 16px; padding-right: 16px; }
 
-      /* Header: allow wrap + bigger tap targets */
-      .header-inner { flex-wrap: wrap; gap: 10px; }
-      header nav { display:flex; flex-wrap: wrap; gap: 10px; }
-      header nav a { padding: 8px 10px; }
+      .ms-topstrip-full { display: none; }
+      .ms-topstrip-short { display: inline; }
 
-      /* Panels: slightly tighter */
-      .ms-home-panel { padding: 16px; }
+      header .header-inner { flex-wrap: wrap; justify-content: center; }
+      .ms-nav { width: 100%; justify-content: center; }
 
-      /* Example grid: stack into one column */
+      .ms-panel { padding: 16px; }
+
+      .ms-grid { grid-template-columns: 1fr; }
+
       .ms-example-grid { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 420px) {
-      /* Full-width CTAs on tiny screens */
-      .cta-button { display:block; width:100%; text-align:center; }
-
-      /* Headline sizing to avoid awkward wraps */
-      .hero h1 { font-size: 1.6rem; line-height: 1.15; }
-      .hero-lead { font-size: 1.05rem; }
+      .ms-hero h1 { font-size: 1.6rem; line-height: 1.15; }
+      .ms-hero .hero-lead { font-size: 1.05rem; }
+      .ms-nav a { padding: 10px 12px; }
     }
   </style>
 </head>
 
 <body>
-  <div id="site">
+  <div id="site" class="ms-wrap">
 
-    <!-- TOP STRIP: Enterprise discovery -->
+    <!-- TOP STRIP: Enterprise discovery (mobile short version) -->
     <div class="ms-topstrip">
       <div class="container">
-        <a href="/enterprise">
-          <span>
+        <a href="/enterprise" aria-label="Enterprise portal">
+          <div class="ms-topstrip-row">
             <span aria-hidden="true">🍁</span>
-            Fintechs &amp; platforms: visit the <strong>Enterprise Portal</strong> for API access, SLAs, and support.
-          </span>
+
+            <span class="ms-topstrip-full">
+              Fintechs &amp; platforms: visit the <strong>Enterprise Portal</strong> for API access, SLAs, and support.
+            </span>
+
+            <span class="ms-topstrip-short">
+              Fintechs: <strong>Enterprise Portal</strong> (API + SLAs)
+            </span>
+          </div>
         </a>
       </div>
     </div>
 
     <header>
       <div class="container header-inner">
-        <a href="/index.html" class="logo-link">
+        <a href="/index.html" class="logo-link" aria-label="MapleSchema home">
           <div class="logo-wrapper">
             <img
               src="/images/mapleschema-transparent-icon.png"
@@ -137,7 +227,7 @@
           </div>
         </a>
 
-        <nav>
+        <nav class="ms-nav" aria-label="Primary navigation">
           <a href="/subscribe.html">Pro</a>
           <a href="/privacy.html">Privacy</a>
           <a href="/contact.html">Contact</a>
@@ -145,10 +235,8 @@
       </div>
     </header>
 
-    <main class="container">
-
-      <!-- HERO -->
-      <section class="hero">
+    <main class="container ms-main">
+      <section class="hero ms-hero">
         <h1>Turn Raw Banking Data into Human-Friendly Files</h1>
 
         <p class="hero-lead">
@@ -160,17 +248,18 @@
         </p>
 
         <!-- OUTPUT ROUTER -->
-        <div class="ms-home-panel">
-          <div class="ms-home-grid">
-            <!-- CSV Converter (Free) -->
-            <article class="ms-home-card card ms-card-flex">
-              <h2 style="margin-bottom:6px;">🔁 Transaction CSV Converter</h2>
+        <div class="ms-panel">
+          <div class="ms-grid">
 
-              <p class="small" style="margin:0 0 10px 0; font-weight:800; opacity:0.98;">
+            <!-- CSV Converter (Free) -->
+            <article class="card ms-card">
+              <h2>🔁 Transaction CSV Converter</h2>
+
+              <p class="small ms-strong">
                 Turn raw bank transactions into a clean spreadsheet in seconds.
               </p>
 
-              <ul class="small" style="margin-top:0; opacity:0.95;">
+              <ul class="small">
                 <li>One row per transaction</li>
                 <li>Debits / credits normalized</li>
                 <li>Open in Excel or Sheets</li>
@@ -190,14 +279,14 @@
             </article>
 
             <!-- Structured JSON (Pro, includes optional Insights) -->
-            <article class="ms-home-card card primary ms-card-flex">
-              <h2 style="margin-bottom:6px;">📦 Structured Transaction JSON</h2>
+            <article class="card primary ms-card">
+              <h2>📦 Structured Transaction JSON</h2>
 
-              <p class="small" style="margin:0 0 10px 0; font-weight:800; opacity:0.98;">
+              <p class="small ms-strong">
                 Get one stable transaction format you can build against.
               </p>
 
-              <ul class="small" style="margin-top:0; opacity:0.95;">
+              <ul class="small">
                 <li>Consistent fields across banks</li>
                 <li>Safe to store, diff, and version</li>
                 <li><strong>Optional AI Insights</strong> as annotations (core unchanged)</li>
@@ -217,14 +306,14 @@
             </article>
 
             <!-- QuickBooks (Pro) -->
-            <article class="ms-home-card card primary ms-card-flex">
-              <h2 style="margin-bottom:6px;">🧮 QuickBooks Import Files</h2>
+            <article class="card primary ms-card">
+              <h2>🧮 QuickBooks Import Files</h2>
 
-              <p class="small" style="margin:0 0 10px 0; font-weight:800; opacity:0.98;">
+              <p class="small ms-strong">
                 Generate a QuickBooks import that comes in clean.
               </p>
 
-              <ul class="small" style="margin-top:0; opacity:0.95;">
+              <ul class="small">
                 <li>Import-ready columns</li>
                 <li>Amounts normalized</li>
                 <li>Safer duplicate handling</li>
@@ -242,12 +331,13 @@
                 </a>
               </div>
             </article>
+
           </div>
         </div>
 
         <!-- EXAMPLE OUTPUT -->
-        <div class="ms-home-panel" style="margin-top:16px; margin-bottom:0;">
-          <article class="ms-home-example card primary" style="margin:0;">
+        <div class="ms-panel ms-example">
+          <article class="card primary ms-card" style="margin:0;">
             <h2 style="margin-top:0;">Example output (Structured JSON)</h2>
 
             <p class="small" style="margin-top:6px; opacity:0.9;">
@@ -255,44 +345,50 @@
               <a href="/subscribe.html">See full examples</a>
             </p>
 
-            <div class="ms-example-grid">
-              <!-- Header -->
-              <div class="small ms-cell h">Field</div>
-              <div class="small ms-cell h">Example value</div>
+            <div class="ms-example-grid" role="table" aria-label="Example structured JSON fields">
+              <div class="small ms-cell h" role="columnheader">Field</div>
+              <div class="small ms-cell h" role="columnheader">Example value</div>
 
-              <div class="small ms-cell h">transaction_fingerprint</div>
-              <div class="small ms-cell">ms_fp_9f1c2c7b0d2a</div>
+              <div class="small ms-cell h" role="rowheader">transaction_fingerprint</div>
+              <div class="small ms-cell" role="cell">ms_fp_9f1c2c7b0d2a</div>
 
-              <div class="small ms-cell h">institution_code</div>
-              <div class="small ms-cell">rbc_ca</div>
+              <div class="small ms-cell h" role="rowheader">institution_code</div>
+              <div class="small ms-cell" role="cell">rbc_ca</div>
 
-              <div class="small ms-cell h">amount_minor</div>
-              <div class="small ms-cell">-724</div>
+              <div class="small ms-cell h" role="rowheader">amount_minor</div>
+              <div class="small ms-cell" role="cell">-724</div>
 
-              <div class="small ms-cell h">currency</div>
-              <div class="small ms-cell">CAD</div>
+              <div class="small ms-cell h" role="rowheader">currency</div>
+              <div class="small ms-cell" role="cell">CAD</div>
 
-              <div class="small ms-cell h">direction</div>
-              <div class="small ms-cell">debit</div>
+              <div class="small ms-cell h" role="rowheader">direction</div>
+              <div class="small ms-cell" role="cell">debit</div>
 
-              <div class="small ms-cell h">original_description</div>
-              <div class="small ms-cell">TIM HORTONS #0059 / LONDON ON</div>
+              <div class="small ms-cell h" role="rowheader">original_description</div>
+              <div class="small ms-cell" role="cell">TIM HORTONS #0059 / LONDON ON</div>
 
-              <div class="small ms-cell h">posted_at_utc</div>
-              <div class="small ms-cell">2026-01-14T19:22:11Z</div>
+              <div class="small ms-cell h" role="rowheader">posted_at_utc</div>
+              <div class="small ms-cell" role="cell">2026-01-14T19:22:11Z</div>
 
-              <div class="small ms-cell h last">aggregator_code</div>
-              <div class="small ms-cell last">flinks</div>
+              <div class="small ms-cell h last" role="rowheader">aggregator_code</div>
+              <div class="small ms-cell last" role="cell">flinks</div>
             </div>
-
           </article>
         </div>
+
       </section>
     </main>
 
-    <footer>
-      © MapleSchema 2026 — Canonical transactions (CSV, JSON, Insights, QuickBooks) • Privacy-first •
-      <a href="/enterprise">For fintech &amp; developers</a>
+    <footer class="ms-footer">
+      <div class="ms-footer-row">
+        <span>© MapleSchema 2026</span>
+        <span aria-hidden="true">—</span>
+        <span>Canonical transactions (CSV, JSON, Insights, QuickBooks)</span>
+        <span aria-hidden="true">•</span>
+        <span>Privacy-first</span>
+        <span aria-hidden="true">•</span>
+        <a href="/enterprise">For fintech &amp; developers</a>
+      </div>
     </footer>
 
   </div>
