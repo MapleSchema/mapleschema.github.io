@@ -27,9 +27,11 @@
       padding: 0;
     }
 
-   .banner-wrap {
+    .banner-wrap {
       margin: 0;
       padding: 0;
+      border-bottom: 1px solid rgba(255,255,255,0.10);
+      background: rgba(0,0,0,0.12);
     }
 
     .banner-inner {
@@ -161,9 +163,9 @@
       .routing-wrap { grid-template-columns: 1fr; }
       .convert-cta { justify-content: stretch; }
       #btnConvert { width: 100%; justify-content: center; }
-      .limits-inner { grid-template-columns: 1fr auto;}
-      .limits-inner img { height: 64px; }
-      .limits-inner a { align-self: flex-start; }
+        .limits-inner { grid-template-columns: 1fr auto; }
+        .limits-inner a { justify-self: end; align-self: start; }
+        .limits-inner img { height: 64px; }
     }
   </style>
 </head>
