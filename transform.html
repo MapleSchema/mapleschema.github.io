@@ -28,15 +28,20 @@
     }
 
     .banner-wrap {
-      margin: 0;
-      padding: 0;
-      border-bottom: 1px solid rgba(255,255,255,0.10);
-      background: rgba(0,0,0,0.12);
-    }
+        border-bottom: 1px solid rgba(255,255,255,0.10);
+        background: rgba(0,0,0,0.12);
+      
+        /* FULL BLEED even if parent is max-width centered */
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+      
+        /* kill any accidental spacing */
+        padding: 0;
+      }
 
     .banner-inner {
       text-align: center;
-      padding: 12px 0;
+      padding: 10px 12px; 
     }
 
     .banner-line {
