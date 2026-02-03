@@ -22,9 +22,14 @@
 
   <style>
     /* Page-local mobile fixes (no global CSS changes required) */
-    .banner-wrap {
-      border-bottom: 1px solid rgba(255, 255, 255, 0.10);
-      background: rgba(0, 0, 0, 0.12);
+    html, body {
+        margin: 0;
+      padding: 0;
+    }
+
+   .banner-wrap {
+      margin: 0;
+      padding: 0;
     }
 
     .banner-inner {
@@ -130,13 +135,16 @@
       background: rgba(255, 255, 255, 0.65);
     }
 
-    .limits-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
+     .limits-inner {
+        display: grid;
+        grid-template-columns: 1fr auto; /* text left, logo right */
+        align-items: start;
+        gap: 16px;
+      }
+      
+      .limits-inner a {
+        justify-self: end; /* push logo to the right */
+      }
 
     .footer-wrap {
       text-align: center;
@@ -153,9 +161,9 @@
       .routing-wrap { grid-template-columns: 1fr; }
       .convert-cta { justify-content: stretch; }
       #btnConvert { width: 100%; justify-content: center; }
-      .limits-inner { flex-direction: column; align-items: flex-start; }
-      .limits-inner a { align-self: flex-start; }
+      .limits-inner { grid-template-columns: 1fr auto;}
       .limits-inner img { height: 64px; }
+      .limits-inner a { align-self: flex-start; }
     }
   </style>
 </head>
