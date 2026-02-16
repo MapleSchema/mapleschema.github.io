@@ -20,7 +20,7 @@
   <link rel="stylesheet" href="/css/style.css" />
 
   <style>
-    /* ---- Safety resets (match index behavior) ---- */
+    /* ---- Safety resets ---- */
     *, *::before, *::after { box-sizing: border-box; }
     html, body { margin: 0; padding: 0; max-width: 100%; overflow-x: hidden; }
 
@@ -28,7 +28,7 @@
     .ms-wrap { min-height: 100vh; display: flex; flex-direction: column; }
     .ms-main { flex: 1; }
 
-    /* ---- Header nav (mobile sane) ---- */
+    /* ---- Header ---- */
     header .header-inner { gap: 12px; }
     .ms-nav{
       display:flex;
@@ -39,11 +39,11 @@
     }
     .ms-nav a{ padding: 8px 10px; border-radius: 10px; }
 
-    /* ---- Hero tidy ---- */
-    .ms-hero h1 { text-wrap: balance; }
-    .ms-hero .hero-lead { text-wrap: balance; }
+    /* ---- Hero ---- */
+    .ms-hero h1 { text-wrap: balance; margin-bottom: 8px; }
+    .ms-hero .proof { margin-top: 6px; }
 
-    /* ---- Steps panel (stacked always) ---- */
+    /* ---- Primary panel ---- */
     .ms-panel{
       margin-top: 14px;
       padding: 18px;
@@ -53,6 +53,25 @@
       overflow: hidden;
     }
 
+    /* ---- Auth strip (centered, padded, lightweight) ---- */
+    .ms-auth{
+      display:flex;
+      justify-content:center;
+      padding: 10px 0 16px;
+    }
+    .ms-auth-inner{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:10px;
+      width:100%;
+      padding: 10px;
+      border-radius: 14px;
+      background: rgba(0,0,0,0.04);
+      border: 1px solid rgba(255,255,255,0.10);
+    }
+
+    /* ---- Steps ---- */
     .ms-steps{
       display:grid;
       grid-template-columns: 1fr;
@@ -74,7 +93,7 @@
       font-size: 1.05rem;
     }
 
-    /* ---- Upload area ---- */
+    /* ---- Upload routing ---- */
     .ms-routing{
       display:grid;
       grid-template-columns: 1fr 1fr;
@@ -99,27 +118,11 @@
       flex-wrap:wrap;
     }
 
-    /* ---- Convert button: full width ---- */
+    /* ---- Convert CTA ---- */
     .ms-convert-cta{ display:flex; justify-content:stretch; }
     #btnConvert{ width:100%; }
 
-    /* ---- Auth: centered with padding around button ---- */
-    .ms-auth-pad{
-      display:flex;
-      justify-content:center;
-      padding: 10px 0 2px;
-    }
-    .ms-auth-pad-inner{
-      width:100%;
-      display:flex;
-      justify-content:center;
-      padding: 10px;
-      border-radius: 14px;
-      background: rgba(0,0,0,0.04);
-      border: 1px solid rgba(255,255,255,0.10);
-    }
-
-    /* ---- Limits strip: text left, pro image right ---- */
+    /* ---- Limits card ---- */
     .ms-limits{
       width: 100%;
       max-width: 1100px;
@@ -130,14 +133,12 @@
       background: rgba(255,255,255,0.65);
       overflow: hidden;
     }
-
     .ms-limits-inner{
       display:grid;
       grid-template-columns: 1fr auto;
       gap: 16px;
       align-items: start;
     }
-
     .ms-limits-inner a{
       justify-self: end;
       align-self: start;
@@ -145,7 +146,7 @@
       align-items:center;
     }
 
-    /* ---- Footer: center + wrap like index ---- */
+    /* ---- Footer ---- */
     footer.ms-footer{
       text-align:center;
       padding: 18px 16px;
@@ -160,7 +161,7 @@
       max-width:100%;
     }
 
-    /* ---- Mobile breakpoints ---- */
+    /* ---- Responsive ---- */
     @media (max-width: 720px){
       .container{ padding-left:16px; padding-right:16px; }
 
@@ -171,13 +172,11 @@
       .ms-step{ padding: 14px; }
 
       .ms-routing{ grid-template-columns: 1fr; }
-
       .ms-limits-inner img{ height:64px; width:auto; }
     }
 
     @media (max-width: 420px){
       .ms-hero h1{ font-size: 1.6rem; line-height: 1.15; }
-      .ms-hero .hero-lead{ font-size: 1.05rem; }
       .ms-nav a{ padding: 10px 12px; }
     }
   </style>
@@ -203,7 +202,10 @@
     <main class="container ms-main">
       <section class="hero ms-hero" style="padding-bottom: 0;">
         <h1>Convert banking exports into a clean CSV.</h1>
-        <!-- STEPS PANEL -->
+        <p class="proof" style="margin-top: 10px;">
+          200 transactions per request free • No credit card • Instant download
+        </p>
+
         <div class="ms-panel">
           <div class="card primary" style="margin:0; padding:0; background:none; border-radius:0; border:none;">
 
@@ -214,34 +216,32 @@
               <div id="requestId" class="small" style="margin-top: 6px; opacity: 0.9;"></div>
             </div>
 
-          <!-- AUTH (centered) -->
-          <div style="display:flex; justify-content:center; margin:14px 0;">
-          
-            <button
-              id="btnSignIn"
-              class="button-primary"
-              type="button"
-              style="display:inline-flex; align-items:center; gap:8px;"
-            >
-              <span aria-hidden="true">🔒</span>
-              Continue with Google
-            </button>
-          
-            <button
-              id="btnSignOut"
-              class="button-primary"
-              type="button"
-              disabled
-              style="opacity:0.8; display:none; margin-left:8px;"
-            >
-              Sign out
-            </button>
-          
-          </div>
+            <!-- AUTH (centered, padded, minimal) -->
+            <div class="ms-auth">
+              <div class="ms-auth-inner">
+                <button
+                  id="btnSignIn"
+                  class="button-primary"
+                  type="button"
+                  style="display:inline-flex; align-items:center; gap:8px;"
+                >
+                  <span aria-hidden="true">🔒</span>
+                  Continue with Google
+                </button>
 
-              
+                <button
+                  id="btnSignOut"
+                  class="button-primary"
+                  type="button"
+                  disabled
+                  style="opacity:0.8; display:none;"
+                >
+                  Sign out
+                </button>
+              </div>
+            </div>
 
-            <div class="ms-steps" style="margin-top: 14px;">
+            <div class="ms-steps">
 
               <!-- UPLOAD -->
               <div class="ms-step">
@@ -373,7 +373,6 @@
     };
   </script>
 
-  <!-- Converter logic -->
   <script src="/js/convert.js"></script>
 </body>
 </html>
