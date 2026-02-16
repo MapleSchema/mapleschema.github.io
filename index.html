@@ -2,18 +2,18 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Banking JSON → Clean Transaction CSV (Free) | MapleSchema</title>
+  <title>MapleSchema — Convert banking exports to CSV (Free) + Pro</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta
     name="description"
-    content="Convert banking JSON into a clean transaction CSV in seconds. Privacy-first. Instant download. No setup, no cleanup."
+    content="Convert banking exports into a clean CSV for spreadsheets. Upgrade to Pro for higher limits and advanced export modes. Privacy-first. Instant download."
   />
 
   <!-- SEO + Social -->
-  <meta property="og:title" content="MapleSchema — Clean Transaction CSV (Free)" />
+  <meta property="og:title" content="MapleSchema — Clean CSV exports (Free) + Pro" />
   <meta
     property="og:description"
-    content="Convert banking JSON into a clean transaction CSV in seconds. Privacy-first. Instant download."
+    content="Convert banking exports into a clean CSV for spreadsheets. Upgrade to Pro for higher limits and advanced export modes. Privacy-first. Instant download."
   />
   <meta property="og:url" content="https://mapleschema.com/" />
   <meta property="og:type" content="website" />
@@ -26,26 +26,18 @@
   <link rel="apple-touch-icon" href="/images/apple-touch-icon.png" />
 
   <link rel="stylesheet" href="/css/style.css" />
-
   <script data-goatcounter="https://mapleschema.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 
-  <!-- Drop-in page CSS: mobile-first, avoids overflow/overlap -->
   <style>
-    /* ---- Safety resets (fix right-side clipping + odd card behavior) ---- */
-    *,
-    *::before,
-    *::after { box-sizing: border-box; }
-
-    html, body {
-      max-width: 100%;
-      overflow-x: hidden;
-    }
+    /* ---- Safety resets ---- */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { max-width: 100%; overflow-x: hidden; }
 
     /* ---- Page wrapper ---- */
     .ms-wrap { min-height: 100vh; display: flex; flex-direction: column; }
     .ms-main { flex: 1; }
 
-    /* ---- Header: keep logo + nav sane on mobile ---- */
+    /* ---- Header ---- */
     header .header-inner { gap: 12px; }
     .ms-nav {
       display: flex;
@@ -56,12 +48,12 @@
     }
     .ms-nav a { padding: 8px 10px; border-radius: 10px; }
 
-    /* ---- Hero typography tuning (without fighting global styles too hard) ---- */
+    /* ---- Hero ---- */
     .ms-hero h1 { text-wrap: balance; }
     .ms-hero .hero-lead { text-wrap: balance; }
 
-    /* ---- Panels + cards: no overflow, no overlap ---- */
-    .ms-panel {
+    /* ---- Panel + cards ---- */
+    .ms-panel{
       margin-top: 14px;
       padding: 24px;
       background: var(--panel-bg);
@@ -70,33 +62,29 @@
       overflow: hidden;
     }
 
-    .ms-grid {
+    .ms-grid{
       display: grid;
-      grid-template-columns: minmax(0, 1fr); /* single column always */
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 12px;
-      margin: 0;
-      padding: 0;
       max-width: 100%;
     }
 
-    .ms-card {
+    .ms-card{
       display: flex;
       flex-direction: column;
       min-width: 0;
       max-width: 100%;
-      height: auto;
       position: static;
       transform: none;
       float: none;
     }
 
-    .ms-card h2 { margin: 0 0 6px 0; }
-    .ms-card .ms-strong { margin: 0 0 10px 0; font-weight: 800; opacity: 0.98; }
-    .ms-card ul { margin-top: 0; opacity: 0.95; }
-    .ms-spacer { margin-top: auto; }
+    .ms-card h2{ margin: 0 0 6px 0; }
+    .ms-card .ms-strong{ margin: 0 0 10px 0; font-weight: 800; opacity: 0.98; }
+    .ms-card ul{ margin-top: 0; opacity: 0.95; }
+    .ms-spacer{ margin-top: auto; }
 
-    /* Buttons: never float, always stay inside card */
-    .ms-card .cta-button {
+    .ms-card .cta-button{
       display: inline-block;
       width: 100%;
       max-width: 100%;
@@ -107,58 +95,47 @@
       white-space: normal;
     }
 
-    /* ---- Example “table” grid ---- */
-    .ms-example { margin-top: 16px; }
-    .ms-example-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
-      gap: 0;
-      border: 1px solid rgba(0,0,0,0.12);
-      border-radius: 12px;
-      overflow: hidden;
-      background: rgba(255,255,255,0.55);
-      margin-top: 10px;
-      max-width: 100%;
+    /* Pro logo row */
+    .ms-pro-row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+      flex-wrap:wrap;
+      margin-bottom: 10px;
     }
-    .ms-cell {
-      padding: 10px 12px;
-      border-bottom: 1px solid rgba(0,0,0,0.08);
-      min-width: 0;
-      overflow-wrap: anywhere;
-      word-break: break-word;
+    .ms-pro-row img{
+      height: 46px;
+      width: auto;
+      display:block;
     }
-    .ms-cell.h { font-weight: 900; }
-    .ms-cell.last { border-bottom: none; }
 
-    /* ---- Footer: center + wrap cleanly ---- */
-    footer.ms-footer {
+    /* Footer */
+    footer.ms-footer{
       text-align: center;
       padding: 18px 16px;
       line-height: 1.35;
       word-break: break-word;
     }
-    footer.ms-footer .ms-footer-row {
+    footer.ms-footer .ms-footer-row{
       display: inline-flex;
       flex-wrap: wrap;
       justify-content: center;
       gap: 6px;
       max-width: 100%;
     }
-    footer.ms-footer a { display: inline-block; }
 
-    /* ---- Mobile breakpoints ---- */
-    @media (max-width: 720px) {
+    /* Mobile */
+    @media (max-width: 720px){
       .container { padding-left: 16px; padding-right: 16px; }
-
       header .header-inner { flex-wrap: wrap; justify-content: center; }
       .ms-nav { width: 100%; justify-content: center; }
-
       .ms-panel { padding: 16px; }
-
-      .ms-example-grid { grid-template-columns: 1fr; }
+      .ms-grid { grid-template-columns: 1fr; }
+      .ms-pro-row img { height: 56px; }
     }
 
-    @media (max-width: 420px) {
+    @media (max-width: 420px){
       .ms-hero h1 { font-size: 1.6rem; line-height: 1.15; }
       .ms-hero .hero-lead { font-size: 1.05rem; }
       .ms-nav a { padding: 10px 12px; }
@@ -168,16 +145,11 @@
 
 <body>
   <div id="site" class="ms-wrap">
-
     <header>
       <div class="container header-inner">
         <a href="/index.html" class="logo-link" aria-label="MapleSchema home">
           <div class="logo-wrapper">
-            <img
-              src="/images/mapleschema-transparent-icon.png"
-              class="logo"
-              alt="MapleSchema logo"
-            />
+            <img src="/images/mapleschema-transparent-icon.png" class="logo" alt="MapleSchema logo" />
           </div>
         </a>
 
@@ -190,38 +162,39 @@
 
     <main class="container ms-main">
       <section class="hero ms-hero">
-        <h1>Turn Raw Banking Data into a Clean CSV</h1>
+        <h1>Convert banking exports into a clean CSV.</h1>
 
         <p class="hero-lead">
-          Upload bank data → Download a clean spreadsheet instantly.
+          Upload your file → Download a spreadsheet-ready CSV instantly.
         </p>
 
         <p class="small">
-          One row per transaction. Debits and credits normalized. Open in Excel or Google Sheets.
+          Privacy-first. No setup. Works with Excel &amp; Google Sheets.
         </p>
 
-        <!-- SINGLE CTA -->
+        <!-- TWO PATHS -->
         <div class="ms-panel">
           <div class="ms-grid">
 
+            <!-- FREE CONVERT -->
             <article class="card ms-card">
-              <h2>🔁 Transaction CSV Converter</h2>
+              <h2>🔁 Convert to CSV (Free)</h2>
 
               <p class="small ms-strong">
-                Convert banking JSON into a clean transaction CSV in seconds.
+                Turn raw banking exports into a clean CSV in seconds.
               </p>
 
               <ul class="small">
                 <li>One row per transaction</li>
-                <li>Consistent columns across banks</li>
-                <li>Instant download (no setup)</li>
+                <li>Debits / credits normalized</li>
+                <li>Instant download</li>
               </ul>
 
               <div class="ms-spacer"></div>
 
               <div style="margin-top:12px;">
                 <a
-                  href="/transform.html"
+                  href="/convert.html"
                   class="cta-button"
                   style="background-color:#2CA01C; color:#ffffff;"
                 >
@@ -230,44 +203,40 @@
               </div>
             </article>
 
+            <!-- PRO -->
+            <article class="card primary ms-card">
+              <div class="ms-pro-row">
+                <h2 style="margin:0;">Pro</h2>
+                <img
+                  src="/images/mapleschema-transparent-pro-icon.png"
+                  alt="MapleSchema Pro"
+                />
+              </div>
+
+              <p class="small ms-strong">
+                Higher limits and advanced export options.
+              </p>
+
+              <ul class="small">
+                <li>Built for heavier usage</li>
+                <li>More formats &amp; modes</li>
+                <li>Priority support</li>
+              </ul>
+
+              <div class="ms-spacer"></div>
+
+              <div style="margin-top:12px;">
+                <a
+                  href="/pro.html"
+                  class="cta-button"
+                  style="background-color:#4a2d21; color:#ffffff;"
+                >
+                  View Pro
+                </a>
+              </div>
+            </article>
+
           </div>
-        </div>
-
-        <!-- EXAMPLE OUTPUT (CSV) -->
-        <div class="ms-panel ms-example">
-          <article class="card primary ms-card" style="margin:0;">
-            <h2 style="margin-top:0;">Example output (CSV)</h2>
-
-            <p class="small" style="margin-top:6px; opacity:0.9;">
-              Clean, consistent columns designed for spreadsheets.
-            </p>
-
-            <div class="ms-example-grid" role="table" aria-label="Example CSV columns and values">
-              <div class="small ms-cell h" role="columnheader">Column</div>
-              <div class="small ms-cell h" role="columnheader">Example value</div>
-
-              <div class="small ms-cell h" role="rowheader">transaction_id</div>
-              <div class="small ms-cell" role="cell">ms_tx_9f1c2c7b0d2a</div>
-
-              <div class="small ms-cell h" role="rowheader">institution</div>
-              <div class="small ms-cell" role="cell">rbc_ca</div>
-
-              <div class="small ms-cell h" role="rowheader">posted_date</div>
-              <div class="small ms-cell" role="cell">2026-01-14</div>
-
-              <div class="small ms-cell h" role="rowheader">description</div>
-              <div class="small ms-cell" role="cell">TIM HORTONS #0059 / LONDON ON</div>
-
-              <div class="small ms-cell h" role="rowheader">amount</div>
-              <div class="small ms-cell" role="cell">-7.24</div>
-
-              <div class="small ms-cell h" role="rowheader">currency</div>
-              <div class="small ms-cell" role="cell">CAD</div>
-
-              <div class="small ms-cell h last" role="rowheader">direction</div>
-              <div class="small ms-cell last" role="cell">debit</div>
-            </div>
-          </article>
         </div>
 
       </section>
@@ -277,12 +246,11 @@
       <div class="ms-footer-row">
         <span>© MapleSchema 2026</span>
         <span aria-hidden="true">—</span>
-        <span>Clean transaction CSV</span>
+        <span>CSV exports for spreadsheets</span>
         <span aria-hidden="true">•</span>
         <span>Privacy-first</span>
       </div>
     </footer>
-
   </div>
 </body>
 </html>
