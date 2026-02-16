@@ -6,14 +6,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta
     name="description"
-    content="Convert banking exports into a clean CSV for spreadsheets. Upgrade to Pro for higher limits and advanced export modes. Privacy-first. Instant download."
+    content="Convert banking exports into a clean CSV for spreadsheets. Start free. Upgrade to Pro for higher limits and advanced export options. Privacy-first."
   />
 
   <!-- SEO + Social -->
   <meta property="og:title" content="MapleSchema — Clean CSV exports (Free) + Pro" />
   <meta
     property="og:description"
-    content="Convert banking exports into a clean CSV for spreadsheets. Upgrade to Pro for higher limits and advanced export modes. Privacy-first. Instant download."
+    content="Convert banking exports into a clean CSV for spreadsheets. Start free. Upgrade to Pro for higher limits and advanced export options. Privacy-first."
   />
   <meta property="og:url" content="https://mapleschema.com/" />
   <meta property="og:type" content="website" />
@@ -67,6 +67,7 @@
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 12px;
       max-width: 100%;
+      align-items: stretch;
     }
 
     .ms-card{
@@ -95,19 +96,18 @@
       white-space: normal;
     }
 
-    /* Pro logo row */
-    .ms-pro-row{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap: 12px;
-      flex-wrap:wrap;
-      margin-bottom: 10px;
+    /* Pro title row: logo sits WITH the title (not like a floating sticker) */
+    .ms-pro-title{
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 6px;
     }
-    .ms-pro-row img{
-      height: 46px;
+    .ms-pro-title img{
+      height: 28px;
       width: auto;
-      display:block;
+      display: block;
     }
 
     /* Footer */
@@ -132,7 +132,7 @@
       .ms-nav { width: 100%; justify-content: center; }
       .ms-panel { padding: 16px; }
       .ms-grid { grid-template-columns: 1fr; }
-      .ms-pro-row img { height: 56px; }
+      .ms-pro-title img { height: 32px; }
     }
 
     @media (max-width: 420px){
@@ -164,8 +164,9 @@
       <section class="hero ms-hero">
         <h1>Convert banking exports into a clean CSV.</h1>
 
+        <!-- Honest flow: this page routes; convert happens on transform.html -->
         <p class="hero-lead">
-          Upload your file → Download a spreadsheet-ready CSV instantly.
+          Start free. Upgrade to Pro for higher limits and advanced export options.
         </p>
 
         <p class="small">
@@ -194,18 +195,18 @@
 
               <div style="margin-top:12px;">
                 <a
-                  href="/convert.html"
+                  href="/transform.html"
                   class="cta-button"
                   style="background-color:#2CA01C; color:#ffffff;"
                 >
-                  Convert to CSV (Free)
+                  Convert to CSV
                 </a>
               </div>
             </article>
 
             <!-- PRO -->
             <article class="card primary ms-card">
-              <div class="ms-pro-row">
+              <div class="ms-pro-title">
                 <h2 style="margin:0;">Pro</h2>
                 <img
                   src="/images/mapleschema-transparent-pro-icon.png"
@@ -217,10 +218,10 @@
                 Higher limits and advanced export options.
               </p>
 
+              <!-- Keep it clean + honest: no “priority support” promise unless you truly provide it -->
               <ul class="small">
-                <li>Built for heavier usage</li>
-                <li>More formats &amp; modes</li>
-                <li>Priority support</li>
+                <li>Higher limits</li>
+                <li>More export modes</li>
               </ul>
 
               <div class="ms-spacer"></div>
@@ -231,7 +232,7 @@
                   class="cta-button"
                   style="background-color:#4a2d21; color:#ffffff;"
                 >
-                  View Pro
+                  Upgrade to Pro
                 </a>
               </div>
             </article>
