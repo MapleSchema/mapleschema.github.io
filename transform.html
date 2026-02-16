@@ -22,37 +22,11 @@
   <style>
     /* ---- Safety resets (match index behavior) ---- */
     *, *::before, *::after { box-sizing: border-box; }
-
-    html, body {
-      margin: 0;
-      padding: 0;
-      max-width: 100%;
-      overflow-x: hidden;
-    }
+    html, body { margin: 0; padding: 0; max-width: 100%; overflow-x: hidden; }
 
     /* ---- Page wrapper ---- */
     .ms-wrap { min-height: 100vh; display: flex; flex-direction: column; }
     .ms-main { flex: 1; }
-
-    /* ---- Top strip (same as index.html) ---- */
-    .ms-topstrip{
-      border-bottom: 1px solid rgba(255,255,255,0.10);
-      background: rgba(0,0,0,0.12);
-    }
-    .ms-topstrip .container{ padding-top: 10px; padding-bottom: 10px; }
-    .ms-topstrip a{ text-decoration:none; color:inherit; display:block; }
-    .ms-topstrip-row{
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:8px;
-      line-height:1.2;
-      text-align:center;
-      flex-wrap:wrap;
-      padding:0 4px;
-    }
-    .ms-topstrip-full{ display:inline; }
-    .ms-topstrip-short{ display:none; }
 
     /* ---- Header nav (mobile sane) ---- */
     header .header-inner { gap: 12px; }
@@ -100,14 +74,6 @@
       font-size: 1.05rem;
     }
 
-    .ms-actions{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-top:12px;
-      align-items:center;
-    }
-
     /* ---- Upload area ---- */
     .ms-routing{
       display:grid;
@@ -133,13 +99,27 @@
       flex-wrap:wrap;
     }
 
-    /* ---- Convert button: never floats, never overlaps ---- */
-    .ms-convert-cta{
+    /* ---- Convert button: full width ---- */
+    .ms-convert-cta{ display:flex; justify-content:stretch; }
+    #btnConvert{ width:100%; }
+
+    /* ---- Auth: centered with padding around button ---- */
+    .ms-auth-pad{
       display:flex;
-      justify-content:flex-end;
+      justify-content:center;
+      padding: 10px 0 2px;
+    }
+    .ms-auth-pad-inner{
+      width:100%;
+      display:flex;
+      justify-content:center;
+      padding: 10px;
+      border-radius: 14px;
+      background: rgba(0,0,0,0.04);
+      border: 1px solid rgba(255,255,255,0.10);
     }
 
-    /* ---- Limits strip: text left, logo right (always) ---- */
+    /* ---- Limits strip: text left, pro image right ---- */
     .ms-limits{
       width: 100%;
       max-width: 1100px;
@@ -180,12 +160,9 @@
       max-width:100%;
     }
 
-    /* ---- Mobile breakpoints (match index vibe) ---- */
+    /* ---- Mobile breakpoints ---- */
     @media (max-width: 720px){
       .container{ padding-left:16px; padding-right:16px; }
-
-      .ms-topstrip-full{ display:none; }
-      .ms-topstrip-short{ display:inline; }
 
       header .header-inner{ flex-wrap:wrap; justify-content:center; }
       .ms-nav{ width:100%; justify-content:center; }
@@ -194,9 +171,6 @@
       .ms-step{ padding: 14px; }
 
       .ms-routing{ grid-template-columns: 1fr; }
-
-      .ms-convert-cta{ justify-content: stretch; }
-      #btnConvert{ width:100%; justify-content:center; }
 
       .ms-limits-inner img{ height:64px; width:auto; }
     }
@@ -236,6 +210,7 @@
         <!-- STEPS PANEL -->
         <div class="ms-panel">
           <div class="card primary" style="margin:0; padding:0; background:none; border-radius:0; border:none;">
+
             <!-- ERROR BOX -->
             <div id="errorBox" style="display:none; margin-bottom: 14px; padding: 12px 14px; border-radius: 12px; border: 1px solid rgba(255,80,80,0.35); background: rgba(255,0,0,0.08);">
               <div style="font-weight: 800; margin-bottom: 6px;">Error</div>
@@ -243,37 +218,34 @@
               <div id="requestId" class="small" style="margin-top: 6px; opacity: 0.9;"></div>
             </div>
 
-            <div class="ms-steps">
+            <!-- AUTH (centered, padded) -->
+            <div class="ms-auth-pad">
+              <div class="ms-auth-pad-inner">
+                <button
+                  id="btnSignIn"
+                  class="button-primary"
+                  type="button"
+                  style="display:inline-flex; align-items:center; gap:8px;"
+                >
+                  <span aria-hidden="true">🔒</span>
+                  Continue with Google
+                </button>
 
-              <!-- 1) SIGN IN -->
-            <!-- Minimal Auth Strip -->
-            <div id="authInline" style="margin-bottom:14px;">
-            
-              <button
-                id="btnSignIn"
-                class="button-primary"
-                type="button"
-                style="display:inline-flex; align-items:center; gap:8px;"
-              >
-                <span aria-hidden="true">🔒</span>
-                Continue with Google
-              </button>
-            
-              <button
-                id="btnSignOut"
-                class="button-primary"
-                type="button"
-                disabled
-                style="opacity:0.8; display:none; margin-left:8px;"
-              >
-                Sign out
-              </button>
-            
+                <button
+                  id="btnSignOut"
+                  class="button-primary"
+                  type="button"
+                  disabled
+                  style="opacity:0.8; display:none; margin-left:8px;"
+                >
+                  Sign out
+                </button>
+              </div>
             </div>
 
+            <div class="ms-steps" style="margin-top: 14px;">
 
-
-              <!-- 2) UPLOAD -->
+              <!-- UPLOAD -->
               <div class="ms-step">
                 <h2>Upload your file</h2>
                 <p class="small" style="margin-top:0;">
@@ -309,7 +281,7 @@
                 </div>
               </div>
 
-              <!-- 3) CONVERT -->
+              <!-- CONVERT -->
               <div class="ms-step">
                 <h2>Convert</h2>
 
@@ -317,7 +289,7 @@
                   When you’re ready, convert and download your CSV.
                 </div>
 
-               <div class="ms-convert-cta" style="margin-top:12px;">
+                <div class="ms-convert-cta" style="margin-top:12px;">
                   <button
                     id="btnConvert"
                     type="button"
@@ -341,7 +313,6 @@
                     Convert to CSV
                   </button>
                 </div>
-
               </div>
 
             </div>
@@ -357,7 +328,7 @@
                   <div style="font-weight:800; font-size:1.1rem;">Limits</div>
                   <div style="margin-top:6px; font-size:0.9rem; opacity:0.85;">
                     Free accounts can convert up to <strong>200 transactions</strong>.<br />
-                    Upgrade to Pro for higher limits.
+                    <a href="/pro.html">Upgrade to Pro</a> for higher limits.
                   </div>
                 </div>
 
@@ -383,8 +354,6 @@
         <span>Export to Excel &amp; Google Sheets</span>
         <span aria-hidden="true">•</span>
         <span>Privacy-first</span>
-        <span aria-hidden="true">•</span>
-        <a href="/enterprise">For fintech &amp; developers</a>
       </div>
     </footer>
 
