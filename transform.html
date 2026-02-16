@@ -246,35 +246,47 @@
             <div class="ms-steps">
 
               <!-- 1) SIGN IN -->
-              <div class="ms-step">
-                <h2>1) Sign in</h2>
-                <p class="small" style="margin-top:0;">
-                  Sign in once, then upload and download instantly.
-                </p>
-
-                <div class="ms-actions">
-                  <div id="signInWrap">
-                    <button id="btnSignIn" class="button-primary" type="button" style="display:inline-flex; align-items:center; gap:8px;">
-                      <span aria-hidden="true">🔒</span>
-                      Continue with Google
-                    </button>
-                  </div>
-
-                  <button id="btnSignOut" class="button-primary" type="button" disabled style="opacity:0.8; display:none;">
-                    Sign out
-                  </button>
-                </div>
-
-                <div id="signedInCard" class="small" style="display:none; margin-top: 14px; padding: 10px 12px; border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; background: rgba(0,0,0,0.06); opacity: 0.95;">
-                  <strong>Status:</strong> <span id="authStatus">Not signed in</span><br />
-                  <span id="authEmail" style="opacity:0.9;"></span>
-                </div>
-
-                <p class="small" style="margin-top: 10px; opacity: 0.92;">
-                  Don’t have a Google account?
-                  <a href="/contact.html">Contact us</a>.
-                </p>
+                         <!-- Minimal Sign In Strip -->
+            <div id="authInline" style="
+              display:flex;
+              align-items:center;
+              justify-content:space-between;
+              gap:12px;
+              flex-wrap:wrap;
+              padding:12px 14px;
+              border:1px solid rgba(255,255,255,0.12);
+              border-radius:12px;
+              background:rgba(0,0,0,0.06);
+              margin-bottom:14px;
+            ">
+            
+              <div class="small" style="opacity:0.9;">
+                <strong>Sign in required</strong> to upload and download.
               </div>
+            
+              <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                <button
+                  id="btnSignIn"
+                  class="button-primary"
+                  type="button"
+                  style="display:inline-flex; align-items:center; gap:8px;"
+                >
+                  <span aria-hidden="true">🔒</span>
+                  Continue with Google
+                </button>
+            
+                <button
+                  id="btnSignOut"
+                  class="button-primary"
+                  type="button"
+                  disabled
+                  style="opacity:0.8; display:none;"
+                >
+                  Sign out
+                </button>
+              </div>
+            </div>
+
 
               <!-- 2) UPLOAD -->
               <div class="ms-step">
