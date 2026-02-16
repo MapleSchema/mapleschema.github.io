@@ -203,10 +203,6 @@
     <main class="container ms-main">
       <section class="hero ms-hero" style="padding-bottom: 0;">
         <h1>Convert banking exports into a clean CSV.</h1>
-        <p class="proof" style="margin-top: 10px;">
-          200 transactions per request free • No credit card • Instant download
-        </p>
-
         <!-- STEPS PANEL -->
         <div class="ms-panel">
           <div class="card primary" style="margin:0; padding:0; background:none; border-radius:0; border:none;">
@@ -218,30 +214,32 @@
               <div id="requestId" class="small" style="margin-top: 6px; opacity: 0.9;"></div>
             </div>
 
-            <!-- AUTH (centered, padded) -->
-            <div class="ms-auth-pad">
-              <div class="ms-auth-pad-inner">
-                <button
-                  id="btnSignIn"
-                  class="button-primary"
-                  type="button"
-                  style="display:inline-flex; align-items:center; gap:8px;"
-                >
-                  <span aria-hidden="true">🔒</span>
-                  Continue with Google
-                </button>
+          <!-- AUTH (centered) -->
+          <div style="display:flex; justify-content:center; margin:14px 0;">
+          
+            <button
+              id="btnSignIn"
+              class="button-primary"
+              type="button"
+              style="display:inline-flex; align-items:center; gap:8px;"
+            >
+              <span aria-hidden="true">🔒</span>
+              Continue with Google
+            </button>
+          
+            <button
+              id="btnSignOut"
+              class="button-primary"
+              type="button"
+              disabled
+              style="opacity:0.8; display:none; margin-left:8px;"
+            >
+              Sign out
+            </button>
+          
+          </div>
 
-                <button
-                  id="btnSignOut"
-                  class="button-primary"
-                  type="button"
-                  disabled
-                  style="opacity:0.8; display:none; margin-left:8px;"
-                >
-                  Sign out
-                </button>
-              </div>
-            </div>
+              
 
             <div class="ms-steps" style="margin-top: 14px;">
 
