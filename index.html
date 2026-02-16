@@ -2,18 +2,18 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Banking JSON → Structured Transaction JSON (CSV, JSON, Insights, QuickBooks) | MapleSchema</title>
+  <title>Banking JSON → Clean Transaction CSV (Free) | MapleSchema</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta
     name="description"
-    content="Convert banking JSON into deterministic core transactions (free CSV), canonical transaction JSON with optional insights enrichment, or QuickBooks-ready import files. Privacy-first. Instant download."
+    content="Convert banking JSON into a clean transaction CSV in seconds. Privacy-first. Instant download. No setup, no cleanup."
   />
 
   <!-- SEO + Social -->
-  <meta property="og:title" content="MapleSchema — Canonical transactions (CSV, JSON, Insights, QuickBooks)" />
+  <meta property="og:title" content="MapleSchema — Clean Transaction CSV (Free)" />
   <meta
     property="og:description"
-    content="Convert banking JSON into deterministic core transactions (free CSV), canonical transaction JSON with optional insights enrichment, or QuickBooks-ready import files. Privacy-first. Instant download."
+    content="Convert banking JSON into a clean transaction CSV in seconds. Privacy-first. Instant download."
   />
   <meta property="og:url" content="https://mapleschema.com/" />
   <meta property="og:type" content="website" />
@@ -45,26 +45,6 @@
     .ms-wrap { min-height: 100vh; display: flex; flex-direction: column; }
     .ms-main { flex: 1; }
 
-    /* ---- Top strip ---- */
-    .ms-topstrip {
-      border-bottom: 1px solid rgba(255,255,255,0.10);
-      background: rgba(0,0,0,0.12);
-    }
-    .ms-topstrip .container { padding-top: 10px; padding-bottom: 10px; }
-    .ms-topstrip a { text-decoration: none; color: inherit; display: block; }
-    .ms-topstrip-row {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      line-height: 1.2;
-      text-align: center;
-      flex-wrap: wrap;
-      padding: 0 4px;
-    }
-    .ms-topstrip-full { display: inline; }
-    .ms-topstrip-short { display: none; }
-
     /* ---- Header: keep logo + nav sane on mobile ---- */
     header .header-inner { gap: 12px; }
     .ms-nav {
@@ -87,12 +67,12 @@
       background: var(--panel-bg);
       border-radius: 16px;
       max-width: 100%;
-      overflow: hidden; /* prevents any child border/padding from bleeding */
+      overflow: hidden;
     }
 
     .ms-grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr)); /* desktop */
+      grid-template-columns: minmax(0, 1fr); /* single column always */
       gap: 12px;
       margin: 0;
       padding: 0;
@@ -105,9 +85,9 @@
       min-width: 0;
       max-width: 100%;
       height: auto;
-      position: static;     /* neutralize weird global rules */
-      transform: none;      /* neutralize weird global rules */
-      float: none;          /* neutralize weird global rules */
+      position: static;
+      transform: none;
+      float: none;
     }
 
     .ms-card h2 { margin: 0 0 6px 0; }
@@ -128,9 +108,7 @@
     }
 
     /* ---- Example “table” grid ---- */
-    .ms-example {
-      margin-top: 16px;
-    }
+    .ms-example { margin-top: 16px; }
     .ms-example-grid {
       display: grid;
       grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
@@ -172,15 +150,10 @@
     @media (max-width: 720px) {
       .container { padding-left: 16px; padding-right: 16px; }
 
-      .ms-topstrip-full { display: none; }
-      .ms-topstrip-short { display: inline; }
-
       header .header-inner { flex-wrap: wrap; justify-content: center; }
       .ms-nav { width: 100%; justify-content: center; }
 
       .ms-panel { padding: 16px; }
-
-      .ms-grid { grid-template-columns: 1fr; }
 
       .ms-example-grid { grid-template-columns: 1fr; }
     }
@@ -196,25 +169,6 @@
 <body>
   <div id="site" class="ms-wrap">
 
-    <!-- TOP STRIP: Enterprise discovery (mobile short version) -->
-    <div class="ms-topstrip">
-      <div class="container">
-        <a href="/enterprise" aria-label="Enterprise portal">
-          <div class="ms-topstrip-row">
-            <span aria-hidden="true">🍁</span>
-
-            <span class="ms-topstrip-full">
-              Fintechs &amp; platforms: visit the <strong>Enterprise Portal</strong> for API access, SLAs, and support.
-            </span>
-
-            <span class="ms-topstrip-short">
-              Fintechs: <strong>Enterprise Portal</strong> (API + SLAs)
-            </span>
-          </div>
-        </a>
-      </div>
-    </div>
-
     <header>
       <div class="container header-inner">
         <a href="/index.html" class="logo-link" aria-label="MapleSchema home">
@@ -228,7 +182,6 @@
         </a>
 
         <nav class="ms-nav" aria-label="Primary navigation">
-          <a href="/subscribe.html">Pro</a>
           <a href="/privacy.html">Privacy</a>
           <a href="/contact.html">Contact</a>
         </nav>
@@ -237,32 +190,31 @@
 
     <main class="container ms-main">
       <section class="hero ms-hero">
-        <h1>Turn Raw Banking Data into Human-Friendly Files</h1>
+        <h1>Turn Raw Banking Data into a Clean CSV</h1>
 
         <p class="hero-lead">
-          Upload bank data → Pick a format → Download instantly → Sweet.
+          Upload bank data → Download a clean spreadsheet instantly.
         </p>
 
         <p class="small">
-          Get spreadsheets (CSV), clean structured data (JSON), or files ready for QuickBooks — no setup, no cleanup.
+          One row per transaction. Debits and credits normalized. Open in Excel or Google Sheets.
         </p>
 
-        <!-- OUTPUT ROUTER -->
+        <!-- SINGLE CTA -->
         <div class="ms-panel">
           <div class="ms-grid">
 
-            <!-- CSV Converter (Free) -->
             <article class="card ms-card">
               <h2>🔁 Transaction CSV Converter</h2>
 
               <p class="small ms-strong">
-                Turn raw bank transactions into a clean spreadsheet in seconds.
+                Convert banking JSON into a clean transaction CSV in seconds.
               </p>
 
               <ul class="small">
                 <li>One row per transaction</li>
-                <li>Debits / credits normalized</li>
-                <li>Open in Excel or Sheets</li>
+                <li>Consistent columns across banks</li>
+                <li>Instant download (no setup)</li>
               </ul>
 
               <div class="ms-spacer"></div>
@@ -278,100 +230,42 @@
               </div>
             </article>
 
-            <!-- Structured JSON (Pro, includes optional Insights) -->
-            <article class="card primary ms-card">
-              <h2>📦 Structured Transaction JSON</h2>
-
-              <p class="small ms-strong">
-                Get one stable transaction format you can build against.
-              </p>
-
-              <ul class="small">
-                <li>Consistent fields across banks</li>
-                <li>Safe to store, diff, and version</li>
-                <li><strong>Optional AI Insights</strong> as annotations (core unchanged)</li>
-              </ul>
-
-              <div class="ms-spacer"></div>
-
-              <div style="margin-top:12px;">
-                <a
-                  href="/subscribe.html"
-                  class="cta-button"
-                  style="background-color:#4a2d21; color:#ffffff;"
-                >
-                  Get structured JSON + AI Insights
-                </a>
-              </div>
-            </article>
-
-            <!-- QuickBooks (Pro) -->
-            <article class="card primary ms-card">
-              <h2>🧮 QuickBooks Import Files</h2>
-
-              <p class="small ms-strong">
-                Generate a QuickBooks import that comes in clean.
-              </p>
-
-              <ul class="small">
-                <li>Import-ready columns</li>
-                <li>Amounts normalized</li>
-                <li>Safer duplicate handling</li>
-              </ul>
-
-              <div class="ms-spacer"></div>
-
-              <div style="margin-top:12px;">
-                <a
-                  href="/subscribe.html"
-                  class="cta-button"
-                  style="background-color:#4a2d21; color:#ffffff;"
-                >
-                  Generate QuickBooks import
-                </a>
-              </div>
-            </article>
-
           </div>
         </div>
 
-        <!-- EXAMPLE OUTPUT -->
+        <!-- EXAMPLE OUTPUT (CSV) -->
         <div class="ms-panel ms-example">
           <article class="card primary ms-card" style="margin:0;">
-            <h2 style="margin-top:0;">Example output (Structured JSON)</h2>
+            <h2 style="margin-top:0;">Example output (CSV)</h2>
 
             <p class="small" style="margin-top:6px; opacity:0.9;">
-              Clean, stable fields across banks. (Insights are optional annotations.)
-              <a href="/subscribe.html">See full examples</a>
+              Clean, consistent columns designed for spreadsheets.
             </p>
 
-            <div class="ms-example-grid" role="table" aria-label="Example structured JSON fields">
-              <div class="small ms-cell h" role="columnheader">Field</div>
+            <div class="ms-example-grid" role="table" aria-label="Example CSV columns and values">
+              <div class="small ms-cell h" role="columnheader">Column</div>
               <div class="small ms-cell h" role="columnheader">Example value</div>
 
-              <div class="small ms-cell h" role="rowheader">transaction_fingerprint</div>
-              <div class="small ms-cell" role="cell">ms_fp_9f1c2c7b0d2a</div>
+              <div class="small ms-cell h" role="rowheader">transaction_id</div>
+              <div class="small ms-cell" role="cell">ms_tx_9f1c2c7b0d2a</div>
 
-              <div class="small ms-cell h" role="rowheader">institution_code</div>
+              <div class="small ms-cell h" role="rowheader">institution</div>
               <div class="small ms-cell" role="cell">rbc_ca</div>
 
-              <div class="small ms-cell h" role="rowheader">amount_minor</div>
-              <div class="small ms-cell" role="cell">-724</div>
+              <div class="small ms-cell h" role="rowheader">posted_date</div>
+              <div class="small ms-cell" role="cell">2026-01-14</div>
+
+              <div class="small ms-cell h" role="rowheader">description</div>
+              <div class="small ms-cell" role="cell">TIM HORTONS #0059 / LONDON ON</div>
+
+              <div class="small ms-cell h" role="rowheader">amount</div>
+              <div class="small ms-cell" role="cell">-7.24</div>
 
               <div class="small ms-cell h" role="rowheader">currency</div>
               <div class="small ms-cell" role="cell">CAD</div>
 
-              <div class="small ms-cell h" role="rowheader">direction</div>
-              <div class="small ms-cell" role="cell">debit</div>
-
-              <div class="small ms-cell h" role="rowheader">original_description</div>
-              <div class="small ms-cell" role="cell">TIM HORTONS #0059 / LONDON ON</div>
-
-              <div class="small ms-cell h" role="rowheader">posted_at_utc</div>
-              <div class="small ms-cell" role="cell">2026-01-14T19:22:11Z</div>
-
-              <div class="small ms-cell h last" role="rowheader">aggregator_code</div>
-              <div class="small ms-cell last" role="cell">flinks</div>
+              <div class="small ms-cell h last" role="rowheader">direction</div>
+              <div class="small ms-cell last" role="cell">debit</div>
             </div>
           </article>
         </div>
@@ -383,11 +277,9 @@
       <div class="ms-footer-row">
         <span>© MapleSchema 2026</span>
         <span aria-hidden="true">—</span>
-        <span>Canonical transactions (CSV, JSON, Insights, QuickBooks)</span>
+        <span>Clean transaction CSV</span>
         <span aria-hidden="true">•</span>
         <span>Privacy-first</span>
-        <span aria-hidden="true">•</span>
-        <a href="/enterprise">For fintech &amp; developers</a>
       </div>
     </footer>
 
